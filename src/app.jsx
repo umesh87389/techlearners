@@ -161,7 +161,7 @@ const Footer = () => {
     };
     const ModalContent = () => {
         if (modal === 'privacy') return <><h3><i className="fas fa-shield-alt"></i> Privacy Policy</h3><p>Tech Learners respects your privacy. Data collected is used only to improve learning. We never sell personal information.</p><button className="btn-glass" onClick={() => setModal(null)}>Close</button></>;
-        if (modal === 'contact') return <><h3><i className="fas fa-headset"></i> Contact Us</h3><p><i className="fas fa-envelope"></i> support@techlearners.ai</p><p><i className="fab fa-whatsapp"></i> +91 98765 43210</p><button className="btn-glass" onClick={() => setModal(null)}>Close</button></>;
+        if (modal === 'contact') return <><h3><i className="fas fa-headset"></i> Contact Us</h3><p><i className="fas fa-envelope"></i> umesh87389@gmail.com</p><p><i className="fab fa-whatsapp"></i> +91 8738943773</p><button className="btn-glass" onClick={() => setModal(null)}>Close</button></>;
         if (modal === 'feedback') return (
             <>
                 <h3><i className="fas fa-star"></i> Share Feedback</h3>
