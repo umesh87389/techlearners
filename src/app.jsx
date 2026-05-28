@@ -160,8 +160,7 @@ const Footer = () => {
         setTimeout(() => { setStatus(''); setModal(null); }, 2000);
     };
     const ModalContent = () => {
-        if (modal === 'privacy') return <><h3><i className="fas fa-shield-alt"></i> Privacy Policy</h3><p>Privacy Policy
-Effective Date: May 29, 2026
+        if (modal === 'privacy') return <><h3><i className="fas fa-shield-alt"></i> Privacy Policy</h3><p>Effective Date: May 29, 2026
 Welcome to Tech Learners. Your privacy is important to us.
 At Tech Learners, we may collect basic information such as your name, email address, device information, and website usage data to improve your learning experience and website performance.
 We use this information to:
