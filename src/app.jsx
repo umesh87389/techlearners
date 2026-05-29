@@ -501,6 +501,10 @@ https://techlearners.in</p><button className="btn-glass" onClick={() => setModal
                 <span className="footer-link" onClick={() => setModal('contact')}><i className="fas fa-envelope"></i> Contact Us</span>
                 <span className="footer-link" onClick={() => setModal('feedback')}><i className="fas fa-comment-dots"></i> Feedback</span>
                 <span className="footer-link" onClick={() => window.open('https://meet.google.com/', '_blank')}><i className="fab fa-google"></i> Google Meet Live</span>
+                <span className="footer-follow">Follow Us</span>
+                <a className="footer-link social-link" href="https://www.instagram.com/techlearners.in/" target="_blank" rel="noopener noreferrer" aria-label="Follow Tech Learners on Instagram"><i className="fab fa-instagram"></i></a>
+                <a className="footer-link social-link" href="https://www.facebook.com/techlearners.in" target="_blank" rel="noopener noreferrer" aria-label="Follow Tech Learners on Facebook"><i className="fab fa-facebook-f"></i></a>
+                <a className="footer-link social-link" href="https://wa.me/918738943773" target="_blank" rel="noopener noreferrer" aria-label="Message Tech Learners on WhatsApp"><i className="fab fa-whatsapp"></i></a>
             </div>
             {modal && (
                 <div className="modal-overlay" onClick={() => setModal(null)}>
