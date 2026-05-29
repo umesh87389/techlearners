@@ -10,7 +10,7 @@ Body language – Your facial expressions, gestures, and posture. For example, c
 Tone of voice – How you say something matters as much as the words. A warm tone feels friendly; a harsh tone can push people away.
 Written communication – Texts, emails, or notes that are easy to read and not confusing.
 
-Why Communication Skill Is Important?
+<b>Why Communication Skill Is Important?</b>
 Builds stronger relationships – When you express yourself honestly and listen well, trust grows.
 Reduces fights – Many arguments happen because people misunderstand each other. Clear communication fixes that.
 Helps in work and study – Sharing ideas simply and asking good questions makes teamwork smooth.
@@ -22,7 +22,14 @@ Think before you speak. Ask yourself: Is it true? Is it kind? Is it necessary?
 Keep it short and simple. Don’t use fancy words to impress. Say exactly what you mean.
 Ask questions. If something isn’t clear, say “Can you explain that again?” instead of guessing.
 Pay attention to feelings. Notice your own emotions and the other person’s. If someone looks upset, you might soften your tone or ask if they’re okay.
-Practice empathy – Try to see things from the other person’s point of view. That makes your response more thoughtful.` },
+Practice empathy – Try to see things from the other person’s point of view. That makes your response more thoughtful.`
+        
+<b>A Simple Example</b>
+'Imagine your friend forgot your meet-up time.
+Poor communication: “You’re always late. You don’t care about my time.”
+Good communication: “I felt a bit hurt when I waited long because I wasn’t sure if you were coming. Is everything okay?”
+The second way expresses your feeling without blaming, and it opens a conversation instead of starting a fight.
+In short, communication skill is like a bridge between people. The stronger you build it with honesty, listening, and kindness, the easier it becomes to reach others and be understood.' },
         { title: 'AI Project Cycle', content: `The AI Project Cycle is a step-by-step method used to build useful AI solutions. It helps students move from a real-world problem to a working model in an organized way.
 
 1. Problem Scoping:
