@@ -268,6 +268,33 @@ const videosData = {
     ]
 };
 
+const classLabels = {
+    '9': 'Class 9 AI',
+    '9-it': 'Class 9 IT',
+    '10': 'Class 10 AI',
+    '10-it': 'Class 10 IT'
+};
+
+function createNoteSlug(title) {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function getNoteLink(classId, note) {
+    return `#notes/${classId}/${createNoteSlug(note.title)}`;
+}
+
+function getNoteFromHash(hash) {
+    const match = hash.match(/^#notes\/([^/]+)\/([^/]+)$/);
+    if (!match) return null;
+
+    const classId = match[1];
+    const slug = match[2];
+    const notes = notesData[classId] || [];
+    const note = notes.find((item) => createNoteSlug(item.title) === slug);
+
+    return note ? { classId, note } : null;
+}
+
 // Helper: fuzzy search setup
 function getFuse(list, keys) {
     return new Fuse(list, { keys, threshold: 0.3 });
@@ -336,8 +363,7 @@ const SearchBar = ({ query, setQuery }) => (
     </div>
 );
 
-const NotesPanel = ({ notes, searchQuery }) => {
-    const [selectedNote, setSelectedNote] = React.useState(null);
+const NotesPanel = ({ notes, searchQuery, currentClass }) => {
     if (notes.length === 0) return <div style={{ textAlign: 'center', padding: '2rem' }}>No notes found for "{searchQuery}"</div>;
     return (
         <>
@@ -347,23 +373,48 @@ const NotesPanel = ({ notes, searchQuery }) => {
                         <i className="fas fa-file-alt" style={{ fontSize: '2rem', color: '#f97316' }}></i>
                         <h3>{note.title}</h3>
                         <p>{note.content.substring(0, 80)}...</p>
-                        <button className="btn-glass" onClick={() => setSelectedNote(note)}><i className="fas fa-eye"></i> View Notes</button>
+                        <a className="btn-glass" href={getNoteLink(currentClass, note)}><i className="fas fa-book-open"></i> Read More</a>
                     </div>
                 ))}
             </div>
             <div style={{ marginTop: '2rem', textAlign: 'center' }}>
                 <button className="btn-glass" onClick={() => window.open('https://meet.google.com/', '_blank')}><i className="fab fa-google"></i> Join Live Class</button>
             </div>
-            {selectedNote && (
-                <div className="modal-overlay" onClick={() => setSelectedNote(null)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <h3><i className="fas fa-sticky-note"></i> {selectedNote.title}</h3>
-                        <p style={{ margin: '1rem 0', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{selectedNote.content}</p>
-                        <button className="btn-glass" onClick={() => setSelectedNote(null)}>Close</button>
-                    </div>
-                </div>
-            )}
         </>
+    );
+};
+
+const LessonPage = ({ classId, note, setCurrentClass, clearLesson }) => {
+    const paragraphs = note.content.split('\n\n').filter(Boolean);
+
+    return (
+        <article className="lesson-page">
+            <button className="btn-glass back-btn" onClick={() => { setCurrentClass(classId); clearLesson(); }}>
+                <i className="fas fa-arrow-left"></i> Back to Notes
+            </button>
+            <div className="lesson-header">
+                <p className="lesson-kicker">{classLabels[classId]}</p>
+                <h2>{note.title}</h2>
+            </div>
+            <div className="lesson-body">
+                {paragraphs.map((paragraph, index) => {
+                    const lines = paragraph.split('\n');
+                    const firstLine = lines[0].trim();
+                    const rest = lines.slice(1).join('\n');
+
+                    if (firstLine.endsWith(':') && rest) {
+                        return (
+                            <section className="lesson-section" key={index}>
+                                <h3>{firstLine}</h3>
+                                <p>{rest}</p>
+                            </section>
+                        );
+                    }
+
+                    return <p key={index}>{paragraph}</p>;
+                })}
+            </div>
+        </article>
     );
 };
 
@@ -466,6 +517,18 @@ const App = () => {
     const [currentClass, setCurrentClass] = React.useState('9');
     const [currentTab, setCurrentTab] = React.useState('notes');
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [hash, setHash] = React.useState(window.location.hash);
+    React.useEffect(() => {
+        const handleHashChange = () => setHash(window.location.hash);
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
+
+    const selectedLesson = getNoteFromHash(hash);
+    const clearLesson = () => {
+        window.history.pushState('', document.title, window.location.pathname + window.location.search);
+        setHash('');
+    };
     const notesList = notesData[currentClass];
     const videosList = videosData[currentClass];
     const fuseNotes = React.useMemo(() => new Fuse(notesList, { keys: ['title', 'content'], threshold: 0.3 }), [notesList]);
@@ -475,13 +538,19 @@ const App = () => {
     return (
         <div className="glass-home">
             <Header />
-            <ClassSelector currentClass={currentClass} setCurrentClass={setCurrentClass} />
-            <SearchBar query={searchQuery} setQuery={setSearchQuery} />
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '1rem 0' }}>
-                <button className={`tab ${currentTab === 'notes' ? 'active' : ''}`} onClick={() => setCurrentTab('notes')}><i className="fas fa-sticky-note"></i> Notes</button>
-                <button className={`tab ${currentTab === 'videos' ? 'active' : ''}`} onClick={() => setCurrentTab('videos')}><i className="fas fa-play-circle"></i> Video Lectures</button>
-            </div>
-            {currentTab === 'notes' ? <NotesPanel notes={filteredNotes} searchQuery={searchQuery} /> : <VideosPanel videos={filteredVideos} searchQuery={searchQuery} />}
+            {selectedLesson ? (
+                <LessonPage classId={selectedLesson.classId} note={selectedLesson.note} setCurrentClass={setCurrentClass} clearLesson={clearLesson} />
+            ) : (
+                <>
+                    <ClassSelector currentClass={currentClass} setCurrentClass={setCurrentClass} />
+                    <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', margin: '1rem 0' }}>
+                        <button className={`tab ${currentTab === 'notes' ? 'active' : ''}`} onClick={() => setCurrentTab('notes')}><i className="fas fa-sticky-note"></i> Notes</button>
+                        <button className={`tab ${currentTab === 'videos' ? 'active' : ''}`} onClick={() => setCurrentTab('videos')}><i className="fas fa-play-circle"></i> Video Lectures</button>
+                    </div>
+                    {currentTab === 'notes' ? <NotesPanel notes={filteredNotes} searchQuery={searchQuery} currentClass={currentClass} /> : <VideosPanel videos={filteredVideos} searchQuery={searchQuery} />}
+                </>
+            )}
             <Footer />
         </div>
     );
