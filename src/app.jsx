@@ -6,11 +6,23 @@ const notesData = {
         { title: 'Neural Networks Basics', content: 'Perceptron, activation functions, layers, forward propagation. Foundation of deep learning.' },
         { title: 'AI Ethics', content: 'Bias, privacy, transparency, accountability. Importance of ethical AI development.' }
     ],
+    '9-it': [
+        { title: 'Digital Documentation', content: 'Create, edit, format, and manage documents using word processing tools. Covers styles, tables, images, and page layout.' },
+        { title: 'Electronic Spreadsheet', content: 'Basics of spreadsheets, formulas, functions, charts, data entry, formatting, and simple data analysis.' },
+        { title: 'Digital Presentation', content: 'Create professional presentations with slides, themes, images, transitions, animations, and speaker notes.' },
+        { title: 'Internet and Web', content: 'Internet basics, web browsers, email, online safety, search techniques, and responsible digital communication.' }
+    ],
     '10': [
         { title: 'Advanced AI Concepts', content: 'Supervised vs Unsupervised, Reinforcement Learning, hyperparameter tuning, model deployment.' },
         { title: 'Natural Language Processing', content: 'Tokenization, sentiment analysis, transformers, BERT. Text preprocessing and chatbots.' },
         { title: 'Computer Vision', content: 'Image classification, CNNs, object detection, OpenCV basics.' },
         { title: 'AI Evaluation', content: 'Confusion matrix, accuracy, precision, recall, F1 score, cross-validation.' }
+    ],
+    '10-it': [
+        { title: 'Digital Documentation Advanced', content: 'Advanced document formatting, templates, mail merge, table of contents, styles, and document review tools.' },
+        { title: 'Electronic Spreadsheet Advanced', content: 'Use functions, charts, sorting, filtering, conditional formatting, and data tools for practical spreadsheet work.' },
+        { title: 'Database Management System', content: 'Database concepts, tables, fields, records, queries, forms, reports, and basic database organization.' },
+        { title: 'Web Applications and Security', content: 'Web services, cyber safety, secure passwords, digital footprints, online threats, and safe use of web applications.' }
     ]
 };
 const videosData = {
@@ -19,10 +31,20 @@ const videosData = {
         { title: 'Machine Learning Intro', youtubeId: 'ukzFI9rgwfU' },
         { title: 'Python for AI', youtubeId: 'ZDa-Z5JzLYM' }
     ],
+    '9-it': [
+        { title: 'Class 9 IT Digital Documentation', youtubeId: 'mU6anWqZJcc' },
+        { title: 'Spreadsheet Basics', youtubeId: 'rwbho0CgEAE' },
+        { title: 'Presentation Basics', youtubeId: 'XF34-Wu6qWU' }
+    ],
     '10': [
         { title: 'Deep Learning Basics', youtubeId: 'gZmobeGL0Yg' },
         { title: 'AI Applications', youtubeId: 'oV74Najm6Nc' },
         { title: 'Data Science', youtubeId: 'X3paOmJd3mA' }
+    ],
+    '10-it': [
+        { title: 'Class 10 IT Digital Documentation', youtubeId: 'mU6anWqZJcc' },
+        { title: 'Database Management System', youtubeId: 'HXV3zeQKqGY' },
+        { title: 'Cyber Safety Basics', youtubeId: 'inWWhr5tnEA' }
     ]
 };
 
@@ -72,8 +94,14 @@ const ClassSelector = ({ currentClass, setCurrentClass }) => (
         <button className={`class-btn ${currentClass === '9' ? 'active' : ''}`} onClick={() => setCurrentClass('9')}>
             <i className="fas fa-microchip"></i> Class 9 AI
         </button>
+        <button className={`class-btn ${currentClass === '9-it' ? 'active' : ''}`} onClick={() => setCurrentClass('9-it')}>
+            <i className="fas fa-keyboard"></i> Class 9 IT
+        </button>
         <button className={`class-btn ${currentClass === '10' ? 'active' : ''}`} onClick={() => setCurrentClass('10')}>
             <i className="fas fa-brain"></i> Class 10 AI
+        </button>
+        <button className={`class-btn ${currentClass === '10-it' ? 'active' : ''}`} onClick={() => setCurrentClass('10-it')}>
+            <i className="fas fa-laptop-code"></i> Class 10 IT
         </button>
     </div>
 );
