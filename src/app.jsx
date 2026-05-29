@@ -3,20 +3,20 @@ const notesData = {
     '9': [
         { title: 'Communication Skill', content: `Communication skill simply means the ability to share your thoughts, feelings, or information with others in a clear and kind way. It’s not just about talking—it also includes listening, understanding, and even your body language. Good communication helps people connect, avoid misunderstandings, and work well together.
 
-<strong>What Communication Really Includes?</strong>
+What Communication Really Includes?
 Speaking clearly – Using simple words so others easily understand you.
 Listening carefully – Paying full attention without interrupting. This is often called “active listening.”
 Body language – Your facial expressions, gestures, and posture. For example, crossing your arms might make you seem closed off, while nodding shows you are interested.
 Tone of voice – How you say something matters as much as the words. A warm tone feels friendly; a harsh tone can push people away.
 Written communication – Texts, emails, or notes that are easy to read and not confusing.
 
-<strong>Why Communication Skill Is Important?</strong>
+Why Communication Skill Is Important?
 Builds stronger relationships – When you express yourself honestly and listen well, trust grows.
 Reduces fights – Many arguments happen because people misunderstand each other. Clear communication fixes that.
 Helps in work and study – Sharing ideas simply and asking good questions makes teamwork smooth.
 Boosts confidence – Knowing you can express yourself makes social situations less scary.
 
-<strong>Easy Tips to Improve Your Communication:</strong>
+Easy Tips to Improve Your Communication:
 Listen more than you speak. Let the other person finish before you reply. Show you’re listening with a nod or a small “I see.”
 Think before you speak. Ask yourself: Is it true? Is it kind? Is it necessary?
 Keep it short and simple. Don’t use fancy words to impress. Say exactly what you mean.
