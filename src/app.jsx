@@ -1,16 +1,28 @@
 // ---------- Data ----------
 const notesData = {
     '9': [
-        { title: 'Introduction to AI', content: `Artificial Intelligence is the ability of a machine or computer program to perform tasks that normally need human intelligence. These tasks include learning from data, understanding language, recognizing images, making decisions, solving problems, and improving through experience.
+        { title: 'Communication Skill', content: `Communication skill simply means the ability to share your thoughts, feelings, or information with others in a clear and kind way. It’s not just about talking—it also includes listening, understanding, and even your body language. Good communication helps people connect, avoid misunderstandings, and work well together.
 
-Key ideas:
-AI systems use data, algorithms, and computing power to identify patterns and make predictions.
-Narrow AI is designed for one specific task, such as a chatbot, recommendation system, face unlock, or voice assistant.
-General AI would be able to think and learn like a human across many tasks, but it does not exist in real life yet.
-Common examples include Google Assistant, Alexa, YouTube recommendations, maps navigation, translation tools, and fraud detection.
+What Communication Really Includes:
+Speaking clearly – Using simple words so others easily understand you.
+Listening carefully – Paying full attention without interrupting. This is often called “active listening.”
+Body language – Your facial expressions, gestures, and posture. For example, crossing your arms might make you seem closed off, while nodding shows you are interested.
+Tone of voice – How you say something matters as much as the words. A warm tone feels friendly; a harsh tone can push people away.
+Written communication – Texts, emails, or notes that are easy to read and not confusing.
 
-Why it matters:
-AI is used in education, healthcare, agriculture, transport, banking, entertainment, and security. Students should understand both how AI helps society and where it must be used carefully.` },
+Why Communication Skill Is Important?
+Builds stronger relationships – When you express yourself honestly and listen well, trust grows.
+Reduces fights – Many arguments happen because people misunderstand each other. Clear communication fixes that.
+Helps in work and study – Sharing ideas simply and asking good questions makes teamwork smooth.
+Boosts confidence – Knowing you can express yourself makes social situations less scary.
+
+Easy Tips to Improve Your Communication:
+Listen more than you speak. Let the other person finish before you reply. Show you’re listening with a nod or a small “I see.”
+Think before you speak. Ask yourself: Is it true? Is it kind? Is it necessary?
+Keep it short and simple. Don’t use fancy words to impress. Say exactly what you mean.
+Ask questions. If something isn’t clear, say “Can you explain that again?” instead of guessing.
+Pay attention to feelings. Notice your own emotions and the other person’s. If someone looks upset, you might soften your tone or ask if they’re okay.
+Practice empathy – Try to see things from the other person’s point of view. That makes your response more thoughtful.` },
         { title: 'AI Project Cycle', content: `The AI Project Cycle is a step-by-step method used to build useful AI solutions. It helps students move from a real-world problem to a working model in an organized way.
 
 1. Problem Scoping:
