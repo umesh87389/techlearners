@@ -1,28 +1,248 @@
 // ---------- Data ----------
 const notesData = {
     '9': [
-        { title: 'Introduction to AI', content: 'AI mimics human intelligence. Covers history, types: narrow AI, general AI. Examples: Siri, chatbots.' },
-        { title: 'AI Project Cycle', content: 'Problem Scoping, Data Acquisition, Data Exploration, Modelling, Evaluation. Key steps for building AI projects.' },
-        { title: 'Neural Networks Basics', content: 'Perceptron, activation functions, layers, forward propagation. Foundation of deep learning.' },
-        { title: 'AI Ethics', content: 'Bias, privacy, transparency, accountability. Importance of ethical AI development.' }
+        { title: 'Introduction to AI', content: `Artificial Intelligence is the ability of a machine or computer program to perform tasks that normally need human intelligence. These tasks include learning from data, understanding language, recognizing images, making decisions, solving problems, and improving through experience.
+
+Key ideas:
+AI systems use data, algorithms, and computing power to identify patterns and make predictions.
+Narrow AI is designed for one specific task, such as a chatbot, recommendation system, face unlock, or voice assistant.
+General AI would be able to think and learn like a human across many tasks, but it does not exist in real life yet.
+Common examples include Google Assistant, Alexa, YouTube recommendations, maps navigation, translation tools, and fraud detection.
+
+Why it matters:
+AI is used in education, healthcare, agriculture, transport, banking, entertainment, and security. Students should understand both how AI helps society and where it must be used carefully.` },
+        { title: 'AI Project Cycle', content: `The AI Project Cycle is a step-by-step method used to build useful AI solutions. It helps students move from a real-world problem to a working model in an organized way.
+
+1. Problem Scoping:
+Identify the problem, users, goals, constraints, and expected outcome. A good problem statement should clearly explain what needs to be solved and why it matters.
+
+2. Data Acquisition:
+Collect relevant data from reliable sources such as surveys, sensors, public datasets, images, text, audio, or records. Data should be accurate, sufficient, and collected ethically.
+
+3. Data Exploration:
+Study the data using tables, charts, graphs, and summaries. This step helps find patterns, missing values, unusual entries, and relationships between variables.
+
+4. Modelling:
+Choose an algorithm and train the model using data. The model learns patterns and uses them to make predictions or classifications.
+
+5. Evaluation:
+Test the model to check whether it performs well. Evaluation helps decide if the model is accurate, fair, reliable, and ready for improvement or deployment.` },
+        { title: 'Neural Networks Basics', content: `Neural networks are AI models inspired by the way the human brain processes information. They are made of small processing units called neurons, arranged in layers.
+
+Important terms:
+A neuron receives inputs, applies weights, adds bias, and produces an output.
+An activation function decides whether the neuron should pass information forward.
+An input layer receives the data, hidden layers process patterns, and an output layer gives the final answer.
+Forward propagation is the movement of data from input to output.
+Training means adjusting weights so the model makes fewer mistakes over time.
+
+Simple example:
+For image recognition, the input may be pixel values. The hidden layers learn edges, shapes, and features. The output layer may predict whether the image contains a cat, dog, car, or person.
+
+Use cases:
+Neural networks power speech recognition, translation, image classification, handwriting recognition, chatbots, and recommendation systems.` },
+        { title: 'AI Ethics', content: `AI ethics means using Artificial Intelligence in a responsible, fair, transparent, and safe manner. Since AI affects real people, students must understand the risks as well as the benefits.
+
+Major concerns:
+Bias: If training data is unfair or incomplete, the AI system may produce unfair results.
+Privacy: AI systems often use personal data, so data must be protected and collected with consent.
+Transparency: Users should understand when AI is being used and how important decisions are made.
+Accountability: People and organizations must take responsibility for AI decisions.
+Security: AI systems should be protected from misuse, hacking, and harmful manipulation.
+
+Responsible AI practices:
+Use diverse and reliable data, test models carefully, avoid collecting unnecessary personal information, explain results wherever possible, and keep humans involved in important decisions.
+
+Ethical AI is not only about building smart systems. It is about building systems that help people safely and fairly.` }
     ],
     '9-it': [
-        { title: 'Digital Documentation', content: 'Create, edit, format, and manage documents using word processing tools. Covers styles, tables, images, and page layout.' },
-        { title: 'Electronic Spreadsheet', content: 'Basics of spreadsheets, formulas, functions, charts, data entry, formatting, and simple data analysis.' },
-        { title: 'Digital Presentation', content: 'Create professional presentations with slides, themes, images, transitions, animations, and speaker notes.' },
-        { title: 'Internet and Web', content: 'Internet basics, web browsers, email, online safety, search techniques, and responsible digital communication.' }
+        { title: 'Digital Documentation', content: `Digital documentation means creating, editing, formatting, storing, and sharing documents using word processing software such as LibreOffice Writer, MS Word, or Google Docs.
+
+Main skills:
+Create a new document, save it with a proper file name, open existing files, and export documents when needed.
+Format text using font style, size, color, bold, italic, underline, alignment, line spacing, and indentation.
+Use page settings such as margins, orientation, page size, headers, footers, and page numbers.
+Insert tables, images, shapes, symbols, hyperlinks, and lists to make information clear.
+Use styles for headings and paragraphs so the document looks consistent.
+
+Good document habits:
+Use meaningful headings, keep formatting consistent, proofread spelling and grammar, and organize content so readers can scan it easily.` },
+        { title: 'Electronic Spreadsheet', content: `An electronic spreadsheet is used to store, calculate, organize, and analyze data in rows and columns. Common spreadsheet tools include LibreOffice Calc, MS Excel, and Google Sheets.
+
+Basic concepts:
+A worksheet contains rows, columns, and cells. Each cell has an address such as A1 or C5.
+Data can be text, numbers, dates, formulas, or functions.
+Formulas begin with an equal sign, such as =A1+B1.
+Functions are ready-made formulas such as SUM, AVERAGE, MIN, MAX, and COUNT.
+
+Useful skills:
+Enter and edit data, adjust row height and column width, format cells, apply borders, use formulas, copy formulas using fill handle, and create charts.
+
+Why spreadsheets are useful:
+They help manage marksheets, attendance records, budgets, surveys, inventories, and simple reports. Charts make data easier to understand visually.` },
+        { title: 'Digital Presentation', content: `Digital presentations help communicate ideas using slides. A good presentation is clear, well-structured, and visually balanced.
+
+Main parts:
+A slide can contain title text, bullet points, images, charts, tables, audio, video, and shapes.
+Themes and templates provide a consistent design.
+Slide layouts help arrange content properly.
+Transitions control how one slide changes to the next.
+Animations control how individual objects appear or move.
+Speaker notes help the presenter remember key points.
+
+Good presentation practices:
+Keep slides simple, use short points, choose readable fonts, maintain contrast, use relevant images, avoid too many animations, and rehearse before presenting.
+
+Common uses:
+Class projects, business reports, awareness campaigns, product ideas, lesson explanations, and event introductions.` },
+        { title: 'Internet and Web', content: `The Internet is a global network of connected computers and devices. The World Wide Web is a service on the Internet that lets users access websites through browsers.
+
+Important terms:
+A browser is software used to open websites, such as Chrome, Edge, Firefox, or Safari.
+A search engine helps find information online.
+A URL is the address of a webpage.
+Email is used to send digital messages and files.
+Cloud services help store and share files online.
+
+Online safety:
+Use strong passwords, do not share personal information with unknown people, avoid suspicious links, check website addresses, log out on shared devices, and report harmful content.
+
+Responsible digital communication:
+Be polite, avoid spreading fake news, respect privacy, give credit to sources, and think before posting anything online.` }
     ],
     '10': [
-        { title: 'Advanced AI Concepts', content: 'Supervised vs Unsupervised, Reinforcement Learning, hyperparameter tuning, model deployment.' },
-        { title: 'Natural Language Processing', content: 'Tokenization, sentiment analysis, transformers, BERT. Text preprocessing and chatbots.' },
-        { title: 'Computer Vision', content: 'Image classification, CNNs, object detection, OpenCV basics.' },
-        { title: 'AI Evaluation', content: 'Confusion matrix, accuracy, precision, recall, F1 score, cross-validation.' }
+        { title: 'Advanced AI Concepts', content: `Advanced AI builds on basic machine learning and helps students understand how different learning methods solve different types of problems.
+
+Supervised learning:
+The model learns from labelled data. Each example has an input and a correct answer. Examples include predicting marks, classifying emails as spam or not spam, and identifying disease from symptoms.
+
+Unsupervised learning:
+The model works with unlabelled data and finds hidden patterns or groups. Examples include customer grouping, topic grouping, and pattern discovery.
+
+Reinforcement learning:
+An agent learns by taking actions and receiving rewards or penalties. It is used in games, robotics, traffic control, and automated decision systems.
+
+Model improvement:
+Hyperparameters are settings chosen before training, such as learning rate or number of layers. Tuning them can improve model performance.
+
+Deployment:
+Deployment means making a trained model available for real users through an app, website, device, or service.` },
+        { title: 'Natural Language Processing', content: `Natural Language Processing, or NLP, is a branch of AI that helps computers understand, process, and generate human language.
+
+Core tasks:
+Tokenization breaks text into smaller units such as words or sentences.
+Text cleaning removes unnecessary symbols, repeated spaces, and irrelevant content.
+Sentiment analysis identifies whether text is positive, negative, or neutral.
+Text classification groups text into categories such as news, sports, education, or spam.
+Chatbots use NLP to understand user questions and respond meaningfully.
+
+Modern NLP:
+Transformer models improved language understanding by paying attention to context. Models such as BERT and GPT can handle tasks like summarization, translation, question answering, and content generation.
+
+Real-life uses:
+Search engines, voice assistants, grammar tools, translation apps, customer support bots, automatic captions, and document summarizers.` },
+        { title: 'Computer Vision', content: `Computer Vision is the field of AI that enables machines to understand images and videos. It helps computers identify objects, faces, text, scenes, and activities.
+
+Common tasks:
+Image classification predicts the category of an image.
+Object detection finds and locates objects inside an image.
+Face recognition identifies or verifies a person.
+Optical Character Recognition, or OCR, reads printed or handwritten text from images.
+Image segmentation separates an image into meaningful parts.
+
+How it works:
+Images are made of pixels. Computer vision models learn patterns such as edges, colors, shapes, textures, and object parts. Convolutional Neural Networks, or CNNs, are commonly used for image tasks.
+
+Applications:
+Medical imaging, self-driving vehicles, attendance systems, quality checking in factories, traffic monitoring, agriculture, security cameras, and document scanning.` },
+        { title: 'AI Evaluation', content: `AI evaluation means checking how well an AI model performs on new data. Evaluation is important because a model that performs well during training may still make mistakes in real situations.
+
+Confusion matrix:
+A confusion matrix compares actual answers with predicted answers. It includes true positives, true negatives, false positives, and false negatives.
+
+Key metrics:
+Accuracy shows the overall percentage of correct predictions.
+Precision tells how many predicted positive results were actually correct.
+Recall tells how many actual positive cases the model successfully found.
+F1 score balances precision and recall.
+
+Good evaluation habits:
+Use separate training and testing data, test on enough examples, check performance for different groups, and study mistakes carefully.
+
+Why it matters:
+Evaluation helps improve models, reduce errors, compare algorithms, and decide whether an AI system is reliable enough to use.` }
     ],
     '10-it': [
-        { title: 'Digital Documentation Advanced', content: 'Advanced document formatting, templates, mail merge, table of contents, styles, and document review tools.' },
-        { title: 'Electronic Spreadsheet Advanced', content: 'Use functions, charts, sorting, filtering, conditional formatting, and data tools for practical spreadsheet work.' },
-        { title: 'Database Management System', content: 'Database concepts, tables, fields, records, queries, forms, reports, and basic database organization.' },
-        { title: 'Web Applications and Security', content: 'Web services, cyber safety, secure passwords, digital footprints, online threats, and safe use of web applications.' }
+        { title: 'Digital Documentation Advanced', content: `Advanced digital documentation focuses on creating professional, organized, and reusable documents.
+
+Advanced features:
+Styles allow headings, paragraphs, and lists to be formatted consistently.
+Templates provide a ready-made structure for repeated document types.
+Table of contents can be generated from heading styles.
+Mail merge creates personalized letters, certificates, labels, or emails using a data source.
+Track changes and comments help review and collaborate on documents.
+Headers, footers, page numbers, footnotes, and captions improve document structure.
+
+Practical uses:
+Project reports, notices, resumes, certificates, newsletters, question papers, and official letters.
+
+Best practices:
+Plan the document structure, use styles instead of manual formatting, keep images optimized, proofread content, and export final documents as PDF when sharing.` },
+        { title: 'Electronic Spreadsheet Advanced', content: `Advanced spreadsheets are used for deeper calculation, analysis, reporting, and decision-making.
+
+Important tools:
+Relative and absolute cell references help copy formulas correctly.
+Functions such as IF, COUNTIF, SUMIF, AVERAGEIF, ROUND, and VLOOKUP help solve practical problems.
+Sorting arranges data in order.
+Filtering displays only records that match chosen conditions.
+Conditional formatting highlights important values automatically.
+Charts and graphs convert data into visual reports.
+
+Data analysis examples:
+Prepare mark sheets, calculate grades, track expenses, compare sales, manage attendance, and summarize survey responses.
+
+Good spreadsheet habits:
+Use clear headings, avoid unnecessary blank rows, check formulas, format numbers correctly, and protect important sheets when needed.` },
+        { title: 'Database Management System', content: `A Database Management System, or DBMS, is software used to store, organize, manage, and retrieve data efficiently.
+
+Basic concepts:
+A database is a collection of related data.
+A table stores data in rows and columns.
+A field is a column, such as Name, Roll No, or Marks.
+A record is a row containing complete information about one item.
+A primary key uniquely identifies each record.
+
+DBMS objects:
+Tables store data.
+Queries search, filter, and calculate data.
+Forms provide an easy interface for data entry.
+Reports present data in a printable format.
+
+Advantages:
+DBMS reduces duplication, improves accuracy, supports faster searching, allows better security, and helps multiple users manage data systematically.
+
+Examples:
+Student records, library systems, hospital records, banking systems, inventory management, and online booking systems.` },
+        { title: 'Web Applications and Security', content: `Web applications are programs that run in a browser and use the Internet to provide services. Examples include online banking, email, learning platforms, shopping websites, and cloud storage.
+
+Web application basics:
+A client is the user's browser or device.
+A server stores data and processes requests.
+Web services allow applications to communicate with each other.
+Login systems help identify users.
+Cloud platforms make services available from anywhere.
+
+Cyber safety:
+Use strong and unique passwords, enable two-factor authentication, avoid unknown downloads, check HTTPS, do not share OTPs, update software regularly, and be careful with public Wi-Fi.
+
+Common threats:
+Phishing tricks users into revealing information.
+Malware can damage files or steal data.
+Identity theft misuses personal information.
+Weak passwords make accounts easy to attack.
+
+Digital responsibility:
+Protect your digital footprint, respect others online, report cyberbullying, and use technology legally and ethically.` }
     ]
 };
 const videosData = {
@@ -138,7 +358,7 @@ const NotesPanel = ({ notes, searchQuery }) => {
                 <div className="modal-overlay" onClick={() => setSelectedNote(null)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <h3><i className="fas fa-sticky-note"></i> {selectedNote.title}</h3>
-                        <p style={{ margin: '1rem 0', lineHeight: 1.5 }}>{selectedNote.content}</p>
+                        <p style={{ margin: '1rem 0', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{selectedNote.content}</p>
                         <button className="btn-glass" onClick={() => setSelectedNote(null)}>Close</button>
                     </div>
                 </div>
