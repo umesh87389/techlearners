@@ -3,7 +3,7 @@ const notesData = {
     '9': [
         { title: 'Communication Skill', content: `Communication skill simply means the ability to share your thoughts, feelings, or information with others in a clear and kind way. It’s not just about talking—it also includes listening, understanding, and even your body language. Good communication helps people connect, avoid misunderstandings, and work well together.
 
-What Communication Really Includes:
+What Communication Really Includes?
 Speaking clearly – Using simple words so others easily understand you.
 Listening carefully – Paying full attention without interrupting. This is often called “active listening.”
 Body language – Your facial expressions, gestures, and posture. For example, crossing your arms might make you seem closed off, while nodding shows you are interested.
@@ -25,11 +25,12 @@ Pay attention to feelings. Notice your own emotions and the other person’s. If
 Practice empathy – Try to see things from the other person’s point of view. That makes your response more thoughtful.`
         
 <b>A Simple Example</b>
-'Imagine your friend forgot your meet-up time.
+Imagine your friend forgot your meet-up time.
 Poor communication: “You’re always late. You don’t care about my time.”
 Good communication: “I felt a bit hurt when I waited long because I wasn’t sure if you were coming. Is everything okay?”
 The second way expresses your feeling without blaming, and it opens a conversation instead of starting a fight.
 In short, communication skill is like a bridge between people. The stronger you build it with honesty, listening, and kindness, the easier it becomes to reach others and be understood.' },
+        
         { title: 'AI Project Cycle', content: `The AI Project Cycle is a step-by-step method used to build useful AI solutions. It helps students move from a real-world problem to a working model in an organized way.
 
 1. Problem Scoping:
