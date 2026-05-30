@@ -10,7 +10,7 @@ async function studentLogin(event) {
     );
     location.href = 'dashboard.html';
   } catch (error) {
-    message.textContent = error.message || 'Unable to sign in.';
+    message.textContent = describeAuthError(error);
   }
 }
 
@@ -26,8 +26,33 @@ async function studentRegister(event) {
     );
     location.href = 'dashboard.html';
   } catch (error) {
-    message.textContent = error.message || 'Unable to create account.';
+    message.textContent = describeAuthError(error);
   }
+}
+
+async function studentGoogleLogin() {
+  const message = document.getElementById('studentAuthMessage');
+  message.textContent = 'Opening Google sign-in...';
+
+  try {
+    await TechLearnersFirebase.studentGoogleSignIn();
+    location.href = 'dashboard.html';
+  } catch (error) {
+    message.textContent = describeAuthError(error);
+  }
+}
+
+function describeAuthError(error) {
+  const messages = {
+    'auth/email-already-in-use': 'This email already has an account. Use Login instead.',
+    'auth/invalid-credential': 'Email or password is incorrect.',
+    'auth/invalid-email': 'Enter a valid email address.',
+    'auth/operation-not-allowed': 'This sign-in method is not enabled in Firebase Authentication.',
+    'auth/popup-blocked': 'Allow pop-ups for this website and try Google sign-in again.',
+    'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+    'auth/weak-password': 'Choose a password with at least 6 characters.'
+  };
+  return messages[error.code] || error.message || 'Unable to complete authentication.';
 }
 
 async function studentLogout() {

@@ -51,6 +51,13 @@
     return services.authApi.createUserWithEmailAndPassword(services.auth, email, password);
   }
 
+  async function studentGoogleSignIn() {
+    const services = await getServices();
+    if (!services) throw new Error('Firebase is not configured.');
+    const provider = new services.authApi.GoogleAuthProvider();
+    return services.authApi.signInWithPopup(services.auth, provider);
+  }
+
   async function getCurrentUser() {
     const services = await getServices();
     if (!services) return null;
@@ -150,6 +157,7 @@
     signIn,
     signOut,
     studentSignUp,
+    studentGoogleSignIn,
     submitContact,
     uploadNote
   };
