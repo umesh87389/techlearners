@@ -1,0 +1,26 @@
+[
+  {
+    "class": "Class 9",
+    "title": "Communication Skills Notes",
+    "description": "Chapter 1 short notes for revision.",
+    "file": "downloads/class9-communication-skills.txt"
+  },
+  {
+    "class": "Class 9",
+    "title": "Self Management Skills Notes",
+    "description": "Chapter 2 sample notes.",
+    "file": "downloads/class9-self-management.txt"
+  },
+  {
+    "class": "Class 10",
+    "title": "ICT Skills Notes",
+    "description": "Class 10 ICT skills revision notes.",
+    "file": "downloads/class10-ict-skills.txt"
+  },
+  {
+    "class": "Class 10",
+    "title": "AI Project Cycle Notes",
+    "description": "Sample AI project cycle content.",
+    "file": "downloads/class10-ai-project-cycle.txt"
+  }
+]
