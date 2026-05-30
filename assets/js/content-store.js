@@ -74,7 +74,7 @@
     requireAdmin: firebase.requireAdmin,
     reset,
     save,
-    signIn: firebase.signIn,
+    signIn: firebase.adminSignIn,
     signOut: firebase.signOut,
     uploadNote: firebase.uploadNote
   };

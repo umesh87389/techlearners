@@ -7,5 +7,6 @@ window.TechLearnersFirebaseConfig = {
   storageBucket: 'techlearners1.firebasestorage.app',
   messagingSenderId: '794603601519',
   appId: '1:794603601519:web:7423dea74b3a20d085d79a',
-  measurementId: 'G-NQV5L20CWL'
+  measurementId: 'G-NQV5L20CWL',
+  adminUid: 'bQvKgi7p9XSjnotieGHd7UlwNjD3'
 };

@@ -9,6 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
       announcementList.innerHTML = data.map(a=>`<div class="list-item"><b>${a.title}</b><p>${a.message}</p></div>`).join('');
     }).catch(()=> announcementList.textContent='Unable to load announcements.');
   }
+
+  const footer = document.querySelector('.footer');
+  if(footer){
+    const root = location.pathname.includes('/pages/') ? '../../' : '';
+    footer.innerHTML = `<div class="footer-grid">
+      <div><b>TechLearners</b><p>Simple learning support for Class 9 and Class 10 students.</p></div>
+      <div><b>Contact Us</b><p><a href="${root}contact.html">Send a message</a></p></div>
+      <div><b>Follow Us</b><p><a href="https://github.com/umesh87389" target="_blank" rel="noopener">GitHub</a></p></div>
+      <div><b>Legal</b><p><a href="${root}privacy.html">Privacy Policy</a></p></div>
+    </div><p class="footer-bottom">&copy; 2026 TechLearners. Built for AI students.</p>`;
+  }
 });
 
 function loadNotes(className){

@@ -28,12 +28,14 @@
 <main class="page">
   <section class="section narrow">
     <h1>Contact Us</h1>
-    <form class="form-card" onsubmit="event.preventDefault(); alert('Demo form submitted. Connect backend/Firebase later.');">
-      <label>Name<input required type="text" placeholder="Your name"></label>
-      <label>Email<input required type="email" placeholder="Your email"></label>
-      <label>Message<textarea required placeholder="Write your message"></textarea></label>
+    <p>Send your question or feedback. Your message will reach the TechLearners admin inbox.</p>
+    <form class="form-card" id="contactForm">
+      <label>Name<input required name="name" type="text" placeholder="Your name"></label>
+      <label>Email<input required name="email" type="email" placeholder="Your email"></label>
+      <label>Message<textarea required name="message" placeholder="Write your message"></textarea></label>
       <button class="btn" type="submit">Send Message</button>
     </form>
+    <p id="contactStatus" class="muted"></p>
   </section>
 </main>
 
@@ -41,6 +43,9 @@
   <p>© 2026 TechLearners. Built for AI students.</p>
 </footer>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/firebase-client.js"></script>
+<script src="assets/js/contact.js"></script>
 <script src="assets/js/main.js"></script>
 
 </body></html>

@@ -31,6 +31,8 @@ A GitHub Pages-ready educational website for Class 9 and Class 10 AI learning.
 
 The admin panel supports Firebase Authentication, Cloud Firestore and Firebase Storage. Once connected, edits are published for all visitors and note files are uploaded online.
 
+Student login and registration also use Firebase Authentication. Contact form submissions are stored in the `contactMessages` Firestore collection and can be viewed only from the UID-restricted admin inbox.
+
 1. Create a Firebase project and register a Web app in Firebase Console.
 2. Enable **Authentication > Sign-in method > Email/Password**.
 3. Add your admin user in **Authentication > Users** and copy its UID.

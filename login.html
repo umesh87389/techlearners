@@ -26,27 +26,24 @@
 </header>
 
 <main class="page center-page">
-  <form class="login-card" onsubmit="demoLogin(event)">
+  <form class="login-card" onsubmit="studentLogin(event)">
     <h1>Student Login</h1>
-    <p>Demo login. Use any email and password.</p>
+    <p>Sign in with your student account or create a new account.</p>
     <input id="email" type="email" placeholder="Email" required>
     <input id="password" type="password" placeholder="Password" required>
     <button class="btn" type="submit">Login</button>
+    <button class="btn secondary" type="button" onclick="studentRegister(event)">Create Account</button>
+    <p id="studentAuthMessage" class="muted"></p>
     <a href="pages/admin/admin-login.html">Admin Login</a>
   </form>
 </main>
-<script>
-function demoLogin(e) {
-  e.preventDefault();
-  localStorage.setItem('tl_user', document.getElementById('email').value);
-  location.href='dashboard.html';
-}
-</script>
-
 <footer class="footer">
   <p>© 2026 TechLearners. Built for AI students.</p>
 </footer>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/firebase-config.js"></script>
+<script src="assets/js/firebase-client.js"></script>
+<script src="assets/js/student-auth.js"></script>
 <script src="assets/js/main.js"></script>
 
 </body></html>

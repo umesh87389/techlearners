@@ -15,6 +15,12 @@
   };
 
   document.querySelectorAll('.nav').forEach(nav => {
+    if (!nav.querySelector('[href="contact-messages.html"]')) {
+      const contactLink = document.createElement('a');
+      contactLink.href = 'contact-messages.html';
+      contactLink.textContent = 'Contact Messages';
+      nav.appendChild(contactLink);
+    }
     const logout = document.createElement('button');
     logout.className = 'btn small secondary';
     logout.type = 'button';
@@ -70,7 +76,7 @@
       <b>Storage mode:</b> ${window.TechLearnersFirebase.configured ? 'Firebase is connected. Changes are published for all visitors.' : 'Firebase config is missing. Changes are saved only in this browser until you add your project config.'}
       <div class="backup-actions"><button class="btn small" type="button" onclick="exportAdminBackup()">Export Backup</button><label class="btn small secondary file-button">Import Backup<input type="file" accept="application/json" onchange="importAdminBackup(this)"></label></div>
       <p id="adminMessage"></p>
-    </div>`);
+    </div><div class="card"><h3>Contact Messages</h3><p>Read questions and feedback sent through the website.</p><a href="contact-messages.html">Open &rarr;</a></div>`);
   }
 
   setupDashboard();

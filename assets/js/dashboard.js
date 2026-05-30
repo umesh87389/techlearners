@@ -1,4 +1,1 @@
-const userName = document.getElementById('userName');
-if(userName){
-  userName.textContent = localStorage.getItem('tl_user') || 'Student';
-}
+// Student dashboard authentication is handled by student-auth.js.

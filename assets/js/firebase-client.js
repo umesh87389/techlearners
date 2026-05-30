@@ -36,6 +36,33 @@
     await services.authApi.signInWithEmailAndPassword(services.auth, email, password);
   }
 
+  async function adminSignIn(email, password) {
+    await signIn(email, password);
+    const services = await getServices();
+    if (services && services.auth.currentUser?.uid !== config.adminUid) {
+      await services.authApi.signOut(services.auth);
+      throw new Error('This account does not have admin access.');
+    }
+  }
+
+  async function studentSignUp(email, password) {
+    const services = await getServices();
+    if (!services) throw new Error('Firebase is not configured.');
+    return services.authApi.createUserWithEmailAndPassword(services.auth, email, password);
+  }
+
+  async function getCurrentUser() {
+    const services = await getServices();
+    if (!services) return null;
+    if (services.auth.currentUser) return services.auth.currentUser;
+    return new Promise(resolve => {
+      const unsubscribe = services.authApi.onAuthStateChanged(services.auth, user => {
+        unsubscribe();
+        resolve(user);
+      });
+    });
+  }
+
   async function signOut() {
     const services = await getServices();
     localStorage.removeItem('tl_admin');
@@ -45,11 +72,11 @@
   async function requireAdmin() {
     const services = await getServices();
     if (!services) return localStorage.getItem('tl_admin') === 'true';
-    if (services.auth.currentUser) return true;
+    if (services.auth.currentUser) return services.auth.currentUser.uid === config.adminUid;
     return new Promise(resolve => {
       const unsubscribe = services.authApi.onAuthStateChanged(services.auth, user => {
         unsubscribe();
-        resolve(Boolean(user));
+        resolve(user?.uid === config.adminUid);
       });
     });
   }
@@ -83,13 +110,47 @@
     return services.storageApi.getDownloadURL(reference);
   }
 
+  async function submitContact(message) {
+    const services = await getServices();
+    if (!services) throw new Error('Firebase is not configured.');
+    await services.firestoreApi.addDoc(
+      services.firestoreApi.collection(services.db, 'contactMessages'),
+      {
+        ...message,
+        createdAt: services.firestoreApi.serverTimestamp()
+      }
+    );
+  }
+
+  async function getContactMessages() {
+    const services = await getServices();
+    if (!services) return [];
+    const reference = services.firestoreApi.collection(services.db, 'contactMessages');
+    const snapshot = await services.firestoreApi.getDocs(reference);
+    return snapshot.docs.map(document => ({ id: document.id, ...document.data() }));
+  }
+
+  async function deleteContactMessage(id) {
+    const services = await getServices();
+    if (!services) return;
+    await services.firestoreApi.deleteDoc(
+      services.firestoreApi.doc(services.db, 'contactMessages', id)
+    );
+  }
+
   window.TechLearnersFirebase = {
+    adminSignIn,
     configured,
+    deleteContactMessage,
+    getContactMessages,
     getContent,
+    getCurrentUser,
     requireAdmin,
     saveContent,
     signIn,
     signOut,
+    studentSignUp,
+    submitContact,
     uploadNote
   };
 })();
