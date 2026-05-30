@@ -21,24 +21,20 @@
 <main class="page">
 <form class="login-card" onsubmit="adminLogin(event)">
   <h1>Admin Login</h1>
-  <p>Demo admin login. Password: admin123</p>
+  <p>Sign in with your Firebase admin email and password.</p>
   <input id="adminEmail" type="email" placeholder="Admin email" required>
   <input id="adminPass" type="password" placeholder="Password" required>
   <button class="btn" type="submit">Login</button>
+  <p id="adminLoginMessage" class="muted"></p>
 </form>
-<script>
-function adminLogin(e){
- e.preventDefault();
- if(document.getElementById('adminPass').value === 'admin123'){
-  localStorage.setItem('tl_admin','true');
-  location.href='admin-dashboard.html';
- } else alert('Wrong demo password');
-}
-</script>
 </main>
 <footer class="footer">
   <p>© 2026 TechLearners. Built for AI students.</p>
 </footer>
 <script src="../../assets/js/theme.js"></script>
 <script src="../../assets/js/main.js"></script>
-<script src="../../assets/js/dashboard.js"></script></body></html>
+<script src="../../assets/js/dashboard.js"></script>
+<script src="../../assets/js/firebase-config.js"></script>
+<script src="../../assets/js/firebase-client.js"></script>
+<script src="../../assets/js/content-store.js"></script>
+<script src="../../assets/js/admin-login.js"></script></body></html>

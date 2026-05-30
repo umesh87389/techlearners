@@ -9,4 +9,5 @@
   .cards,.two{grid-template-columns:1fr}
   .site-header{padding:14px 5%}
   .section,.hero{padding-left:5%;padding-right:5%}
+  .admin-list-item{align-items:flex-start;flex-direction:column}
 }

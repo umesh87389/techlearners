@@ -42,6 +42,14 @@ label{display:grid;gap:8px;color:var(--muted);font-weight:700}
 .list-box{display:grid;gap:14px}
 .list-item{padding:16px;border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.06)}
 .filter-row{display:flex;gap:12px;margin-bottom:20px}
+.admin-list{margin-top:24px}
+.admin-list-item{display:flex;gap:16px;justify-content:space-between;align-items:center}
+.admin-list-item p{margin-bottom:0;color:var(--muted)}
+.admin-actions{display:flex;gap:8px;flex-shrink:0}
+.btn.danger{background:#b91c1c}
+.notice{padding:16px;border:1px solid rgba(0,212,255,.4);border-radius:16px;background:rgba(0,212,255,.08);color:var(--muted)}
+.backup-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.file-button input{display:none}
 .footer{text-align:center;color:var(--muted);padding:30px;border-top:1px solid var(--border)}
 iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:18px}
 code{color:var(--accent)}

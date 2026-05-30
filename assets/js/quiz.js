@@ -1,8 +1,7 @@
 const quizBox = document.getElementById('quizBox');
 let quizData = [];
 
-fetch('../../data/quizzes.json')
-  .then(r=>r.json())
+TechLearnersContent.get('quizzes', '../../data')
   .then(data=>{
     quizData = data;
     quizBox.innerHTML = data.map((q,i)=>`
