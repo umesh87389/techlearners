@@ -23,8 +23,12 @@
 
   async function get(type, dataRoot) {
     if (firebase.configured) {
-      const cloudItems = await firebase.getContent(type);
-      if (cloudItems) return cloudItems;
+      try {
+        const cloudItems = await firebase.getContent(type);
+        if (cloudItems) return cloudItems;
+      } catch (error) {
+        console.warn(`Unable to load cloud ${type}; using bundled content.`, error);
+      }
     }
     const stored = getStored(type);
     if (stored) return stored;

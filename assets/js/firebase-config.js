@@ -1,10 +1,11 @@
 // Paste the Firebase web app config from Firebase Console > Project settings.
 // Firebase web config values identify your project; access is protected by rules.
 window.TechLearnersFirebaseConfig = {
-  apiKey: 'REPLACE_WITH_YOUR_API_KEY',
-  authDomain: 'REPLACE_WITH_YOUR_AUTH_DOMAIN',
-  projectId: 'REPLACE_WITH_YOUR_PROJECT_ID',
-  storageBucket: 'REPLACE_WITH_YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'REPLACE_WITH_YOUR_MESSAGING_SENDER_ID',
-  appId: 'REPLACE_WITH_YOUR_APP_ID'
+  apiKey: 'AIzaSyDk5IknBeXQ7mrZpExW7iLVpVjcvxMak_w',
+  authDomain: 'techlearners1.firebaseapp.com',
+  projectId: 'techlearners1',
+  storageBucket: 'techlearners1.firebasestorage.app',
+  messagingSenderId: '794603601519',
+  appId: '1:794603601519:web:7423dea74b3a20d085d79a',
+  measurementId: 'G-NQV5L20CWL'
 };
