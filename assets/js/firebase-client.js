@@ -55,7 +55,25 @@
     const services = await getServices();
     if (!services) throw new Error('Firebase is not configured.');
     const provider = new services.authApi.GoogleAuthProvider();
-    return services.authApi.signInWithPopup(services.auth, provider);
+    provider.setCustomParameters({ prompt: 'select_account' });
+    try {
+      return await services.authApi.signInWithPopup(services.auth, provider);
+    } catch (error) {
+      if (['auth/popup-blocked', 'auth/cancelled-popup-request'].includes(error.code)) {
+        sessionStorage.setItem('tl_google_redirect', 'true');
+        return services.authApi.signInWithRedirect(services.auth, provider);
+      }
+      throw error;
+    }
+  }
+
+  async function getGoogleRedirectResult() {
+    const services = await getServices();
+    if (!services) return null;
+    const pending = sessionStorage.getItem('tl_google_redirect') === 'true';
+    if (!pending) return null;
+    sessionStorage.removeItem('tl_google_redirect');
+    return services.authApi.getRedirectResult(services.auth);
   }
 
   async function getCurrentUser() {
@@ -152,6 +170,7 @@
     getContactMessages,
     getContent,
     getCurrentUser,
+    getGoogleRedirectResult,
     requireAdmin,
     saveContent,
     signIn,

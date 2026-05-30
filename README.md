@@ -33,17 +33,18 @@ The admin panel supports Firebase Authentication, Cloud Firestore and Firebase S
 
 Student login and registration also use Firebase Authentication. Contact form submissions are stored in the `contactMessages` Firestore collection and can be viewed only from the UID-restricted admin inbox.
 
-For student accounts, enable both **Email/Password** and **Google** under Firebase Authentication > Sign-in method. Google sign-in uses the Firebase popup flow.
+For student accounts, enable both **Email/Password** and **Google** under Firebase Authentication > Sign-in method. Google sign-in uses a popup with a redirect fallback for browsers that block popups.
 
 1. Create a Firebase project and register a Web app in Firebase Console.
 2. Enable **Authentication > Sign-in method > Email/Password**.
-3. Add your admin user in **Authentication > Users** and copy its UID.
-4. Create a Cloud Firestore database.
-5. Enable Firebase Storage.
-6. Paste your Web app config into `assets/js/firebase-config.js`.
-7. Replace `REPLACE_WITH_YOUR_ADMIN_UID` in `firebase/firestore.rules` and `firebase/storage.rules`.
-8. Paste and publish those rules in the matching Firebase Console rule editors.
-9. Deploy this folder to GitHub Pages, then sign in at `pages/admin/admin-login.html`.
+3. Enable **Authentication > Sign-in method > Google** and add `www.techlearners.in` under **Authentication > Settings > Authorized domains**.
+4. Add your admin user in **Authentication > Users** and copy its UID.
+5. Create a Cloud Firestore database.
+6. Enable Firebase Storage.
+7. Paste your Web app config into `assets/js/firebase-config.js`.
+8. Replace `REPLACE_WITH_YOUR_ADMIN_UID` in `firebase/firestore.rules` and `firebase/storage.rules`.
+9. Paste and publish those rules in the matching Firebase Console rule editors.
+10. Deploy this folder to GitHub Pages, then sign in at `pages/admin/admin-login.html`.
 
 The Firebase config values in `assets/js/firebase-config.js` identify your project; they are not a substitute for security rules. Keep the rule files restricted to your admin UID.
 

@@ -48,6 +48,7 @@ function describeAuthError(error) {
     'auth/invalid-credential': 'Email or password is incorrect.',
     'auth/invalid-email': 'Enter a valid email address.',
     'auth/operation-not-allowed': 'This sign-in method is not enabled in Firebase Authentication.',
+    'auth/unauthorized-domain': 'Google sign-in is not authorized for this website domain. Add it under Firebase Authentication > Settings > Authorized domains.',
     'auth/popup-blocked': 'Allow pop-ups for this website and try Google sign-in again.',
     'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
     'auth/weak-password': 'Choose a password with at least 6 characters.'
@@ -76,3 +77,17 @@ async function setupStudentDashboard() {
 }
 
 setupStudentDashboard();
+
+async function finishGoogleRedirect() {
+  const message = document.getElementById('studentAuthMessage');
+  if (!message) return;
+
+  try {
+    const result = await TechLearnersFirebase.getGoogleRedirectResult();
+    if (result?.user) location.href = 'dashboard.html';
+  } catch (error) {
+    message.textContent = describeAuthError(error);
+  }
+}
+
+finishGoogleRedirect();
