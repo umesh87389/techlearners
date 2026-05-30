@@ -1,0 +1,32 @@
+[
+  {
+    "question": "Which skill is important for clear message sharing?",
+    "options": [
+      "Communication",
+      "Sleeping",
+      "Guessing",
+      "Ignoring"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "ICT stands for?",
+    "options": [
+      "Internet Class Test",
+      "Information and Communication Technology",
+      "Indian Computer Theory",
+      "Input Control Task"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "The first step in AI Project Cycle is usually?",
+    "options": [
+      "Deployment",
+      "Problem Scoping",
+      "Coding only",
+      "Printing"
+    ],
+    "answer": 1
+  }
+]
