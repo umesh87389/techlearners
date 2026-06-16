@@ -1,0 +1,13 @@
+.fade-up{animation:fadeUp .8s ease both}
+.float{animation:float 4s ease-in-out infinite}
+.hero-platform-tag{animation:fadeUp .7s ease both}
+.hero-platform-tag::after{content:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes bannerDrop{0%{opacity:0;transform:translateY(-18px) scaleX(.72)}14%,88%{opacity:1;transform:none}100%{opacity:0;transform:translateY(5px) scaleX(.96)}}
+@keyframes bannerShine{0%,22%{transform:translateX(-120%)}44%,100%{transform:translateX(120%)}}
+@keyframes mobileCardPulse{0%{transform:scale(.94)}55%{transform:scale(1.07)}100%{transform:none}}
+@keyframes platformGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes detailFadeUp{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.hero-platform-tag,.hero-platform-tag::after{animation:none}}
+@media(max-width:700px){.fade-up,.float,.hero-platform-tag,.hero-platform-tag::after{animation:none}}

@@ -1,0 +1,66 @@
+[
+  {
+    "class": "Class 9",
+    "subject": "AI",
+    "title": "AI Fundamentals Notes",
+    "description": "Original beginner notes on AI meaning, examples, data, model learning, and responsible AI use.",
+    "content": "Meaning of AI:\nArtificial Intelligence is the ability of a computer system to perform tasks that normally need human-like thinking, such as recognising speech, finding patterns, suggesting routes, or classifying images.\n\nDaily Life Examples:\n- Voice assistants answer simple questions.\n- Maps suggest routes using traffic information.\n- Email systems detect spam messages.\n- Shopping apps recommend products based on past activity.\n\nRole of Data:\nData helps AI systems learn patterns. Clean and relevant data improves results. Incomplete or unfair data can produce poor output.\n\nResponsible Use:\nAI should support people, protect privacy, and avoid unfair decisions. A student should not blindly trust automated answers without checking them.\n\nQuick Practice:\nWrite three places where you have seen AI-like suggestions. For each, mention what data the system may be using.",
+    "file": "downloads/class9-communication-skills.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "AI",
+    "title": "CBSE Class 9 AI Employability Skills Notes",
+    "description": "Original revision notes covering ICT, self-management, communication, and entrepreneurial skills for CBSE Class 9 AI learners.",
+    "content": "How to use these notes:\nRead one topic at a time. After each topic, write two examples from your own school or home life.\n\nICT and Its Impact:\nICT means Information and Communication Technology. It includes computers, smartphones, internet, email, video meetings, online learning platforms, digital payments, and other tools used to create, store, process, and share information.\n- ICT helps students learn through videos, notes, quizzes, and online classes.\n- ICT helps offices keep records, prepare reports, and communicate quickly.\n- ICT helps citizens use services such as online forms, bill payments, and digital certificates.\n\nCyber Safety:\nCyber safety means using digital devices and the internet carefully. Students should avoid unknown links, protect passwords, log out from shared devices, and think before posting anything online. A strong password should be unique and should not contain personal details such as date of birth or mobile number.\n\nSelf-Management Skills:\nSelf-management is the ability to guide your thoughts, behaviour, time, and habits responsibly. A self-managed student comes prepared, completes work on time, asks for help when needed, and learns from feedback.\n- Self-awareness means knowing your strengths and areas for improvement.\n- Self-confidence means trusting your ability while still being ready to learn.\n- Time management means planning tasks so important work is completed first.\n- Goal setting means deciding a clear target and working step by step.\n\nCommunication Skills:\nCommunication is the process of sharing ideas, information, and feelings clearly. It can be verbal, non-verbal, written, or visual. Good communication requires listening, polite language, suitable body language, and clear feedback.\n\nEntrepreneurial Skills:\nAn entrepreneur identifies a need, plans a useful solution, manages resources, and takes responsible risks. Entrepreneurial thinking is useful even for students because it builds creativity, problem solving, planning, teamwork, and confidence.\n\nQuick Revision:\n- ICT connects people and information.\n- Cyber safety protects devices, accounts, and privacy.\n- Self-management builds discipline and confidence.\n- Communication improves understanding and teamwork.\n- Entrepreneurial skills help convert ideas into useful action.",
+    "file": "downloads/class9-communication-skills.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "IT",
+    "title": "Presentation Basics Notes",
+    "description": "Original notes for making clear slides, using visuals wisely, and presenting confidently.",
+    "content": "Purpose of a Presentation:\nA presentation explains information to an audience using slides, visuals, and speech. It is useful for school projects, awareness topics, reports, and demonstrations.\n\nSlide Design:\n- Keep one main idea on each slide.\n- Use short points instead of long paragraphs.\n- Choose readable fonts and clear contrast.\n- Align text and images neatly.\n- Use consistent colours.\n\nImages and Charts:\nImages should support the message. A chart is useful when numbers need comparison. Every image or chart should be easy to understand.\n\nDelivery Tips:\nSpeak clearly, face the audience, practise before presenting, and avoid reading every word from the screen.\n\nQuick Practice:\nCreate a five-slide outline on cyber safety: title, problem, safe habits, example, and conclusion.",
+    "file": "downloads/class9-self-management.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "IT",
+    "title": "CBSE Class 9 IT Digital Skills Notes",
+    "description": "Original notes for ICT basics, digital documentation, spreadsheet basics, cyber safety, and responsible computer use.",
+    "content": "ICT Basics:\nICT is the use of digital tools to handle information and communication. A computer accepts input, processes data, stores it, and produces output. Input devices include keyboard, mouse, scanner, microphone, and webcam. Output devices include monitor, printer, speakers, and projector.\n\nDigital Documentation:\nA digital document is a file created using a word processor. It may include text, headings, lists, tables, images, and page settings. A good document has a clear title, readable font, proper spacing, useful headings, and correct spelling.\n\nFormatting Tips:\n- Use bold text only for important words or headings.\n- Keep font size consistent in body paragraphs.\n- Use bullets for lists and numbering for steps.\n- Insert tables when information must be compared.\n- Preview before printing.\n\nSpreadsheet Basics:\nA spreadsheet arranges data in rows and columns. A cell is the box formed by a row and column. Formulas help calculate totals, averages, and other results. Charts help display data visually.\n\nCyber Safety:\nUse strong passwords, avoid suspicious downloads, do not share OTPs, and log out from public computers. Digital footprints can affect future opportunities, so online behaviour should be respectful and careful.\n\nQuick Revision:\n- Hardware can be touched; software gives instructions.\n- A document should be clear, consistent, and readable.\n- A spreadsheet is useful for calculations and data analysis.\n- Safe internet habits protect identity and data.",
+    "file": "downloads/class9-self-management.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "AI",
+    "title": "AI Project Cycle Notes",
+    "description": "Original notes on problem scoping, data acquisition, data exploration, modelling, evaluation, and responsible deployment.",
+    "content": "Problem Scoping:\nProblem scoping defines what issue will be solved, who is affected, why it matters, and how success will be measured.\n\nData Acquisition:\nThis step collects useful data from suitable sources. Data should be relevant, accurate, and collected responsibly.\n\nData Exploration:\nData exploration studies the data using summaries, tables, and charts. It helps find missing values, unusual entries, and useful patterns.\n\nModelling:\nA model learns patterns from data and tries to make predictions or classifications. The model must be tested before use.\n\nEvaluation:\nEvaluation checks whether the model performs well. Accuracy, fairness, safety, and usefulness should all be considered.\n\nResponsible Deployment:\nWhen an AI solution is used, it should be monitored and improved with feedback.",
+    "file": "downloads/class10-ai-project-cycle.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "AI",
+    "title": "CBSE Class 10 AI Employability Skills Notes",
+    "description": "Original CBSE Class 10 AI notes covering communication, self-management, ICT, entrepreneurship, green skills, and AI project thinking.",
+    "content": "Communication Skills-II:\nEffective communication shares information clearly and respectfully. Feedback should be specific, polite, and useful. Barriers such as noise, unclear language, assumptions, and poor listening can reduce understanding.\n\nSelf-Management Skills-II:\nSelf-management includes stress management, self-awareness, self-motivation, goal setting, planning, and responsible independent work. A good plan breaks a large task into small steps and checks progress regularly.\n\nICT Skills-II:\nICT skills include working with an operating system, managing files and folders, caring for devices, protecting against viruses, and using digital tools responsibly. Organised folders and meaningful file names save time.\n\nEntrepreneurial Skills-II:\nEntrepreneurs solve problems by identifying needs, planning solutions, understanding customers, managing resources, and learning from feedback. Responsible entrepreneurship balances profit with quality, honesty, and service.\n\nGreen Skills-II:\nGreen skills support sustainable living. They include saving electricity, reducing waste, reusing materials, conserving water, and choosing environment-friendly practices. Green jobs are work opportunities that protect or restore the environment.\n\nAI Project Thinking:\nAn AI project begins with a clear problem. It needs relevant data, careful modelling, testing, evaluation, and responsible use. A useful AI solution should be accurate, fair, safe, and understandable.\n\nQuick Revision:\n- Communicate clearly and listen actively.\n- Manage stress with planning and healthy routines.\n- Keep files organised and devices secure.\n- Think like an entrepreneur: observe, plan, act, improve.\n- Use technology in a way that supports people and the environment.",
+    "file": "downloads/class10-ai-project-cycle.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "IT",
+    "title": "Digital Skills Portfolio Notes",
+    "description": "Original notes on organising practical IT evidence, screenshots, reflections, files, and review checklists.",
+    "content": "Digital Portfolio:\nA digital portfolio is an organised collection of practical work. It shows what a learner can create and explain.\n\nUseful Evidence:\n- Final document files.\n- Spreadsheet screenshots and charts.\n- Database tables, forms, and reports.\n- Web security notes and safe browsing examples.\n- Short reflections explaining what was learned.\n\nFile Organisation:\nCreate a main folder and use subfolders for each module. Use clear file names such as spreadsheet-marksheet-v1 or dbms-library-report.\n\nReflection:\nReflection explains what was done, what was difficult, and how the work improved. It helps students understand their learning process.\n\nReview Checklist:\nCheck that every file opens, screenshots are readable, personal data is protected, and work is explained in your own words.",
+    "file": "downloads/class10-ict-skills.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "IT",
+    "title": "CBSE Class 10 IT Advanced Skills Notes",
+    "description": "Original notes for advanced documentation, spreadsheets, databases, web applications, and digital security.",
+    "content": "Digital Documentation (Advanced):\nAdvanced documentation uses styles, images, templates, tables of contents, and mail merge. Styles keep headings and paragraphs consistent. Templates save time when the same document format is used repeatedly. Mail merge creates personalised letters, labels, and certificates from one main document and a data source.\n\nElectronic Spreadsheets (Advanced):\nAdvanced spreadsheets use formulas, functions, cell references, sorting, filtering, charts, and validation. Use absolute references when one fixed value must be used in many formulas. Review formulas before copying them across a large table.\n\nDatabase Management System:\nA database stores related data in an organised form. Tables contain records and fields. A primary key uniquely identifies each record. Queries retrieve selected data. Forms help with data entry, and reports present information clearly.\n\nWeb Applications and Security:\nWeb applications run through a browser. Examples include email, online forms, cloud documents, digital payments, and e-learning platforms. Security is important because online accounts and personal data can be misused.\n\nSafe Digital Practices:\n- Use strong, unique passwords.\n- Avoid suspicious links and unknown downloads.\n- Check website addresses carefully.\n- Log out from shared devices.\n- Back up important files.\n- Share personal information only when necessary.\n\nQuick Revision:\n- Styles create consistent documents.\n- Spreadsheets calculate and analyse data.\n- Databases organise related records.\n- Web applications need secure and responsible use.",
+    "file": "downloads/class10-ict-skills.txt"
+  }
+]

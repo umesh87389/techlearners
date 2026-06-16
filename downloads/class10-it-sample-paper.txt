@@ -1,0 +1,23 @@
+CBSE Class 10 IT Practice Sample Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Very Short Answer Questions
+1. What is a style in digital documentation?
+2. What is an absolute cell reference?
+3. Define primary key.
+4. What is a web application?
+5. What is phishing?
+
+Section B: Short Answer Questions
+1. Write two benefits of using templates.
+2. Explain the purpose of data validation in spreadsheets.
+3. Differentiate between a field and a record.
+4. Why are forms useful in a database?
+5. Write two safe browsing practices.
+
+Section C: Application Questions
+1. A school needs personalised certificates for students. Explain how mail merge can help.
+2. A spreadsheet contains marks for 40 students. Explain how to find total, average, highest mark, and lowest mark.
+3. A library wants to store book records. Suggest suitable fields and one primary key.

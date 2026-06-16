@@ -1,0 +1,23 @@
+CBSE Class 9 IT Application Practice Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Objective Questions
+1. Name one output device.
+2. What is a slide?
+3. Which spreadsheet function finds the average?
+4. What is a web browser?
+5. Write one safe password habit.
+
+Section B: Short Answer Questions
+1. Why are headings useful in a document?
+2. Explain the difference between sorting and filtering.
+3. Write two rules for good slide design.
+4. Why should print preview be used?
+5. How does a chart help in a spreadsheet?
+
+Section C: Practical Situations
+1. Prepare a plan for a three-slide presentation on cyber safety.
+2. A teacher has marks for 30 students. Explain how a spreadsheet can calculate total and average.
+3. A document looks crowded. Suggest four formatting improvements.

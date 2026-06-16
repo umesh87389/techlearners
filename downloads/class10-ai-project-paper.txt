@@ -1,0 +1,23 @@
+CBSE Class 10 AI Project-Based Practice Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Objective Questions
+1. What is problem scoping?
+2. Name one data source for an AI project.
+3. What is evaluation?
+4. Write one green workplace habit.
+5. What is self-regulation?
+
+Section B: Short Answer Questions
+1. Explain the role of data exploration.
+2. Why should AI deployment be monitored?
+3. Write two remedies for communication barriers.
+4. How can planning reduce stress?
+5. Why is sustainability important in technology use?
+
+Section C: Case-Based Questions
+1. A school wants to predict attendance risk. Define the problem and suggest three data fields.
+2. An AI model gives unfair results for one group. What checks and improvements should be made?
+3. Plan a green campaign for your classroom using three measurable actions.

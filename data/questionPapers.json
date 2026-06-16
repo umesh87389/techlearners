@@ -1,0 +1,66 @@
+[
+  {
+    "class": "Class 9",
+    "subject": "AI",
+    "title": "CBSE Class 9 AI Skill-Based Practice Paper",
+    "description": "Original second practice paper with scenario-based questions on AI fundamentals, communication, self-management, ICT, and entrepreneurship.",
+    "year": "2026 Set 2",
+    "file": "../../downloads/class9-ai-skill-paper.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "AI",
+    "title": "CBSE Class 9 AI Practice Sample Paper",
+    "description": "Original practice paper covering ICT, self-management, communication, and entrepreneurial skills. Use it for revision before tests.",
+    "year": "2026",
+    "file": "../../downloads/class9-ai-sample-paper.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "IT",
+    "title": "CBSE Class 9 IT Application Practice Paper",
+    "description": "Original second practice paper covering documentation, spreadsheets, presentations, ICT devices, and safe digital habits.",
+    "year": "2026 Set 2",
+    "file": "../../downloads/class9-it-application-paper.txt"
+  },
+  {
+    "class": "Class 9",
+    "subject": "IT",
+    "title": "CBSE Class 9 IT Practice Sample Paper",
+    "description": "Original IT paper covering ICT basics, digital documentation, spreadsheet basics, and cyber safety.",
+    "year": "2026",
+    "file": "../../downloads/class9-it-sample-paper.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "AI",
+    "title": "CBSE Class 10 AI Project-Based Practice Paper",
+    "description": "Original second practice paper focused on AI project cycle, employability skills, green skills, and responsible technology use.",
+    "year": "2026 Set 2",
+    "file": "../../downloads/class10-ai-project-paper.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "AI",
+    "title": "CBSE Class 10 AI Practice Sample Paper",
+    "description": "Original CBSE Class 10 AI paper covering communication, self-management, ICT, entrepreneurship, green skills, and AI project thinking.",
+    "year": "2026",
+    "file": "../../downloads/class10-ai-sample-paper.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "IT",
+    "title": "CBSE Class 10 IT Practical Skills Paper",
+    "description": "Original second practice paper for documentation, spreadsheets, databases, web security, and digital portfolio work.",
+    "year": "2026 Set 2",
+    "file": "../../downloads/class10-it-practical-paper.txt"
+  },
+  {
+    "class": "Class 10",
+    "subject": "IT",
+    "title": "CBSE Class 10 IT Practice Sample Paper",
+    "description": "Original IT paper covering advanced documentation, spreadsheets, DBMS, web applications, and security.",
+    "year": "2026",
+    "file": "../../downloads/class10-it-sample-paper.txt"
+  }
+]

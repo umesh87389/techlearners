@@ -1,0 +1,81 @@
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:50px}
+  .cards,.two{grid-template-columns:1fr 1fr}
+  .learning-hierarchy{grid-template-columns:1fr}
+  .home-updates{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  body{background:var(--body-bg);background-attachment:scroll}
+  body::before{display:none}
+  .menu-btn{display:block}
+  .site-header{backdrop-filter:none;box-shadow:0 4px 18px rgba(84,111,158,.08)}
+  .nav{display:none;position:absolute;top:64px;left:0;right:0;padding:20px;background:var(--nav-bg);flex-direction:column;align-items:flex-start;box-shadow:0 14px 30px rgba(77,111,166,.12)}
+  .nav.show{display:flex}
+  .cards,.two{grid-template-columns:1fr}
+  .site-header{padding:14px 5%}
+  .section,.hero{padding-left:5%;padding-right:5%}
+  .login-page{padding:30px 5%;align-items:start}
+  .colourful-login-card{width:100%;padding:28px 20px;text-align:center}
+  .login-light-card{width:min(410px,100%);padding:30px 22px;text-align:left}
+  .login-light-title,.login-light-subtitle,.login-footer-link,.login-message{text-align:center}
+  .login-eyebrow,.login-benefits{justify-self:center}
+  .login-benefits{justify-content:center}
+  .class-module{grid-template-columns:1fr}
+  .class-module-image{margin-left:-4px;margin-right:-4px;border-radius:18px}
+  .section{content-visibility:auto;contain-intrinsic-size:560px}
+  .hero-card,.card,.form-card,.login-card,.quiz-box,.learning-search,.topic-pills a,.portal-stats span,.highlight,.help-section,.footer,.cookie-banner{backdrop-filter:none}
+  .hero-card,.card,.form-card,.login-card,.quiz-box{border-radius:20px;padding:20px;box-shadow:0 6px 18px rgba(77,111,166,.1)}
+  .card:active{border-color:rgba(8,127,216,.24);box-shadow:0 5px 14px rgba(77,111,166,.1);transition-duration:.08s}
+  .card::before{opacity:.42;height:3px}
+  .card:hover,.subject-link:hover,.social-icon:hover,.btn:hover{transform:none}
+  .float,.fade-up,.hero-platform-tag{animation:none}
+  .card.mobile-scroll-card,.hero-card.mobile-scroll-card,.subject-link.mobile-scroll-card{opacity:1;transform:none}
+  .card.mobile-scroll-card.scroll-effect-visible,.hero-card.mobile-scroll-card.scroll-effect-visible,.subject-link.mobile-scroll-card.scroll-effect-visible{opacity:1;transform:none}
+  .resource-card.mobile-scroll-card.scroll-effect-visible .module-icon,.subject-link.mobile-scroll-card.scroll-effect-visible b{animation:none}
+  .learning-portal::before{opacity:.55}
+  .learning-search{box-shadow:0 6px 18px rgba(77,111,166,.1)}
+  .portal-stats span{box-shadow:0 5px 14px rgba(77,111,166,.08)}
+  .learning-search{grid-template-columns:1fr;padding:8px}
+  .learning-search .btn{width:100%}
+  .section-heading{align-items:flex-start;flex-direction:column}
+  .portal-stats span{min-width:0;flex:1 1 130px}
+  .admin-list-item{align-items:flex-start;flex-direction:column}
+  .footer-grid{grid-template-columns:1fr 1fr;align-items:start}
+  .footer-grid>div:first-child{grid-column:1/-1}
+  .footer-grid>div:nth-child(2){grid-column:1;grid-row:2}
+  .footer-grid>div:nth-child(3){grid-column:1;grid-row:3}
+  .footer-grid>div:nth-child(4){grid-column:2;grid-row:2 / span 2;text-align:right}
+  .footer-grid>div:nth-child(3) .social-links{justify-content:flex-start}
+  .chapter-toc ol{columns:1}
+}
+@media(max-width:700px){.quiz-filter-form{grid-template-columns:1fr}.filter-row{display:grid;grid-template-columns:1fr;gap:10px}.paper-filter{width:100%}}
+@media(max-width:700px){
+  .practice-quiz-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .practice-quiz-tools .btn{width:100%;text-align:center}
+  .practice-question summary{gap:8px}
+  .practice-question summary::after{align-self:flex-start}
+  .admin-filter-grid select,.admin-filter-grid input{width:100%}
+  .exam-card-body{padding:16px 18px 20px}
+  .exam-card-body h2{font-size:1.1rem}
+  .exam-card-body .admin-filter-grid{margin-top:10px}
+  .exam-card-body .admin-filter-grid select,.exam-card-body .admin-filter-grid input{padding:16px 18px;font-size:1rem;min-height:52px}
+  .form-card{padding:18px;gap:12px}
+  .rich-text-toolbar-floating{left:12px!important;right:12px;top:auto!important;bottom:12px;max-width:none;justify-content:center}
+  .rich-text-toolbar button{padding:8px 9px;font-size:.84rem}
+  .form-card .backup-actions{flex-direction:column;gap:8px}
+  .form-card .backup-actions .btn{width:100%;text-align:center}
+  .admin-list-item{gap:12px;padding:14px}
+  .admin-list-item .admin-actions{width:100%;flex-direction:row;justify-content:stretch;gap:8px;margin-top:4px}
+  .admin-list-item .admin-actions .btn{flex:1;text-align:center;padding:10px 12px;font-size:.85rem}
+  .admin-list-item p{font-size:.88rem;word-break:break-word}
+  .admin-public-links{flex-wrap:wrap;gap:6px}
+  .admin-public-links a,.admin-public-links button{flex:1;text-align:center;padding:8px 10px;font-size:.8rem}
+  .admin-link-indicator{font-size:.85rem}
+  .list-box.admin-list .list-item.admin-list-item:first-child{margin-top:0}
+  .backup-actions{flex-direction:column;gap:8px}
+  .backup-actions .btn{width:100%;text-align:center}
+  #quizActions{flex-direction:column;gap:8px}
+  #quizActions .btn{width:100%}
+  .exam-grid{margin-bottom:20px}
+  .admin-list{margin-top:14px}
+}

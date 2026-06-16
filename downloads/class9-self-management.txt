@@ -1,0 +1,23 @@
+CBSE Class 9 IT - Digital Skills Revision Notes
+
+ICT Basics
+ICT means Information and Communication Technology. It includes tools used to create, store, process, and share information. Computers, phones, internet, email, and video meetings are common ICT examples.
+
+Computer System
+A computer accepts input, processes data, stores it, and gives output. Keyboard and mouse are input devices. Monitor and printer are output devices. Storage devices include hard disk, SSD, memory card, and pen drive.
+
+Digital Documentation
+A word processor is used to create documents. A good document has a title, headings, readable paragraphs, lists, tables, and suitable page layout.
+
+Good document habits:
+- Use headings to organise topics.
+- Keep formatting consistent.
+- Use bullets for lists and numbers for steps.
+- Check spelling before sharing.
+- Preview before printing.
+
+Spreadsheet Basics
+A spreadsheet stores data in rows and columns. A cell is the place where data is entered. Formulas calculate values, and charts present data visually.
+
+Cyber Safety
+Use strong passwords, avoid suspicious links, protect personal information, and log out from public devices. Your online actions create a digital footprint, so behave responsibly.

@@ -1,0 +1,21 @@
+CBSE Class 10 IT - Advanced Digital Skills Revision Notes
+
+Digital Documentation Advanced
+Styles keep document formatting consistent. Templates provide reusable designs. A table of contents helps readers navigate long documents. Mail merge creates personalised letters, labels, certificates, and notices from one main document and a data source.
+
+Electronic Spreadsheets Advanced
+Spreadsheets use formulas, functions, references, sorting, filtering, validation, and charts. Use absolute references for fixed values and review formulas before copying them.
+
+Database Management System
+A database stores related data. A table contains records and fields. A primary key uniquely identifies a record. Queries retrieve selected information. Forms help with data entry, and reports present information clearly.
+
+Web Applications and Security
+Web applications run in a browser and support email, cloud documents, online forms, e-learning, banking, and collaboration. Security is important because online data can be misused.
+
+Safe practices:
+- Use strong unique passwords.
+- Avoid suspicious links.
+- Check website addresses.
+- Keep software updated.
+- Back up important files.
+- Protect personal information.

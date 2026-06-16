@@ -1,0 +1,19 @@
+CBSE Class 10 AI - Employability and AI Project Revision Notes
+
+Communication Skills-II
+Clear communication uses suitable words, active listening, useful feedback, and respect for the listener. Barriers such as noise, assumptions, unclear language, and poor attention should be reduced.
+
+Self-Management Skills-II
+Self-management includes stress control, self-awareness, goal setting, planning, and independent work. A student can manage stress by dividing work into smaller tasks and taking healthy breaks.
+
+ICT Skills-II
+ICT skills include file management, folder organisation, device care, operating system basics, virus protection, and safe digital behaviour.
+
+Entrepreneurial Skills-II
+Entrepreneurs identify needs, plan solutions, understand customers, manage resources, and improve through feedback. Honest service and responsible planning are important.
+
+Green Skills-II
+Green skills support sustainable living. Save energy, reduce waste, reuse materials, conserve water, and choose cleaner habits wherever possible.
+
+AI Project Thinking
+An AI project should begin with a clear problem. It needs relevant data, careful model building, testing, evaluation, and responsible use. A useful solution should be accurate, fair, safe, and helpful.

@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /notes/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
+    }
+
+    match /question-papers/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
+    }
+
+    match /advertisements/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3'
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    match /announcements/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3'
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
