@@ -506,3 +506,12 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
   background: rgba(45, 212, 191, 0.12) !important;
   color: var(--accent) !important;
 }
+
+/* Class highlighting in card titles */
+.class-highlight {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
