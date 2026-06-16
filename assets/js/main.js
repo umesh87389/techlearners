@@ -1,3 +1,10 @@
+(function initTheme() {
+  const savedTheme = localStorage.getItem('tl_theme');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const activeTheme = savedTheme || (systemDark ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', activeTheme);
+})();
+
 const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
 })[character]);
@@ -565,6 +572,33 @@ function setupCardTouchTilt() {
   }, { passive: true });
 }
 
+function setupThemeToggle(nav) {
+  if (!nav || document.getElementById('themeToggle')) return;
+  const toggleBtn = document.createElement('button');
+  toggleBtn.id = 'themeToggle';
+  toggleBtn.className = 'theme-toggle-btn';
+  toggleBtn.type = 'button';
+  toggleBtn.setAttribute('aria-label', 'Toggle theme');
+  toggleBtn.innerHTML = `
+    <svg class="theme-toggle-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path class="sun-path" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.32 11.32l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+      <path class="moon-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+    </svg>
+  `;
+  toggleBtn.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('tl_theme', nextTheme);
+  });
+  const loginLink = nav.querySelector('a[href*="login.html"], .nav-user-widget, .btn');
+  if (loginLink) {
+    nav.insertBefore(toggleBtn, loginLink);
+  } else {
+    nav.appendChild(toggleBtn);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   normaliseHomepageUrl();
   document.querySelectorAll('a.brand[href="/"]').forEach(link => {
@@ -576,7 +610,10 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavAuth();
   setupGoToTop();
   const btn = document.getElementById('menuBtn');
-  const nav = document.getElementById('navMenu');
+  const nav = document.getElementById('navMenu') || document.querySelector('.nav');
+  if (nav) {
+    setupThemeToggle(nav);
+  }
   if(btn && nav && !btn.dataset.navToggleReady) {
     btn.dataset.navToggleReady = 'true';
     btn.addEventListener('click', () => nav.classList.toggle('show'));
