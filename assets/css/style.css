@@ -1,4 +1,5 @@
 :root{
+  scroll-behavior:smooth;
   color-scheme:light;
   --bg:#f6f9ff; --card:rgba(255,255,255,.72); --text:#15213b; --muted:#3d4d63;
   --accent:#006874; --accent2:#0054b4; --accent3:#6d28d9; --accent-soft:rgba(230,255,252,.7); --border:rgba(38,104,132,.36);
