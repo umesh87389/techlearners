@@ -439,3 +439,62 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
 [data-theme="dark"] .login-divider b {
   color: var(--muted) !important;
 }
+
+/* Announcement slider styles */
+.announcement-list {
+  display: block !important;
+  position: relative;
+  width: 100%;
+}
+.announcement-slides {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.announcement-item {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              visibility 0.5s ease;
+}
+.announcement-item.active {
+  position: relative !important;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.announcement-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.announcement-indicators .indicator {
+  display: block;
+  padding: 0;
+  border: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 84, 180, 0.18);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="dark"] .announcement-indicators .indicator {
+  background: rgba(255, 255, 255, 0.2);
+}
+.announcement-indicators .indicator.active {
+  background: var(--accent);
+  width: 22px;
+  border-radius: 4px;
+}
+[data-theme="dark"] .announcement-indicators .indicator.active {
+  background: var(--accent2);
+}

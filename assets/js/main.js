@@ -637,13 +637,87 @@ document.addEventListener('DOMContentLoaded', () => {
         message: 'Students can access Class 9 and Class 10 AI/IT notes, MCQs, sample papers, chapter modules, and revision resources.'
       }
     ];
-    const renderAnnouncements = items => items.map(a=>`<article class="announcement-item${a.image ? ' has-image' : ''}">
+
+    const renderAnnouncements = items => {
+      let html = '<div class="announcement-slides">';
+      html += items.map((a, index) => `<article class="announcement-item${a.image ? ' has-image' : ''}${index === 0 ? ' active' : ''}" data-index="${index}">
         ${a.image ? `<img src="${escapeHtml(a.image)}" alt="${escapeHtml(a.title || 'TechLearners announcement image')}">` : '<span class="announcement-item-icon" aria-hidden="true">!</span>'}
         <div><b>${escapeHtml(a.title)}</b><div class="announcement-message rich-text-content">${renderRichText(a.message, { linkify: true })}</div></div>
       </article>`).join('');
+      html += '</div>';
+
+      if (items.length > 1) {
+        html += '<div class="announcement-indicators">';
+        html += items.map((_, index) => `<button class="indicator${index === 0 ? ' active' : ''}" data-index="${index}" aria-label="Go to announcement ${index + 1}" type="button"></button>`).join('');
+        html += '</div>';
+      }
+      return html;
+    };
+
+    const setupSlider = (container) => {
+      const slides = container.querySelectorAll('.announcement-item');
+      const indicators = container.querySelectorAll('.announcement-indicators .indicator');
+      if (slides.length <= 1) return;
+
+      let currentIndex = 0;
+      let slideInterval;
+
+      const showSlide = (index) => {
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+        indicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+        currentIndex = index;
+      };
+
+      const nextSlide = () => {
+        const nextIndex = (currentIndex + 1) % slides.length;
+        showSlide(nextIndex);
+      };
+
+      const startAutoPlay = () => {
+        stopAutoPlay();
+        slideInterval = setInterval(nextSlide, 5000);
+      };
+
+      const stopAutoPlay = () => {
+        if (slideInterval) clearInterval(slideInterval);
+      };
+
+      indicators.forEach((indicator, i) => {
+        indicator.addEventListener('click', () => {
+          showSlide(i);
+          startAutoPlay(); // Reset timer on user interaction
+        });
+      });
+
+      // Pause auto-play when user hovers or focuses on the panel (for accessibility and readability)
+      container.addEventListener('mouseenter', stopAutoPlay);
+      container.addEventListener('mouseleave', startAutoPlay);
+      container.addEventListener('focusin', stopAutoPlay);
+      container.addEventListener('focusout', startAutoPlay);
+
+      startAutoPlay();
+    };
+
     TechLearnersContent.get('announcements', 'data').then(data=>{
-      announcementList.innerHTML = renderAnnouncements(data.length ? data : defaultAnnouncements);
-    }).catch(()=> announcementList.innerHTML=renderAnnouncements(defaultAnnouncements));
+      const items = data.length ? data : defaultAnnouncements;
+      announcementList.innerHTML = renderAnnouncements(items);
+      setupSlider(announcementList);
+    }).catch(()=>{
+      announcementList.innerHTML = renderAnnouncements(defaultAnnouncements);
+      setupSlider(announcementList);
+    });
   }
 
   const focusList = document.getElementById('focusList');
