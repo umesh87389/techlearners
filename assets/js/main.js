@@ -321,6 +321,7 @@ const homepageSearchRoutes = [
 function searchHomepageResources(form) {
   const searchInput = form?.querySelector('input[type="search"]');
   const query = String(searchInput?.value || '').toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!query) return false;
   const match = homepageSearchRoutes.find(route => route.terms.some(term => query.includes(term)));
   location.href = match ? match.url : 'pages/notes/index.html';
   return false;
