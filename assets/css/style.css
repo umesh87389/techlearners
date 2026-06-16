@@ -42,10 +42,20 @@ body::before {
 a{color:inherit;text-decoration:none}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #7c3aed;outline-offset:3px}
 .site-header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 7%;backdrop-filter:blur(14px);background:var(--header-bg);border-bottom:1px solid rgba(255,255,255,.72);box-shadow:0 8px 30px rgba(84,111,158,.08)}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.35rem;letter-spacing:-.04em}
-.brand-mark{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50% 50% 50% 14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-size:.76rem;letter-spacing:.02em;box-shadow:0 10px 24px rgba(22,119,232,.25);transform:rotate(-7deg)}
-.brand-mark::after{content:"";position:absolute;width:46px;height:46px;border:1px solid rgba(8,127,140,.26);border-radius:50%;transform:rotate(35deg)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.35rem;letter-spacing:-.04em;transition:transform 0.3s ease}
+.brand:hover{transform:scale(1.02)}
+.brand-mark{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50% 50% 50% 14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-size:.76rem;letter-spacing:.02em;box-shadow:0 10px 24px rgba(22,119,232,.25);transform:rotate(-7deg);animation:logo-float 4s ease-in-out infinite;transform-origin:center}
+.brand-mark::after{content:"";position:absolute;width:46px;height:46px;border:1px solid rgba(8,127,140,.26);border-radius:50%;transform:rotate(35deg);animation:logo-orbit 15s linear infinite;transform-origin:center}
 .brand-accent{color:var(--accent)}
+
+@keyframes logo-float{
+  0%,100%{transform:rotate(-7deg) translateY(0)}
+  50%{transform:rotate(-3deg) translateY(-2px)}
+}
+@keyframes logo-orbit{
+  from{transform:rotate(35deg)}
+  to{transform:rotate(395deg)}
+}
 .nav{display:flex;gap:18px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
 .nav a{color:var(--muted);font-weight:600;font-size:.9rem}
 .nav a:hover{color:var(--accent)}
