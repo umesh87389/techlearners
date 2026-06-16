@@ -567,6 +567,9 @@ function setupCardTouchTilt() {
 
 document.addEventListener('DOMContentLoaded', () => {
   normaliseHomepageUrl();
+  document.querySelectorAll('a.brand[href="/"]').forEach(link => {
+    link.href = getSiteRoot() + 'index.html';
+  });
   setupButtonClickFeedback();
   setupMobileCardScrollEffects();
   setupCookieNotice();
