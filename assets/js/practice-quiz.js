@@ -210,6 +210,25 @@
     requestAnimationFrame(() => {
       scoreText.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
+
+    // Highlight correct / incorrect answers
+    quizData.forEach((question, index) => {
+      const selected = document.querySelector(`input[name="practice-q${index}"]:checked`);
+      const options = document.querySelectorAll(`input[name="practice-q${index}"]`);
+      
+      options.forEach(input => {
+        const label = input.closest('label');
+        if (!label) return;
+        input.disabled = true;
+        const val = Number(input.value);
+        if (val === question.answer) {
+          label.classList.add('answer-correct');
+        } else if (selected && val === Number(selected.value) && val !== question.answer) {
+          label.classList.add('answer-wrong');
+        }
+      });
+    });
+
     const score = quizData.reduce((total, question, index) => {
       const selected = document.querySelector(`input[name="practice-q${index}"]:checked`);
       return total + (selected && Number(selected.value) === question.answer ? 1 : 0);

@@ -369,3 +369,73 @@ code{color:var(--accent)}
 body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .site-header, .brand, .nav a, .theme-toggle-btn {
   transition: background 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
+
+/* Practice Quiz answer highlights */
+.practice-options label.answer-correct {
+  border-color: #059669 !important;
+  background: rgba(5, 150, 105, 0.1) !important;
+  color: #047857 !important;
+}
+.practice-options label.answer-wrong {
+  border-color: #dc2626 !important;
+  background: rgba(220, 38, 38, 0.1) !important;
+  color: #b91c1c !important;
+}
+[data-theme="dark"] .practice-options label.answer-correct {
+  border-color: #34d399 !important;
+  background: rgba(52, 211, 153, 0.15) !important;
+  color: #34d399 !important;
+}
+[data-theme="dark"] .practice-options label.answer-wrong {
+  border-color: #f87171 !important;
+  background: rgba(248, 113, 113, 0.15) !important;
+  color: #f87171 !important;
+}
+
+/* Dark theme overrides for MCQ and login cards to fix contrast and white card flash */
+[data-theme="dark"] .mcq-options li {
+  background: rgba(20, 30, 55, 0.5) !important;
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .login-light-page {
+  background: var(--bg) !important;
+  border-color: rgba(96, 165, 250, 0.1) !important;
+}
+[data-theme="dark"] .login-light-card {
+  background: var(--card) !important;
+  border-color: rgba(96, 165, 250, 0.15) !important;
+  box-shadow: var(--shadow) !important;
+}
+[data-theme="dark"] .login-light-title,
+[data-theme="dark"] .login-light-brand-name {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .login-light-subtitle,
+[data-theme="dark"] .login-light-field,
+[data-theme="dark"] .login-remember {
+  color: var(--muted) !important;
+}
+[data-theme="dark"] .login-light-field input {
+  background: var(--input-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+[data-theme="dark"] .login-light-field input:focus {
+  border-color: var(--accent) !important;
+}
+[data-theme="dark"] .login-google-button {
+  background: var(--input-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+[data-theme="dark"] .login-google-button:hover {
+  background: var(--card) !important;
+  border-color: var(--accent) !important;
+}
+[data-theme="dark"] .login-divider span {
+  background: var(--border) !important;
+}
+[data-theme="dark"] .login-divider b {
+  color: var(--muted) !important;
+}
