@@ -139,6 +139,9 @@ function loadRevisionPaperDetail() {
         ${next ? `<a class="btn small" href="${escapeRevisionHtml(revisionPaperDetailUrl(next))}">Next paper</a>` : ''}
       </div>`;
     setupRevisionPaperHandlers(box);
+    requestAnimationFrame(() => {
+      box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }).catch(error => {
     box.innerHTML = `<div class="notice">${escapeRevisionHtml(error.message || 'Unable to load this revision paper.')}</div>`;
   });

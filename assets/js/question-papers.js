@@ -121,6 +121,9 @@ function loadPaperDetail() {
         ${next ? `<a class="btn small" href="${escapePaperHtml(paperDetailUrl(next))}">Next paper</a>` : ''}
       </div>`;
     setupPaperShareHandlers(box);
+    requestAnimationFrame(() => {
+      box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }).catch(error => {
     box.innerHTML = `<div class="notice">${escapePaperHtml(error.message || 'Unable to load this sample paper.')}</div>`;
   });
