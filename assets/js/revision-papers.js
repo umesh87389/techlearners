@@ -148,7 +148,7 @@ function scrollToRevisionPaperBrowser() {
   const target = document.getElementById('browseRevisionPapers') || document.getElementById('revisionPapersList');
   if (!target) return;
   const top = target.getBoundingClientRect().top + window.scrollY - 90;
-  window.setTimeout(() => window.scrollTo(0, Math.max(0, top)), 80);
+  window.setTimeout(() => window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' }), 80);
 }
 
 document.addEventListener('click', event => {
