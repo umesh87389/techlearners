@@ -56,7 +56,7 @@
     submitBtn.disabled = !allAnswered;
     submitBtn.title = allAnswered ? 'Submit your answers' : 'Answer all questions to submit';
     let warning = document.getElementById('quizWarning');
-    if (total && !allAnswered) {
+    if (total && !allAnswered && currentQuestionIndex === total - 1 && !isSubmitted) {
       if (!warning) {
         warning = document.createElement('p');
         warning.id = 'quizWarning';
@@ -164,6 +164,7 @@
 
     renderQuizTools();
     scoreText.textContent = '';
+    scoreText.className = 'quiz-result';
     document.getElementById('submitQuizButton').disabled = true;
     updateProgress();
     updateQuizVisibility();
@@ -331,7 +332,6 @@
       currentQuestionIndex--;
       updateQuizVisibility();
       saveQuizState();
-      scrollToContent();
     }
   });
   document.getElementById('nextQuizButton')?.addEventListener('click', () => {
@@ -339,7 +339,6 @@
       currentQuestionIndex++;
       updateQuizVisibility();
       saveQuizState();
-      scrollToContent();
     }
   });
   document.getElementById('restartQuizButton').addEventListener('click', () => {
@@ -371,8 +370,12 @@
     saveQuizState();
     updateQuizVisibility();
     renderQuizTools();
+    const root = document.documentElement;
+    const original = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    scoreText.scrollIntoView({ behavior: 'auto', block: 'center' });
     requestAnimationFrame(() => {
-      scoreText.scrollIntoView({ behavior: 'auto', block: 'center' });
+      root.style.scrollBehavior = original;
     });
 
     applySubmittedResults();
