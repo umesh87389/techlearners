@@ -640,9 +640,10 @@
   let isIndexed = false;
 
   let chatFlowState = {
-    step: 'none', // 'none', 'waiting_for_menu', 'waiting_for_class'
+    step: 'none', // 'none', 'waiting_for_menu', 'waiting_for_class', 'waiting_for_subject'
     choice: null, // 'notes', 'mcqs', 'papers', 'chapters'
-    selectedClass: null // 'class 9', 'class 10'
+    selectedClass: null, // 'class 9', 'class 10'
+    selectedSubject: null // 'ai', 'it'
   };
 
   async function buildSearchIndex() {
@@ -666,14 +667,15 @@
   }
 
   // UI Helpers
-  function updateHeader(className = null) {
+  function updateHeader(className = null, subjectName = null) {
     const headerTitle = widget.querySelector('.tl-chat-header-title h3');
     const headerStatus = widget.querySelector('.tl-chat-status-text');
     if (!headerTitle || !headerStatus) return;
     if (className) {
       const clsUpper = className.toUpperCase();
-      headerTitle.innerHTML = `TechLearners Assistant <span style="color:#00f2fe;font-size:0.85em;">(${clsUpper})</span>`;
-      headerStatus.textContent = `${clsUpper} Mode Active`;
+      const subUpper = subjectName ? ` ${subjectName.toUpperCase()}` : '';
+      headerTitle.innerHTML = `TechLearners Assistant <span style="color:#00f2fe;font-size:0.85em;">(${clsUpper}${subUpper})</span>`;
+      headerStatus.textContent = `${clsUpper}${subUpper} Mode Active`;
     } else {
       headerTitle.textContent = "TechLearners Assistant";
       headerStatus.textContent = "Online Study AI";
@@ -684,6 +686,7 @@
     chatFlowState.step = 'waiting_for_menu';
     chatFlowState.choice = null;
     chatFlowState.selectedClass = null;
+    chatFlowState.selectedSubject = null;
     updateHeader(null);
     addBotMessage("Hi! I'm your **TechLearners Assistant** 🤖. How can I help you today? Please choose an option from the menu:");
     showSuggestions([
@@ -838,18 +841,35 @@
     // Step-by-Step Flow: waiting for class selection
     if (chatFlowState.step === 'waiting_for_class') {
       if (lower.includes('9') || lower.includes('class 9') || lower.includes('class9')) {
-        chatFlowState.step = 'none';
         chatFlowState.selectedClass = 'class 9';
-        updateHeader('class 9');
-        addBotMessage("Perfect! I've configured the chatbot for **Class 9**.");
-        deliverChoiceContent(chatFlowState.choice, 'class 9');
+        chatFlowState.step = 'waiting_for_subject';
+        addBotMessage("Got it! Which subject would you like to explore?");
+        showSuggestions(["AI (Artificial Intelligence)", "IT (Information Technology)", "Back to Menu"]);
         return;
       } else if (lower.includes('10') || lower.includes('class 10') || lower.includes('class10')) {
-        chatFlowState.step = 'none';
         chatFlowState.selectedClass = 'class 10';
-        updateHeader('class 10');
-        addBotMessage("Perfect! I've configured the chatbot for **Class 10**.");
-        deliverChoiceContent(chatFlowState.choice, 'class 10');
+        chatFlowState.step = 'waiting_for_subject';
+        addBotMessage("Got it! Which subject would you like to explore?");
+        showSuggestions(["AI (Artificial Intelligence)", "IT (Information Technology)", "Back to Menu"]);
+        return;
+      }
+    }
+
+    // Step-by-Step Flow: waiting for subject selection
+    if (chatFlowState.step === 'waiting_for_subject') {
+      let subject = null;
+      if (lower.includes('ai') || lower.includes('artificial intelligence') || lower === 'ai') {
+        subject = 'ai';
+      } else if (lower.includes('it') || lower.includes('information technology') || lower === 'it') {
+        subject = 'it';
+      }
+
+      if (subject) {
+        chatFlowState.step = 'none';
+        chatFlowState.selectedSubject = subject;
+        updateHeader(chatFlowState.selectedClass, subject);
+        addBotMessage(`Perfect! I've configured the chatbot for **${chatFlowState.selectedClass.toUpperCase()} ${subject.toUpperCase()}**.`);
+        deliverChoiceContent(chatFlowState.choice, chatFlowState.selectedClass, subject);
         return;
       }
     }
@@ -857,9 +877,15 @@
     // Check if user selected or typed a choice
     if (choices[lower]) {
       const choice = choices[lower];
-      if (chatFlowState.selectedClass) {
+      if (chatFlowState.selectedClass && chatFlowState.selectedSubject) {
         chatFlowState.step = 'none';
-        deliverChoiceContent(choice, chatFlowState.selectedClass);
+        deliverChoiceContent(choice, chatFlowState.selectedClass, chatFlowState.selectedSubject);
+        return;
+      } else if (chatFlowState.selectedClass) {
+        chatFlowState.choice = choice;
+        chatFlowState.step = 'waiting_for_subject';
+        addBotMessage("Got it! Which subject would you like to explore?");
+        showSuggestions(["AI (Artificial Intelligence)", "IT (Information Technology)", "Back to Menu"]);
         return;
       } else {
         chatFlowState.choice = choice;
@@ -874,7 +900,8 @@
     if (lower === 'class 9 ai' || lower === '🤖 class 9 ai') {
       chatFlowState.step = 'none';
       chatFlowState.selectedClass = 'class 9';
-      updateHeader('class 9');
+      chatFlowState.selectedSubject = 'ai';
+      updateHeader('class 9', 'ai');
       handleCategorySearch('class 9', 'ai');
       return;
     }
@@ -882,24 +909,27 @@
     if (lower === 'class 10 it' || lower === '💻 class 10 it') {
       chatFlowState.step = 'none';
       chatFlowState.selectedClass = 'class 10';
-      updateHeader('class 10');
+      chatFlowState.selectedSubject = 'it';
+      updateHeader('class 10', 'it');
       handleCategorySearch('class 10', 'it');
       return;
     }
 
     if (lower === '📚 class 9 notes') {
-      chatFlowState.step = 'none';
+      chatFlowState.choice = 'notes';
       chatFlowState.selectedClass = 'class 9';
-      updateHeader('class 9');
-      handleNotesCategory('class 9');
+      chatFlowState.step = 'waiting_for_subject';
+      addBotMessage("Got it! Which subject would you like to explore for Class 9 Notes?");
+      showSuggestions(["AI (Artificial Intelligence)", "IT (Information Technology)", "Back to Menu"]);
       return;
     }
 
     if (lower === '📚 class 10 notes') {
-      chatFlowState.step = 'none';
+      chatFlowState.choice = 'notes';
       chatFlowState.selectedClass = 'class 10';
-      updateHeader('class 10');
-      handleNotesCategory('class 10');
+      chatFlowState.step = 'waiting_for_subject';
+      addBotMessage("Got it! Which subject would you like to explore for Class 10 Notes?");
+      showSuggestions(["AI (Artificial Intelligence)", "IT (Information Technology)", "Back to Menu"]);
       return;
     }
 
@@ -945,8 +975,11 @@
     deliverSuggestionsAfterChoice(null);
   }
 
-  function handleNotesCategory(className) {
-    const matchingNotes = searchIndex.notes.filter(n => n.class.toLowerCase().includes(className));
+  function handleNotesCategory(className, subjectName) {
+    const matchingNotes = searchIndex.notes.filter(n => 
+      n.class.toLowerCase().includes(className) &&
+      (subjectName ? n.subject.toLowerCase() === subjectName : true)
+    );
     const cards = matchingNotes.map(n => ({
       meta: `${n.class} ${n.subject} - Notes`,
       title: n.title,
@@ -955,34 +988,40 @@
       linkLabel: "Read Notes"
     }));
 
+    const subLabel = subjectName ? ` ${subjectName.toUpperCase()}` : '';
     if (cards.length) {
-      addBotMessage(`Here are the study notes for **${className.toUpperCase()}**:`, cards);
+      addBotMessage(`Here are the study notes for **${className.toUpperCase()}${subLabel}**:`, cards);
     } else {
-      addBotMessage(`Sorry, I couldn't find any notes for ${className}.`);
+      addBotMessage(`Sorry, I couldn't find any notes for ${className}${subLabel}.`);
     }
     deliverSuggestionsAfterChoice('notes');
   }
 
-  function deliverChoiceContent(choice, className) {
+  function deliverChoiceContent(choice, className, subjectName) {
     chatFlowState.selectedClass = className;
-    updateHeader(className);
+    chatFlowState.selectedSubject = subjectName;
+    updateHeader(className, subjectName);
 
     if (choice === 'notes') {
-      handleNotesCategory(className);
+      handleNotesCategory(className, subjectName);
     } else if (choice === 'mcqs') {
-      const matchingQuizzes = searchIndex.quizzes.filter(q => q.class.toLowerCase().includes(className));
+      const matchingQuizzes = searchIndex.quizzes.filter(q => 
+        q.class.toLowerCase().includes(className) && 
+        (subjectName ? q.subject.toLowerCase() === subjectName : true)
+      );
       const chaptersList = [...new Set(matchingQuizzes.map(q => q.chapter))].filter(Boolean);
       
-      addBotMessage(`Here are the practice MCQ resources for **${className.toUpperCase()}**:`, [
+      const subLabel = subjectName ? subjectName.toUpperCase() : 'AI/IT';
+      addBotMessage(`Here are the practice MCQ resources for **${className.toUpperCase()} ${subLabel}**:`, [
         {
-          meta: `${className.toUpperCase()} Quiz`,
+          meta: `${className.toUpperCase()} ${subLabel} Quiz`,
           title: "Launch Practice Quiz",
-          desc: `Practice Class 9/10 AI and IT questions from chapters: ${chaptersList.slice(0, 3).join(', ')}...`,
-          link: pathPrefix + `pages/quiz/index.html?class=${encodeURIComponent(className === 'class 9' ? 'Class 9' : 'Class 10')}`,
+          desc: `Practice ${className} ${subLabel} questions from chapters: ${chaptersList.slice(0, 3).join(', ')}...`,
+          link: pathPrefix + `pages/quiz/index.html?class=${encodeURIComponent(className === 'class 9' ? 'Class 9' : 'Class 10')}&subject=${encodeURIComponent(subjectName === 'ai' ? 'AI' : 'IT')}`,
           linkLabel: "Open Quiz"
         },
         {
-          meta: `${className.toUpperCase()} MCQs`,
+          meta: `${className.toUpperCase()} ${subLabel} MCQs`,
           title: "MCQ Resources Page",
           desc: "Browse offline chapter question banks and downloads.",
           link: pathPrefix + "pages/quizzes/index.html",
@@ -991,11 +1030,19 @@
       ]);
       deliverSuggestionsAfterChoice('mcqs');
     } else if (choice === 'papers') {
-      const matchingPapers = searchIndex.papers.filter(p => p.class.toLowerCase().includes(className));
-      showItems(matchingPapers, "papers", `Here are the sample papers and practice sheets I found for **${className.toUpperCase()}**:`);
+      const matchingPapers = searchIndex.papers.filter(p => 
+        p.class.toLowerCase().includes(className) && 
+        (subjectName ? p.subject.toLowerCase() === subjectName : true)
+      );
+      const subLabel = subjectName ? ` ${subjectName.toUpperCase()}` : '';
+      showItems(matchingPapers, "papers", `Here are the sample papers and practice sheets I found for **${className.toUpperCase()}${subLabel}**:`);
     } else if (choice === 'chapters') {
-      const matchingChapters = searchIndex.chapters.filter(c => c.class.toLowerCase().includes(className));
-      showItems(matchingChapters, "chapters", `Here are the learning chapters and syllabus units for **${className.toUpperCase()}**:`);
+      const matchingChapters = searchIndex.chapters.filter(c => 
+        c.class.toLowerCase().includes(className) && 
+        (subjectName ? c.subject.toLowerCase() === subjectName : true)
+      );
+      const subLabel = subjectName ? ` ${subjectName.toUpperCase()}` : '';
+      showItems(matchingChapters, "chapters", `Here are the learning chapters and syllabus units for **${className.toUpperCase()}${subLabel}**:`);
     }
   }
 
@@ -1063,12 +1110,14 @@
       return searchTerms.some(term => txt.includes(term));
     };
 
-    // Filter by class context if active
+    // Filter by class and subject context if active
     const selectedClass = chatFlowState.selectedClass;
+    const selectedSubject = chatFlowState.selectedSubject;
 
     // Search Chapters
     searchIndex.chapters.forEach(c => {
       if (selectedClass && !c.class.toLowerCase().includes(selectedClass)) return;
+      if (selectedSubject && c.subject.toLowerCase() !== selectedSubject) return;
       if (matchesSearch(c.title) || matchesSearch(c.description) || (c.unit && matchesSearch(c.unit))) {
         const key = `chapter|${c.title}`;
         if (!addedTitles.has(key)) {
@@ -1087,6 +1136,7 @@
     // Search Notes
     searchIndex.notes.forEach(n => {
       if (selectedClass && !n.class.toLowerCase().includes(selectedClass)) return;
+      if (selectedSubject && n.subject.toLowerCase() !== selectedSubject) return;
       if (matchesSearch(n.title) || matchesSearch(n.description) || matchesSearch(n.content)) {
         const key = `notes|${n.title}`;
         if (!addedTitles.has(key)) {
@@ -1105,6 +1155,7 @@
     // Search Question Papers
     searchIndex.papers.forEach(p => {
       if (selectedClass && !p.class.toLowerCase().includes(selectedClass)) return;
+      if (selectedSubject && p.subject.toLowerCase() !== selectedSubject) return;
       if (matchesSearch(p.title) || matchesSearch(p.description) || (p.year && matchesSearch(p.year))) {
         const key = `paper|${p.title}`;
         if (!addedTitles.has(key)) {
