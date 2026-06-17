@@ -621,6 +621,15 @@
     trigger.innerHTML = chatBubbleIcon;
   });
 
+  // Prevent scroll propagation to body/main page
+  widget.addEventListener('wheel', (e) => {
+    e.stopPropagation();
+  }, { passive: true });
+
+  widget.addEventListener('touchmove', (e) => {
+    e.stopPropagation();
+  }, { passive: true });
+
   // Website Content Index
   let searchIndex = {
     chapters: [],
