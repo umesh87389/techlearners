@@ -14,7 +14,7 @@
     .tl-chat-trigger {
       position: fixed;
       bottom: 24px;
-      right: 24px;
+      right: 88px;
       width: 58px;
       height: 58px;
       border-radius: 50%;
@@ -417,6 +417,21 @@
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    @media (max-width: 700px) {
+      .tl-chat-trigger {
+        right: 76px;
+        bottom: 16px;
+        width: 50px;
+        height: 50px;
+      }
+      .tl-chat-widget {
+        right: 16px;
+        bottom: 78px;
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 100px);
+      }
+    }
   `;
   document.head.appendChild(style);
 
@@ -622,6 +637,20 @@
   function processQuery(query) {
     const lower = query.toLowerCase().trim();
     
+    const greetings = ['hi', 'hello', 'hey', 'hy', 'hola', 'greetings', 'yo', 'good morning', 'good afternoon', 'good evening'];
+    const matchesGreeting = greetings.some(g => lower === g || lower.startsWith(g + ' ') || lower.startsWith('hello ') || lower.startsWith('hi '));
+
+    if (matchesGreeting) {
+      addBotMessage("Hello! 👋 I'm your TechLearners Assistant. How can I help you with Class 9/10 AI and IT today?\n\nYou can search for specific chapters (e.g. *'Green Skills'*), study notes, or sample papers.");
+      showSuggestions([
+        "📚 Browse Notes",
+        "📄 Sample Papers",
+        "📝 MCQ Practice",
+        "Back to Menu"
+      ]);
+      return;
+    }
+
     // Exact menus
     if (lower === 'back to menu') {
       showWelcome();
