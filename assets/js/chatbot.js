@@ -639,6 +639,12 @@
   };
   let isIndexed = false;
 
+  let chatFlowState = {
+    step: 'none', // 'none', 'waiting_for_menu', 'waiting_for_class'
+    choice: null, // 'notes', 'mcqs', 'papers', 'chapters'
+    selectedClass: null // 'class 9', 'class 10'
+  };
+
   async function buildSearchIndex() {
     if (isIndexed || typeof TechLearnersContent === 'undefined') return;
     try {
@@ -660,14 +666,31 @@
   }
 
   // UI Helpers
+  function updateHeader(className = null) {
+    const headerTitle = widget.querySelector('.tl-chat-header-title h3');
+    const headerStatus = widget.querySelector('.tl-chat-status-text');
+    if (!headerTitle || !headerStatus) return;
+    if (className) {
+      const clsUpper = className.toUpperCase();
+      headerTitle.innerHTML = `TechLearners Assistant <span style="color:#00f2fe;font-size:0.85em;">(${clsUpper})</span>`;
+      headerStatus.textContent = `${clsUpper} Mode Active`;
+    } else {
+      headerTitle.textContent = "TechLearners Assistant";
+      headerStatus.textContent = "Online Study AI";
+    }
+  }
+
   function showWelcome() {
-    addBotMessage("Hi! I'm your **TechLearners Assistant** 🤖. I've indexed all chapters, revision notes, practice questions, and sample papers on this website.\n\nAsk me anything! For example: *'Show me Green Skills notes'* or *'Class 9 AI chapters'*.");
+    chatFlowState.step = 'waiting_for_menu';
+    chatFlowState.choice = null;
+    chatFlowState.selectedClass = null;
+    updateHeader(null);
+    addBotMessage("Hi! I'm your **TechLearners Assistant** 🤖. How can I help you today? Please choose an option from the menu:");
     showSuggestions([
       "📚 Browse Notes",
       "📝 MCQ Practice",
       "📄 Sample Papers",
-      "🤖 Class 9 AI",
-      "💻 Class 10 IT"
+      "📖 View Chapters"
     ]);
     buildSearchIndex();
   }
@@ -773,75 +796,115 @@
     const matchesGreeting = greetings.some(g => lower === g || lower.startsWith(g + ' ') || lower.startsWith('hello ') || lower.startsWith('hi '));
 
     if (matchesGreeting) {
-      addBotMessage("Hello! 👋 I'm your TechLearners Assistant. How can I help you with Class 9/10 AI and IT today?\n\nYou can search for specific chapters (e.g. *'Green Skills'*), study notes, or sample papers.");
+      chatFlowState.step = 'waiting_for_menu';
+      chatFlowState.choice = null;
+      addBotMessage("Hello! 👋 I'm your TechLearners Assistant. What would you like to explore today? Please select an option:");
       showSuggestions([
         "📚 Browse Notes",
-        "📄 Sample Papers",
         "📝 MCQ Practice",
-        "Back to Menu"
+        "📄 Sample Papers",
+        "📖 View Chapters"
       ]);
       return;
     }
 
     // Exact menus
-    if (lower === 'back to menu') {
+    if (lower === 'back to menu' || lower === 'menu') {
       showWelcome();
       return;
     }
 
-    if (lower.includes('browse notes') || lower === 'notes') {
-      addBotMessage("Which class do you want notes for? I have comprehensive notes covering all employability and subject specific skills.");
-      showSuggestions(["📚 Class 9 Notes", "📚 Class 10 Notes", "Back to Menu"]);
-      return;
+    // Define choices
+    const choices = {
+      'browse notes': 'notes',
+      '📚 browse notes': 'notes',
+      'notes': 'notes',
+      '📚 notes': 'notes',
+      'mcq practice': 'mcqs',
+      '📝 mcq practice': 'mcqs',
+      'mcqs': 'mcqs',
+      '📝 mcqs': 'mcqs',
+      'practice mcq': 'mcqs',
+      'sample papers': 'papers',
+      '📄 sample papers': 'papers',
+      'papers': 'papers',
+      '📄 papers': 'papers',
+      'view chapters': 'chapters',
+      '📖 view chapters': 'chapters',
+      'chapters': 'chapters',
+      '📖 chapters': 'chapters'
+    };
+
+    // Step-by-Step Flow: waiting for class selection
+    if (chatFlowState.step === 'waiting_for_class') {
+      if (lower.includes('9') || lower.includes('class 9') || lower.includes('class9')) {
+        chatFlowState.step = 'none';
+        chatFlowState.selectedClass = 'class 9';
+        updateHeader('class 9');
+        addBotMessage("Perfect! I've configured the chatbot for **Class 9**.");
+        deliverChoiceContent(chatFlowState.choice, 'class 9');
+        return;
+      } else if (lower.includes('10') || lower.includes('class 10') || lower.includes('class10')) {
+        chatFlowState.step = 'none';
+        chatFlowState.selectedClass = 'class 10';
+        updateHeader('class 10');
+        addBotMessage("Perfect! I've configured the chatbot for **Class 10**.");
+        deliverChoiceContent(chatFlowState.choice, 'class 10');
+        return;
+      }
     }
 
-    if (lower.includes('mcq practice') || lower.includes('practice quiz') || lower.includes('practice mcq')) {
-      addBotMessage("You can practice interactive CBSE quizzes directly on the website with instant grading!", [
-        {
-          meta: "Practice Quiz",
-          title: "Interactive Practice Quiz Section",
-          desc: "CBSE Class 9 & Class 10 AI and IT quizzes. One question at a time.",
-          link: pathPrefix + "pages/quiz/index.html",
-          linkLabel: "Launch Practice Quiz"
-        },
-        {
-          meta: "MCQ Resources",
-          title: "All MCQs and Study Material",
-          desc: "Chapter-wise PDF downloads and offline MCQ question banks.",
-          link: pathPrefix + "pages/quizzes/index.html",
-          linkLabel: "Go to MCQ Resources"
-        }
-      ]);
-      showSuggestions(["Back to Menu"]);
-      return;
+    // Check if user selected or typed a choice
+    if (choices[lower]) {
+      const choice = choices[lower];
+      if (chatFlowState.selectedClass) {
+        chatFlowState.step = 'none';
+        deliverChoiceContent(choice, chatFlowState.selectedClass);
+        return;
+      } else {
+        chatFlowState.choice = choice;
+        chatFlowState.step = 'waiting_for_class';
+        addBotMessage("Great choice! Which class are you in?");
+        showSuggestions(["Class 9", "Class 10", "Back to Menu"]);
+        return;
+      }
     }
 
-    if (lower.includes('sample papers') || lower.includes('question papers') || lower === 'papers') {
-      showItems(searchIndex.papers, "papers", "Here are the CBSE Class 9 & 10 sample papers and practice worksheets I found:");
-      return;
-    }
-
+    // Direct Class-specific commands/searches (skip menu flow)
     if (lower === 'class 9 ai' || lower === '🤖 class 9 ai') {
+      chatFlowState.step = 'none';
+      chatFlowState.selectedClass = 'class 9';
+      updateHeader('class 9');
       handleCategorySearch('class 9', 'ai');
       return;
     }
     
     if (lower === 'class 10 it' || lower === '💻 class 10 it') {
+      chatFlowState.step = 'none';
+      chatFlowState.selectedClass = 'class 10';
+      updateHeader('class 10');
       handleCategorySearch('class 10', 'it');
       return;
     }
 
     if (lower === '📚 class 9 notes') {
+      chatFlowState.step = 'none';
+      chatFlowState.selectedClass = 'class 9';
+      updateHeader('class 9');
       handleNotesCategory('class 9');
       return;
     }
 
     if (lower === '📚 class 10 notes') {
+      chatFlowState.step = 'none';
+      chatFlowState.selectedClass = 'class 10';
+      updateHeader('class 10');
       handleNotesCategory('class 10');
       return;
     }
 
-    // Keyword Search
+    // If they typed something else during menu or class expectation, reset step flow and search
+    chatFlowState.step = 'none';
     performKeywordSearch(lower);
   }
 
@@ -879,7 +942,7 @@
     } else {
       addBotMessage(`I couldn't find any specific matches for ${className} ${subjectName}.`);
     }
-    showSuggestions(["Back to Menu"]);
+    deliverSuggestionsAfterChoice(null);
   }
 
   function handleNotesCategory(className) {
@@ -897,7 +960,58 @@
     } else {
       addBotMessage(`Sorry, I couldn't find any notes for ${className}.`);
     }
-    showSuggestions(["Back to Menu"]);
+    deliverSuggestionsAfterChoice('notes');
+  }
+
+  function deliverChoiceContent(choice, className) {
+    chatFlowState.selectedClass = className;
+    updateHeader(className);
+
+    if (choice === 'notes') {
+      handleNotesCategory(className);
+    } else if (choice === 'mcqs') {
+      const matchingQuizzes = searchIndex.quizzes.filter(q => q.class.toLowerCase().includes(className));
+      const chaptersList = [...new Set(matchingQuizzes.map(q => q.chapter))].filter(Boolean);
+      
+      addBotMessage(`Here are the practice MCQ resources for **${className.toUpperCase()}**:`, [
+        {
+          meta: `${className.toUpperCase()} Quiz`,
+          title: "Launch Practice Quiz",
+          desc: `Practice Class 9/10 AI and IT questions from chapters: ${chaptersList.slice(0, 3).join(', ')}...`,
+          link: pathPrefix + `pages/quiz/index.html?class=${encodeURIComponent(className === 'class 9' ? 'Class 9' : 'Class 10')}`,
+          linkLabel: "Open Quiz"
+        },
+        {
+          meta: `${className.toUpperCase()} MCQs`,
+          title: "MCQ Resources Page",
+          desc: "Browse offline chapter question banks and downloads.",
+          link: pathPrefix + "pages/quizzes/index.html",
+          linkLabel: "Open Resources"
+        }
+      ]);
+      deliverSuggestionsAfterChoice('mcqs');
+    } else if (choice === 'papers') {
+      const matchingPapers = searchIndex.papers.filter(p => p.class.toLowerCase().includes(className));
+      showItems(matchingPapers, "papers", `Here are the sample papers and practice sheets I found for **${className.toUpperCase()}**:`);
+    } else if (choice === 'chapters') {
+      const matchingChapters = searchIndex.chapters.filter(c => c.class.toLowerCase().includes(className));
+      showItems(matchingChapters, "chapters", `Here are the learning chapters and syllabus units for **${className.toUpperCase()}**:`);
+    }
+  }
+
+  function deliverSuggestionsAfterChoice(choice) {
+    if (chatFlowState.selectedClass) {
+      const otherChoices = [
+        choice !== 'notes' ? "📚 Notes" : null,
+        choice !== 'mcqs' ? "📝 MCQs" : null,
+        choice !== 'papers' ? "📄 Papers" : null,
+        choice !== 'chapters' ? "📖 Chapters" : null,
+        "Back to Menu"
+      ].filter(Boolean);
+      showSuggestions(otherChoices);
+    } else {
+      showSuggestions(["Back to Menu"]);
+    }
   }
 
   function showItems(items, type, welcomeText) {
@@ -929,7 +1043,7 @@
     } else {
       addBotMessage("I couldn't find any documents matching that category.");
     }
-    showSuggestions(["Back to Menu"]);
+    deliverSuggestionsAfterChoice(type);
   }
 
   function performKeywordSearch(query) {
@@ -949,8 +1063,12 @@
       return searchTerms.some(term => txt.includes(term));
     };
 
+    // Filter by class context if active
+    const selectedClass = chatFlowState.selectedClass;
+
     // Search Chapters
     searchIndex.chapters.forEach(c => {
+      if (selectedClass && !c.class.toLowerCase().includes(selectedClass)) return;
       if (matchesSearch(c.title) || matchesSearch(c.description) || (c.unit && matchesSearch(c.unit))) {
         const key = `chapter|${c.title}`;
         if (!addedTitles.has(key)) {
@@ -968,6 +1086,7 @@
 
     // Search Notes
     searchIndex.notes.forEach(n => {
+      if (selectedClass && !n.class.toLowerCase().includes(selectedClass)) return;
       if (matchesSearch(n.title) || matchesSearch(n.description) || matchesSearch(n.content)) {
         const key = `notes|${n.title}`;
         if (!addedTitles.has(key)) {
@@ -985,6 +1104,7 @@
 
     // Search Question Papers
     searchIndex.papers.forEach(p => {
+      if (selectedClass && !p.class.toLowerCase().includes(selectedClass)) return;
       if (matchesSearch(p.title) || matchesSearch(p.description) || (p.year && matchesSearch(p.year))) {
         const key = `paper|${p.title}`;
         if (!addedTitles.has(key)) {
@@ -1001,17 +1121,27 @@
     });
 
     if (cards.length) {
-      addBotMessage(`I found **${cards.length}** content item${cards.length === 1 ? '' : 's'} matching your query:`, cards.slice(0, 5));
+      addBotMessage(`I found **${cards.length}** content item${cards.length === 1 ? '' : 's'} matching your query${selectedClass ? ` in **${selectedClass.toUpperCase()}**` : ''}:`, cards.slice(0, 5));
     } else {
-      addBotMessage(`I couldn't find any direct matches for *"${query}"* on TechLearners.\n\nTry looking for: 'Green Skills', 'Project Cycle', 'Employability Notes', 'Class 9 AI', or 'Sample Papers'.`);
+      addBotMessage(`I couldn't find any direct matches for *"${query}"*${selectedClass ? ` in **${selectedClass.toUpperCase()}**` : ''} on TechLearners.\n\nTry looking for: 'Green Skills', 'Project Cycle', 'Employability Notes', or reset class filter.`);
     }
 
-    showSuggestions([
-      "📚 Browse Notes",
-      "📄 Sample Papers",
-      "📝 MCQ Practice",
-      "Back to Menu"
-    ]);
+    if (selectedClass) {
+      showSuggestions([
+        "📚 Notes",
+        "📝 MCQs",
+        "📄 Papers",
+        "📖 Chapters",
+        "Back to Menu"
+      ]);
+    } else {
+      showSuggestions([
+        "📚 Browse Notes",
+        "📄 Sample Papers",
+        "📝 MCQ Practice",
+        "Back to Menu"
+      ]);
+    }
   }
 
   // Handle Form Submit
