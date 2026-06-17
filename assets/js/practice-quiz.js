@@ -17,6 +17,8 @@
   let quizTools = document.getElementById('practiceQuizTools');
   let allQuestions = [];
   let quizData = [];
+  let currentQuestionIndex = 0;
+  let isSubmitted = false;
 
   const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
@@ -83,7 +85,59 @@
     updateSubmitButton();
   }
 
+  function updateQuizVisibility() {
+    const questions = quizBox.querySelectorAll('.practice-question');
+    questions.forEach((q, idx) => {
+      if (isSubmitted) {
+        q.style.display = '';
+        q.open = true;
+      } else {
+        q.style.display = idx === currentQuestionIndex ? '' : 'none';
+        q.open = true;
+      }
+    });
+
+    const prevBtn = document.getElementById('prevQuizButton');
+    const nextBtn = document.getElementById('nextQuizButton');
+    const submitBtn = document.getElementById('submitQuizButton');
+    const restartBtn = document.getElementById('restartQuizButton');
+
+    if (!quizData.length) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (restartBtn) restartBtn.style.display = 'none';
+      return;
+    }
+
+    if (!isSubmitted) {
+      if (prevBtn) {
+        prevBtn.style.display = 'inline-block';
+        prevBtn.disabled = currentQuestionIndex === 0;
+      }
+      if (nextBtn) {
+        if (currentQuestionIndex === quizData.length - 1) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'inline-block';
+        } else {
+          nextBtn.style.display = 'inline-block';
+          submitBtn.style.display = 'none';
+        }
+      } else {
+        submitBtn.style.display = 'inline-block';
+      }
+      if (restartBtn) restartBtn.style.display = 'inline-block';
+    } else {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (restartBtn) restartBtn.style.display = 'inline-block';
+    }
+  }
+
   function render() {
+    currentQuestionIndex = 0;
+    isSubmitted = false;
     quizData = allQuestions.filter(question => question.class === classField.value && question.subject === subjectField.value);
     quizTitle.textContent = `${displayClassName(classField.value)} ${subjectField.value} Practice Quiz`;
     quizBox.innerHTML = quizData.length ? quizData.map((question, index) => `
@@ -97,6 +151,7 @@
     scoreText.textContent = '';
     document.getElementById('submitQuizButton').disabled = true;
     updateProgress();
+    updateQuizVisibility();
   }
 
   function updateUrl() {
@@ -116,11 +171,17 @@
       quizTools.innerHTML = '';
       return;
     }
-    quizTools.innerHTML = `
-      <button class="btn small secondary" type="button" data-copy-practice-quiz>Copy link</button>
-      <button class="btn small secondary" type="button" data-share-practice-quiz>Share</button>
-      <button class="btn small secondary" type="button" data-expand-practice-quiz>Expand all</button>
-      <button class="btn small secondary" type="button" data-collapse-practice-quiz>Collapse all</button>`;
+    if (isSubmitted) {
+      quizTools.innerHTML = `
+        <button class="btn small secondary" type="button" data-copy-practice-quiz>Copy link</button>
+        <button class="btn small secondary" type="button" data-share-practice-quiz>Share</button>
+        <button class="btn small secondary" type="button" data-expand-practice-quiz>Expand all</button>
+        <button class="btn small secondary" type="button" data-collapse-practice-quiz>Collapse all</button>`;
+    } else {
+      quizTools.innerHTML = `
+        <button class="btn small secondary" type="button" data-copy-practice-quiz>Copy link</button>
+        <button class="btn small secondary" type="button" data-share-practice-quiz>Share</button>`;
+    }
   }
 
   async function copyPracticeQuizLink() {
@@ -185,6 +246,20 @@
     if (button.matches('[data-expand-practice-quiz]')) setPracticeQuestionsOpen(true);
     if (button.matches('[data-collapse-practice-quiz]')) setPracticeQuestionsOpen(false);
   });
+  document.getElementById('prevQuizButton')?.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      updateQuizVisibility();
+      scrollToContent();
+    }
+  });
+  document.getElementById('nextQuizButton')?.addEventListener('click', () => {
+    if (currentQuestionIndex < quizData.length - 1) {
+      currentQuestionIndex++;
+      updateQuizVisibility();
+      scrollToContent();
+    }
+  });
   document.getElementById('restartQuizButton').addEventListener('click', render);
   function animateScore(finalScore, totalQuestions, finalPercentage) {
     let currentScore = 0;
@@ -207,6 +282,9 @@
       scoreText.textContent = 'You have already attempted this quiz today. Come back tomorrow for a new attempt.';
       return;
     }
+    isSubmitted = true;
+    updateQuizVisibility();
+    renderQuizTools();
     requestAnimationFrame(() => {
       scoreText.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
