@@ -95,6 +95,7 @@
       transform: scale(0.9) translateY(20px);
       pointer-events: none;
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overscroll-behavior: contain;
     }
     .tl-chat-widget.active {
       opacity: 1;
@@ -184,6 +185,7 @@
       flex-direction: column;
       gap: 16px;
       scroll-behavior: smooth;
+      overscroll-behavior: contain;
     }
     /* Scrollbar */
     .tl-chat-messages::-webkit-scrollbar {
@@ -479,12 +481,133 @@
   const inputForm = document.getElementById('tlChatInputForm');
   const chatInput = document.getElementById('tlChatInput');
 
+  // Draggable logic for the trigger button
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let initialLeft = 0;
+  let initialTop = 0;
+  let hasMoved = false;
+
+  trigger.addEventListener('mousedown', dragStart);
+  trigger.addEventListener('touchstart', dragStart, { passive: true });
+
+  function dragStart(e) {
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+    isDragging = true;
+    hasMoved = false;
+    dragStartX = clientX;
+    dragStartY = clientY;
+
+    const rect = trigger.getBoundingClientRect();
+    initialLeft = rect.left;
+    initialTop = rect.top;
+
+    trigger.style.bottom = 'auto';
+    trigger.style.right = 'auto';
+    trigger.style.left = initialLeft + 'px';
+    trigger.style.top = initialTop + 'px';
+    trigger.style.animation = 'none';
+
+    if (e.type === 'mousedown') {
+      document.addEventListener('mousemove', dragMove);
+      document.addEventListener('mouseup', dragEnd);
+    } else {
+      document.addEventListener('touchmove', dragMove, { passive: false });
+      document.addEventListener('touchend', dragEnd);
+    }
+  }
+
+  function dragMove(e) {
+    if (!isDragging) return;
+    if (e.cancelable) e.preventDefault();
+
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+    const deltaX = clientX - dragStartX;
+    const deltaY = clientY - dragStartY;
+
+    if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+      hasMoved = true;
+    }
+
+    let newLeft = initialLeft + deltaX;
+    let newTop = initialTop + deltaY;
+
+    const padding = 10;
+    const maxLeft = window.innerWidth - trigger.offsetWidth - padding;
+    const maxTop = window.innerHeight - trigger.offsetHeight - padding;
+
+    newLeft = Math.max(padding, Math.min(newLeft, maxLeft));
+    newTop = Math.max(padding, Math.min(newTop, maxTop));
+
+    trigger.style.left = newLeft + 'px';
+    trigger.style.top = newTop + 'px';
+  }
+
+  function dragEnd() {
+    isDragging = false;
+    trigger.style.animation = 'tl-float 3s ease-in-out infinite';
+
+    document.removeEventListener('mousemove', dragMove);
+    document.removeEventListener('mouseup', dragEnd);
+    document.removeEventListener('touchmove', dragMove);
+    document.removeEventListener('touchend', dragEnd);
+
+    if (widget.classList.contains('active')) {
+      repositionWidget();
+    }
+  }
+
+  function repositionWidget() {
+    const triggerRect = trigger.getBoundingClientRect();
+    const widgetWidth = 380;
+    const widgetHeight = 580;
+    const padding = 16;
+
+    let widgetLeft = triggerRect.left + (triggerRect.width / 2) - (widgetWidth / 2);
+    let widgetTop = triggerRect.top - widgetHeight - padding;
+
+    if (widgetLeft < padding) widgetLeft = padding;
+    if (widgetLeft + widgetWidth > window.innerWidth - padding) {
+      widgetLeft = window.innerWidth - widgetWidth - padding;
+    }
+
+    if (widgetTop < padding) {
+      widgetTop = triggerRect.bottom + padding;
+    }
+    if (widgetTop + widgetHeight > window.innerHeight - padding) {
+      widgetTop = window.innerHeight - widgetHeight - padding;
+    }
+
+    widget.style.bottom = 'auto';
+    widget.style.right = 'auto';
+    widget.style.left = widgetLeft + 'px';
+    widget.style.top = widgetTop + 'px';
+  }
+
+  window.addEventListener('resize', () => {
+    if (widget.classList.contains('active')) {
+      repositionWidget();
+    }
+  });
+
   // Toggle chat widget
-  trigger.addEventListener('click', () => {
+  trigger.addEventListener('click', (e) => {
+    if (hasMoved) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      hasMoved = false;
+      return;
+    }
     const isActive = widget.classList.toggle('active');
     trigger.classList.toggle('active', isActive);
     trigger.innerHTML = isActive ? closeIcon : chatBubbleIcon;
     if (isActive) {
+      repositionWidget();
       chatInput.focus();
       if (messagesContainer.children.length === 0) {
         showWelcome();
@@ -801,55 +924,75 @@
   }
 
   function performKeywordSearch(query) {
+    const stopwords = new Set(['of', 'on', 'the', 'for', 'and', 'give', 'me', 'show', 'please', 'is', 'are', 'in', 'at', 'with', 'about', 'notes', 'chapters', 'papers', 'quiz', 'quizzes']);
+    const keywords = query.toLowerCase()
+      .replace(/[^\w\s]/g, '')
+      .split(/\s+/)
+      .filter(w => w.length > 2 && !stopwords.has(w));
+
+    const searchTerms = keywords.length ? keywords : [query];
     const cards = [];
+    const addedTitles = new Set();
+
+    const matchesSearch = (text) => {
+      if (!text) return false;
+      const txt = text.toLowerCase();
+      return searchTerms.some(term => txt.includes(term));
+    };
 
     // Search Chapters
     searchIndex.chapters.forEach(c => {
-      if (c.title.toLowerCase().includes(query) || 
-          c.description.toLowerCase().includes(query) || 
-          (c.unit && c.unit.toLowerCase().includes(query))) {
-        cards.push({
-          meta: `${c.class} ${c.subject} - Chapter`,
-          title: c.title,
-          desc: c.description || c.unit,
-          link: pathPrefix + `pages/${c.class.replace(' ', '').toLowerCase()}/index.html?subject=${c.subject}&chapter=${encodeURIComponent(c.id)}`,
-          linkLabel: "Read Chapter"
-        });
+      if (matchesSearch(c.title) || matchesSearch(c.description) || (c.unit && matchesSearch(c.unit))) {
+        const key = `chapter|${c.title}`;
+        if (!addedTitles.has(key)) {
+          addedTitles.add(key);
+          cards.push({
+            meta: `${c.class} ${c.subject} - Chapter`,
+            title: c.title,
+            desc: c.description || c.unit,
+            link: pathPrefix + `pages/${c.class.replace(' ', '').toLowerCase()}/index.html?subject=${c.subject}&chapter=${encodeURIComponent(c.id)}`,
+            linkLabel: "Read Chapter"
+          });
+        }
       }
     });
 
     // Search Notes
     searchIndex.notes.forEach(n => {
-      if (n.title.toLowerCase().includes(query) || 
-          n.description.toLowerCase().includes(query) || 
-          n.content.toLowerCase().includes(query)) {
-        cards.push({
-          meta: `${n.class} ${n.subject} - Notes`,
-          title: n.title,
-          desc: n.description,
-          link: pathPrefix + "pages/notes/index.html",
-          linkLabel: "Open Study Notes"
-        });
+      if (matchesSearch(n.title) || matchesSearch(n.description) || matchesSearch(n.content)) {
+        const key = `notes|${n.title}`;
+        if (!addedTitles.has(key)) {
+          addedTitles.add(key);
+          cards.push({
+            meta: `${n.class} ${n.subject} - Notes`,
+            title: n.title,
+            desc: n.description,
+            link: pathPrefix + "pages/notes/index.html",
+            linkLabel: "Open Study Notes"
+          });
+        }
       }
     });
 
     // Search Question Papers
     searchIndex.papers.forEach(p => {
-      if (p.title.toLowerCase().includes(query) || 
-          p.description.toLowerCase().includes(query) || 
-          p.year.toLowerCase().includes(query)) {
-        cards.push({
-          meta: `${p.class} ${p.subject} - Practice Paper (${p.year})`,
-          title: p.title,
-          desc: p.description,
-          link: p.file ? pathPrefix + p.file.replace('../../', '') : pathPrefix + 'pages/question-papers/index.html',
-          linkLabel: "Download Paper"
-        });
+      if (matchesSearch(p.title) || matchesSearch(p.description) || (p.year && matchesSearch(p.year))) {
+        const key = `paper|${p.title}`;
+        if (!addedTitles.has(key)) {
+          addedTitles.add(key);
+          cards.push({
+            meta: `${p.class} ${p.subject} - Practice Paper (${p.year})`,
+            title: p.title,
+            desc: p.description,
+            link: p.file ? pathPrefix + p.file.replace('../../', '') : pathPrefix + 'pages/question-papers/index.html',
+            linkLabel: "Download Paper"
+          });
+        }
       }
     });
 
     if (cards.length) {
-      addBotMessage(`I found **${cards.length}** content item${cards.length === 1 ? '' : 's'} matching *"${query}"*:`, cards.slice(0, 5));
+      addBotMessage(`I found **${cards.length}** content item${cards.length === 1 ? '' : 's'} matching your query:`, cards.slice(0, 5));
     } else {
       addBotMessage(`I couldn't find any direct matches for *"${query}"* on TechLearners.\n\nTry looking for: 'Green Skills', 'Project Cycle', 'Employability Notes', 'Class 9 AI', or 'Sample Papers'.`);
     }
