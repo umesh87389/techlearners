@@ -227,7 +227,7 @@
 
   function scrollToContent() {
     requestAnimationFrame(() => {
-      quizBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      quizBox.scrollIntoView({ behavior: 'auto', block: 'start' });
     });
   }
 
@@ -286,7 +286,7 @@
     updateQuizVisibility();
     renderQuizTools();
     requestAnimationFrame(() => {
-      scoreText.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      scoreText.scrollIntoView({ behavior: 'auto', block: 'center' });
     });
 
     // Highlight correct / incorrect answers
