@@ -136,8 +136,6 @@
   }
 
   function render() {
-    currentQuestionIndex = 0;
-    isSubmitted = false;
     quizData = allQuestions.filter(question => question.class === classField.value && question.subject === subjectField.value);
     quizTitle.textContent = `${displayClassName(classField.value)} ${subjectField.value} Practice Quiz`;
     quizBox.innerHTML = quizData.length ? quizData.map((question, index) => `
@@ -147,11 +145,31 @@
           <label><input type="radio" name="practice-q${index}" value="${optionIndex}"><span>${escapeHtml(option)}</span></label>
         `).join('')}</div>
       </details>`).join('') : '<div class="notice">No quiz questions are available for this selection yet.</div>';
+
+    const savedState = loadQuizState();
+    if (savedState && savedState.answers && savedState.answers.length === quizData.length) {
+      currentQuestionIndex = savedState.currentQuestionIndex ?? 0;
+      isSubmitted = savedState.isSubmitted ?? false;
+      savedState.answers.forEach((val, index) => {
+        if (val !== null && val !== undefined) {
+          const radio = document.querySelector(`input[name="practice-q${index}"][value="${val}"]`);
+          if (radio) radio.checked = true;
+        }
+      });
+    } else {
+      currentQuestionIndex = 0;
+      isSubmitted = false;
+      clearQuizState();
+    }
+
     renderQuizTools();
     scoreText.textContent = '';
     document.getElementById('submitQuizButton').disabled = true;
     updateProgress();
     updateQuizVisibility();
+    if (isSubmitted) {
+      applySubmittedResults();
+    }
   }
 
   function updateUrl() {
@@ -231,65 +249,39 @@
     });
   }
 
-  filterForm.addEventListener('submit', event => {
-    event.preventDefault();
-    updateUrl();
-    render();
-    scrollToContent();
-  });
-  quizBox.addEventListener('change', updateProgress);
-  quizTools?.addEventListener('click', event => {
-    const button = event.target.closest('button');
-    if (!button) return;
-    if (button.matches('[data-copy-practice-quiz]')) copyPracticeQuizLink();
-    if (button.matches('[data-share-practice-quiz]')) sharePracticeQuizLink();
-    if (button.matches('[data-expand-practice-quiz]')) setPracticeQuestionsOpen(true);
-    if (button.matches('[data-collapse-practice-quiz]')) setPracticeQuestionsOpen(false);
-  });
-  document.getElementById('prevQuizButton')?.addEventListener('click', () => {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      updateQuizVisibility();
-      scrollToContent();
-    }
-  });
-  document.getElementById('nextQuizButton')?.addEventListener('click', () => {
-    if (currentQuestionIndex < quizData.length - 1) {
-      currentQuestionIndex++;
-      updateQuizVisibility();
-      scrollToContent();
-    }
-  });
-  document.getElementById('restartQuizButton').addEventListener('click', render);
-  function animateScore(finalScore, totalQuestions, finalPercentage) {
-    let currentScore = 0;
-    const step = Math.max(1, Math.ceil(finalScore / 20));
-    const scoreClass = finalPercentage >= 80 ? 'score-excellent' : finalPercentage >= 50 ? 'score-pass' : 'score-fail';
-    scoreText.className = `quiz-result ${scoreClass}`;
-    const counter = setInterval(() => {
-      currentScore = Math.min(currentScore + step, finalScore);
-      scoreText.innerHTML = `<span class="quiz-score-number">${currentScore}/${totalQuestions}</span>${currentScore >= finalScore ? `${finalPercentage >= 80 ? 'Excellent! &#127942;' : finalPercentage >= 50 ? 'Well done! &#127775;' : 'Keep trying! &#128170;'}` : 'Scoring...'}`;
-      if (currentScore >= finalScore) {
-        clearInterval(counter);
-        scoreText.innerHTML = `<span class="quiz-score-number">${finalScore}/${totalQuestions} (${finalPercentage}%)</span>${finalPercentage >= 80 ? 'Excellent work! &#127942;' : finalPercentage >= 50 ? 'Good effort! Keep practising. &#127775;' : 'Don\'t give up! Review the topics and try again. &#128170;'}`;
-      }
-    }, 30);
+  function getStateKey() {
+    return `tl_quiz_state_${classField.value}_${subjectField.value}`;
   }
 
-  document.getElementById('submitQuizButton').addEventListener('click', async () => {
+  function saveQuizState() {
     if (!quizData.length) return;
-    if (!canAttemptToday()) {
-      scoreText.textContent = 'You have already attempted this quiz today. Come back tomorrow for a new attempt.';
-      return;
-    }
-    isSubmitted = true;
-    updateQuizVisibility();
-    renderQuizTools();
-    requestAnimationFrame(() => {
-      scoreText.scrollIntoView({ behavior: 'auto', block: 'center' });
+    const answers = quizData.map((q, index) => {
+      const selected = document.querySelector(`input[name="practice-q${index}"]:checked`);
+      return selected ? selected.value : null;
     });
+    const state = {
+      answers,
+      currentQuestionIndex,
+      isSubmitted
+    };
+    localStorage.setItem(getStateKey(), JSON.stringify(state));
+  }
 
-    // Highlight correct / incorrect answers
+  function loadQuizState() {
+    const raw = localStorage.getItem(getStateKey());
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function clearQuizState() {
+    localStorage.removeItem(getStateKey());
+  }
+
+  function applySubmittedResults() {
     quizData.forEach((question, index) => {
       const selected = document.querySelector(`input[name="practice-q${index}"]:checked`);
       const options = document.querySelectorAll(`input[name="practice-q${index}"]`);
@@ -313,6 +305,84 @@
     }, 0);
     const percentage = Math.round(score / quizData.length * 100);
     const total = quizData.length;
+    animateScore(score, total, percentage);
+  }
+
+  filterForm.addEventListener('submit', event => {
+    event.preventDefault();
+    updateUrl();
+    render();
+    scrollToContent();
+  });
+  quizBox.addEventListener('change', () => {
+    updateProgress();
+    saveQuizState();
+  });
+  quizTools?.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    if (button.matches('[data-copy-practice-quiz]')) copyPracticeQuizLink();
+    if (button.matches('[data-share-practice-quiz]')) sharePracticeQuizLink();
+    if (button.matches('[data-expand-practice-quiz]')) setPracticeQuestionsOpen(true);
+    if (button.matches('[data-collapse-practice-quiz]')) setPracticeQuestionsOpen(false);
+  });
+  document.getElementById('prevQuizButton')?.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      updateQuizVisibility();
+      saveQuizState();
+      scrollToContent();
+    }
+  });
+  document.getElementById('nextQuizButton')?.addEventListener('click', () => {
+    if (currentQuestionIndex < quizData.length - 1) {
+      currentQuestionIndex++;
+      updateQuizVisibility();
+      saveQuizState();
+      scrollToContent();
+    }
+  });
+  document.getElementById('restartQuizButton').addEventListener('click', () => {
+    clearQuizState();
+    render();
+  });
+  function animateScore(finalScore, totalQuestions, finalPercentage) {
+    let currentScore = 0;
+    const step = Math.max(1, Math.ceil(finalScore / 20));
+    const scoreClass = finalPercentage >= 80 ? 'score-excellent' : finalPercentage >= 50 ? 'score-pass' : 'score-fail';
+    scoreText.className = `quiz-result ${scoreClass}`;
+    const counter = setInterval(() => {
+      currentScore = Math.min(currentScore + step, finalScore);
+      scoreText.innerHTML = `<span class="quiz-score-number">${currentScore}/${totalQuestions}</span>${currentScore >= finalScore ? `${finalPercentage >= 80 ? 'Excellent! &#127942;' : finalPercentage >= 50 ? 'Well done! &#127775;' : 'Keep trying! &#128170;'}` : 'Scoring...'}`;
+      if (currentScore >= finalScore) {
+        clearInterval(counter);
+        scoreText.innerHTML = `<span class="quiz-score-number">${finalScore}/${totalQuestions} (${finalPercentage}%)</span>${finalPercentage >= 80 ? 'Excellent work! &#127942;' : finalPercentage >= 50 ? 'Good effort! Keep practising. &#127775;' : 'Don\'t give up! Review the topics and try again. &#128170;'}`;
+      }
+    }, 30);
+  }
+
+  document.getElementById('submitQuizButton').addEventListener('click', async () => {
+    if (!quizData.length) return;
+    if (!canAttemptToday()) {
+      scoreText.textContent = 'You have already attempted this quiz today. Come back tomorrow for a new attempt.';
+      return;
+    }
+    isSubmitted = true;
+    saveQuizState();
+    updateQuizVisibility();
+    renderQuizTools();
+    requestAnimationFrame(() => {
+      scoreText.scrollIntoView({ behavior: 'auto', block: 'center' });
+    });
+
+    applySubmittedResults();
+
+    const score = quizData.reduce((total, question, index) => {
+      const selected = document.querySelector(`input[name="practice-q${index}"]:checked`);
+      return total + (selected && Number(selected.value) === question.answer ? 1 : 0);
+    }, 0);
+    const percentage = Math.round(score / quizData.length * 100);
+    const total = quizData.length;
     const result = { class: classField.value, subject: subjectField.value, score, total, percentage };
     markAttemptToday();
     window.TechLearnersProgress?.mark('quizzes', `${classField.value}|${subjectField.value}`, { score, total });
@@ -322,13 +392,8 @@
         result.studentName = user.displayName || user.email?.split('@')[0] || 'Student';
         result.studentEmail = user.email || '';
         await TechLearnersFirebase.submitQuizResult(result);
-        animateScore(score, total, percentage);
-      } else {
-        animateScore(score, total, percentage);
       }
-    } catch {
-      animateScore(score, total, percentage);
-    }
+    } catch {}
   });
 
   TechLearnersContent.get('quizQuestions', '../../data')
