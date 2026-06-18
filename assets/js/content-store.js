@@ -54,7 +54,8 @@
     if (type === 'quizQuestions') return getQuizQuestions(dataRoot);
     if (type === 'quizzes') return getQuizzes(dataRoot);
 
-    if (firebase.configured) {
+    const skipCloud = !isAdminPage && (type === 'announcements' || type === 'focus');
+    if (firebase.configured && !skipCloud) {
       try {
         const cloudItems = await getCloudContent(type);
         if (cloudItems) return cloudItems;
