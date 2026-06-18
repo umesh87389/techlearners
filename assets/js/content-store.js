@@ -161,11 +161,13 @@
   }
 
   async function save(type, items) {
+    const data = JSON.stringify(items);
     if (firebase.configured) {
       await firebase.saveContent(type, items);
+      localStorage.setItem(storagePrefix + type, data);
       return;
     }
-    localStorage.setItem(storagePrefix + type, JSON.stringify(items));
+    localStorage.setItem(storagePrefix + type, data);
   }
 
   async function reset(type, dataRoot) {
