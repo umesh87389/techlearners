@@ -1108,17 +1108,4 @@ function setupGoToTop() {
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
-// Load the TechLearners Chatbot
-(function() {
-  if (window.location.pathname.includes('/pages/admin/')) return;
-  const script = document.createElement('script');
-  let pathPrefix = '';
-  const rootIndex = window.location.pathname.indexOf('/pages/');
-  if (rootIndex !== -1) {
-    const depth = window.location.pathname.substring(rootIndex).split('/').length - 2;
-    pathPrefix = '../'.repeat(depth);
-  }
-  script.src = pathPrefix + 'assets/js/chatbot.js';
-  script.async = true;
-  document.body.appendChild(script);
-})();
+// Chatbot removed
