@@ -404,6 +404,19 @@ const TechLearnersCookies = {
 };
 window.TechLearnersCookies = TechLearnersCookies;
 
+function loadAnalytics() {
+  if (window.tlAnalyticsLoaded) return;
+  window.tlAnalyticsLoaded = true;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NQV5L20CWL');
+}
+
 const TechLearnersConsent = {
   categories: { essential: true, analytics: false, advertising: false },
   storageKey: 'tl_consent',
@@ -424,6 +437,7 @@ const TechLearnersConsent = {
   apply(prefs) {
     document.documentElement.dataset.consentAnalytics = String(prefs.analytics);
     document.documentElement.dataset.consentAdvertising = String(prefs.advertising);
+    if (prefs.analytics) loadAnalytics();
   },
 
   hasAnswered() {
