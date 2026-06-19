@@ -438,6 +438,10 @@ const TechLearnersConsent = {
     document.documentElement.dataset.consentAnalytics = String(prefs.analytics);
     document.documentElement.dataset.consentAdvertising = String(prefs.advertising);
     if (prefs.analytics) loadAnalytics();
+    
+    // Respect cookie consent preferences for Google AdSense personalization
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.requestNonPersonalizedAds = prefs.advertising ? 0 : 1;
   },
 
   hasAnswered() {
@@ -453,7 +457,12 @@ const TechLearnersConsent = {
 window.TechLearnersConsent = TechLearnersConsent;
 
 const existing = TechLearnersConsent.load();
-if (existing) TechLearnersConsent.apply(existing);
+if (existing) {
+  TechLearnersConsent.apply(existing);
+} else {
+  // Apply default preferences (non-personalized ads and no analytics)
+  TechLearnersConsent.apply(TechLearnersConsent.categories);
+}
 
 function setupCookieNotice() {
   const root = getSiteRoot();
