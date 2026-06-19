@@ -774,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if(footer){
     footer.innerHTML = `<div class="footer-grid">
       <div><b>TechLearners</b><p>Simple learning support for CBSE Class 9 and CBSE Class 10 students.</p><p class="footer-author">Founded and managed by <a href="${root}author.html">Umesh Tripathi</a>.</p></div>
-      <div><b>Explore</b><div class="footer-links"><a href="${root}about.html">About Us</a><a href="${root}author.html">Author Information</a><a href="${root}pages/notes/index.html">CBSE Notes</a><a href="${root}pages/revision-papers/index.html">Revision Papers</a><a href="${root}pages/question-papers/index.html">Sample Papers</a><a href="${root}contact.html">Contact Us</a></div></div>
+      <div><b>Explore</b><div class="footer-col-links"><a href="${root}about.html">About Us</a><a href="${root}author.html">Author Information</a><a href="${root}pages/notes/index.html">CBSE Notes</a><a href="${root}pages/revision-papers/index.html">Revision Papers</a><a href="${root}pages/question-papers/index.html">Sample Papers</a><a href="${root}contact.html">Contact Us</a></div></div>
       <div><b>Follow Us</b><div class="social-links">
         <a class="social-icon" href="https://www.instagram.com/techlearners.in/" target="_blank" rel="noopener" aria-label="Instagram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.1 1.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6ZM12 6.9a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2Zm0 2a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/></svg>
@@ -789,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 32 32 0 0 0 0 12a32 32 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.4-1.9.6-3.9.6-5.8s-.2-3.9-.6-5.8ZM9.5 15.5V8.5l6.3 3.5-6.3 3.5Z"/></svg>
         </a>
       </div></div>
-      <div><b>Trust &amp; Legal</b><div class="footer-links"><a href="${root}privacy.html">Privacy Policy</a><a href="${root}terms.html">Terms &amp; Conditions</a><a href="${root}disclaimer.html">Disclaimer</a><a href="${root}editorial-policy.html">Editorial Policy</a></div></div>
+      <div><b>Trust &amp; Legal</b><div class="footer-col-links"><a href="${root}privacy.html">Privacy Policy</a><a href="${root}terms.html">Terms &amp; Conditions</a><a href="${root}disclaimer.html">Disclaimer</a><a href="${root}editorial-policy.html">Editorial Policy</a></div></div>
     </div><p class="footer-bottom">&copy; 2026 TechLearners. All rights reserved. <span data-last-updated data-last-updated-prefix="Website content last updated: ">Website content last updated: June 15, 2026</span>.</p>`;
   }
 
