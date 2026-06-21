@@ -1,11 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="brand" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+    <linearGradient id="brand-light" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
       <stop stop-color="#2E7D32"/>
       <stop offset="1" stop-color="#43A047"/>
     </linearGradient>
+    <linearGradient id="brand-dark" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#66BB6A"/>
+      <stop offset="1" stop-color="#81C784"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #FAFDF6; stroke: #FFA000; }
+      .mark { fill: url(#brand-light); }
+      .txt { fill: #ffffff; }
+      @media (prefers-color-scheme: dark) {
+        .bg { fill: #0c1322; stroke: #FFD54F; }
+        .mark { fill: url(#brand-dark); }
+        .txt { fill: #0c1322; }
+      }
+    </style>
   </defs>
-  <rect x="1" y="1" width="62" height="62" rx="17" fill="#FAFDF6" stroke="#FFA000" stroke-width="2"/>
-  <path d="M14 13C23 5 45 8 53 19c8 12 3 31-12 38-11 5-29 0-32-13-3-11-2-24 5-31Z" fill="url(#brand)"/>
-  <text x="32" y="39" fill="#fff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">AI</text>
+  <rect class="bg" x="1" y="1" width="62" height="62" rx="17" stroke-width="2"/>
+  <path class="mark" d="M14 13C23 5 45 8 53 19c8 12 3 31-12 38-11 5-29 0-32-13-3-11-2-24 5-31Z"/>
+  <text class="txt" x="32" y="39" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">AI</text>
 </svg>
