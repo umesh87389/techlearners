@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="brand" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#00b8a9"/>
-      <stop offset="1" stop-color="#1677e8"/>
+      <stop stop-color="#2E7D32"/>
+      <stop offset="1" stop-color="#FFA000"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="18" fill="#f6f9ff"/>
+  <rect width="64" height="64" rx="18" fill="#FAFDF6"/>
   <path d="M14 13C23 5 45 8 53 19c8 12 3 31-12 38-11 5-29 0-32-13-3-11-2-24 5-31Z" fill="url(#brand)"/>
   <text x="32" y="39" fill="#fff" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">AI</text>
 </svg>
