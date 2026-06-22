@@ -407,14 +407,11 @@ window.TechLearnersCookies = TechLearnersCookies;
 function loadAnalytics() {
   if (window.tlAnalyticsLoaded) return;
   window.tlAnalyticsLoaded = true;
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL';
-  document.head.appendChild(s);
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NQV5L20CWL');
+  gtag('consent', 'update', {
+    'analytics_storage': 'granted'
+  });
 }
 
 const TechLearnersConsent = {
@@ -442,6 +439,15 @@ const TechLearnersConsent = {
     // Respect cookie consent preferences for Google AdSense personalization
     window.adsbygoogle = window.adsbygoogle || [];
     window.adsbygoogle.requestNonPersonalizedAds = prefs.advertising ? 0 : 1;
+
+    // Update Google Consent Mode for advertising tags
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'update', {
+      'ad_storage': prefs.advertising ? 'granted' : 'denied',
+      'ad_user_data': prefs.advertising ? 'granted' : 'denied',
+      'ad_personalization': prefs.advertising ? 'granted' : 'denied'
+    });
   },
 
   hasAnswered() {
