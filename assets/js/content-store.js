@@ -55,18 +55,37 @@
     if (type === 'quizzes') return getQuizzes(dataRoot);
 
     const skipCloud = !isAdminPage && (type === 'announcements' || type === 'focus');
-    if (firebase.configured && !skipCloud) {
+    if (isAdminPage && firebase.configured && !skipCloud) {
       try {
         const cloudItems = await getCloudContent(type);
-        if (cloudItems) return cloudItems;
+        if (cloudItems) {
+          localStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
+          return cloudItems;
+        }
       } catch (error) {
-        console.warn(`Unable to load cloud ${type}; using bundled content.`, error);
+        console.warn(`Unable to load cloud ${type}; using cached/default.`, error);
       }
     }
-    const stored = getStored(type);
-    if (stored) return stored;
 
-    return getDefaults(type, dataRoot);
+    const stored = getStored(type);
+    const defaultsPromise = getDefaults(type, dataRoot);
+
+    if (!isAdminPage && firebase.configured && !skipCloud) {
+      setTimeout(async () => {
+        try {
+          const cloudItems = await getCloudContent(type);
+          if (cloudItems) {
+            localStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
+            document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type } }));
+          }
+        } catch (e) {
+          console.warn(`Background sync failed for ${type}`, e);
+        }
+      }, 50);
+    }
+
+    if (stored) return stored;
+    return defaultsPromise;
   }
 
   function appendDownloadOnlyItems(baseItems, extraItems) {
@@ -84,19 +103,37 @@
   async function getQuizzes(dataRoot) {
     const defaults = await getDefaults('quizzes', dataRoot);
     const stored = getStored('quizzes');
+    const localMerged = appendDownloadOnlyItems(defaults, stored);
 
-    if (firebase.configured) {
+    if (isAdminPage && firebase.configured) {
       try {
         const cloudItems = await getCloudContent('quizzes');
-        if (Array.isArray(cloudItems) && cloudItems.length >= defaults.length) return cloudItems;
-        return appendDownloadOnlyItems(defaults, cloudItems);
+        const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
+          ? cloudItems
+          : appendDownloadOnlyItems(defaults, cloudItems);
+        localStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
+        return merged;
       } catch (error) {
-        console.warn('Unable to load cloud quizzes; using bundled MCQs.', error);
+        console.warn('Unable to load cloud quizzes; using local content.', error);
       }
     }
 
-    if (Array.isArray(stored) && stored.length >= defaults.length) return stored;
-    return appendDownloadOnlyItems(defaults, stored);
+    if (!isAdminPage && firebase.configured) {
+      setTimeout(async () => {
+        try {
+          const cloudItems = await getCloudContent('quizzes');
+          const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
+            ? cloudItems
+            : appendDownloadOnlyItems(defaults, cloudItems);
+          localStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
+          document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'quizzes' } }));
+        } catch (e) {
+          console.warn('Background quizzes sync failed', e);
+        }
+      }, 50);
+    }
+
+    return localMerged;
   }
 
   function appendQuestionItems(baseItems, extraItems) {
@@ -114,19 +151,37 @@
   async function getQuizQuestions(dataRoot) {
     const defaults = await getDefaults('quizQuestions', dataRoot);
     const stored = getStored('quizQuestions');
+    const localMerged = appendQuestionItems(defaults, stored);
 
-    if (firebase.configured) {
+    if (isAdminPage && firebase.configured) {
       try {
         const cloudItems = await getCloudContent('quizQuestions');
-        if (Array.isArray(cloudItems) && cloudItems.length >= defaults.length) return cloudItems;
-        return appendQuestionItems(defaults, cloudItems);
+        const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
+          ? cloudItems
+          : appendQuestionItems(defaults, cloudItems);
+        localStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
+        return merged;
       } catch (error) {
-        console.warn('Unable to load cloud quiz questions; using bundled practice questions.', error);
+        console.warn('Unable to load cloud quiz questions; using local content.', error);
       }
     }
 
-    if (Array.isArray(stored) && stored.length >= defaults.length) return stored;
-    return appendQuestionItems(defaults, stored);
+    if (!isAdminPage && firebase.configured) {
+      setTimeout(async () => {
+        try {
+          const cloudItems = await getCloudContent('quizQuestions');
+          const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
+            ? cloudItems
+            : appendQuestionItems(defaults, cloudItems);
+          localStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
+          document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'quizQuestions' } }));
+        } catch (e) {
+          console.warn('Background quizQuestions sync failed', e);
+        }
+      }, 50);
+    }
+
+    return localMerged;
   }
 
   function chapterKey(item) {
@@ -148,16 +203,33 @@
     }
 
     const stored = getStored('chapters') || [];
-    if (firebase.configured) {
+    const localMerged = mergeChapterItems(defaults, stored);
+
+    if (isAdminPage && firebase.configured) {
       try {
         const cloudItems = await getCloudContent('chapters');
-        return mergeChapterItems(defaults, stored, Array.isArray(cloudItems) ? cloudItems : []);
+        const merged = mergeChapterItems(defaults, stored, Array.isArray(cloudItems) ? cloudItems : []);
+        localStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
+        return merged;
       } catch (error) {
-        console.warn('Unable to load cloud chapters; using bundled content.', error);
+        console.warn('Unable to load cloud chapters; using local content.', error);
       }
     }
 
-    return mergeChapterItems(defaults, stored);
+    if (!isAdminPage && firebase.configured) {
+      setTimeout(async () => {
+        try {
+          const cloudItems = await getCloudContent('chapters');
+          const merged = mergeChapterItems(defaults, stored, Array.isArray(cloudItems) ? cloudItems : []);
+          localStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
+          document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'chapters' } }));
+        } catch (e) {
+          console.warn('Background chapters sync failed', e);
+        }
+      }, 50);
+    }
+
+    return localMerged;
   }
 
   async function save(type, items) {
