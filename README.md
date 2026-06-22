@@ -26,7 +26,6 @@ A GitHub Pages-ready educational website for CBSE Class 9 and CBSE Class 10 AI l
 2. Enable GitHub Pages from repository settings.
 3. Open `https://admin.techlearners.in/pages/admin/admin-login.html` to manage notes, lectures, quizzes, announcements and homepage advertisement posters in your browser.
 4. Add note content through the admin panel. Replace sample files inside `downloads/` only when you want to offer an optional file.
-5. Replace YouTube video IDs inside `data/lectures.json`.
 
 ## Firebase Setup
 
