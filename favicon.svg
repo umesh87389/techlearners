@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
     <linearGradient id="brand-light" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2E7D32"/>
-      <stop offset="1" stop-color="#43A047"/>
+      <stop stop-color="#014751"/>
+      <stop offset="1" stop-color="#368995"/>
     </linearGradient>
     <linearGradient id="brand-dark" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#66BB6A"/>
-      <stop offset="1" stop-color="#81C784"/>
+      <stop stop-color="#afe137"/>
+      <stop offset="1" stop-color="#70c0cc"/>
     </linearGradient>
     <style>
-      .bg { fill: #FAFDF6; stroke: #FFA000; }
+      .bg { fill: #f9f9f9; stroke: #afe137; }
       .mark { fill: url(#brand-light); }
       .txt { fill: #ffffff; }
       @media (prefers-color-scheme: dark) {
-        .bg { fill: #0c1322; stroke: #FFD54F; }
+        .bg { fill: #091a1c; stroke: #70c0cc; }
         .mark { fill: url(#brand-dark); }
-        .txt { fill: #0c1322; }
+        .txt { fill: #091a1c; }
       }
     </style>
   </defs>
