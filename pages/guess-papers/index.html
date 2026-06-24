@@ -263,14 +263,14 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 6rem;
+      font-size: 4rem !important; /* Reduced from 6rem to prevent horizontal page overflow and scaling issues */
       font-weight: 900;
-      color: rgba(1, 71, 81, 0.05) !important; /* Semi-transparent watermark displayed on top of everything */
+      color: rgba(1, 71, 81, 0.04) !important; /* Semi-transparent watermark displayed on top of everything */
       z-index: 99999 !important;
       pointer-events: none;
       white-space: nowrap;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.08em !important;
       user-select: none;
     }
     .site-header,

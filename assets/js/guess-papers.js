@@ -158,7 +158,53 @@
   });
 
   document.getElementById('printBtn').addEventListener('click', () => {
+    // Expand all answers in DOM to ensure they render completely for print (Chrome PDF renderer friendly)
+    const panels = document.querySelectorAll('.answer-panel');
+    const buttons = document.querySelectorAll('.reveal-btn');
+    const cards = document.querySelectorAll('.question-card');
+    
+    // Store original visibility state of each panel
+    const originalStates = [];
+    panels.forEach(panel => {
+      originalStates.push(panel.style.display);
+      panel.style.display = 'block';
+    });
+    
+    const originalButtonTexts = [];
+    buttons.forEach(btn => {
+      originalButtonTexts.push(btn.textContent);
+      btn.textContent = 'Hide Answer';
+      btn.classList.remove('secondary');
+    });
+
+    const originalCardRevealed = [];
+    cards.forEach(card => {
+      originalCardRevealed.push(card.classList.contains('revealed'));
+      card.classList.add('revealed');
+    });
+
+    // Open browser print layout (blocks thread till print preview is generated/closed)
     window.print();
+
+    // Restore original visibility state after printing dialog closes
+    panels.forEach((panel, index) => {
+      panel.style.display = originalStates[index];
+    });
+    buttons.forEach((btn, index) => {
+      btn.textContent = originalButtonTexts[index];
+      if (originalButtonTexts[index] === 'Reveal Answer') {
+        btn.classList.add('secondary');
+      } else {
+        btn.classList.remove('secondary');
+      }
+    });
+    cards.forEach((card, index) => {
+      if (originalCardRevealed[index]) {
+        card.classList.add('revealed');
+      } else {
+        card.classList.remove('revealed');
+      }
+    });
   });
 
   document.getElementById('shareBtn').addEventListener('click', async () => {
