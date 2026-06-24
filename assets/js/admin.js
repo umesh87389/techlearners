@@ -82,6 +82,12 @@
       revisionPapersLink.textContent = 'Revision Papers';
       nav.appendChild(revisionPapersLink);
     }
+    if (!nav.querySelector('[href="manage-guess-papers.html"]')) {
+      const guessPapersLink = document.createElement('a');
+      guessPapersLink.href = 'manage-guess-papers.html';
+      guessPapersLink.textContent = 'Guess Papers';
+      nav.appendChild(guessPapersLink);
+    }
     if (!nav.querySelector('[href="manage-chapters.html"]')) {
       const chaptersLink = document.createElement('a');
       chaptersLink.href = 'manage-chapters.html';
@@ -130,7 +136,7 @@
       nav.classList.add('admin-nav');
       nav.setAttribute('aria-label', 'Admin navigation');
       const groups = [
-        { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html'] },
+        { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html', 'manage-guess-papers.html'] },
         { label: 'Quizzes', items: ['manage-quizzes.html', 'quiz-results.html'] },
         { label: 'Site Management', items: ['announcements.html', 'focus.html', 'advertisements.html', 'contact-messages.html'] }
       ];
@@ -222,6 +228,12 @@
       title: 'Manage Sample Papers',
       intro: 'Publish sample papers class-wise. Each saved paper gets its own student page with navigation and sharing options. Add a public paper URL when the file is ready; students will see only the papers you publish.',
       fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="year" type="number" min="2000" max="2100" placeholder="Exam year, for example 2025" required><input name="title" placeholder="Paper title" required><textarea name="description" data-rich-text placeholder="Short description" required></textarea><input name="file" type="url" placeholder="Optional public sample-paper URL, for example https://..."><label>Optional paper upload<input name="upload" type="file" accept=".pdf,.doc,.docx,.txt"></label>`
+    },
+    'manage-guess-papers.html': {
+      type: 'guessPapers',
+      title: 'Manage Guess Papers',
+      intro: 'Publish CBSE Class 10 AI and IT guess papers. Enter metadata, list instructions one per line, and paste the sections and questions JSON array.',
+      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="title" placeholder="Paper title" required><textarea name="description" placeholder="Short description" required></textarea><input name="time" placeholder="Exam duration (e.g., 2 Hours)" required><input name="maxMarks" type="number" placeholder="Max Marks" required><textarea name="instructions" placeholder="Enter general instructions (one per line)" required></textarea><textarea name="sectionsJson" placeholder="Paste sections & questions JSON array here" required></textarea>`
     },
     'manage-revision-papers.html': {
       type: 'revisionPapers',
@@ -360,6 +372,7 @@
       quizQuestions: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search quiz questions" aria-label="Search quiz questions">`,
       questionPapers: `${sharedClassSubject}<select data-filter-field="year" data-filter-dynamic aria-label="Filter by year"><option value="">All years</option></select><input data-filter-search type="search" placeholder="Search papers" aria-label="Search sample papers">`,
       revisionPapers: `${sharedClassSubject}<select data-filter-field="testType" data-filter-dynamic aria-label="Filter by test type"><option value="">All test types</option></select><input data-filter-search type="search" placeholder="Search revision papers" aria-label="Search revision papers">`,
+      guessPapers: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search guess papers" aria-label="Search guess papers">`,
       chapters: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search chapters" aria-label="Search chapters">`,
       announcements: '<input data-filter-search type="search" placeholder="Search announcements" aria-label="Search announcements">',
       focus: '<input data-filter-search type="search" placeholder="Search focus items" aria-label="Search focus items">',
@@ -474,6 +487,11 @@
         class: item.class || 'Class 9',
         subject: item.subject || 'AI',
         paper: adminRevisionPaperKey(item)
+      })}`;
+    }
+    if (type === 'guessPapers') {
+      return `../guess-papers/index.html?${new URLSearchParams({
+        subject: item.subject || 'AI'
       })}`;
     }
     if (type === 'chapters') {
@@ -712,6 +730,48 @@
       if (!videoId) throw new Error('Enter a valid YouTube video ID or full YouTube video link.');
       values.videoId = videoId;
     }
+    if (editor?.dataset.contentType === 'guessPapers') {
+      values.maxMarks = Number(values.maxMarks);
+      if (isNaN(values.maxMarks) || values.maxMarks <= 0) {
+        throw new Error('Enter a valid positive number for Max Marks.');
+      }
+      values.instructions = (values.instructions || '').split('\n').map(line => line.trim()).filter(Boolean);
+      try {
+        values.sections = JSON.parse(values.sectionsJson || '[]');
+      } catch (e) {
+        throw new Error('Invalid JSON format in sections field: ' + e.message);
+      }
+      if (!Array.isArray(values.sections)) {
+        throw new Error('Sections must be a JSON array at the top level.');
+      }
+      for (const section of values.sections) {
+        if (!section.name) {
+          throw new Error('Each section in the JSON must have a "name" property.');
+        }
+        if (!Array.isArray(section.questions)) {
+          throw new Error('Each section must have a "questions" array.');
+        }
+        for (const q of section.questions) {
+          if (!q.id) throw new Error('Each question must have a unique "id".');
+          if (!q.type) throw new Error('Each question must have a "type" ("objective" or "subjective").');
+          if (!q.text) throw new Error('Each question must have "text" content.');
+          if (q.type === 'objective' && !Array.isArray(q.options)) {
+            throw new Error('Objective questions must have an "options" array.');
+          }
+          if (q.marks === undefined || isNaN(Number(q.marks))) {
+            throw new Error('Each question must specify numeric "marks".');
+          }
+          q.marks = Number(q.marks);
+          if (q.answer === undefined) {
+            throw new Error('Each question must specify an "answer".');
+          }
+        }
+      }
+      delete values.sectionsJson;
+      values.id = editingIndex >= 0 && items[editingIndex]?.id
+        ? items[editingIndex].id
+        : `class10-${values.subject.toLowerCase()}-guess-2026`;
+    }
     return values;
   }
 
@@ -719,16 +779,29 @@
     editingIndex = index;
     const item = items[index];
     const form = document.getElementById('adminForm');
-    Object.entries(item).forEach(([key, value]) => {
-      const field = form.elements.namedItem(key);
-      if (field?.type === 'checkbox') field.checked = Boolean(value);
-      else if (field) {
-        field.value = key === 'answer' && editor?.dataset.contentType === 'quizQuestions'
-          ? Number(value) + 1
-          : Array.isArray(value) ? value.join('\n') : value;
-        if (field.richTextEditor) field.richTextEditor.surface.innerHTML = field.value;
-      }
-    });
+    if (editor?.dataset.contentType === 'guessPapers') {
+      const displayItem = { ...item };
+      displayItem.instructions = Array.isArray(item.instructions) ? item.instructions.join('\n') : '';
+      displayItem.sectionsJson = Array.isArray(item.sections) ? JSON.stringify(item.sections, null, 2) : '';
+      
+      Object.entries(displayItem).forEach(([key, value]) => {
+        const field = form.elements.namedItem(key);
+        if (field) {
+          field.value = value;
+        }
+      });
+    } else {
+      Object.entries(item).forEach(([key, value]) => {
+        const field = form.elements.namedItem(key);
+        if (field?.type === 'checkbox') field.checked = Boolean(value);
+        else if (field) {
+          field.value = key === 'answer' && editor?.dataset.contentType === 'quizQuestions'
+            ? Number(value) + 1
+            : Array.isArray(value) ? value.join('\n') : value;
+          if (field.richTextEditor) field.richTextEditor.surface.innerHTML = field.value;
+        }
+      });
+    }
     document.getElementById('saveButton').textContent = 'Update Item';
     document.getElementById('cancelButton').hidden = false;
     form.scrollIntoView({ behavior: 'smooth' });

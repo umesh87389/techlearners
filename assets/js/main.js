@@ -96,6 +96,7 @@ window.TechLearnersAdminNav = {
       { href: 'manage-mcqs.html', label: 'MCQs' },
       { href: 'manage-question-papers.html', label: 'Sample Papers' },
       { href: 'manage-revision-papers.html', label: 'Revision Papers' },
+      { href: 'manage-guess-papers.html', label: 'Guess Papers' },
       { href: 'manage-quizzes.html', label: 'Manage Quiz' },
       { href: 'quiz-results.html', label: 'Quiz Results' },
       { href: 'announcements.html', label: 'Announcements' },
@@ -115,7 +116,7 @@ window.TechLearnersAdminNav = {
     });
 
     const groups = [
-      { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html'] },
+      { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html', 'manage-guess-papers.html'] },
       { label: 'Quizzes', items: ['manage-quizzes.html', 'quiz-results.html'] },
       { label: 'Site Management', items: ['announcements.html', 'focus.html', 'advertisements.html', 'contact-messages.html'] }
     ];

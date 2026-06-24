@@ -1,6 +1,6 @@
 (function () {
   const storagePrefix = 'tl_content_';
-  const contentTypes = ['notes', 'quizzes', 'quizQuestions', 'questionPapers', 'revisionPapers', 'chapters', 'announcements', 'focus', 'advertisements'];
+  const contentTypes = ['notes', 'quizzes', 'quizQuestions', 'questionPapers', 'revisionPapers', 'chapters', 'announcements', 'focus', 'advertisements', 'guessPapers'];
   const firebase = window.TechLearnersFirebase;
   const defaultCache = new Map();
   const isAdminPage = location.pathname.includes('/pages/admin/');
