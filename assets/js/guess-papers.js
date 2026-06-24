@@ -159,11 +159,48 @@
   });
 
   document.getElementById('printBtn').addEventListener('click', () => {
-    window.print();
+    // Expand all answers in DOM to ensure they render completely for print (especially on WebKit iOS/Android devices)
+    if (!printStates) {
+      const panels = document.querySelectorAll('.answer-panel');
+      const buttons = document.querySelectorAll('.reveal-btn');
+      const cards = document.querySelectorAll('.question-card');
+      
+      const originalStates = [];
+      panels.forEach(panel => {
+        originalStates.push(panel.style.display);
+        panel.style.display = 'block';
+      });
+      
+      const originalButtonTexts = [];
+      buttons.forEach(btn => {
+        originalButtonTexts.push(btn.textContent);
+        btn.textContent = 'Hide Answer';
+        btn.classList.remove('secondary');
+      });
+
+      const originalCardRevealed = [];
+      cards.forEach(card => {
+        originalCardRevealed.push(card.classList.contains('revealed'));
+        card.classList.add('revealed');
+      });
+
+      printStates = {
+        originalStates,
+        originalButtonTexts,
+        originalCardRevealed
+      };
+    }
+
+    // Wait a brief timeout to allow WebKit layout thread to reflow and draw elements before printing dialog captures them
+    setTimeout(() => {
+      window.print();
+    }, 150);
   });
 
   window.addEventListener('beforeprint', () => {
-    // Expand all answers in DOM to ensure they render completely for print
+    // If printed via browser print menu, printStates will be null, so capture and expand now
+    if (printStates) return;
+
     const panels = document.querySelectorAll('.answer-panel');
     const buttons = document.querySelectorAll('.reveal-btn');
     const cards = document.querySelectorAll('.question-card');
