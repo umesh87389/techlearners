@@ -799,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <a class="social-icon" href="https://www.facebook.com/share/1ECnABWT7r/" target="_blank" rel="noopener" aria-label="Facebook">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.7 22v-9h3l.5-3.5h-3.5V7.2c0-1 .3-1.7 1.8-1.7h1.9V2.4c-.3 0-1.5-.1-2.8-.1-2.8 0-4.7 1.7-4.7 4.8v2.4H6.8V13h3.1v9h3.8Z"/></svg>
         </a>
-        <a class="social-icon" href="https://wa.me/918738943773" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <a class="social-icon" href="https://whatsapp.com/channel/0029Vb7vPWA8kyyITUkhZF01" target="_blank" rel="noopener" aria-label="WhatsApp">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.5l5.9-1.6A11.8 11.8 0 0 0 20.5 3.5ZM12.2 21a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.5.9.9-3.4-.2-.4A9.8 9.8 0 1 1 12.2 21Zm5.4-7.3c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.7-.9-2.8-1.6-3.9-3.5-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.6-.5-.9-.5h-.7c-.3 0-.7.1-1 .5-.3.3-1.3 1.3-1.3 3.2s1.4 3.7 1.6 4c.2.3 2.7 4.1 6.5 5.7 2.4 1 3.4 1.1 4.6.9.7-.1 1.8-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4Z"/></svg>
         </a>
         <a class="social-icon" href="https://www.youtube.com/@techlearners1" target="_blank" rel="noopener" aria-label="YouTube">
