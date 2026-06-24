@@ -231,11 +231,36 @@
     flex-wrap: wrap;
   }
   
+  /* Print Watermark styling */
+  .print-watermark {
+    display: none;
+  }
+  
   /* Print Stylesheet */
   @media print {
+    @page {
+      margin: 15mm;
+    }
     body {
       background: white !important;
       color: black !important;
+      font-size: 11pt !important;
+      line-height: 1.5 !important;
+    }
+    .print-watermark {
+      display: block !important;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-35deg);
+      font-size: 5.5rem;
+      font-weight: 900;
+      color: #e8e8e8 !important; /* Faint gray for watermark */
+      z-index: -9999;
+      pointer-events: none;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
     }
     .site-header,
     .footer,
@@ -253,32 +278,78 @@
     .page {
       max-width: 100% !important;
     }
-    .question-card {
+    .blueprint-card {
       border: 1px solid #ccc !important;
-      border-radius: 0 !important;
+      border-radius: 12px !important;
+      background: transparent !important;
       box-shadow: none !important;
       margin-bottom: 20px !important;
+      padding: 15px !important;
       page-break-inside: avoid !important;
-      background: transparent !important;
     }
-    .answer-panel {
+    .instructions-box {
+      border: 1px solid #ccc !important;
+      border-left: 4px solid #333 !important;
+      border-radius: 6px !important;
+      background: transparent !important;
+      margin-bottom: 20px !important;
+      padding: 15px !important;
+      page-break-inside: avoid !important;
+    }
+    .guess-section-title {
+      page-break-after: avoid !important;
+      break-after: avoid !important;
+      margin-top: 40px !important;
+      border-bottom: 1.5px solid #666 !important;
+      color: #000 !important;
+    }
+    .question-list {
       display: block !important;
-      border-top: 1px solid #ccc !important;
+    }
+    .question-card {
+      border: 1px solid #ddd !important;
+      border-radius: 12px !important;
+      box-shadow: none !important;
+      margin-bottom: 24px !important;
+      padding: 16px !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
       background: transparent !important;
     }
-    .answer-content {
+    .question-header {
+      border-bottom: 1px solid #eee !important;
+      padding-bottom: 8px !important;
+      margin-bottom: 12px !important;
+    }
+    .marks-badge {
+      border: 1px solid #999 !important;
       background: transparent !important;
-      border: 1px solid #eee !important;
-      padding: 10px !important;
+      color: #000 !important;
     }
     .option-pill {
       background: transparent !important;
-      border-color: #eee !important;
+      border-color: #ddd !important;
+      padding: 6px 10px !important;
+      page-break-inside: avoid !important;
+    }
+    .answer-panel {
+      display: block !important;
+      margin-top: 14px !important;
+      padding-top: 14px !important;
+      border-top: 1px dashed #bbb !important;
+    }
+    .answer-content {
+      background: #fafafa !important;
+      border: 1px solid #eee !important;
+      padding: 12px 16px !important;
+      border-radius: 8px !important;
+      color: #000 !important;
     }
   }
 </style>
 </head>
 <body>
+<div class="print-watermark" aria-hidden="true">TechLearners</div>
 <header class="site-header">
   <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a>
   <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
