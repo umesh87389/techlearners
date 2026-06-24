@@ -639,6 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCookieNotice();
   setupNavAuth();
   setupGoToTop();
+  initQOTD();
+  initLeadCapture();
   const btn = document.getElementById('menuBtn');
   const nav = document.getElementById('navMenu') || document.querySelector('.nav');
   if (nav) {
@@ -1137,4 +1139,176 @@ function setupGoToTop() {
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
+function initQOTD() {
+  const container = document.getElementById('qotdContainer');
+  if (!container) return;
+
+  const qotdQuestions = [
+    {
+      q: "Which stage of the AI Project Cycle involves defining the problem and its goals?",
+      options: ["Data Acquisition", "Problem Scoping", "Data Exploration", "Evaluation"],
+      answer: 1,
+      explanation: "Problem Scoping is the first stage of the AI Project Cycle where we define the goal, scoping, and boundaries of the project."
+    },
+    {
+      q: "In electronic spreadsheets, which feature is used to calculate values dynamically based on other cells?",
+      options: ["Filter", "Mail Merge", "Formulas & Functions", "Conditional Formatting"],
+      answer: 2,
+      explanation: "Formulas and Functions allow users to perform calculations dynamically using cell references."
+    },
+    {
+      q: "What is the primary concern regarding fairness and neutrality in AI models?",
+      options: ["AI Bias", "Neural Depth", "System Cost", "NLP Velocity"],
+      answer: 0,
+      explanation: "AI Bias refers to systematic error or prejudice in AI outputs, arising from biased training data or algorithms."
+    },
+    {
+      q: "In database management systems (DBMS), which key uniquely identifies each record in a table?",
+      options: ["Foreign Key", "Composite Key", "Primary Key", "Candidate Key"],
+      answer: 2,
+      explanation: "A Primary Key is a unique column or combination of columns that uniquely identifies a row in a table."
+    },
+    {
+      q: "Which layers in a neural network are located between the input layer and the output layer?",
+      options: ["Active Layers", "Hidden Layers", "Deep Layers", "Filter Layers"],
+      answer: 1,
+      explanation: "Hidden Layers are the intermediate processing layers in a neural network between input and output layers."
+    },
+    {
+      q: "Which protocol is the secure version of HTTP that encrypts traffic to protect user data?",
+      options: ["FTP", "HTTPS", "SMTP", "TCP"],
+      answer: 1,
+      explanation: "HTTPS (Hypertext Transfer Protocol Secure) encrypts all data sent between the browser and the website for security."
+    },
+    {
+      q: "Which subfield of Artificial Intelligence enables computers to understand and process human languages?",
+      options: ["Computer Vision", "Natural Language Processing (NLP)", "Supervised Learning", "Deep Learning"],
+      answer: 1,
+      explanation: "Natural Language Processing (NLP) is the branch of AI dedicated to understanding, interpreting, and generating human language."
+    }
+  ];
+
+  // Rotate based on day of year to ensure daily change
+  const now = new Date();
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  const qIdx = dayOfYear % qotdQuestions.length;
+  const question = qotdQuestions[qIdx];
+  
+  const todayStr = now.toISOString().slice(0, 10);
+  const lastAnsweredDate = localStorage.getItem('tl_qotd_last_date');
+  const answeredToday = lastAnsweredDate === todayStr;
+  
+  let streak = parseInt(localStorage.getItem('tl_qotd_streak') || '0', 10);
+  
+  // Calculate/Validate streak on load
+  if (lastAnsweredDate && lastAnsweredDate !== todayStr) {
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().slice(0, 10);
+    if (lastAnsweredDate !== yesterdayStr) {
+      // Streak broken
+      streak = 0;
+      localStorage.setItem('tl_qotd_streak', '0');
+    }
+  }
+
+  // Draw QOTD UI
+  container.innerHTML = `
+    <div class="qotd-card">
+      <div class="qotd-header">
+        <div class="qotd-title-group">
+          <p class="tag">Daily Practice</p>
+          <h2>Question of the Day</h2>
+        </div>
+        <div class="qotd-streak-badge">
+          <span>🔥 Streak: <b id="qotdStreak">${streak}</b> Days</span>
+        </div>
+      </div>
+      <p class="qotd-question">${escapeHtml(question.q)}</p>
+      <div class="qotd-options">
+        ${question.options.map((opt, i) => `
+          <label class="qotd-option" id="optLabel_${i}">
+            <input type="radio" name="qotd" value="${i}" ${answeredToday ? 'disabled' : ''}>
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `).join('')}
+      </div>
+      ${answeredToday ? `
+        <div class="qotd-feedback correct">
+          <strong>Challenge complete!</strong> Come back tomorrow for the next question.<br>
+          ${escapeHtml(question.explanation)}
+        </div>
+      ` : `
+        <button class="btn qotd-submit" type="button" id="qotdSubmitBtn">Submit Answer</button>
+        <div class="qotd-feedback" id="qotdFeedback" hidden></div>
+      `}
+    </div>
+  `;
+
+  if (!answeredToday) {
+    const submitBtn = document.getElementById('qotdSubmitBtn');
+    submitBtn.addEventListener('click', () => {
+      const selected = container.querySelector('input[name="qotd"]:checked');
+      if (!selected) {
+        alert("Please select an option first!");
+        return;
+      }
+      const ansVal = parseInt(selected.value, 10);
+      const isCorrect = ansVal === question.answer;
+      
+      // Disable inputs
+      container.querySelectorAll('input[name="qotd"]').forEach(inp => inp.disabled = true);
+      submitBtn.style.display = 'none';
+      
+      const feedback = document.getElementById('qotdFeedback');
+      feedback.hidden = false;
+      
+      if (isCorrect) {
+        // Update streak
+        if (lastAnsweredDate !== todayStr) {
+          const yesterday = new Date(now);
+          yesterday.setDate(now.getDate() - 1);
+          const yesterdayStr = yesterday.toISOString().slice(0, 10);
+          if (lastAnsweredDate === yesterdayStr) {
+            streak += 1;
+          } else {
+            streak = 1;
+          }
+          localStorage.setItem('tl_qotd_streak', streak.toString());
+          localStorage.setItem('tl_qotd_last_date', todayStr);
+          document.getElementById('qotdStreak').textContent = streak;
+        }
+        feedback.className = "qotd-feedback correct";
+        feedback.innerHTML = `<strong>Correct! 🎉</strong><br>${escapeHtml(question.explanation)}`;
+      } else {
+        // Streak broken
+        streak = 0;
+        localStorage.setItem('tl_qotd_streak', '0');
+        localStorage.setItem('tl_qotd_last_date', todayStr);
+        document.getElementById('qotdStreak').textContent = streak;
+        
+        feedback.className = "qotd-feedback incorrect";
+        feedback.innerHTML = `<strong>Incorrect. ❌</strong><br>The correct answer is: <strong>${escapeHtml(question.options[question.answer])}</strong>.<br>${escapeHtml(question.explanation)}`;
+      }
+    });
+  }
+}
+
+function initLeadCapture() {
+  const form = document.getElementById('leadCaptureForm');
+  if (!form) return;
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const emailInp = document.getElementById('leadEmail');
+    const email = emailInp.value.trim();
+    if (!email) return;
+    
+    // Simulate sending email
+    localStorage.setItem('tl_subscriber_email', email);
+    const container = document.getElementById('leadCaptureContainer');
+    container.innerHTML = `<p class="lead-success-msg">🎉 Thank you! Check your inbox. The Free Class 9 & 10 AI + IT Guess Papers and Revision PDF pack link has been sent to <strong>${escapeHtml(email)}</strong>.</p>`;
+  });
+}
+
 // Chatbot removed
+

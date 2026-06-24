@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied',
+    'personalization_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-NQV5L20CWL');
+</script>
+<title>Teacher Resource Hub | TechLearners</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Access free CBSE Class 9 and Class 10 Artificial Intelligence and Information Technology printable worksheets, PPT lesson slides, and editable question papers.">
+<link rel="canonical" href="https://www.techlearners.in/pages/teachers/index.html">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=green-yellow-3d-logo-2">
+<link rel="stylesheet" href="../../assets/css/style.css?v=growth-loops-1">
+<link rel="stylesheet" href="../../assets/css/responsive.css?v=mobile-speed-2">
+<link rel="stylesheet" href="../../assets/css/animations.css?v=centered-banner-loop-1">
+<style>
+  .teacher-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 28px;
+  }
+  .resource-item-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .resource-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(1, 71, 81, 0.1);
+  }
+  .resource-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+  .resource-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .resource-size {
+    color: var(--muted);
+  }
+  .resource-item-card h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+  .resource-item-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .resource-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: auto;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a>
+  <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button>
+  <nav class="nav" id="navMenu">
+    <a href="../../index.html">Home</a>
+    <a href="../../pages/class9/index.html">Class 9</a>
+    <a href="../../pages/class10/index.html">Class 10</a>
+    <a href="../../pages/notes/index.html">Notes</a>
+    <a href="../../pages/quizzes/index.html">MCQs</a>
+    <a href="../../pages/question-papers/index.html">Sample Papers</a>
+    <a href="../../contact.html">Contact</a>
+    <a class="btn small" href="../../login.html">Login</a>
+  </nav>
+</header>
+<main class="page">
+  <section class="section">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 32px;">
+      <p class="tag">Teacher Hub</p>
+      <h1 style="font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin-bottom: 12px;">CBSE AI & IT Educator Resources</h1>
+      <p style="color: var(--muted); font-size: 1.1rem; line-height: 1.5;">Download free lesson resources compiled specifically for school teachers. Distribute worksheets, slide decks, and test structures to your classroom easily.</p>
+    </div>
+
+    <!-- Filter Buttons based on URL parameter -->
+    <div class="topic-pills" id="resourceFilters" style="justify-content: center; margin-bottom: 32px;" aria-label="Resource categories">
+      <a href="#all" onclick="filterResources('all'); return false;" class="active" id="btn-all">All Resources</a>
+      <a href="#worksheets" onclick="filterResources('worksheets'); return false;" id="btn-worksheets">Printable Worksheets</a>
+      <a href="#slides" onclick="filterResources('slides'); return false;" id="btn-slides">PPT Lesson Slides</a>
+      <a href="#papers" onclick="filterResources('papers'); return false;" id="btn-papers">Editable Question Papers</a>
+    </div>
+
+    <div class="teacher-hub-grid" id="resourcesGrid">
+      <!-- Item 1 -->
+      <article class="resource-item-card" data-category="worksheets">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 10 AI</span>
+          <span class="resource-size">PDF | 1.2 MB</span>
+        </div>
+        <h3>AI Project Cycle Worksheet</h3>
+        <p>Step-by-step problem scoping, data acquisition, and evaluation worksheets for students.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('AI_Project_Cycle_Worksheet.pdf'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Worksheet
+        </a>
+      </article>
+
+      <!-- Item 2 -->
+      <article class="resource-item-card" data-category="worksheets">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 9 IT</span>
+          <span class="resource-size">PDF | 980 KB</span>
+        </div>
+        <h3>Spreadsheet Formulas Practice</h3>
+        <p>A printable sheet with practical tables and spreadsheet calculation exercises for IT 402 students.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('Spreadsheet_Formulas_Practice.pdf'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Worksheet
+        </a>
+      </article>
+
+      <!-- Item 3 -->
+      <article class="resource-item-card" data-category="slides">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 10 AI</span>
+          <span class="resource-size">PPTX | 4.6 MB</span>
+        </div>
+        <h3>Introduction to Neural Networks</h3>
+        <p>A comprehensive slide deck covering layers, nodes, inputs, and deep learning architectures.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('Intro_to_Neural_Networks.pptx'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PPT Slides
+        </a>
+      </article>
+
+      <!-- Item 4 -->
+      <article class="resource-item-card" data-category="slides">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 10 IT</span>
+          <span class="resource-size">PPTX | 3.2 MB</span>
+        </div>
+        <h3>DBMS & SQL Queries Guide</h3>
+        <p>Interactive classroom presentation covering tables, primary keys, and basic SQL query commands.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('DBMS_and_SQL_Guide.pptx'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PPT Slides
+        </a>
+      </article>
+
+      <!-- Item 5 -->
+      <article class="resource-item-card" data-category="papers">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 10 AI</span>
+          <span class="resource-size">DOCX | 450 KB</span>
+        </div>
+        <h3>AI 417 Midterm Exam Template</h3>
+        <p>Fully editable exam structure containing multiple choice questions, short answers, and coding scenarios.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('AI_417_Midterm_Exam_Template.docx'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download DOCX Paper
+        </a>
+      </article>
+
+      <!-- Item 6 -->
+      <article class="resource-item-card" data-category="papers">
+        <div class="resource-meta">
+          <span class="resource-badge">Class 9 IT</span>
+          <span class="resource-size">DOCX | 380 KB</span>
+        </div>
+        <h3>IT 402 Practical Quiz Template</h3>
+        <p>Printable quiz format for testing digital documentation and presentation software knowledge.</p>
+        <a href="#" class="btn small resource-download-btn" onclick="simulateDownload('IT_402_Practical_Quiz.docx'); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download DOCX Paper
+        </a>
+      </article>
+    </div>
+  </section>
+</main>
+<footer class="footer">
+  <p>&copy; 2026 TechLearners. Built for AI students.</p>
+  <nav class="footer-links">
+    <a href="../../privacy.html">Privacy Policy</a>
+    <a href="../../terms.html">Terms</a>
+    <a href="../../disclaimer.html">Disclaimer</a>
+    <a href="../../editorial-policy.html">Editorial Policy</a>
+    <a href="../../about.html">About</a>
+  </nav>
+</footer>
+<script src="../../assets/js/main.js?v=growth-loops-1"></script>
+<script>
+  function filterResources(category) {
+    // Update active pill styling
+    const pills = document.querySelectorAll('#resourceFilters a');
+    pills.forEach(pill => pill.classList.remove('active'));
+    document.getElementById('btn-' + category)?.classList.add('active');
+
+    // Show/Hide cards
+    const cards = document.querySelectorAll('#resourcesGrid article');
+    cards.forEach(card => {
+      if (category === 'all' || card.dataset.category === category) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  function simulateDownload(filename) {
+    alert("Downloading: " + filename + "\\nThank you for utilizing TechLearners Educator Resources!");
+  }
+
+  // Read URL parameters on load to trigger category selection
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const filterType = params.get('type');
+    if (filterType && ['worksheets', 'slides', 'papers'].includes(filterType)) {
+      filterResources(filterType);
+    }
+  });
+</script>
+</body></html>
