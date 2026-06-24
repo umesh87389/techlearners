@@ -2,6 +2,7 @@
   let activeSubject = 'AI';
   let allPapers = [];
   let currentPaper = null;
+  let printStates = null;
 
   const query = new URLSearchParams(location.search);
   if (query.get('subject') === 'IT') {
@@ -158,12 +159,16 @@
   });
 
   document.getElementById('printBtn').addEventListener('click', () => {
-    // Expand all answers in DOM to ensure they render completely for print (Chrome PDF renderer friendly)
+    window.print();
+  });
+
+  window.addEventListener('beforeprint', () => {
+    // Expand all answers in DOM to ensure they render completely for print
     const panels = document.querySelectorAll('.answer-panel');
     const buttons = document.querySelectorAll('.reveal-btn');
     const cards = document.querySelectorAll('.question-card');
     
-    // Store original visibility state of each panel
+    // Store original visibility states
     const originalStates = [];
     panels.forEach(panel => {
       originalStates.push(panel.style.display);
@@ -183,28 +188,40 @@
       card.classList.add('revealed');
     });
 
-    // Open browser print layout (blocks thread till print preview is generated/closed)
-    window.print();
+    printStates = {
+      originalStates,
+      originalButtonTexts,
+      originalCardRevealed
+    };
+  });
 
-    // Restore original visibility state after printing dialog closes
+  window.addEventListener('afterprint', () => {
+    if (!printStates) return;
+
+    const panels = document.querySelectorAll('.answer-panel');
+    const buttons = document.querySelectorAll('.reveal-btn');
+    const cards = document.querySelectorAll('.question-card');
+
     panels.forEach((panel, index) => {
-      panel.style.display = originalStates[index];
+      panel.style.display = printStates.originalStates[index];
     });
     buttons.forEach((btn, index) => {
-      btn.textContent = originalButtonTexts[index];
-      if (originalButtonTexts[index] === 'Reveal Answer') {
+      btn.textContent = printStates.originalButtonTexts[index];
+      if (printStates.originalButtonTexts[index] === 'Reveal Answer') {
         btn.classList.add('secondary');
       } else {
         btn.classList.remove('secondary');
       }
     });
     cards.forEach((card, index) => {
-      if (originalCardRevealed[index]) {
+      if (printStates.originalCardRevealed[index]) {
         card.classList.add('revealed');
       } else {
         card.classList.remove('revealed');
       }
     });
+
+    printStates = null;
   });
 
   document.getElementById('shareBtn').addEventListener('click', async () => {
