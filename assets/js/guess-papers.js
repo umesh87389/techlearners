@@ -62,12 +62,15 @@
         let optionsHtml = '';
         if (q.type === 'objective' && q.options) {
           optionsHtml = `<div class="options-container">
-            ${q.options.map((opt, oIdx) => `
-              <div class="option-pill">
-                <span class="option-marker">${optionLetters[oIdx]}.</span>
-                <span>${escapeHtml(opt)}</span>
-              </div>
-            `).join('')}
+            ${q.options.map((opt, oIdx) => {
+              const isCorrectOption = opt === q.answer;
+              return `
+                <div class="option-pill ${isCorrectOption ? 'correct-option' : ''}">
+                  <span class="option-marker">${optionLetters[oIdx]}.</span>
+                  <span>${escapeHtml(opt)}</span>
+                </div>
+              `;
+            }).join('')}
           </div>`;
         }
 
@@ -117,6 +120,11 @@
           panel.style.display = isHidden ? 'block' : 'none';
           btn.textContent = isHidden ? 'Hide Answer' : 'Reveal Answer';
           btn.classList.toggle('secondary', !isHidden);
+
+          const card = document.getElementById(`q-card-${qId}`);
+          if (card) {
+            card.classList.toggle('revealed', isHidden);
+          }
         }
       });
     });
@@ -131,6 +139,9 @@
       btn.textContent = 'Hide Answer';
       btn.classList.remove('secondary');
     });
+    document.querySelectorAll('.question-card').forEach(card => {
+      card.classList.add('revealed');
+    });
   });
 
   document.getElementById('collapseAllBtn').addEventListener('click', () => {
@@ -140,6 +151,9 @@
     document.querySelectorAll('.reveal-btn').forEach(btn => {
       btn.textContent = 'Reveal Answer';
       btn.classList.add('secondary');
+    });
+    document.querySelectorAll('.question-card').forEach(card => {
+      card.classList.remove('revealed');
     });
   });
 

@@ -231,6 +231,14 @@
     flex-wrap: wrap;
   }
   
+  /* Screen styling for correct option when question is revealed */
+  .question-card.revealed .correct-option {
+    background: var(--accent-soft) !important;
+    border-color: var(--accent) !important;
+    color: var(--accent) !important;
+    font-weight: 700;
+  }
+
   /* Print Watermark styling */
   .print-watermark {
     display: none;
@@ -254,15 +262,16 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(-35deg);
-      font-size: 5.5rem;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 6rem;
       font-weight: 900;
-      color: #e8e8e8 !important; /* Faint gray for watermark */
-      z-index: -9999;
+      color: rgba(1, 71, 81, 0.05) !important; /* Semi-transparent watermark displayed on top of everything */
+      z-index: 99999 !important;
       pointer-events: none;
       white-space: nowrap;
       text-transform: uppercase;
       letter-spacing: 0.15em;
+      user-select: none;
     }
     .site-header,
     .footer,
@@ -327,22 +336,57 @@
       border: 1px solid #999 !important;
       color: #000 !important;
     }
+    .options-container {
+      display: block !important;
+      margin: 10px 0 12px 20px !important;
+    }
     .option-pill {
-      border-color: #ddd !important;
-      padding: 6px 10px !important;
+      display: flex !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 4px 0 !important;
+      margin-bottom: 4px !important;
+      box-shadow: none !important;
       page-break-inside: avoid !important;
+    }
+    .option-marker {
+      font-weight: 700 !important;
+      color: #000 !important;
+      margin-right: 8px !important;
+    }
+    .correct-option {
+      font-weight: bold !important;
+      color: #059669 !important;
+    }
+    .correct-option::after {
+      content: " ✓" !important;
+      font-weight: bold !important;
+      color: #059669 !important;
     }
     .answer-panel {
       display: block !important;
-      margin-top: 14px !important;
-      padding-top: 14px !important;
-      border-top: 1px dashed #bbb !important;
+      margin-top: 12px !important;
+      padding-top: 12px !important;
+      border-top: 1px dashed #ccc !important;
     }
     .answer-content {
-      border: 1px solid #eee !important;
-      padding: 12px 16px !important;
-      border-radius: 8px !important;
+      border: none !important;
+      border-left: 3px solid #666 !important;
+      padding: 4px 0 4px 12px !important;
+      margin: 8px 0 0 10px !important;
+      border-radius: 0 !important;
       color: #000 !important;
+      background: transparent !important;
+    }
+    .answer-title {
+      color: #000 !important;
+      font-weight: bold !important;
+    }
+    .explanation-block {
+      border-top: 1px solid #eee !important;
+      color: #555 !important;
+      margin-top: 8px !important;
+      padding-top: 6px !important;
     }
   }
 </style>
