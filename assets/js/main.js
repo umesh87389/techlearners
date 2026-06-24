@@ -640,7 +640,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavAuth();
   setupGoToTop();
   initQOTD();
-  initLeadCapture();
   const btn = document.getElementById('menuBtn');
   const nav = document.getElementById('navMenu') || document.querySelector('.nav');
   if (nav) {
@@ -1292,22 +1291,6 @@ function initQOTD() {
       }
     });
   }
-}
-
-function initLeadCapture() {
-  const form = document.getElementById('leadCaptureForm');
-  if (!form) return;
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const emailInp = document.getElementById('leadEmail');
-    const email = emailInp.value.trim();
-    if (!email) return;
-    
-    // Simulate sending email
-    localStorage.setItem('tl_subscriber_email', email);
-    const container = document.getElementById('leadCaptureContainer');
-    container.innerHTML = `<p class="lead-success-msg">🎉 Thank you! Check your inbox. The Free Class 9 & 10 AI + IT Guess Papers and Revision PDF pack link has been sent to <strong>${escapeHtml(email)}</strong>.</p>`;
-  });
 }
 
 // Chatbot removed
