@@ -48,24 +48,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .site-header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 7%;backdrop-filter:blur(14px);background:var(--header-bg);border-bottom:1px solid rgba(255,255,255,.72);box-shadow:0 8px 30px rgba(1,71,81,.08)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.35rem;letter-spacing:-.04em;transition:transform 0.3s ease;perspective:1000px}
 .brand:hover{transform:scale(1.02)}
-.brand-mark{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50% 50% 50% 14px;background:var(--logo-bg);color:var(--logo-text);font-size:.76rem;letter-spacing:.02em;box-shadow:0 10px 24px rgba(1,71,81,.25);transform:rotate(-7deg);transform-style:preserve-3d;animation:logo-3d-float 6s ease-in-out infinite;transform-origin:center;transition:box-shadow 0.3s ease}
+.brand-mark{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50% 50% 50% 14px;background:var(--logo-bg);color:var(--logo-text);font-size:.76rem;letter-spacing:.02em;box-shadow:0 10px 24px rgba(1,71,81,.25);transform:rotate(-7deg);transform-style:preserve-3d;animation:logo-3d-rotate 8s linear infinite;transform-origin:center;transition:box-shadow 0.3s ease}
 .brand-mark::after{content:"";position:absolute;width:46px;height:46px;border:1px solid var(--logo-halo);border-radius:50%;transform:rotate(35deg) translateZ(8px);animation:logo-orbit 15s linear infinite;transform-origin:center;pointer-events:none}
-.brand:hover .brand-mark{animation:logo-spin 0.8s cubic-bezier(0.34,1.56,0.64,1) 1;box-shadow:0 12px 32px rgba(255,160,0,.45)}
+.brand:hover .brand-mark{animation:logo-3d-rotate-fast 1.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;box-shadow:0 12px 32px rgba(255,160,0,.45)}
 .brand-accent{color:var(--accent)}
 
-@keyframes logo-3d-float{
-  0%{transform:rotate(-7deg) rotateY(0deg) rotateX(0deg) translateY(0)}
-  50%{transform:rotate(-3deg) rotateY(180deg) rotateX(8deg) translateY(-2px)}
-  100%{transform:rotate(-7deg) rotateY(360deg) rotateX(0deg) translateY(0)}
+@keyframes logo-3d-rotate{
+  0%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(0deg)}
+  50%{transform:rotate(-7deg) rotateX(15deg) rotateY(15deg) rotateZ(180deg)}
+  100%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(360deg)}
 }
 @keyframes logo-orbit{
   from{transform:rotate(35deg) translateZ(8px)}
   to{transform:rotate(395deg) translateZ(8px)}
 }
-@keyframes logo-spin{
-  0%{transform:rotate(-7deg) rotateY(0deg) scale(1)}
-  50%{transform:rotate(-7deg) rotateY(180deg) scale(1.12)}
-  100%{transform:rotate(-7deg) rotateY(360deg) scale(1.08)}
+@keyframes logo-3d-rotate-fast{
+  0%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(0deg) scale(1.08)}
+  100%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(360deg) scale(1.08)}
 }
 .nav{display:flex;gap:18px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
 .nav a{color:var(--muted);font-weight:600;font-size:.9rem}
