@@ -10,6 +10,7 @@
   const filterForm = document.getElementById('practiceQuizFilter');
   const classField = document.getElementById('practiceQuizClass');
   const subjectField = document.getElementById('practiceQuizSubject');
+  const schoolField = document.getElementById('practiceQuizSchool');
   const quizTitle = document.getElementById('quizTitle');
   const progressBar = document.getElementById('progressBar');
   const progressText = document.getElementById('progressText');
@@ -38,6 +39,7 @@
   const query = new URLSearchParams(location.search);
   classField.value = query.get('class') || 'Class 9';
   subjectField.value = query.get('subject') || 'AI';
+  if (schoolField) schoolField.value = query.get('school') || '';
   if (!quizTools && quizBox) {
     quizTools = document.createElement('div');
     quizTools.id = 'practiceQuizTools';
@@ -174,7 +176,11 @@
   }
 
   function updateUrl() {
-    const params = new URLSearchParams({ class: classField.value, subject: subjectField.value });
+    const params = new URLSearchParams({
+      class: classField.value,
+      subject: subjectField.value,
+      school: schoolField ? schoolField.value : ''
+    });
     history.replaceState(null, '', `${location.pathname}?${params}`);
   }
 
@@ -362,6 +368,11 @@
 
   document.getElementById('submitQuizButton').addEventListener('click', async () => {
     if (!quizData.length) return;
+    if (schoolField && !schoolField.value.trim()) {
+      alert('School name is mandatory. Please enter your school name at the top of the page.');
+      schoolField.focus();
+      return;
+    }
     if (!canAttemptToday()) {
       scoreText.textContent = 'You have already attempted this quiz today. Come back tomorrow for a new attempt.';
       return;
@@ -386,7 +397,14 @@
     }, 0);
     const percentage = Math.round(score / quizData.length * 100);
     const total = quizData.length;
-    const result = { class: classField.value, subject: subjectField.value, score, total, percentage };
+    const result = {
+      class: classField.value,
+      subject: subjectField.value,
+      school: schoolField ? schoolField.value.trim() : '',
+      score,
+      total,
+      percentage
+    };
     markAttemptToday();
     window.TechLearnersProgress?.mark('quizzes', `${classField.value}|${subjectField.value}`, { score, total });
     try {
