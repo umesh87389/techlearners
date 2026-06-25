@@ -1383,12 +1383,18 @@ function initHomepageLeaderboard() {
       const rowClass = isCurrentUser ? 'leaderboard-row current-user' : 'leaderboard-row';
       const initials = getInitials(entry.studentName || 'Student');
 
+      const photoURL = entry.photoURL || (isCurrentUser && currentUser?.photoURL) || '';
+      let avatarHtml = `<div class="student-avatar">${initials}</div>`;
+      if (photoURL) {
+        avatarHtml = `<div class="student-avatar" style="overflow: hidden; padding: 0; background: none;"><img src="${photoURL}" alt="${initials}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>`;
+      }
+
       return `
         <tr class="${rowClass}">
           <td class="rank-col">${rankHtml}</td>
           <td>
             <div class="student-col">
-              <div class="student-avatar">${initials}</div>
+              ${avatarHtml}
               <div class="student-info">
                 <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
                 <span class="student-school">${escapeHtml(entry.class || 'Class 9')} &middot; ${escapeHtml(entry.school || 'TechLearners School')}</span>
