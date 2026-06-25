@@ -20,6 +20,7 @@
   let quizData = [];
   let currentQuestionIndex = 0;
   let isSubmitted = false;
+  let leaderboardData = [];
 
   const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
@@ -172,6 +173,9 @@
     updateQuizVisibility();
     if (isSubmitted) {
       applySubmittedResults();
+    }
+    if (typeof renderLeaderboard === 'function') {
+      renderLeaderboard();
     }
   }
 
@@ -412,10 +416,123 @@
       if (user) {
         result.studentName = user.displayName || user.email?.split('@')[0] || 'Student';
         result.studentEmail = user.email || '';
+        result.userId = user.uid;
         await TechLearnersFirebase.submitQuizResult(result);
+
+        const leaderboardEntry = {
+          class: result.class,
+          subject: result.subject,
+          school: result.school,
+          score: result.score,
+          total: result.total,
+          percentage: result.percentage,
+          studentName: result.studentName,
+          userId: user.uid
+        };
+        await TechLearnersFirebase.submitLeaderboardEntry(leaderboardEntry);
       }
     } catch {}
   });
+
+  const getInitials = name => {
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return parts[0] ? parts[0][0].toUpperCase() : '?';
+  };
+
+  function renderLeaderboard() {
+    const badgeLabel = document.getElementById('leaderboardBadgeLabel');
+    const table = document.getElementById('leaderboardTable');
+    const body = document.getElementById('leaderboardBody');
+    const loader = document.getElementById('leaderboardLoader');
+    const empty = document.getElementById('leaderboardEmpty');
+
+    if (!badgeLabel || !table || !body || !loader || !empty) return;
+
+    badgeLabel.textContent = `${classField.value} - ${subjectField.value}`;
+
+    const filtered = leaderboardData.filter(entry => 
+      entry.class === classField.value && 
+      entry.subject === subjectField.value
+    );
+
+    if (!filtered.length) {
+      table.style.display = 'none';
+      loader.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+
+    const bestScores = {};
+    filtered.forEach(entry => {
+      const key = entry.userId || entry.studentName;
+      if (!bestScores[key] || entry.percentage > bestScores[key].percentage) {
+        bestScores[key] = entry;
+      } else if (entry.percentage === bestScores[key].percentage) {
+        if (entry.score > bestScores[key].score) {
+          bestScores[key] = entry;
+        }
+      }
+    });
+
+    const sorted = Object.values(bestScores).sort((a, b) => {
+      if (b.percentage !== a.percentage) return b.percentage - a.percentage;
+      if (b.score !== a.score) return b.score - a.score;
+      const aTime = a.createdAt?.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt).getTime();
+      const bTime = b.createdAt?.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt).getTime();
+      return aTime - bTime;
+    });
+
+    loader.style.display = 'none';
+    empty.style.display = 'none';
+    table.style.display = 'table';
+
+    body.innerHTML = sorted.map((entry, idx) => {
+      const rank = idx + 1;
+      let rankHtml = `<span class="rank-badge">${rank}</span>`;
+      if (rank === 1) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
+      else if (rank === 2) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
+      else if (rank === 3) rankHtml = `<span class="rank-badge rank-3">🥉</span>`;
+
+      const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
+      const rowClass = isCurrentUser ? 'leaderboard-row current-user' : 'leaderboard-row';
+      const initials = getInitials(entry.studentName || 'Student');
+
+      return `
+        <tr class="${rowClass}">
+          <td class="rank-col">${rankHtml}</td>
+          <td>
+            <div class="student-col">
+              <div class="student-avatar">${initials}</div>
+              <div class="student-info">
+                <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
+                <span class="student-school">${escapeHtml(entry.school || 'TechLearners School')}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="score-badge ${entry.percentage >= 80 ? 'score-excellent' : entry.percentage >= 50 ? 'score-pass' : 'score-fail'}">
+              ${entry.score}/${entry.total} (${entry.percentage}%)
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  TechLearnersFirebase.subscribeLeaderboard(
+    data => {
+      leaderboardData = data;
+      renderLeaderboard();
+    },
+    error => {
+      console.error('Leaderboard error:', error);
+      const loader = document.getElementById('leaderboardLoader');
+      if (loader) loader.textContent = 'Unable to load leaderboard.';
+    }
+  );
 
   TechLearnersContent.get('quizQuestions', '../../data')
     .then(data => { allQuestions = data; render(); })
