@@ -17,7 +17,7 @@ service cloud.firestore {
 
     match /leaderboard/{entryId} {
       allow create: if request.auth != null;
-      allow read: if request.auth != null;
+      allow read: if true;
       allow delete, update: if request.auth != null
         && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
     }
