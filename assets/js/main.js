@@ -1365,7 +1365,7 @@ function initHomepageLeaderboard() {
     let currentRank = 0;
     let prevPercentage = -1;
 
-    body.innerHTML = sorted.map((entry, idx) => {
+    body.innerHTML = sorted.slice(0, 5).map((entry, idx) => {
       const pct = entry.percentage ?? 0;
       if (pct !== prevPercentage) {
         currentRank = idx + 1; // Standard competition ranking: if two share rank 2, next is 4
