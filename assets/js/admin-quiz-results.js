@@ -130,8 +130,31 @@
           addedCount++;
         }
       }
+      // Clean up orphaned entries from leaderboard
+      let deletedCount = 0;
+      const orphans = leaderboardEntries.filter(e => {
+        const hasMatch = quizResultsList.some(res => {
+          if (res.class !== e.class || res.subject !== e.subject) {
+            return false;
+          }
+          if (Number(res.score) !== Number(e.score) || Number(res.total) !== Number(e.total)) {
+            return false;
+          }
+          const isUserMatch = (res.userId && e.userId && res.userId === e.userId) ||
+                              (res.studentEmail && e.userId && res.studentEmail === e.userId) ||
+                              (res.studentName && e.studentName && res.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
+          return isUserMatch;
+        });
+        return !hasMatch;
+      });
+
+      if (orphans.length > 0) {
+        await Promise.all(orphans.map(o => TechLearnersFirebase.deleteLeaderboardEntry(o.id)));
+        deletedCount = orphans.length;
+      }
+
       if (showAlert) {
-        alert(`Leaderboard sync complete. Added ${addedCount} new entry/entries.`);
+        alert(`Leaderboard sync complete. Added ${addedCount} new entry/entries and cleaned up ${deletedCount} orphaned entry/entries.`);
       }
     } catch (e) {
       console.error('Failed to sync leaderboard:', e);
