@@ -1299,14 +1299,12 @@ function initQOTD() {
 let homeLeaderboardData = [];
 
 function initHomepageLeaderboard() {
-  const classSelect = document.getElementById('homeLeaderboardClass');
-  const subjectSelect = document.getElementById('homeLeaderboardSubject');
   const table = document.getElementById('homeLeaderboardTable');
   const body = document.getElementById('homeLeaderboardBody');
   const loader = document.getElementById('homeLeaderboardLoader');
   const empty = document.getElementById('homeLeaderboardEmpty');
 
-  if (!classSelect || !subjectSelect || !table || !body || !loader || !empty) return;
+  if (!table || !body || !loader || !empty) return;
 
   const getInitials = name => {
     const cleanName = String(name || '').trim();
@@ -1318,13 +1316,7 @@ function initHomepageLeaderboard() {
   };
 
   const renderHomeLeaderboard = () => {
-    const classVal = classSelect.value;
-    const subjectVal = subjectSelect.value;
-
-    const filtered = homeLeaderboardData.filter(entry => 
-      entry.class === classVal && 
-      entry.subject === subjectVal
-    );
+    const filtered = homeLeaderboardData;
 
     if (!filtered.length) {
       table.style.display = 'none';
@@ -1370,8 +1362,17 @@ function initHomepageLeaderboard() {
     empty.style.display = 'none';
     table.style.display = 'table';
 
+    let currentRank = 0;
+    let prevPercentage = -1;
+
     body.innerHTML = sorted.map((entry, idx) => {
-      const rank = idx + 1;
+      const pct = entry.percentage ?? 0;
+      if (pct !== prevPercentage) {
+        currentRank = idx + 1; // Standard competition ranking: if two share rank 2, next is 4
+        prevPercentage = pct;
+      }
+      const rank = currentRank;
+
       let rankHtml = `<span class="rank-badge">${rank}</span>`;
       if (rank === 1) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
       else if (rank === 2) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
@@ -1390,7 +1391,7 @@ function initHomepageLeaderboard() {
               <div class="student-avatar">${initials}</div>
               <div class="student-info">
                 <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
-                <span class="student-school">${escapeHtml(entry.school || 'TechLearners School')}</span>
+                <span class="student-school">${escapeHtml(entry.class || 'Class 9')} &middot; ${escapeHtml(entry.school || 'TechLearners School')}</span>
               </div>
             </div>
           </td>
@@ -1403,9 +1404,6 @@ function initHomepageLeaderboard() {
       `;
     }).join('');
   };
-
-  classSelect.addEventListener('change', renderHomeLeaderboard);
-  subjectSelect.addEventListener('change', renderHomeLeaderboard);
 
   if (typeof TechLearnersFirebase !== 'undefined') {
     TechLearnersFirebase.subscribeLeaderboard(

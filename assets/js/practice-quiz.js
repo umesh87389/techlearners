@@ -457,20 +457,14 @@
   };
 
   function renderLeaderboard() {
-    const badgeLabel = document.getElementById('leaderboardBadgeLabel');
     const table = document.getElementById('leaderboardTable');
     const body = document.getElementById('leaderboardBody');
     const loader = document.getElementById('leaderboardLoader');
     const empty = document.getElementById('leaderboardEmpty');
 
-    if (!badgeLabel || !table || !body || !loader || !empty) return;
+    if (!table || !body || !loader || !empty) return;
 
-    badgeLabel.textContent = `${classField.value} - ${subjectField.value}`;
-
-    const filtered = leaderboardData.filter(entry => 
-      entry.class === classField.value && 
-      entry.subject === subjectField.value
-    );
+    const filtered = leaderboardData;
 
     if (!filtered.length) {
       table.style.display = 'none';
@@ -516,8 +510,17 @@
     empty.style.display = 'none';
     table.style.display = 'table';
 
+    let currentRank = 0;
+    let prevPercentage = -1;
+
     body.innerHTML = sorted.map((entry, idx) => {
-      const rank = idx + 1;
+      const pct = entry.percentage ?? 0;
+      if (pct !== prevPercentage) {
+        currentRank = idx + 1; // Standard competition ranking: if two share rank 2, next is 4
+        prevPercentage = pct;
+      }
+      const rank = currentRank;
+
       let rankHtml = `<span class="rank-badge">${rank}</span>`;
       if (rank === 1) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
       else if (rank === 2) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
@@ -535,7 +538,7 @@
               <div class="student-avatar">${initials}</div>
               <div class="student-info">
                 <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
-                <span class="student-school">${escapeHtml(entry.school || 'TechLearners School')}</span>
+                <span class="student-school">${escapeHtml(entry.class || 'Class 9')} &middot; ${escapeHtml(entry.school || 'TechLearners School')}</span>
               </div>
             </div>
           </td>
