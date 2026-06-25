@@ -96,68 +96,104 @@
   });
 
   let isSyncing = false;
-  async function syncLeaderboard(quizResultsList) {
+  async function syncLeaderboard(quizResultsList, showAlert = false) {
     if (isSyncing || !quizResultsList.length) return;
     isSyncing = true;
-    try {
-      const unsubscribe = await TechLearnersFirebase.subscribeLeaderboard(async (leaderboardEntries) => {
-        unsubscribe();
-        const existingKeys = new Set(leaderboardEntries.map(e => 
-          `${e.userId || e.studentName}_${e.class}_${e.subject}_${e.score}_${e.total}`
-        ));
-        for (const res of quizResultsList) {
-          const userId = res.userId || res.studentEmail || res.studentName;
-          const key = `${userId}_${res.class}_${res.subject}_${res.score}_${res.total}`;
-          if (!existingKeys.has(key)) {
-            const leaderboardEntry = {
-              class: res.class,
-              subject: res.subject,
-              school: res.school || 'TechLearners School',
-              score: res.score,
-              total: res.total,
-              percentage: res.percentage,
-              studentName: res.studentName || 'Student',
-              userId: res.userId || ''
-            };
-            await TechLearnersFirebase.submitLeaderboardEntry(leaderboardEntry);
-          }
-        }
-        isSyncing = false;
-      }, error => {
-        isSyncing = false;
-        console.error('Leaderboard sync read error:', error);
-      });
-    } catch (e) {
-      isSyncing = false;
-      console.error('Failed to sync leaderboard:', e);
+
+    const syncBtn = document.getElementById('syncLeaderboardBtn');
+    if (syncBtn) {
+      syncBtn.disabled = true;
+      syncBtn.textContent = 'Syncing... ⏳';
     }
+
+    try {
+      const leaderboardEntries = await TechLearnersFirebase.getLeaderboard();
+      const existingKeys = new Set(leaderboardEntries.map(e => 
+        `${e.userId || e.studentName}_${e.class}_${e.subject}_${e.score}_${e.total}`
+      ));
+      let addedCount = 0;
+      for (const res of quizResultsList) {
+        const userId = res.userId || res.studentEmail || res.studentName;
+        const key = `${userId}_${res.class}_${res.subject}_${res.score}_${res.total}`;
+        if (!existingKeys.has(key)) {
+          const leaderboardEntry = {
+            class: res.class,
+            subject: res.subject,
+            school: res.school || 'TechLearners School',
+            score: res.score,
+            total: res.total,
+            percentage: res.percentage,
+            studentName: res.studentName || 'Student',
+            userId: res.userId || ''
+          };
+          await TechLearnersFirebase.submitLeaderboardEntry(leaderboardEntry);
+          addedCount++;
+        }
+      }
+      if (showAlert) {
+        alert(`Leaderboard sync complete. Added ${addedCount} new entry/entries.`);
+      }
+    } catch (e) {
+      console.error('Failed to sync leaderboard:', e);
+      if (showAlert) {
+        alert('Failed to sync leaderboard: ' + e.message);
+      }
+    } finally {
+      isSyncing = false;
+      if (syncBtn) {
+        syncBtn.disabled = false;
+        syncBtn.textContent = 'Synced! ✅';
+        setTimeout(() => {
+          syncBtn.textContent = 'Sync Leaderboard 🔄';
+        }, 3000);
+      }
+    }
+  }
+
+  const syncBtn = document.getElementById('syncLeaderboardBtn');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', () => {
+      syncLeaderboard(results, true);
+    });
   }
 
   list.addEventListener('click', async event => {
     const button = event.target.closest('[data-result-id]');
-    if (!button || !confirm('Delete this quiz result?')) return;
+    if (!button) return;
+
+    if (!confirm('Delete this quiz result?')) return;
+
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Deleting...';
+
     const resultId = button.dataset.resultId;
     const resultToDelete = results.find(r => r.id === resultId);
     if (resultToDelete) {
       try {
-        const unsubscribe = await TechLearnersFirebase.subscribeLeaderboard(async (leaderboardEntries) => {
-          unsubscribe();
-          const match = leaderboardEntries.find(e => 
-            e.class === resultToDelete.class && 
-            e.subject === resultToDelete.subject && 
-            e.studentName === resultToDelete.studentName && 
-            e.score === resultToDelete.score && 
-            e.total === resultToDelete.total
-          );
-          if (match) {
-            await TechLearnersFirebase.deleteLeaderboardEntry(match.id);
-          }
-        }, () => {});
+        const leaderboardEntries = await TechLearnersFirebase.getLeaderboard();
+        const match = leaderboardEntries.find(e => 
+          e.class === resultToDelete.class && 
+          e.subject === resultToDelete.subject && 
+          e.studentName === resultToDelete.studentName && 
+          e.score === resultToDelete.score && 
+          e.total === resultToDelete.total
+        );
+        if (match) {
+          await TechLearnersFirebase.deleteLeaderboardEntry(match.id);
+        }
       } catch (e) {
         console.error('Failed to delete leaderboard entry:', e);
       }
     }
-    await TechLearnersFirebase.deleteQuizResult(resultId);
+    try {
+      await TechLearnersFirebase.deleteQuizResult(resultId);
+    } catch (e) {
+      console.error('Failed to delete quiz result:', e);
+      alert('Failed to delete quiz result: ' + e.message);
+      button.disabled = false;
+      button.textContent = originalText;
+    }
   });
 
   await TechLearnersFirebase.subscribeQuizResults(nextResults => {

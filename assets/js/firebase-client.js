@@ -425,6 +425,16 @@
     }, onError);
   }
 
+  async function getLeaderboard() {
+    const services = await getServices();
+    if (!services) {
+      return JSON.parse(localStorage.getItem('tl_local_leaderboard') || '[]');
+    }
+    const reference = services.firestoreApi.collection(services.db, 'leaderboard');
+    const snapshot = await services.firestoreApi.getDocs(reference);
+    return snapshot.docs.map(document => ({ id: document.id, ...document.data() }));
+  }
+
   async function deleteLeaderboardEntry(id) {
     const services = await getServices();
     if (!services) {
@@ -450,6 +460,7 @@
     getCurrentUser,
     getGoogleRedirectResult,
     getQuizResults,
+    getLeaderboard,
     onAuthStateChanged: callback => {
       if (authResolved) {
         try { callback(currentUser); } catch {}
