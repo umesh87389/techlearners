@@ -172,15 +172,36 @@
     if (resultToDelete) {
       try {
         const leaderboardEntries = await TechLearnersFirebase.getLeaderboard();
-        const match = leaderboardEntries.find(e => 
-          e.class === resultToDelete.class && 
-          e.subject === resultToDelete.subject && 
-          e.studentName === resultToDelete.studentName && 
-          e.score === resultToDelete.score && 
-          e.total === resultToDelete.total
-        );
-        if (match) {
-          await TechLearnersFirebase.deleteLeaderboardEntry(match.id);
+        
+        // Find exact matches first (class, subject, user identity, score, total)
+        let matches = leaderboardEntries.filter(e => {
+          if (e.class !== resultToDelete.class || e.subject !== resultToDelete.subject) {
+            return false;
+          }
+          if (Number(e.score) !== Number(resultToDelete.score) || Number(e.total) !== Number(resultToDelete.total)) {
+            return false;
+          }
+          const isUserMatch = (resultToDelete.userId && e.userId && resultToDelete.userId === e.userId) ||
+                              (resultToDelete.studentEmail && e.userId && resultToDelete.studentEmail === e.userId) ||
+                              (resultToDelete.studentName && e.studentName && resultToDelete.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
+          return isUserMatch;
+        });
+
+        // Fallback to student identity + class + subject if exact score match isn't found
+        if (matches.length === 0) {
+          matches = leaderboardEntries.filter(e => {
+            if (e.class !== resultToDelete.class || e.subject !== resultToDelete.subject) {
+              return false;
+            }
+            const isUserMatch = (resultToDelete.userId && e.userId && resultToDelete.userId === e.userId) ||
+                                (resultToDelete.studentEmail && e.userId && resultToDelete.studentEmail === e.userId) ||
+                                (resultToDelete.studentName && e.studentName && resultToDelete.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
+            return isUserMatch;
+          });
+        }
+
+        if (matches.length > 0) {
+          await Promise.all(matches.map(m => TechLearnersFirebase.deleteLeaderboardEntry(m.id)));
         }
       } catch (e) {
         console.error('Failed to delete leaderboard entry:', e);
