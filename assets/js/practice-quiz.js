@@ -523,9 +523,9 @@
       const rank = currentRank;
 
       let rankHtml = `<span class="rank-badge">${rank}</span>`;
-      if (rank === 1) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
-      else if (rank === 2) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
-      else if (rank === 3) rankHtml = `<span class="rank-badge rank-3">🥉</span>`;
+      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥇 <span class="rank-badge rank-1">1</span></span>`;
+      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥈 <span class="rank-badge rank-2">2</span></span>`;
+      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥉 <span class="rank-badge rank-3">3</span></span>`;
 
       const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
       const rowClass = isCurrentUser ? 'leaderboard-row current-user' : 'leaderboard-row';
