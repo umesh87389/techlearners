@@ -1296,3 +1296,143 @@ function initQOTD() {
 
 // Chatbot removed
 
+let homeLeaderboardData = [];
+
+function initHomepageLeaderboard() {
+  const classSelect = document.getElementById('homeLeaderboardClass');
+  const subjectSelect = document.getElementById('homeLeaderboardSubject');
+  const table = document.getElementById('homeLeaderboardTable');
+  const body = document.getElementById('homeLeaderboardBody');
+  const loader = document.getElementById('homeLeaderboardLoader');
+  const empty = document.getElementById('homeLeaderboardEmpty');
+
+  if (!classSelect || !subjectSelect || !table || !body || !loader || !empty) return;
+
+  const getInitials = name => {
+    const cleanName = String(name || '').trim();
+    const parts = cleanName.split(/\s+/);
+    if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return cleanName[0] ? cleanName[0].toUpperCase() : '?';
+  };
+
+  const renderHomeLeaderboard = () => {
+    const classVal = classSelect.value;
+    const subjectVal = subjectSelect.value;
+
+    const filtered = homeLeaderboardData.filter(entry => 
+      entry.class === classVal && 
+      entry.subject === subjectVal
+    );
+
+    if (!filtered.length) {
+      table.style.display = 'none';
+      loader.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+
+    const bestScores = {};
+    filtered.forEach(entry => {
+      const key = entry.userId || entry.studentName;
+      if (!bestScores[key] || (entry.percentage ?? 0) > (bestScores[key].percentage ?? 0)) {
+        bestScores[key] = entry;
+      } else if ((entry.percentage ?? 0) === (bestScores[key].percentage ?? 0)) {
+        if ((entry.score ?? 0) > (bestScores[key].score ?? 0)) {
+          bestScores[key] = entry;
+        }
+      }
+    });
+
+    const sorted = Object.values(bestScores).sort((a, b) => {
+      const aPct = a.percentage ?? 0;
+      const bPct = b.percentage ?? 0;
+      if (bPct !== aPct) return bPct - aPct;
+
+      const aScore = a.score ?? 0;
+      const bScore = b.score ?? 0;
+      if (bScore !== aScore) return bScore - aScore;
+
+      const getMs = item => {
+        if (!item || !item.createdAt) return 0;
+        if (typeof item.createdAt.toMillis === 'function') return item.createdAt.toMillis();
+        if (typeof item.createdAt.toDate === 'function') return item.createdAt.toDate().getTime();
+        if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
+        const parsed = Date.parse(item.createdAt);
+        return isNaN(parsed) ? 0 : parsed;
+      };
+
+      return getMs(a) - getMs(b);
+    });
+
+    loader.style.display = 'none';
+    empty.style.display = 'none';
+    table.style.display = 'table';
+
+    body.innerHTML = sorted.map((entry, idx) => {
+      const rank = idx + 1;
+      let rankHtml = `<span class="rank-badge">${rank}</span>`;
+      if (rank === 1) rankHtml = `<span class="rank-badge rank-1">🥇</span>`;
+      else if (rank === 2) rankHtml = `<span class="rank-badge rank-2">🥈</span>`;
+      else if (rank === 3) rankHtml = `<span class="rank-badge rank-3">🥉</span>`;
+
+      const currentUser = typeof TechLearnersFirebase !== 'undefined' ? TechLearnersFirebase.peekCurrentUser?.() : null;
+      const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
+      const rowClass = isCurrentUser ? 'leaderboard-row current-user' : 'leaderboard-row';
+      const initials = getInitials(entry.studentName || 'Student');
+
+      return `
+        <tr class="${rowClass}">
+          <td class="rank-col">${rankHtml}</td>
+          <td>
+            <div class="student-col">
+              <div class="student-avatar">${initials}</div>
+              <div class="student-info">
+                <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
+                <span class="student-school">${escapeHtml(entry.school || 'TechLearners School')}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="score-badge ${(entry.percentage ?? 0) >= 80 ? 'score-excellent' : (entry.percentage ?? 0) >= 50 ? 'score-pass' : 'score-fail'}">
+              ${entry.score ?? 0}/${entry.total ?? 0} (${entry.percentage ?? 0}%)
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
+
+  classSelect.addEventListener('change', renderHomeLeaderboard);
+  subjectSelect.addEventListener('change', renderHomeLeaderboard);
+
+  if (typeof TechLearnersFirebase !== 'undefined') {
+    TechLearnersFirebase.subscribeLeaderboard(
+      data => {
+        homeLeaderboardData = data;
+        renderHomeLeaderboard();
+      },
+      error => {
+        console.error('Home leaderboard error:', error);
+        if (loader) {
+          if (error.code === 'permission-denied') {
+            loader.innerHTML = '<span style="color: var(--muted); font-size: 0.92rem; display: block; line-height: 1.4; padding: 10px;">Leaderboard is locked. Please publish the updated <b>firestore.rules</b> in your Firebase Console.</span>';
+          } else {
+            loader.textContent = 'Unable to load leaderboard.';
+          }
+        }
+      }
+    );
+  } else {
+    loader.textContent = 'Firebase is not initialized.';
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHomepageLeaderboard);
+} else {
+  initHomepageLeaderboard();
+}
+
+
