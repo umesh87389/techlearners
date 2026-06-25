@@ -448,11 +448,12 @@
   });
 
   const getInitials = name => {
-    const parts = name.trim().split(/\s+/);
-    if (parts.length >= 2) {
+    const cleanName = String(name || '').trim();
+    const parts = cleanName.split(/\s+/);
+    if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
-    return parts[0] ? parts[0][0].toUpperCase() : '?';
+    return cleanName[0] ? cleanName[0].toUpperCase() : '?';
   };
 
   function renderLeaderboard() {
@@ -481,21 +482,34 @@
     const bestScores = {};
     filtered.forEach(entry => {
       const key = entry.userId || entry.studentName;
-      if (!bestScores[key] || entry.percentage > bestScores[key].percentage) {
+      if (!bestScores[key] || (entry.percentage ?? 0) > (bestScores[key].percentage ?? 0)) {
         bestScores[key] = entry;
-      } else if (entry.percentage === bestScores[key].percentage) {
-        if (entry.score > bestScores[key].score) {
+      } else if ((entry.percentage ?? 0) === (bestScores[key].percentage ?? 0)) {
+        if ((entry.score ?? 0) > (bestScores[key].score ?? 0)) {
           bestScores[key] = entry;
         }
       }
     });
 
     const sorted = Object.values(bestScores).sort((a, b) => {
-      if (b.percentage !== a.percentage) return b.percentage - a.percentage;
-      if (b.score !== a.score) return b.score - a.score;
-      const aTime = a.createdAt?.toMillis ? a.createdAt.toMillis() : new Date(a.createdAt).getTime();
-      const bTime = b.createdAt?.toMillis ? b.createdAt.toMillis() : new Date(b.createdAt).getTime();
-      return aTime - bTime;
+      const aPct = a.percentage ?? 0;
+      const bPct = b.percentage ?? 0;
+      if (bPct !== aPct) return bPct - aPct;
+
+      const aScore = a.score ?? 0;
+      const bScore = b.score ?? 0;
+      if (bScore !== aScore) return bScore - aScore;
+
+      const getMs = item => {
+        if (!item || !item.createdAt) return 0;
+        if (typeof item.createdAt.toMillis === 'function') return item.createdAt.toMillis();
+        if (typeof item.createdAt.toDate === 'function') return item.createdAt.toDate().getTime();
+        if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
+        const parsed = Date.parse(item.createdAt);
+        return isNaN(parsed) ? 0 : parsed;
+      };
+
+      return getMs(a) - getMs(b);
     });
 
     loader.style.display = 'none';
@@ -526,8 +540,8 @@
             </div>
           </td>
           <td>
-            <span class="score-badge ${entry.percentage >= 80 ? 'score-excellent' : entry.percentage >= 50 ? 'score-pass' : 'score-fail'}">
-              ${entry.score}/${entry.total} (${entry.percentage}%)
+            <span class="score-badge ${(entry.percentage ?? 0) >= 80 ? 'score-excellent' : (entry.percentage ?? 0) >= 50 ? 'score-pass' : 'score-fail'}">
+              ${entry.score ?? 0}/${entry.total ?? 0} (${entry.percentage ?? 0}%)
             </span>
           </td>
         </tr>
@@ -543,7 +557,13 @@
     error => {
       console.error('Leaderboard error:', error);
       const loader = document.getElementById('leaderboardLoader');
-      if (loader) loader.textContent = 'Unable to load leaderboard.';
+      if (loader) {
+        if (error.code === 'permission-denied') {
+          loader.innerHTML = '<span style="color: var(--muted); font-size: 0.95rem; display: block; line-height: 1.5;">Leaderboard is locked. Please ensure you copy, paste, and publish the updated <b>firestore.rules</b> in your <b>Firebase Console</b>.</span>';
+        } else {
+          loader.textContent = 'Unable to load leaderboard. Check your connection.';
+        }
+      }
     }
   );
 
@@ -552,6 +572,8 @@
       allQuestions = data;
       if (quizLoaded) {
         render();
+      } else {
+        renderLeaderboard();
       }
     })
     .catch(error => {
