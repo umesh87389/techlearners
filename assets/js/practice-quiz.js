@@ -15,6 +15,8 @@
   const progressBar = document.getElementById('progressBar');
   const progressText = document.getElementById('progressText');
   const scoreText = document.getElementById('scoreText');
+  const progressContainer = document.querySelector('.quiz-progress');
+  const actionsContainer = document.querySelector('.quiz-actions');
   let quizTools = document.getElementById('practiceQuizTools');
   let allQuestions = [];
   let quizData = [];
@@ -41,6 +43,7 @@
   classField.value = query.get('class') || 'Class 9';
   subjectField.value = query.get('subject') || 'AI';
   if (schoolField) schoolField.value = query.get('school') || '';
+  let quizLoaded = query.has('class') && query.has('subject');
   if (!quizTools && quizBox) {
     quizTools = document.createElement('div');
     quizTools.id = 'practiceQuizTools';
@@ -139,6 +142,13 @@
   }
 
   function render() {
+    if (!quizLoaded) return;
+
+    if (progressContainer) progressContainer.style.display = '';
+    if (quizBox) quizBox.style.display = '';
+    if (actionsContainer) actionsContainer.style.display = '';
+    scoreText.style.display = 'none';
+
     quizData = allQuestions.filter(question => question.class === classField.value && question.subject === subjectField.value);
     quizTitle.textContent = `${displayClassName(classField.value)} ${subjectField.value} Practice Quiz`;
     quizBox.innerHTML = quizData.length ? quizData.map((question, index) => `
@@ -322,6 +332,7 @@
   filterForm.addEventListener('submit', event => {
     event.preventDefault();
     updateUrl();
+    quizLoaded = true;
     render();
     scrollToContent();
   });
@@ -356,6 +367,7 @@
     render();
   });
   function animateScore(finalScore, totalQuestions, finalPercentage) {
+    scoreText.style.display = '';
     let currentScore = 0;
     const step = Math.max(1, Math.ceil(finalScore / 20));
     const scoreClass = finalPercentage >= 80 ? 'score-excellent' : finalPercentage >= 50 ? 'score-pass' : 'score-fail';
@@ -378,6 +390,7 @@
       return;
     }
     if (!canAttemptToday()) {
+      scoreText.style.display = '';
       scoreText.textContent = 'You have already attempted this quiz today. Come back tomorrow for a new attempt.';
       return;
     }
@@ -535,6 +548,14 @@
   );
 
   TechLearnersContent.get('quizQuestions', '../../data')
-    .then(data => { allQuestions = data; render(); })
-    .catch(error => { quizBox.textContent = error.message; });
+    .then(data => {
+      allQuestions = data;
+      if (quizLoaded) {
+        render();
+      }
+    })
+    .catch(error => {
+      quizBox.style.display = '';
+      quizBox.textContent = error.message;
+    });
 })();

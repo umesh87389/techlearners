@@ -822,7 +822,129 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
   font-size: 1rem;
 }
 
+/* Topic Pills - Advanced Interactive Theme Highlights */
+.topic-pills {
+  gap: 12px !important;
+  margin-top: 30px !important;
+}
 
+.topic-pills a {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  border-width: 1.2px !important;
+}
 
+/* Hover effects: standard translation */
+.topic-pills a:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+}
 
+/* AI Pills Theming (Class 9 & 10 AI) */
+.topic-pills a[href*="ai.html"] {
+  border-color: rgba(99, 102, 241, 0.25) !important;
+  color: #4f46e5 !important;
+}
+.topic-pills a[href*="ai.html"]:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.15) !important;
+}
+[data-theme="dark"] .topic-pills a[href*="ai.html"] {
+  border-color: rgba(129, 140, 248, 0.2) !important;
+  color: #a5b4fc !important;
+}
+[data-theme="dark"] .topic-pills a[href*="ai.html"]:hover {
+  background: rgba(99, 102, 241, 0.18) !important;
+  border-color: rgba(129, 140, 248, 0.5) !important;
+  color: #c7d2fe !important;
+}
 
+/* IT Pills Theming (Class 9 & 10 IT) */
+.topic-pills a[href*="it.html"] {
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  color: #059669 !important;
+}
+.topic-pills a[href*="it.html"]:hover {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-color: rgba(16, 185, 129, 0.6) !important;
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.15) !important;
+}
+[data-theme="dark"] .topic-pills a[href*="it.html"] {
+  border-color: rgba(52, 211, 153, 0.2) !important;
+  color: #6ee7b7 !important;
+}
+[data-theme="dark"] .topic-pills a[href*="it.html"]:hover {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border-color: rgba(52, 211, 153, 0.5) !important;
+  color: #a7f3d0 !important;
+}
+
+/* Quizzes & Practice Quiz */
+.topic-pills a[href*="quiz/"] {
+  border-color: rgba(217, 119, 6, 0.25) !important;
+  color: #d97706 !important;
+}
+.topic-pills a[href*="quiz/"]:hover {
+  background: rgba(217, 119, 6, 0.08) !important;
+  border-color: rgba(217, 119, 6, 0.6) !important;
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.15) !important;
+}
+[data-theme="dark"] .topic-pills a[href*="quiz/"] {
+  border-color: rgba(251, 191, 36, 0.2) !important;
+  color: #fcd34d !important;
+}
+[data-theme="dark"] .topic-pills a[href*="quiz/"]:hover {
+  background: rgba(217, 119, 6, 0.18) !important;
+  border-color: rgba(251, 191, 36, 0.5) !important;
+  color: #fde68a !important;
+}
+
+/* Revision Papers & Sample Papers */
+.topic-pills a[href*="revision-papers/"],
+.topic-pills a[href*="question-papers/"] {
+  border-color: rgba(13, 148, 136, 0.25) !important;
+  color: #0d9488 !important;
+}
+.topic-pills a[href*="revision-papers/"]:hover,
+.topic-pills a[href*="question-papers/"]:hover {
+  background: rgba(13, 148, 136, 0.08) !important;
+  border-color: rgba(13, 148, 136, 0.6) !important;
+  box-shadow: 0 10px 24px rgba(13, 148, 136, 0.15) !important;
+}
+[data-theme="dark"] .topic-pills a[href*="revision-papers/"],
+[data-theme="dark"] .topic-pills a[href*="question-papers/"] {
+  border-color: rgba(45, 212, 191, 0.2) !important;
+  color: #99f6e4 !important;
+}
+[data-theme="dark"] .topic-pills a[href*="revision-papers/"]:hover,
+[data-theme="dark"] .topic-pills a[href*="question-papers/"]:hover {
+  background: rgba(13, 148, 136, 0.18) !important;
+  border-color: rgba(45, 212, 191, 0.5) !important;
+  color: #ccfbf1 !important;
+}
+
+/* Special High-probability Highlight (Guess Papers / CBSE Board Exam Special) */
+.topic-pills a.pill-highlight {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(0, 206, 209, 0.12)) !important;
+  border: 1.5px solid rgba(255, 215, 0, 0.6) !important;
+  color: #d97706 !important; /* Premium dark amber color */
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1) !important;
+  animation: pulse-pill 2.5s infinite ease-in-out !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.01em !important;
+}
+[data-theme="dark"] .topic-pills a.pill-highlight {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(102, 187, 106, 0.15)) !important;
+  border: 1.5px solid rgba(255, 215, 0, 0.7) !important;
+  color: #FFD54F !important; /* Gold on dark background */
+  box-shadow: 0 10px 24px rgba(255, 215, 0, 0.15), 0 0 12px rgba(255, 215, 0, 0.2) !important;
+}
+.topic-pills a.pill-highlight:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(0, 206, 209, 0.22)) !important;
+  border-color: rgba(255, 215, 0, 0.9) !important;
+  box-shadow: 0 12px 28px rgba(217, 119, 6, 0.22), 0 0 16px rgba(255, 215, 0, 0.3) !important;
+}
+@keyframes pulse-pill {
+  0% { transform: scale(1) translateY(0); box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1); }
+  50% { transform: scale(1.04) translateY(-2px); box-shadow: 0 14px 28px rgba(217, 119, 6, 0.2), 0 0 16px rgba(255, 215, 0, 0.25); }
+  100% { transform: scale(1) translateY(0); box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1); }
+}
