@@ -1412,6 +1412,9 @@ function initHomepageLeaderboard() {
   };
 
   if (typeof TechLearnersFirebase !== 'undefined') {
+    TechLearnersFirebase.onAuthStateChanged(() => {
+      try { renderHomeLeaderboard(); } catch {}
+    });
     TechLearnersFirebase.subscribeLeaderboard(
       data => {
         homeLeaderboardData = data;
