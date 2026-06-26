@@ -1,4 +1,24 @@
 (async () => {
+  const safeStorage = {
+    getItem(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    },
+    setItem(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {}
+    },
+    removeItem(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {}
+    }
+  };
+
   const currentUser = await TechLearnersFirebase.getCurrentUser();
   if (!currentUser) {
     const next = 'pages/quiz/index.html' + location.search;
@@ -254,14 +274,14 @@
 
   function canAttemptToday() {
     const key = getAttemptKey();
-    const lastAttempt = localStorage.getItem(key);
+    const lastAttempt = safeStorage.getItem(key);
     if (!lastAttempt) return true;
     const today = new Date().toDateString();
     return lastAttempt !== today;
   }
 
   function markAttemptToday() {
-    localStorage.setItem(getAttemptKey(), new Date().toDateString());
+    safeStorage.setItem(getAttemptKey(), new Date().toDateString());
   }
 
   function scrollToContent() {
@@ -285,11 +305,11 @@
       currentQuestionIndex,
       isSubmitted
     };
-    localStorage.setItem(getStateKey(), JSON.stringify(state));
+    safeStorage.setItem(getStateKey(), JSON.stringify(state));
   }
 
   function loadQuizState() {
-    const raw = localStorage.getItem(getStateKey());
+    const raw = safeStorage.getItem(getStateKey());
     if (!raw) return null;
     try {
       return JSON.parse(raw);
@@ -299,7 +319,7 @@
   }
 
   function clearQuizState() {
-    localStorage.removeItem(getStateKey());
+    safeStorage.removeItem(getStateKey());
   }
 
   function applySubmittedResults() {

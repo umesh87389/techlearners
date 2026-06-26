@@ -27,7 +27,9 @@
     if (!key || !id || !['notes', 'lectures', 'quizzes'].includes(type)) return;
     const progress = read();
     progress[type][id] = { ...detail, attemptedAt: new Date().toISOString() };
-    localStorage.setItem(key, JSON.stringify(progress));
+    try {
+      localStorage.setItem(key, JSON.stringify(progress));
+    } catch (e) {}
   }
 
   function summary() {

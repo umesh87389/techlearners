@@ -88,7 +88,9 @@
     const services = await getServices();
     if (!services) {
       if (password !== 'admin123') throw new Error('Wrong demo password.');
-      localStorage.setItem('tl_admin', 'true');
+      try {
+        localStorage.setItem('tl_admin', 'true');
+      } catch (e) {}
       return;
     }
     await services.authApi.setPersistence(services.auth, services.authApi.browserLocalPersistence);
@@ -165,13 +167,21 @@
 
   async function signOut() {
     const services = await getServices();
-    localStorage.removeItem('tl_admin');
+    try {
+      localStorage.removeItem('tl_admin');
+    } catch (e) {}
     if (services) await services.authApi.signOut(services.auth);
   }
 
   async function requireAdmin() {
     const services = await getServices();
-    if (!services) return localStorage.getItem('tl_admin') === 'true';
+    if (!services) {
+      try {
+        return localStorage.getItem('tl_admin') === 'true';
+      } catch (e) {
+        return false;
+      }
+    }
     if (services.auth.currentUser) return services.auth.currentUser.uid === config.adminUid;
     return new Promise(resolve => {
       const unsubscribe = services.authApi.onAuthStateChanged(services.auth, user => {

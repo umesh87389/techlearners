@@ -36,7 +36,9 @@
 
   function render(nextMessages = messages) {
     messages = nextMessages;
-    localStorage.setItem('tl_seen_contact_messages', JSON.stringify(messages.map(message => message.id)));
+    try {
+      localStorage.setItem('tl_seen_contact_messages', JSON.stringify(messages.map(message => message.id)));
+    } catch (e) {}
     const query = search.value.trim().toLowerCase();
     const visibleMessages = messages.filter(message =>
       [message.name, message.email, message.message].join(' ').toLowerCase().includes(query)

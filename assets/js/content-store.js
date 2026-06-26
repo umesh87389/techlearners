@@ -1,5 +1,24 @@
 (function () {
   const storagePrefix = 'tl_content_';
+  const safeStorage = {
+    getItem(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    },
+    setItem(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {}
+    },
+    removeItem(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {}
+    }
+  };
   const contentTypes = ['notes', 'quizzes', 'quizQuestions', 'questionPapers', 'revisionPapers', 'chapters', 'announcements', 'focus', 'advertisements', 'guessPapers'];
   const firebase = window.TechLearnersFirebase;
   const defaultCache = new Map();
@@ -17,7 +36,7 @@
   }
 
   function getStored(type) {
-    const stored = localStorage.getItem(storagePrefix + type);
+    const stored = safeStorage.getItem(storagePrefix + type);
     if (!stored) return null;
 
     try {
@@ -59,7 +78,7 @@
       try {
         const cloudItems = await getCloudContent(type);
         if (cloudItems) {
-          localStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
+          safeStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
           return cloudItems;
         }
       } catch (error) {
@@ -75,7 +94,7 @@
         try {
           const cloudItems = await getCloudContent(type);
           if (cloudItems) {
-            localStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
+            safeStorage.setItem(storagePrefix + type, JSON.stringify(cloudItems));
             document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type } }));
           }
         } catch (e) {
@@ -111,7 +130,7 @@
         const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
           ? cloudItems
           : appendDownloadOnlyItems(defaults, cloudItems);
-        localStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
+        safeStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
         return merged;
       } catch (error) {
         console.warn('Unable to load cloud quizzes; using local content.', error);
@@ -125,7 +144,7 @@
           const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
             ? cloudItems
             : appendDownloadOnlyItems(defaults, cloudItems);
-          localStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
+          safeStorage.setItem(storagePrefix + 'quizzes', JSON.stringify(merged));
           document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'quizzes' } }));
         } catch (e) {
           console.warn('Background quizzes sync failed', e);
@@ -159,7 +178,7 @@
         const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
           ? cloudItems
           : appendQuestionItems(defaults, cloudItems);
-        localStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
+        safeStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
         return merged;
       } catch (error) {
         console.warn('Unable to load cloud quiz questions; using local content.', error);
@@ -173,7 +192,7 @@
           const merged = Array.isArray(cloudItems) && cloudItems.length >= defaults.length
             ? cloudItems
             : appendQuestionItems(defaults, cloudItems);
-          localStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
+          safeStorage.setItem(storagePrefix + 'quizQuestions', JSON.stringify(merged));
           document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'quizQuestions' } }));
         } catch (e) {
           console.warn('Background quizQuestions sync failed', e);
@@ -209,7 +228,7 @@
       try {
         const cloudItems = await getCloudContent('chapters');
         const merged = mergeChapterItems(defaults, stored, Array.isArray(cloudItems) ? cloudItems : []);
-        localStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
+        safeStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
         return merged;
       } catch (error) {
         console.warn('Unable to load cloud chapters; using local content.', error);
@@ -221,7 +240,7 @@
         try {
           const cloudItems = await getCloudContent('chapters');
           const merged = mergeChapterItems(defaults, stored, Array.isArray(cloudItems) ? cloudItems : []);
-          localStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
+          safeStorage.setItem(storagePrefix + 'chapters', JSON.stringify(merged));
           document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'chapters' } }));
         } catch (e) {
           console.warn('Background chapters sync failed', e);
@@ -236,16 +255,16 @@
     const data = JSON.stringify(items);
     if (firebase.configured) {
       await firebase.saveContent(type, items);
-      localStorage.setItem(storagePrefix + type, data);
+      safeStorage.setItem(storagePrefix + type, data);
       return;
     }
-    localStorage.setItem(storagePrefix + type, data);
+    safeStorage.setItem(storagePrefix + type, data);
   }
 
   async function reset(type, dataRoot) {
     const items = await getDefaults(type, dataRoot);
     if (firebase.configured) await firebase.saveContent(type, items);
-    else localStorage.removeItem(storagePrefix + type);
+    else safeStorage.removeItem(storagePrefix + type);
     return items;
   }
 

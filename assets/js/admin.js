@@ -682,12 +682,18 @@
       toolbar.hidden = true;
       activeRichTextEditor = null;
     });
-    window.addEventListener('resize', () => {
-      if (activeRichTextEditor) showFloatingRichTextToolbar(activeRichTextEditor.surface);
-    });
-    window.addEventListener('scroll', () => {
-      if (activeRichTextEditor) showFloatingRichTextToolbar(activeRichTextEditor.surface);
-    }, true);
+    let ticking = false;
+    const handleUpdate = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (activeRichTextEditor) showFloatingRichTextToolbar(activeRichTextEditor.surface);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('resize', handleUpdate, { passive: true });
+    window.addEventListener('scroll', handleUpdate, { capture: true, passive: true });
     document.body.append(toolbar);
     floatingRichTextToolbar = toolbar;
     return toolbar;

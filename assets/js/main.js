@@ -1,9 +1,36 @@
 (function initTheme() {
-  const savedTheme = localStorage.getItem('tl_theme');
+  let savedTheme = null;
+  try {
+    savedTheme = localStorage.getItem('tl_theme');
+  } catch (e) {}
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const activeTheme = savedTheme || (systemDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', activeTheme);
 })();
+
+const safeStorage = {
+  getItem(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  },
+  setItem(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      console.warn("Storage write blocked:", e);
+    }
+  },
+  removeItem(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      console.warn("Storage remove blocked:", e);
+    }
+  }
+};
 
 const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
@@ -420,15 +447,17 @@ const TechLearnersConsent = {
   storageKey: 'tl_consent',
 
   load() {
-    try {
-      const raw = localStorage.getItem(this.storageKey);
-      if (raw) return Object.assign({}, this.categories, JSON.parse(raw));
-    } catch {}
+    const raw = safeStorage.getItem(this.storageKey);
+    if (raw) {
+      try {
+        return Object.assign({}, this.categories, JSON.parse(raw));
+      } catch {}
+    }
     return null;
   },
 
   save(prefs) {
-    localStorage.setItem(this.storageKey, JSON.stringify(prefs));
+    safeStorage.setItem(this.storageKey, JSON.stringify(prefs));
     this.apply(prefs);
   },
 
@@ -452,11 +481,11 @@ const TechLearnersConsent = {
   },
 
   hasAnswered() {
-    return localStorage.getItem(this.storageKey) !== null;
+    return safeStorage.getItem(this.storageKey) !== null;
   },
 
   reset() {
-    localStorage.removeItem(this.storageKey);
+    safeStorage.removeItem(this.storageKey);
     document.documentElement.removeAttribute('data-consent-analytics');
     document.documentElement.removeAttribute('data-consent-advertising');
   }
@@ -580,21 +609,43 @@ function setupCardTouchTilt() {
 
   document.addEventListener('touchstart', () => { touchActive = true; }, { passive: true });
 
+  let touchMoveTicking = false;
+  let lastTouchX = 0;
+  let lastTouchY = 0;
+  let lastTouchTarget = null;
+
   document.addEventListener('touchmove', event => {
     if (!touchActive) return;
     const touch = event.touches[0];
-    const card = findCard(touch);
-    if (!card) { deactivateCard(); return; }
-    activateCard(card);
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const relX = (touch.clientX - centerX) / (rect.width / 2);
-    const relY = (touch.clientY - centerY) / (rect.height / 2);
-    const maxAngle = 20;
-    const rotateY = relX * maxAngle;
-    const rotateX = -relY * maxAngle;
-    card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1)`;
+    lastTouchX = touch.clientX;
+    lastTouchY = touch.clientY;
+    lastTouchTarget = touch;
+
+    if (!touchMoveTicking) {
+      window.requestAnimationFrame(() => {
+        if (!touchActive) {
+          touchMoveTicking = false;
+          return;
+        }
+        const card = findCard(lastTouchTarget);
+        if (!card) {
+          deactivateCard();
+        } else {
+          activateCard(card);
+          const rect = card.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const relX = (lastTouchX - centerX) / (rect.width / 2);
+          const relY = (lastTouchY - centerY) / (rect.height / 2);
+          const maxAngle = 20;
+          const rotateY = relX * maxAngle;
+          const rotateX = -relY * maxAngle;
+          card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1)`;
+        }
+        touchMoveTicking = false;
+      });
+      touchMoveTicking = true;
+    }
   }, { passive: true });
 
   document.addEventListener('touchend', () => {
@@ -620,7 +671,7 @@ function setupThemeToggle(nav) {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', nextTheme);
-    localStorage.setItem('tl_theme', nextTheme);
+    safeStorage.setItem('tl_theme', nextTheme);
   });
   const loginLink = nav.querySelector('a[href*="login.html"], .nav-user-widget, .btn');
   if (loginLink) {
@@ -1133,7 +1184,16 @@ function setupGoToTop() {
   btn.setAttribute('aria-label', 'Go to top');
   btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 19V5m-7 7l7-7 7 7"/></svg>';
   document.body.appendChild(btn);
-  const toggle = () => btn.classList.toggle('visible', window.scrollY > 300);
+  let ticking = false;
+  const toggle = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        btn.classList.toggle('visible', window.scrollY > 300);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
   toggle();
   document.addEventListener('scroll', toggle, { passive: true });
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
@@ -1195,10 +1255,10 @@ function initQOTD() {
   const question = qotdQuestions[qIdx];
   
   const todayStr = now.toISOString().slice(0, 10);
-  const lastAnsweredDate = localStorage.getItem('tl_qotd_last_date');
+  const lastAnsweredDate = safeStorage.getItem('tl_qotd_last_date');
   const answeredToday = lastAnsweredDate === todayStr;
   
-  let streak = parseInt(localStorage.getItem('tl_qotd_streak') || '0', 10);
+  let streak = parseInt(safeStorage.getItem('tl_qotd_streak') || '0', 10);
   
   // Calculate/Validate streak on load
   if (lastAnsweredDate && lastAnsweredDate !== todayStr) {
@@ -1208,7 +1268,7 @@ function initQOTD() {
     if (lastAnsweredDate !== yesterdayStr) {
       // Streak broken
       streak = 0;
-      localStorage.setItem('tl_qotd_streak', '0');
+      safeStorage.setItem('tl_qotd_streak', '0');
     }
   }
 
@@ -1274,8 +1334,8 @@ function initQOTD() {
           } else {
             streak = 1;
           }
-          localStorage.setItem('tl_qotd_streak', streak.toString());
-          localStorage.setItem('tl_qotd_last_date', todayStr);
+          safeStorage.setItem('tl_qotd_streak', streak.toString());
+          safeStorage.setItem('tl_qotd_last_date', todayStr);
           document.getElementById('qotdStreak').textContent = streak;
         }
         feedback.className = "qotd-feedback correct";
@@ -1283,8 +1343,8 @@ function initQOTD() {
       } else {
         // Streak broken
         streak = 0;
-        localStorage.setItem('tl_qotd_streak', '0');
-        localStorage.setItem('tl_qotd_last_date', todayStr);
+        safeStorage.setItem('tl_qotd_streak', '0');
+        safeStorage.setItem('tl_qotd_last_date', todayStr);
         document.getElementById('qotdStreak').textContent = streak;
         
         feedback.className = "qotd-feedback incorrect";
