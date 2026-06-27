@@ -840,108 +840,108 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
 
 /* AI Pills Theming (Class 9 & 10 AI) */
 .topic-pills a[href*="ai.html"] {
-  border-color: rgba(99, 102, 241, 0.25) !important;
-  color: #4f46e5 !important;
+  border-color: rgba(1, 71, 81, 0.25) !important;
+  color: var(--accent) !important;
 }
 .topic-pills a[href*="ai.html"]:hover {
-  background: rgba(99, 102, 241, 0.08) !important;
-  border-color: rgba(99, 102, 241, 0.6) !important;
-  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.15) !important;
+  background: rgba(1, 71, 81, 0.08) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 10px 24px rgba(1, 71, 81, 0.15) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="ai.html"] {
-  border-color: rgba(129, 140, 248, 0.2) !important;
-  color: #a5b4fc !important;
+  border-color: rgba(175, 225, 55, 0.2) !important;
+  color: var(--accent) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="ai.html"]:hover {
-  background: rgba(99, 102, 241, 0.18) !important;
-  border-color: rgba(129, 140, 248, 0.5) !important;
-  color: #c7d2fe !important;
+  background: rgba(175, 225, 55, 0.15) !important;
+  border-color: var(--accent) !important;
+  color: var(--logo-text) !important;
 }
 
 /* IT Pills Theming (Class 9 & 10 IT) */
 .topic-pills a[href*="it.html"] {
-  border-color: rgba(16, 185, 129, 0.25) !important;
-  color: #059669 !important;
+  border-color: rgba(175, 225, 55, 0.4) !important;
+  color: #5d8000 !important; /* Darker green/lime for readability on light */
 }
 .topic-pills a[href*="it.html"]:hover {
-  background: rgba(16, 185, 129, 0.08) !important;
-  border-color: rgba(16, 185, 129, 0.6) !important;
-  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.15) !important;
+  background: rgba(175, 225, 55, 0.08) !important;
+  border-color: var(--accent2) !important;
+  box-shadow: 0 10px 24px rgba(175, 225, 55, 0.15) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="it.html"] {
-  border-color: rgba(52, 211, 153, 0.2) !important;
-  color: #6ee7b7 !important;
+  border-color: rgba(112, 192, 204, 0.2) !important;
+  color: var(--accent2) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="it.html"]:hover {
-  background: rgba(16, 185, 129, 0.18) !important;
-  border-color: rgba(52, 211, 153, 0.5) !important;
-  color: #a7f3d0 !important;
+  background: rgba(112, 192, 204, 0.18) !important;
+  border-color: var(--accent2) !important;
+  color: #fff !important;
 }
 
 /* Quizzes & Practice Quiz */
 .topic-pills a[href*="quiz/"] {
-  border-color: rgba(217, 119, 6, 0.25) !important;
-  color: #d97706 !important;
+  border-color: rgba(54, 137, 149, 0.25) !important;
+  color: var(--accent3) !important;
 }
 .topic-pills a[href*="quiz/"]:hover {
-  background: rgba(217, 119, 6, 0.08) !important;
-  border-color: rgba(217, 119, 6, 0.6) !important;
-  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.15) !important;
+  background: rgba(54, 137, 149, 0.08) !important;
+  border-color: var(--accent3) !important;
+  box-shadow: 0 10px 24px rgba(54, 137, 149, 0.15) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="quiz/"] {
-  border-color: rgba(251, 191, 36, 0.2) !important;
-  color: #fcd34d !important;
+  border-color: rgba(20, 160, 178, 0.2) !important;
+  color: var(--accent3) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="quiz/"]:hover {
-  background: rgba(217, 119, 6, 0.18) !important;
-  border-color: rgba(251, 191, 36, 0.5) !important;
-  color: #fde68a !important;
+  background: rgba(20, 160, 178, 0.18) !important;
+  border-color: var(--accent3) !important;
+  color: #fff !important;
 }
 
 /* Revision Papers & Sample Papers */
 .topic-pills a[href*="revision-papers/"],
 .topic-pills a[href*="question-papers/"] {
-  border-color: rgba(13, 148, 136, 0.25) !important;
-  color: #0d9488 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 .topic-pills a[href*="revision-papers/"]:hover,
 .topic-pills a[href*="question-papers/"]:hover {
-  background: rgba(13, 148, 136, 0.08) !important;
-  border-color: rgba(13, 148, 136, 0.6) !important;
-  box-shadow: 0 10px 24px rgba(13, 148, 136, 0.15) !important;
+  background: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 10px 24px rgba(1, 71, 81, 0.12) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="revision-papers/"],
 [data-theme="dark"] .topic-pills a[href*="question-papers/"] {
-  border-color: rgba(45, 212, 191, 0.2) !important;
-  color: #99f6e4 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
 }
 [data-theme="dark"] .topic-pills a[href*="revision-papers/"]:hover,
 [data-theme="dark"] .topic-pills a[href*="question-papers/"]:hover {
-  background: rgba(13, 148, 136, 0.18) !important;
-  border-color: rgba(45, 212, 191, 0.5) !important;
-  color: #ccfbf1 !important;
+  background: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+  color: var(--text) !important;
 }
 
 /* Special High-probability Highlight (Guess Papers / CBSE Board Exam Special) */
 .topic-pills a.pill-highlight {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(0, 206, 209, 0.12)) !important;
-  border: 1.5px solid rgba(255, 215, 0, 0.6) !important;
-  color: #d97706 !important; /* Premium dark amber color */
-  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1) !important;
+  background: linear-gradient(135deg, rgba(1, 71, 81, 0.08), rgba(175, 225, 55, 0.12)) !important;
+  border: 1.5px solid var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 10px 24px rgba(1, 71, 81, 0.12), 0 0 10px rgba(175, 225, 55, 0.1) !important;
   animation: pulse-pill 2.5s infinite ease-in-out !important;
   font-weight: 900 !important;
   letter-spacing: 0.01em !important;
 }
 [data-theme="dark"] .topic-pills a.pill-highlight {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(102, 187, 106, 0.15)) !important;
-  border: 1.5px solid rgba(255, 215, 0, 0.7) !important;
-  color: #FFD54F !important; /* Gold on dark background */
-  box-shadow: 0 10px 24px rgba(255, 215, 0, 0.15), 0 0 12px rgba(255, 215, 0, 0.2) !important;
+  background: linear-gradient(135deg, rgba(175, 225, 55, 0.15), rgba(112, 192, 204, 0.15)) !important;
+  border: 1.5px solid var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 10px 24px rgba(175, 225, 55, 0.15), 0 0 12px rgba(175, 225, 55, 0.2) !important;
 }
 .topic-pills a.pill-highlight:hover {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.22), rgba(0, 206, 209, 0.22)) !important;
-  border-color: rgba(255, 215, 0, 0.9) !important;
-  box-shadow: 0 12px 28px rgba(217, 119, 6, 0.22), 0 0 16px rgba(255, 215, 0, 0.3) !important;
+  background: linear-gradient(135deg, rgba(1, 71, 81, 0.15), rgba(175, 225, 55, 0.22)) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 12px 28px rgba(1, 71, 81, 0.22), 0 0 16px rgba(175, 225, 55, 0.3) !important;
 }
 @keyframes pulse-pill {
   0% { transform: scale(1) translateY(0); box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1); }
