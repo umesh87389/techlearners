@@ -5,7 +5,7 @@
   --accent:#014751; --accent2:#afe137; --accent3:#368995; --accent-soft:rgba(1,71,81,.08); --border:rgba(1,71,81,.16);
   --glass:rgba(255,255,255,.7);
   --body-bg:linear-gradient(180deg,#f2fbfd 0%,#f9f9f9 100%);
-  --header-bg:rgba(242,251,253,.75); --input-bg:rgba(255,255,255,.86); --nav-bg:rgba(242,251,253,.95);
+  --header-bg:rgba(242,251,253,.95); --input-bg:rgba(255,255,255,.86); --nav-bg:rgba(242,251,253,.98);
   --shadow:0 20px 55px rgba(1,71,81,.08);
   --logo-bg:linear-gradient(135deg,#014751,#368995); --logo-text:#ffffff; --logo-halo:rgba(175,225,55,.5);
   --icon-color:#000000;
@@ -16,7 +16,7 @@
   --accent:#afe137; --accent2:#70c0cc; --accent3:#14a0b2; --accent-soft:rgba(175,225,55,.15); --border:rgba(175,225,55,.25);
   --glass:rgba(13,35,38,.7);
   --body-bg:linear-gradient(180deg,#091a1c 0%,#041012 100%);
-  --header-bg:rgba(9,26,28,.85); --input-bg:rgba(13,35,38,.7); --nav-bg:rgba(9,26,28,.95);
+  --header-bg:rgba(9,26,28,.95); --input-bg:rgba(13,35,38,.7); --nav-bg:rgba(9,26,28,.98);
   --shadow:0 20px 55px rgba(0,0,0,.5);
   --logo-bg:linear-gradient(135deg,#afe137,#70c0cc); --logo-text:#091a1c; --logo-halo:rgba(112,192,204,.55);
   --icon-color:var(--accent2);
