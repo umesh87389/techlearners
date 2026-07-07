@@ -948,3 +948,139 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
   50% { transform: scale(1.04) translateY(-2px); box-shadow: 0 14px 28px rgba(217, 119, 6, 0.2), 0 0 16px rgba(255, 215, 0, 0.25); }
   100% { transform: scale(1) translateY(0); box-shadow: 0 10px 24px rgba(217, 119, 6, 0.12), 0 0 10px rgba(255, 215, 0, 0.1); }
 }
+
+/* --- Very Simple & Full Screen Styles (Applied only to non-homepage pages) --- */
+.page, .dashboard {
+  background: #ffffff !important;
+  color: #3d494b !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+[data-theme="dark"] .page, [data-theme="dark"] .dashboard {
+  background: #091a1c !important;
+  color: #e2f0f2 !important;
+}
+
+/* Ensure header matches simple theme on scroll */
+.site-header {
+  background: var(--header-bg) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+
+/* Content wrapper styling */
+.page .section, .dashboard-content {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 24px 16px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.page .narrow, .dashboard .narrow {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+/* Clean, flat, simplified cards */
+.page .card, 
+.page .exam-card, 
+.page .form-card, 
+.page .quiz-box, 
+.page .detail-card,
+.page .question-card,
+.dashboard .card, 
+.dashboard .stat,
+.dashboard-hero,
+.blueprint-card,
+.instructions-box {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  transform: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+[data-theme="dark"] .page .card, 
+[data-theme="dark"] .page .exam-card, 
+[data-theme="dark"] .page .form-card,
+[data-theme="dark"] .page .quiz-box, 
+[data-theme="dark"] .page .detail-card,
+[data-theme="dark"] .page .question-card,
+[data-theme="dark"] .dashboard .card, 
+[data-theme="dark"] .dashboard .stat,
+[data-theme="dark"] .dashboard-hero,
+[data-theme="dark"] .blueprint-card,
+[data-theme="dark"] .instructions-box {
+  background: #0d2326 !important;
+  border: 1px solid var(--border) !important;
+  color: #e2f0f2 !important;
+}
+
+/* Remove gradient overlays & top highlights on simplified pages */
+.page .card::before, 
+.page .exam-card::before,
+.page .class-module::before,
+.dashboard .card::before,
+.dashboard-hero::before {
+  display: none !important;
+}
+
+/* Simplify lists, items and text tags */
+.page .tag, .dashboard .tag {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+}
+
+/* Simple, clear grids */
+.page .exam-grid, 
+.page .grid, 
+.page .cards,
+.dashboard .dashboard-grid,
+.dashboard .stats {
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* On tablet & desktop viewports, display in simple columns */
+@media (min-width: 768px) {
+  .page .grid.two, 
+  .dashboard .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .page .exam-grid, 
+  .page .cards,
+  .dashboard .stats {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  }
+}
+
+/* Disable hover transformations and tilts for simplicity */
+.page *:hover, 
+.dashboard *:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/* Align buttons styling to simple theme */
+.page .btn, .dashboard .btn {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
