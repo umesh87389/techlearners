@@ -552,7 +552,7 @@
   function sanitizeRichText(value) {
     const template = document.createElement('template');
     template.innerHTML = String(value || '');
-    const allowedTags = new Set(['A', 'B', 'BLOCKQUOTE', 'BR', 'DIV', 'EM', 'H2', 'H3', 'I', 'LI', 'OL', 'P', 'STRONG', 'U', 'UL']);
+    const allowedTags = new Set(['A', 'B', 'BLOCKQUOTE', 'BR', 'DIV', 'EM', 'H2', 'H3', 'I', 'LI', 'OL', 'P', 'STRONG', 'U', 'UL', 'FONT', 'SPAN', 'STRIKE', 'S', 'SUB', 'SUP', 'PRE', 'CODE', 'HR']);
 
     [...template.content.querySelectorAll('*')].forEach(element => {
       if (!allowedTags.has(element.tagName)) {
@@ -560,7 +560,12 @@
         return;
       }
       const href = element.tagName === 'A' ? element.getAttribute('href') : '';
+      const size = element.tagName === 'FONT' ? element.getAttribute('size') : '';
+      const color = element.tagName === 'FONT' ? element.getAttribute('color') : '';
+      const style = element.tagName === 'SPAN' ? element.getAttribute('style') : '';
+      
       [...element.attributes].forEach(attribute => element.removeAttribute(attribute.name));
+      
       if (element.tagName === 'A') {
         if (/^https?:\/\//i.test(href || '')) {
           element.setAttribute('href', href);
@@ -569,6 +574,11 @@
         } else {
           element.replaceWith(...element.childNodes);
         }
+      } else if (element.tagName === 'FONT') {
+        if (size) element.setAttribute('size', size);
+        if (color) element.setAttribute('color', color);
+      } else if (element.tagName === 'SPAN') {
+        if (style) element.setAttribute('style', style);
       }
     });
     return template.innerHTML.trim();
@@ -650,18 +660,52 @@
     toolbar.className = 'rich-text-toolbar rich-text-toolbar-floating';
     toolbar.hidden = true;
     toolbar.innerHTML = `
+      <select class="rich-text-select" title="Font Size">
+        <option value="">Size</option>
+        <option value="1">Smallest</option>
+        <option value="2">Small</option>
+        <option value="3">Normal</option>
+        <option value="4">Large</option>
+        <option value="5">X-Large</option>
+        <option value="6">XX-Large</option>
+        <option value="7">Largest</option>
+      </select>
       <button type="button" data-command="bold" title="Bold"><b>B</b></button>
       <button type="button" data-command="italic" title="Italic"><i>I</i></button>
       <button type="button" data-command="underline" title="Underline"><u>U</u></button>
+      <button type="button" data-command="strikeThrough" title="Strikethrough"><del>S</del></button>
+      <button type="button" data-command="subscript" title="Subscript">X<sub>2</sub></button>
+      <button type="button" data-command="superscript" title="Superscript">X<sup>2</sup></button>
       <button type="button" data-command="formatBlock" data-value="h2" title="Heading">H2</button>
       <button type="button" data-command="formatBlock" data-value="h3" title="Subheading">H3</button>
+      <button type="button" data-command="formatBlock" data-value="pre" title="Code Block">Code</button>
+      <button type="button" data-command="justifyLeft" title="Align Left">Left</button>
+      <button type="button" data-command="justifyCenter" title="Align Center">Center</button>
+      <button type="button" data-command="justifyRight" title="Align Right">Right</button>
       <button type="button" data-command="insertUnorderedList" title="Bulleted list">&bull; List</button>
       <button type="button" data-command="insertOrderedList" title="Numbered list">1. List</button>
+      <button type="button" data-command="insertHorizontalRule" title="Horizontal Rule">HR</button>
       <button type="button" data-command="formatBlock" data-value="blockquote" title="Quote">Quote</button>
       <button type="button" data-command="createLink" title="Add link">Link</button>
       <button type="button" data-command="undo" title="Undo">Undo</button>
       <button type="button" data-command="removeFormat" title="Clear formatting">Clear</button>`;
-    toolbar.addEventListener('mousedown', event => event.preventDefault());
+    toolbar.addEventListener('mousedown', event => {
+      // Don't lose focus on select element changes
+      if (event.target.tagName !== 'SELECT') {
+        event.preventDefault();
+      }
+    });
+    toolbar.addEventListener('change', event => {
+      const select = event.target.closest('.rich-text-select');
+      if (!select || !activeRichTextEditor) return;
+      const command = 'fontSize';
+      const value = select.value;
+      if (!value) return;
+      activeRichTextEditor.surface.focus();
+      document.execCommand(command, false, value);
+      select.value = ""; // reset option
+      activeRichTextEditor.sync();
+    });
     toolbar.addEventListener('click', event => {
       const button = event.target.closest('[data-command]');
       if (!button || !activeRichTextEditor) return;
