@@ -686,6 +686,31 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('a.brand[href="/"]').forEach(link => {
     link.href = getSiteRoot() + 'index.html';
   });
+
+  // Highlight active menu link and section
+  const navElement = document.getElementById('navMenu') || document.querySelector('.nav');
+  if (navElement) {
+    const currentPath = location.pathname;
+    const navLinks = navElement.querySelectorAll('a');
+    navLinks.forEach(link => {
+      const linkHref = link.getAttribute('href');
+      if (linkHref) {
+        const resolvedLink = new URL(linkHref, location.origin).pathname;
+        if (currentPath === resolvedLink || (currentPath.endsWith('/') && resolvedLink.endsWith('index.html') && currentPath.includes(resolvedLink.replace('index.html', '')))) {
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
+        } else {
+          const parentFolders = ['class9', 'class10', 'notes', 'quizzes', 'question-papers', 'revision-papers', 'guess-papers'];
+          parentFolders.forEach(folder => {
+            if (resolvedLink.includes(`/pages/${folder}/`) && currentPath.includes(`/pages/${folder}/`)) {
+              link.classList.add('active');
+            }
+          });
+        }
+      }
+    });
+  }
+
   setupButtonClickFeedback();
   setupMobileCardScrollEffects();
   setupCookieNotice();

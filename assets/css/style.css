@@ -66,11 +66,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   0%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(0deg) scale(1.08)}
   100%{transform:rotate(-7deg) rotateX(15deg) rotateY(-15deg) rotateZ(360deg) scale(1.08)}
 }
-.nav{display:flex;gap:18px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
-.nav a{color:var(--muted);font-weight:600;font-size:.9rem}
-.nav a:hover{color:var(--accent)}
+.nav{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.nav a{color:var(--muted);font-weight:600;font-size:.9rem;padding:6px 12px;border-radius:6px;transition:all .2s ease;border-bottom:2px solid transparent;display:inline-flex;align-items:center}
+.nav a:hover{color:var(--accent);background:rgba(1,71,81,.04)}
+[data-theme="dark"] .nav a:hover{background:rgba(175,225,55,.05)}
+.nav a.active:not(.btn){color:var(--accent)!important;font-weight:700!important;border-bottom-color:var(--accent)!important;background:rgba(1,71,81,.04);border-radius:6px 6px 0 0}
+[data-theme="dark"] .nav a.active:not(.btn){border-bottom-color:var(--accent)!important;background:rgba(175,225,55,.08)}
 .nav a.btn{border:1px solid rgba(255,255,255,.76);background:linear-gradient(135deg,rgba(1,71,81,.88),rgba(54,137,149,.86));color:#fff;box-shadow:0 10px 24px rgba(54,137,149,.2),inset 0 1px 0 rgba(255,255,255,.28);backdrop-filter:blur(14px)}
 .nav a.btn:hover{color:#fff;background:linear-gradient(135deg,rgba(1,55,62,.95),rgba(42,107,117,.94));box-shadow:0 14px 30px rgba(54,137,149,.28),inset 0 1px 0 rgba(255,255,255,.36)}
+.nav a.btn.active{border-bottom:none!important;border-radius:6px!important;background:linear-gradient(135deg,var(--accent3),var(--accent))!important}
 .nav-profile-pic{display:inline-block;width:34px;height:34px;border-radius:50%;background-size:cover;background-position:center;background-repeat:no-repeat;border:2px solid rgba(255,255,255,.8);box-shadow:0 4px 12px rgba(1,71,81,.18);flex-shrink:0;overflow:hidden;pointer-events:none}
 .nav-profile-initial{display:grid;place-items:center;width:100%;height:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.8rem;font-weight:900}
 .nav-profile-img{display:block;width:100%;height:100%;object-fit:cover}
@@ -1082,5 +1086,17 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
   border-radius: 6px !important;
   box-shadow: none !important;
   transform: none !important;
+}
+
+/* Nav Menu highlighting overrides for mobile viewport */
+@media (max-width: 700px) {
+  .nav a.active {
+    background: var(--accent-soft) !important;
+    color: var(--accent) !important;
+    border-left: 4px solid var(--accent) !important;
+    border-bottom: 1px solid rgba(1, 71, 81, 0.08) !important;
+    border-radius: 10px !important;
+    padding-left: 12px !important;
+  }
 }
 
