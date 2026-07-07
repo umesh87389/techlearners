@@ -381,6 +381,9 @@ code{color:var(--accent)}
   border-color: var(--accent);
   box-shadow: 0 6px 16px rgba(1,71,81, 0.15);
 }
+.theme-toggle-btn .theme-toggle-label-text {
+  display: none;
+}
 .sun-path {
   display: none;
 }
