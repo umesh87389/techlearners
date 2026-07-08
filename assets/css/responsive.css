@@ -199,52 +199,61 @@
   .admin-list{margin-top:14px}
 }
 
-/* Tablet & Mobile Performance Optimization (Screen width <= 1024px) */
-@media (max-width: 1024px) {
-  /* Disable fixed body background to prevent repaint cycles during scroll */
-  body {
-    background: var(--body-bg) !important;
-    background-attachment: scroll !important;
-  }
-  body::before {
-    display: none !important;
-  }
+/* Global Performance Optimization (Lighter & smoother for all devices) */
 
-  /* Disable heavy GPU/CPU backdrop-filters that cause scroll lag */
-  .site-header,
-  .hero-card,
-  .card,
-  .form-card,
-  .login-card,
-  .quiz-box,
-  .learning-search,
-  .topic-pills a,
-  .portal-stats span,
-  .highlight,
-  .help-section,
-  .footer,
-  .cookie-banner,
-  .nav {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  /* Disable continuous loop animations (Ken Burns, float, brand orbit, pill pulse) */
-  .float,
-  .class-module-image img,
-  .brand-mark,
-  .brand-mark::after,
-  .topic-pills a.pill-highlight {
-    animation: none !important;
-    will-change: auto !important;
-  }
-
-  /* Reset 3D transforms on brand logo to prevent composite layer lag */
-  .brand-mark {
-    transform: rotate(-7deg) !important;
-  }
-  .brand-mark::after {
-    display: none !important;
-  }
+/* Disable fixed body background to prevent repaint cycles during scroll */
+body {
+  background: var(--body-bg) !important;
+  background-attachment: scroll !important;
 }
+body::before {
+  display: none !important;
+}
+
+/* Disable heavy GPU/CPU backdrop-filters that cause scroll lag */
+.site-header,
+.hero-card,
+.card,
+.form-card,
+.login-card,
+.quiz-box,
+.learning-search,
+.topic-pills a,
+.portal-stats span,
+.highlight,
+.help-section,
+.footer,
+.consent-banner,
+.cookie-banner,
+.nav,
+.nav-dropdown,
+.nav-dd-menu,
+.login-loading-overlay,
+.advertisement-modal,
+.rich-text-toolbar-floating,
+.sidebar,
+.stat,
+.quick-links a {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Disable continuous loop animations (Ken Burns, float, brand orbit, pill pulse) */
+.float,
+.class-module-image img,
+.brand-mark,
+.brand-mark::after,
+.topic-pills a.pill-highlight {
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Reset 3D transforms on brand logo to prevent composite layer lag */
+.brand-mark {
+  transform: rotate(-7deg) !important;
+}
+.brand-mark::after {
+  display: none !important;
+}
+
 
