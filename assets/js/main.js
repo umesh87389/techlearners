@@ -338,6 +338,8 @@ const homepageSearchRoutes = [
   { terms: ['class 9 it', '9 it', 'information technology 9'], url: 'pages/class9/it.html' },
   { terms: ['class 10 ai', '10 ai', 'artificial intelligence 10'], url: 'pages/class10/ai.html' },
   { terms: ['class 10 it', '10 it', 'information technology 10'], url: 'pages/class10/it.html' },
+  { terms: ['class 11 python', '11 python', 'python 11', 'python 083 class 11', 'cs 11', 'computer science 11'], url: 'pages/class11/python.html' },
+  { terms: ['class 12 python', '12 python', 'python 12', 'python 083 class 12', 'cs 12', 'computer science 12'], url: 'pages/class12/python.html' },
   { terms: ['mcq', 'mcqs', 'multiple choice'], url: 'pages/quizzes/index.html' },
   { terms: ['quiz', 'practice', 'test'], url: 'pages/quiz/index.html' },
   { terms: ['revision paper', 'revision test', 'revision papers', 'revision'], url: 'pages/revision-papers/index.html' },
@@ -922,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const path = location.pathname;
-  const learningPage = path.includes('/pages/class9/') || path.includes('/pages/class10/') || path.includes('/pages/notes/') || path.includes('/pages/quizzes/') || path.includes('/pages/question-papers/') || path.includes('/pages/revision-papers/');
+  const learningPage = path.includes('/pages/class9/') || path.includes('/pages/class10/') || path.includes('/pages/class11/') || path.includes('/pages/class12/') || path.includes('/pages/notes/') || path.includes('/pages/quizzes/') || path.includes('/pages/question-papers/') || path.includes('/pages/revision-papers/');
   if (learningPage && !document.querySelector('.content-trust')) {
     const root = getSiteRoot();
     const trust = document.createElement('aside');
@@ -1051,7 +1053,10 @@ function chapterDetailUrl(chapter, index = 0) {
 }
 
 function chapterIndexUrl(className, subject = 'AI') {
-  const classFolder = className === 'Class 10' ? 'class10' : 'class9';
+  let classFolder = 'class9';
+  if (className === 'Class 10') classFolder = 'class10';
+  else if (className === 'Class 11') classFolder = 'class11';
+  else if (className === 'Class 12') classFolder = 'class12';
   const file = subject === 'IT' ? 'it-chapters.html' : 'chapters.html';
   return `${getSiteRoot()}pages/${classFolder}/${file}`;
 }

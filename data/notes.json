@@ -62,5 +62,21 @@
     "description": "Original notes for advanced documentation, spreadsheets, databases, web applications, and digital security.",
     "content": "Digital Documentation (Advanced):\nAdvanced documentation uses styles, images, templates, tables of contents, and mail merge. Styles keep headings and paragraphs consistent. Templates save time when the same document format is used repeatedly. Mail merge creates personalised letters, labels, and certificates from one main document and a data source.\n\nElectronic Spreadsheets (Advanced):\nAdvanced spreadsheets use formulas, functions, cell references, sorting, filtering, charts, and validation. Use absolute references when one fixed value must be used in many formulas. Review formulas before copying them across a large table.\n\nDatabase Management System:\nA database stores related data in an organised form. Tables contain records and fields. A primary key uniquely identifies each record. Queries retrieve selected data. Forms help with data entry, and reports present information clearly.\n\nWeb Applications and Security:\nWeb applications run through a browser. Examples include email, online forms, cloud documents, digital payments, and e-learning platforms. Security is important because online accounts and personal data can be misused.\n\nSafe Digital Practices:\n- Use strong, unique passwords.\n- Avoid suspicious links and unknown downloads.\n- Check website addresses carefully.\n- Log out from shared devices.\n- Back up important files.\n- Share personal information only when necessary.\n\nQuick Revision:\n- Styles create consistent documents.\n- Spreadsheets calculate and analyse data.\n- Databases organise related records.\n- Web applications need secure and responsible use.",
     "file": "downloads/class10-ict-skills.txt"
+  },
+  {
+    "class": "Class 11",
+    "subject": "Python 083",
+    "title": "Variables, Data Types and Operators Notes",
+    "description": "Essential quick revision notes on Python tokens, mutable vs immutable types, arithmetic/logical operators, and basic input/output statements.",
+    "content": "Python Variables and Dynamic Typing:\nIn Python, variables are created when you assign a value to them. Variables hold references to objects, not actual values. Types are verified at runtime (dynamic typing).\n\nData Types:\n- Numbers: int, float, complex\n- Sequences: str, list, tuple\n- Mappings: dict\n- Sets: set\n\nMutable vs Immutable:\n- Mutable (can change value): lists, dicts, sets\n- Immutable (cannot change value): int, float, str, tuple\n\nOperators:\n- Arithmetic: +, -, *, /, //, %, **\n- Logical: and, or, not\n- Relational: ==, !=, >, <, >=, <=\n\nRevision Tip:\nRemember that 5/2 returns 2.5 (float division) while 5//2 returns 2 (floor division) and 5%2 returns 1 (modulo/remainder).",
+    "file": "downloads/class11-python-basics.txt"
+  },
+  {
+    "class": "Class 12",
+    "subject": "Python 083",
+    "title": "Text File Handling and Operations Notes",
+    "description": "Quick revision notes on opening, reading, writing, and appending files using open(), read(), readline(), and readlines() in Python.",
+    "content": "Opening a File:\nUse the built-in open() function. Syntax: file_object = open(file_name, access_mode)\nAccess modes: 'r' (read), 'w' (write), 'a' (append), 'r+' (read & write).\n\nReading Methods:\n- read(n): reads n bytes/characters. If no argument is passed, reads the entire file.\n- readline(): reads a single line from the file as a string.\n- readlines(): reads all lines and returns them as a list of strings.\n\nWriting Methods:\n- write(string): writes string to the file.\n- writelines(list_of_strings): writes a list of strings to the file.\n\nAlways close files using file_object.close() to release system resources, or use the 'with' statement block for automatic closing:\nwith open('data.txt', 'r') as f:\n    content = f.read()",
+    "file": "downloads/class12-file-handling.txt"
   }
 ]

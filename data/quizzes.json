@@ -2598,5 +2598,57 @@
       "Only unrelated images"
     ],
     "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "Python 083",
+    "chapter": "Python Programming Fundamentals",
+    "question": "Which of the following is an invalid identifier in Python?",
+    "options": [
+      "my_var",
+      "_myvar",
+      "2myvar",
+      "myVar123"
+    ],
+    "answer": 2
+  },
+  {
+    "class": "Class 11",
+    "subject": "Python 083",
+    "chapter": "Python Programming Fundamentals",
+    "question": "What is the output of print(9 // 2)?",
+    "options": [
+      "4.5",
+      "4",
+      "4.0",
+      "5"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 12",
+    "subject": "Python 083",
+    "chapter": "Working with Functions",
+    "question": "Which keyword is used to access or modify a global variable inside a function when a local variable with the same name exists?",
+    "options": [
+      "extern",
+      "global",
+      "def",
+      "import"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 12",
+    "subject": "Python 083",
+    "chapter": "File Handling in Python",
+    "question": "Which module is required to read and write binary files in Python via serialization?",
+    "options": [
+      "csv",
+      "json",
+      "pickle",
+      "math"
+    ],
+    "answer": 2
   }
 ]

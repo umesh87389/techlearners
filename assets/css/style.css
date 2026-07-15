@@ -302,6 +302,8 @@ code{color:var(--accent)}
 [data-theme="dark"] .exam-card.subject-it::before{background:linear-gradient(90deg,#34d399,#66BB6A)}
 [data-theme="dark"] .class-module{background:linear-gradient(145deg,rgba(20,30,55,.9),rgba(12,19,34,.8))}
 [data-theme="dark"] .class-module-10{background:linear-gradient(145deg,rgba(20,30,55,.92),rgba(17,14,40,.82))}
+[data-theme="dark"] .class-module-11{background:linear-gradient(145deg,rgba(20,30,55,.92),rgba(14,24,37,.82))}
+[data-theme="dark"] .class-module-12{background:linear-gradient(145deg,rgba(20,30,55,.92),rgba(32,20,15,.82))}
 [data-theme="dark"] .class-module-image{background:rgba(12,19,34,.7);border-color:rgba(175,225,55,.15)}
 [data-theme="dark"] .subject-link{background:rgba(12,19,34,.7);border-color:var(--border)}
 [data-theme="dark"] .subject-link:hover{background:rgba(20,30,55,.86);box-shadow:0 12px 28px rgba(0,0,0,.2)}

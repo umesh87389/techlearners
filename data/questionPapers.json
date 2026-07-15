@@ -62,5 +62,21 @@
     "description": "Original IT paper covering advanced documentation, spreadsheets, DBMS, web applications, and security.",
     "year": "2026",
     "file": "../../downloads/class10-it-sample-paper.txt"
+  },
+  {
+    "class": "Class 11",
+    "subject": "Python 083",
+    "title": "CBSE Class 11 CS Theory Practice Paper",
+    "description": "Original computer science revision paper covering binary system conversions, CPU structure, logic gates, and basic Python coding questions.",
+    "year": "2026 Set 1",
+    "file": "downloads/class11-cs-practice-paper.txt"
+  },
+  {
+    "class": "Class 12",
+    "subject": "Python 083",
+    "title": "CBSE Class 12 Computer Science Board Practice Paper",
+    "description": "Board-aligned model paper containing stack operations, CSV file parsing, networking topologies, and SQL table operations with query outputs.",
+    "year": "2026 Set 1",
+    "file": "downloads/class12-cs-board-paper.txt"
   }
 ]

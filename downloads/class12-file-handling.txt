@@ -1,0 +1,23 @@
+CBSE Class 12 Computer Science (Python 083) Notes
+Subject: Working with Files in Python
+Author: Umesh Tripathi (TechLearners.in)
+
+1. File Types:
+- Text Files: Stored as ASCII/Unicode characters. EOL (End of Line) character is typically '\n' or '\r\n'.
+- Binary Files: Stored as raw bytes. Requires pickling (dump/load) to serialize Python objects.
+- CSV Files: Comma Separated Values. Simple tabular text representation.
+
+2. Text File Access Modes:
+- 'r': Read only (default)
+- 'w': Write (truncates existing file)
+- 'a': Append (appends at end of file)
+- '+': Open for updating (read/write)
+
+3. Pickling (Binary Files):
+import pickle
+# Writing
+with open('data.dat', 'wb') as f:
+    pickle.dump(obj, f)
+# Reading
+with open('data.dat', 'rb') as f:
+    obj = pickle.load(f)
