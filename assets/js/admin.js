@@ -202,50 +202,51 @@
     });
   }
 
-  const classSelect = '<select name="class" required><option value="Class 9">CBSE Class 9</option><option value="Class 10">CBSE Class 10</option></select>';
+  const classSelect = '<select name="class" required><option value="Class 9">CBSE Class 9</option><option value="Class 10">CBSE Class 10</option><option value="Class 11">CBSE Class 11</option><option value="Class 12">CBSE Class 12</option></select>';
+  const subjectSelect = '<select name="subject" required><option>AI</option><option>IT</option><option value="Python 083">Python 083</option><option>Computer Science</option></select>';
 
   const editorConfigs = {
     'upload-notes.html': {
       type: 'notes',
       title: 'Manage Notes',
       intro: 'Write the note content directly for students. Each saved note gets its own student page with navigation and sharing options. Adding a PDF or file link is optional.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="title" placeholder="Title" required><textarea name="description" data-rich-text placeholder="Short summary" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete note content here" required></textarea><input name="file" placeholder="Optional PDF or file URL"><label>Optional PDF or file upload<input name="upload" type="file"></label>`
+      fields: `${classSelect}${subjectSelect}<input name="title" placeholder="Title" required><textarea name="description" data-rich-text placeholder="Short summary" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete note content here" required></textarea><input name="file" placeholder="Optional PDF or file URL"><label>Optional PDF or file upload<input name="upload" type="file"></label>`
     },
     'manage-mcqs.html': {
       type: 'quizzes',
       title: 'Manage MCQs',
       intro: 'Publish MCQ reading material class-wise and module-wise. Add an optional Google Drive or public download link so students can open the complete MCQ file.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="chapter" placeholder="Module or chapter name, for example ICT Skills-II" required><textarea name="question" data-rich-text placeholder="Optional question when publishing a downloadable file"></textarea><textarea name="options" placeholder="Optional: enter one option per line"></textarea><input name="downloadLink" type="url" placeholder="Optional Google Drive or public MCQ download link">`
+      fields: `${classSelect}${subjectSelect}<input name="chapter" placeholder="Module or chapter name, for example ICT Skills-II" required><textarea name="question" data-rich-text placeholder="Optional question when publishing a downloadable file"></textarea><textarea name="options" placeholder="Optional: enter one option per line"></textarea><input name="downloadLink" type="url" placeholder="Optional Google Drive or public MCQ download link">`
     },
     'manage-quizzes.html': {
       type: 'quizQuestions',
       title: 'Manage Quiz',
       intro: 'Publish interactive quiz questions separately from MCQ reading resources. Students receive instant scores after submitting a quiz.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><textarea name="question" data-rich-text placeholder="Quiz question" required></textarea><textarea name="options" placeholder="Enter one option per line" required></textarea><input name="answer" type="number" min="1" placeholder="Correct option number, for example 1" required>`
+      fields: `${classSelect}${subjectSelect}<textarea name="question" data-rich-text placeholder="Quiz question" required></textarea><textarea name="options" placeholder="Enter one option per line" required></textarea><input name="answer" type="number" min="1" placeholder="Correct option number, for example 1" required>`
     },
     'manage-question-papers.html': {
       type: 'questionPapers',
       title: 'Manage Sample Papers',
       intro: 'Publish sample papers class-wise. Each saved paper gets its own student page with navigation and sharing options. Add a public paper URL when the file is ready; students will see only the papers you publish.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="year" type="number" min="2000" max="2100" placeholder="Exam year, for example 2025" required><input name="title" placeholder="Paper title" required><textarea name="description" data-rich-text placeholder="Short description" required></textarea><input name="file" type="url" placeholder="Optional public sample-paper URL, for example https://..."><label>Optional paper upload<input name="upload" type="file" accept=".pdf,.doc,.docx,.txt"></label>`
+      fields: `${classSelect}${subjectSelect}<input name="year" type="number" min="2000" max="2100" placeholder="Exam year, for example 2025" required><input name="title" placeholder="Paper title" required><textarea name="description" data-rich-text placeholder="Short description" required></textarea><input name="file" type="url" placeholder="Optional public sample-paper URL, for example https://..."><label>Optional paper upload<input name="upload" type="file" accept=".pdf,.doc,.docx,.txt"></label>`
     },
     'manage-guess-papers.html': {
       type: 'guessPapers',
       title: 'Manage Guess Papers',
-      intro: 'Publish CBSE Class 10 AI and IT guess papers. Enter metadata, list instructions one per line, and paste the sections and questions JSON array.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="title" placeholder="Paper title" required><textarea name="description" placeholder="Short description" required></textarea><input name="time" placeholder="Exam duration (e.g., 2 Hours)" required><input name="maxMarks" type="number" placeholder="Max Marks" required><textarea name="instructions" placeholder="Enter general instructions (one per line)" required></textarea><textarea name="sectionsJson" placeholder="Paste sections & questions JSON array here" required></textarea>`
+      intro: 'Publish CBSE Class 10, Class 11, and Class 12 AI, IT, and Computer Science guess papers. Enter metadata, list instructions one per line, and paste the sections and questions JSON array.',
+      fields: `${classSelect}${subjectSelect}<input name="title" placeholder="Paper title" required><textarea name="description" placeholder="Short description" required></textarea><input name="time" placeholder="Exam duration (e.g., 2 Hours)" required><input name="maxMarks" type="number" placeholder="Max Marks" required><textarea name="instructions" placeholder="Enter general instructions (one per line)" required></textarea><textarea name="sectionsJson" placeholder="Paste sections & questions JSON array here" required></textarea>`
     },
     'manage-revision-papers.html': {
       type: 'revisionPapers',
       title: 'Manage Revision Papers',
       intro: 'Publish revision tests with rich text for MCQs, question answers, practice instructions, or any other written revision material. Each saved revision paper appears on the student Revision Paper page with explore, collapse, copy-link, and share options.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="title" placeholder="Revision paper title" required><input name="testType" placeholder="Test type, for example MCQs, Q&A, Mixed Practice"><textarea name="description" data-rich-text placeholder="Short description" required></textarea><textarea name="content" data-rich-text placeholder="Write MCQs, question answers, instructions, or any other revision text here" required></textarea><input name="file" type="url" placeholder="Optional public revision-paper URL, for example https://..."><label>Optional revision paper upload<input name="upload" type="file" accept=".pdf,.doc,.docx,.txt"></label>`
+      fields: `${classSelect}${subjectSelect}<input name="title" placeholder="Revision paper title" required><input name="testType" placeholder="Test type, for example MCQs, Q&A, Mixed Practice"><textarea name="description" data-rich-text placeholder="Short description" required></textarea><textarea name="content" data-rich-text placeholder="Write MCQs, question answers, instructions, or any other revision text here" required></textarea><input name="file" type="url" placeholder="Optional public revision-paper URL, for example https://..."><label>Optional revision paper upload<input name="upload" type="file" accept=".pdf,.doc,.docx,.txt"></label>`
     },
     'manage-chapters.html': {
       type: 'chapters',
       title: 'Manage Chapter Modules',
       intro: 'Publish chapter modules directly to the matching public chapter page. Each saved chapter appears under its class and subject index and opens on a full student chapter page.',
-      fields: `${classSelect}<select name="subject" required><option>AI</option><option>IT</option></select><input name="unit" placeholder="Chapter or unit label, for example Chapter 5" required><input name="title" placeholder="Chapter title" required><textarea name="description" data-rich-text placeholder="Short summary shown on the chapter card" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete chapter content here" required></textarea>`
+      fields: `${classSelect}${subjectSelect}<input name="unit" placeholder="Chapter or unit label, for example Chapter 5" required><input name="title" placeholder="Chapter title" required><textarea name="description" data-rich-text placeholder="Short summary shown on the chapter card" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete chapter content here" required></textarea>`
     },
     'announcements.html': {
       type: 'announcements',
@@ -364,8 +365,8 @@
 
   function createFilters(type) {
     const sharedClassSubject = `
-      <select data-filter-field="class" aria-label="Filter by class"><option value="">All classes</option><option value="Class 9">CBSE Class 9</option><option value="Class 10">CBSE Class 10</option></select>
-      <select data-filter-field="subject" aria-label="Filter by subject"><option value="">All subjects</option><option>AI</option><option>IT</option></select>`;
+      <select data-filter-field="class" aria-label="Filter by class"><option value="">All classes</option><option value="Class 9">CBSE Class 9</option><option value="Class 10">CBSE Class 10</option><option value="Class 11">CBSE Class 11</option><option value="Class 12">CBSE Class 12</option></select>
+      <select data-filter-field="subject" aria-label="Filter by subject"><option value="">All subjects</option><option>AI</option><option>IT</option><option value="Python 083">Python 083</option><option>Computer Science</option></select>`;
     const controls = {
       notes: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search notes" aria-label="Search notes">`,
       quizzes: `${sharedClassSubject}<select data-filter-field="chapter" data-filter-dynamic aria-label="Filter by module"><option value="">All modules</option></select><input data-filter-search type="search" placeholder="Search MCQs" aria-label="Search MCQs">`,
@@ -520,7 +521,9 @@
       { class: 'Class 9', subject: 'AI', url: '../class9/chapters.html' },
       { class: 'Class 9', subject: 'IT', url: '../class9/it-chapters.html' },
       { class: 'Class 10', subject: 'AI', url: '../class10/chapters.html' },
-      { class: 'Class 10', subject: 'IT', url: '../class10/it-chapters.html' }
+      { class: 'Class 10', subject: 'IT', url: '../class10/it-chapters.html' },
+      { class: 'Class 11', subject: 'Python 083', url: '../class11/chapters.html' },
+      { class: 'Class 12', subject: 'Python 083', url: '../class12/chapters.html' }
     ];
 
     const discovered = await Promise.all(pages.map(async page => {
