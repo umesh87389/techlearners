@@ -2600,32 +2600,6 @@
     "answer": 1
   },
   {
-    "class": "Class 11",
-    "subject": "Python 083",
-    "chapter": "Python Programming Fundamentals",
-    "question": "Which of the following is an invalid identifier in Python?",
-    "options": [
-      "my_var",
-      "_myvar",
-      "2myvar",
-      "myVar123"
-    ],
-    "answer": 2
-  },
-  {
-    "class": "Class 11",
-    "subject": "Python 083",
-    "chapter": "Python Programming Fundamentals",
-    "question": "What is the output of print(9 // 2)?",
-    "options": [
-      "4.5",
-      "4",
-      "4.0",
-      "5"
-    ],
-    "answer": 1
-  },
-  {
     "class": "Class 12",
     "subject": "Python 083",
     "chapter": "Working with Functions",
@@ -2650,5 +2624,135 @@
       "math"
     ],
     "answer": 2
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Which architecture forms the basis of modern stored-program computers?",
+    "options": [
+      "Harvard Architecture",
+      "Von Neumann Architecture",
+      "Turing Architecture",
+      "RISC Architecture"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Which CPU register holds the memory address of the next instruction to be fetched?",
+    "options": [
+      "Accumulator (AC)",
+      "Instruction Register (IR)",
+      "Program Counter (PC)",
+      "Memory Data Register (MDR)"
+    ],
+    "answer": 2
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "How many Bytes are there in 1 Terabyte (TB)?",
+    "options": [
+      "1024 Bytes",
+      "2^20 Bytes",
+      "2^30 Bytes",
+      "2^40 Bytes"
+    ],
+    "answer": 3
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Which language translator converts high-level code line-by-line during runtime?",
+    "options": [
+      "Compiler",
+      "Interpreter",
+      "Assembler",
+      "Linker"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Why are NAND and NOR gates called Universal Gates?",
+    "options": [
+      "They consume less power",
+      "They can be used to construct any logic circuit without other gates",
+      "They operate on 32-bit registers",
+      "They work only in binary octal systems"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "According to De Morgan's First Law, what is NOT(A + B) equivalent to?",
+    "options": [
+      "NOT A + NOT B",
+      "NOT A · NOT B",
+      "A · B",
+      "NOT(A · B)"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "What is the decimal equivalent of the binary number (1101)_2?",
+    "options": [
+      "11",
+      "12",
+      "13",
+      "14"
+    ],
+    "answer": 2
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "What is the decimal ASCII code value for the uppercase letter 'A'?",
+    "options": [
+      "48",
+      "65",
+      "97",
+      "128"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Which Unicode encoding format uses a variable length of 1 to 4 bytes and is 100% backward compatible with ASCII?",
+    "options": [
+      "UTF-8",
+      "UTF-16",
+      "UTF-32",
+      "ISCII-8"
+    ],
+    "answer": 0
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "chapter": "Computer Systems and Organisation",
+    "question": "Which system software technique queues print jobs on disk storage to free up the CPU?",
+    "options": [
+      "Buffering",
+      "Spooling",
+      "Paging",
+      "Defragmentation"
+    ],
+    "answer": 1
   }
 ]

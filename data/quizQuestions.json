@@ -2508,30 +2508,6 @@
     "answer": 0
   },
   {
-    "class": "Class 11",
-    "subject": "Python 083",
-    "question": "What does the function type() return in Python?",
-    "options": [
-      "The variable value",
-      "The memory location",
-      "The data type of the object",
-      "A boolean value"
-    ],
-    "answer": 2
-  },
-  {
-    "class": "Class 11",
-    "subject": "Python 083",
-    "question": "Which of the following is a mutable data type in Python?",
-    "options": [
-      "String",
-      "Tuple",
-      "List",
-      "Integer"
-    ],
-    "answer": 2
-  },
-  {
     "class": "Class 12",
     "subject": "Python 083",
     "question": "What is the correct way to open a text file 'test.txt' for appending data in Python?",
@@ -2552,6 +2528,66 @@
       "readlines()",
       "readline()",
       "readall()"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "question": "Which of the following memory types is volatile?",
+    "options": [
+      "ROM",
+      "EEPROM",
+      "RAM",
+      "Hard Disk Drive"
+    ],
+    "answer": 2
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "question": "What is the base of the Hexadecimal number system?",
+    "options": [
+      "2",
+      "8",
+      "10",
+      "16"
+    ],
+    "answer": 3
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "question": "What does ISCII stand for?",
+    "options": [
+      "Indian Script Code for Information Interchange",
+      "International Standard Code for Information System",
+      "Indian System Code for Internet Interchange",
+      "Internal Script Code for Input Interface"
+    ],
+    "answer": 0
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "question": "What is the output of an XOR gate when both inputs are 1?",
+    "options": [
+      "1",
+      "0",
+      "Undefined",
+      "High impedance"
+    ],
+    "answer": 1
+  },
+  {
+    "class": "Class 11",
+    "subject": "CS",
+    "question": "Which component of the System Bus carries memory addresses?",
+    "options": [
+      "Data Bus",
+      "Address Bus",
+      "Control Bus",
+      "PCI Bus"
     ],
     "answer": 1
   }
