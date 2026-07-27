@@ -274,7 +274,7 @@ function renderPlainNote(value) {
     listType = type;
   };
   const looksLikeHeading = line => {
-    if (/[:：]$/.test(line)) return true;
+    if (/[:ï¼š]$/.test(line)) return true;
     if (/^(chapter|section|topic|unit|module|key points?|summary|definition|example|activity|steps?|important|remember)\b/i.test(line)) return true;
     return line.length <= 56 && !/[.!?]$/.test(line);
   };
@@ -287,7 +287,7 @@ function renderPlainNote(value) {
       return;
     }
 
-    const bullet = line.match(/^[-*•]\s+(.+)/);
+    const bullet = line.match(/^[-*â€¢]\s+(.+)/);
     const numbered = line.match(/^\d+[.)]\s+(.+)/);
     if (bullet || numbered) {
       openList(bullet ? 'ul' : 'ol');
@@ -298,7 +298,7 @@ function renderPlainNote(value) {
     flushList();
     if (looksLikeHeading(line)) {
       flushParagraph();
-      html.push(`<h3>${escapeHtml(line.replace(/[:：]$/, ''))}</h3>`);
+      html.push(`<h3>${escapeHtml(line.replace(/[:ï¼š]$/, ''))}</h3>`);
       return;
     }
     paragraph.push(escapeHtml(line));
@@ -741,6 +741,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.dataset.navToggleReady = 'true';
     btn.addEventListener('click', () => nav.classList.toggle('show'));
   }
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.nav-dd-wrapper')) {
+      document.querySelectorAll('.nav-dd-menu.show').forEach(menu => {
+        menu.classList.remove('show');
+        const trigger = menu.previousElementSibling;
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
   if (location.pathname.includes('/pages/admin/')) window.TechLearnersAdminNav?.setup(nav || document.querySelector('.nav'));
 
   const root = getSiteRoot();
@@ -1324,7 +1333,7 @@ function initQOTD() {
           <h2>Question of the Day</h2>
         </div>
         <div class="qotd-streak-badge">
-          <span>🔥 Streak: <b id="qotdStreak">${streak}</b> Days</span>
+          <span>ðŸ”¥ Streak: <b id="qotdStreak">${streak}</b> Days</span>
         </div>
       </div>
       <p class="qotd-question">${escapeHtml(question.q)}</p>
@@ -1382,7 +1391,7 @@ function initQOTD() {
           document.getElementById('qotdStreak').textContent = streak;
         }
         feedback.className = "qotd-feedback correct";
-        feedback.innerHTML = `<strong>Correct! 🎉</strong><br>${escapeHtml(question.explanation)}`;
+        feedback.innerHTML = `<strong>Correct! ðŸŽ‰</strong><br>${escapeHtml(question.explanation)}`;
       } else {
         // Streak broken
         streak = 0;
@@ -1391,7 +1400,7 @@ function initQOTD() {
         document.getElementById('qotdStreak').textContent = streak;
         
         feedback.className = "qotd-feedback incorrect";
-        feedback.innerHTML = `<strong>Incorrect. ❌</strong><br>The correct answer is: <strong>${escapeHtml(question.options[question.answer])}</strong>.<br>${escapeHtml(question.explanation)}`;
+        feedback.innerHTML = `<strong>Incorrect. âŒ</strong><br>The correct answer is: <strong>${escapeHtml(question.options[question.answer])}</strong>.<br>${escapeHtml(question.explanation)}`;
       }
     });
   }
@@ -1477,9 +1486,9 @@ function initHomepageLeaderboard() {
       const rank = currentRank;
 
       let rankHtml = `<span class="rank-badge">${rank}</span>`;
-      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥇 <span class="rank-badge rank-1">1</span></span>`;
-      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥈 <span class="rank-badge rank-2">2</span></span>`;
-      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥉 <span class="rank-badge rank-3">3</span></span>`;
+      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥‡ <span class="rank-badge rank-1">1</span></span>`;
+      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥ˆ <span class="rank-badge rank-2">2</span></span>`;
+      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥‰ <span class="rank-badge rank-3">3</span></span>`;
 
       const currentUser = typeof TechLearnersFirebase !== 'undefined' ? TechLearnersFirebase.peekCurrentUser?.() : null;
       const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
