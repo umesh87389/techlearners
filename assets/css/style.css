@@ -137,7 +137,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .exam-badge.subject-it-badge{background:linear-gradient(135deg,#059669,#0d9488)}
 .exam-class{color:var(--muted);font-size:.82rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
 .exam-card-body{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:16px 20px 22px;min-width:0;height:100%;box-sizing:border-box}
-.exam-icon{width:44px;height:44px;flex:0 0 44px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;color:var(--icon-color);opacity:.7}
+.exam-icon{width:40px;height:40px;flex:0 0 40px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:var(--icon-color);opacity:.85}
 .exam-card.subject-ai .exam-icon{color:#4f46e5}
 .exam-card.subject-it .exam-icon{color:#059669}
 .exam-card-link{text-decoration:none;color:inherit;cursor:pointer}.exam-card-link:hover{text-decoration:none}
@@ -149,7 +149,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .mcq-card-body{flex:1;min-width:0}
 .mcq-question{display:block;margin-bottom:8px;font-size:1rem;line-height:1.5}
 .mcq-options{margin:0;padding-left:22px}.mcq-options li{margin:6px 0;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.54);color:var(--muted);line-height:1.5;list-style:decimal}
-.exam-card-body h3{margin:0;font-size:1.2rem;font-weight:900;line-height:1.2}
+.exam-card-body h2,.exam-card-body h3{margin:0;font-weight:900;line-height:1.2}.exam-card-body h2{font-size:1.15rem}.exam-card-body h3{font-size:1.2rem}
 .exam-card-body p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.55}
 .exam-card-body .btn{margin-top:auto}
 #adminFilters,.section.narrow>article.exam-card{margin-bottom:24px;width:100%;border-color:var(--border)}#adminFilters .exam-card:hover,.section.narrow>article.exam-card:hover{transform:none}#adminFilters .exam-card-body,.section.narrow>article.exam-card .exam-card-body{padding:20px 24px 26px;gap:14px}
