@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>Data Structure - Queue - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on Queue data structure using Python lists including enqueue, dequeue operations and circular queue."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/data-structure-queue.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"Data Structure - Queue","item":"https://www.techlearners.in/pages/class12/cs/data-structure-queue.html"}]}</script>
+<meta property="og:title" content="Data Structure - Queue - CBSE Class 12 CS 083"><meta property="og:description" content="Study CBSE Class 12 CS notes on Queue data structure."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/data-structure-queue.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - Data Structures: Queue</p>
+<h1>Data Structure - Queue</h1>
+<p class="notice">A queue is a linear data structure that follows the First In, First Out (FIFO) principle. Elements are added at the rear (enqueue) and removed from the front (dequeue). This chapter covers queue implementation using Python lists, circular queue, and applications as per the CBSE Class 12 Computer Science syllabus.</p>
+<nav class="chapter-toc card">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to Queue</a></li>
+<li><a href="#fifo">FIFO Principle</a></li>
+<li><a href="#operations">Basic Queue Operations</a></li>
+<li><a href="#implementation">Queue Implementation using List</a></li>
+<li><a href="#enqueue">Enqueue Operation</a></li>
+<li><a href="#dequeue">Dequeue Operation</a></li>
+<li><a href="#front-rear">Front and Rear Operations</a></li>
+<li><a href="#menu">Menu-Driven Queue Program</a></li>
+<li><a href="#circular">Circular Queue</a></li>
+<li><a href="#circular-impl">Circular Queue Implementation</a></li>
+<li><a href="#applications">Applications of Queue</a></li>
+<li><a href="#deque">Double-Ended Queue (Deque)</a></li>
+<li><a href="#priority">Priority Queue</a></li>
+<li><a href="#stack-vs-queue">Stack vs Queue</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to Queue</h2>
+<p>A <b>queue</b> is an ordered collection of elements where insertion occurs at one end (the <b>rear</b>) and deletion occurs at the other end (the <b>front</b>). The queue follows the <b>FIFO (First In, First Out)</b> principle.</p>
+<p><b>Analogy:</b> A queue of people at a ticket counter. The first person to join the queue is the first one to be served. New people join at the back, and service happens from the front.</p>
+<p><b>Characteristics:</b></p>
+<ul>
+<li>Elements are added at the rear and removed from the front.</li>
+<li>The first element inserted is the first one to be removed.</li>
+<li>Queue is a linear data structure.</li>
+<li>Both ends of the queue are accessible (front and rear).</li>
+</ul>
+</section>
+<section id="fifo" class="card">
+<h2>2. FIFO Principle</h2>
+<p>FIFO stands for <b>First In, First Out</b>. The element that has been in the queue the longest is removed first.</p>
+<pre class="code-block"><code># Queue visualization (front on left, rear on right)<br/># Empty: []<br/># Enqueue 10: [10]<br/># Enqueue 20: [10, 20]<br/># Enqueue 30: [10, 20, 30]<br/># Dequeue:    [20, 30]  (removed 10)<br/># Dequeue:    [30]      (removed 20)</code></pre>
+</section>
+<section id="operations" class="card">
+<h2>3. Basic Queue Operations</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Operation</th><th>Description</th><th>Time Complexity</th></tr></thead>
+<tbody>
+<tr><td>Enqueue</td><td>Add an element at the rear of the queue</td><td>O(1)</td></tr>
+<tr><td>Dequeue</td><td>Remove and return the front element</td><td>O(1)</td></tr>
+<tr><td>Front</td><td>Return the front element without removing it</td><td>O(1)</td></tr>
+<tr><td>Rear</td><td>Return the rear element without removing it</td><td>O(1)</td></tr>
+<tr><td>isEmpty</td><td>Check if the queue is empty</td><td>O(1)</td></tr>
+<tr><td>Size</td><td>Return the number of elements in the queue</td><td>O(1)</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="implementation" class="card">
+<h2>4. Queue Implementation using List</h2>
+<pre class="code-block"><code>class Queue:<br/>    def __init__(self):<br/>        self.items = []<br/><br/>    def enqueue(self, item):<br/>        self.items.append(item)<br/><br/>    def dequeue(self):<br/>        if not self.is_empty():<br/>            return self.items.pop(0)<br/>        return None<br/><br/>    def front(self):<br/>        if not self.is_empty():<br/>            return self.items[0]<br/>        return None<br/><br/>    def rear(self):<br/>        if not self.is_empty():<br/>            return self.items[-1]<br/>        return None<br/><br/>    def is_empty(self):<br/>        return len(self.items) == 0<br/><br/>    def size(self):<br/>        return len(self.items)<br/><br/>    def display(self):<br/>        print("Queue (front to rear):", self.items)</code></pre>
+<p><b>Note:</b> Using <code>pop(0)</code> for dequeue is O(n). A more efficient approach uses collections.deque.</p>
+</section>
+<section id="enqueue" class="card">
+<h2>5. Enqueue Operation</h2>
+<p>The <b>enqueue</b> operation adds an element at the rear of the queue.</p>
+<pre class="code-block"><code>def enqueue(self, item):<br/>    self.items.append(item)<br/>    print(f"Enqueued {item} to queue.")</code></pre>
+<p><b>Algorithm:</b></p>
+<ol>
+<li>Accept the element to be added.</li>
+<li>Append the element to the end of the list (rear).</li>
+<li>Increment the size of the queue.</li>
+</ol>
+</section>
+<section id="dequeue" class="card">
+<h2>6. Dequeue Operation</h2>
+<p>The <b>dequeue</b> operation removes and returns the front element from the queue.</p>
+<pre class="code-block"><code>def dequeue(self):<br/>    if self.is_empty():<br/>        print("Queue is empty. Cannot dequeue.")<br/>        return None<br/>    item = self.items.pop(0)<br/>    print(f"Dequeued {item} from queue.")<br/>    return item</code></pre>
+<p><b>Algorithm:</b></p>
+<ol>
+<li>Check if the queue is empty. If empty, return underflow error.</li>
+<li>Remove and return the element at index 0 (front).</li>
+<li>Decrement the size of the queue.</li>
+</ol>
+</section>
+<section id="front-rear" class="card">
+<h2>7. Front and Rear Operations</h2>
+<pre class="code-block"><code>def front(self):<br/>    if self.is_empty():<br/>        print("Queue is empty.")<br/>        return None<br/>    return self.items[0]<br/><br/>def rear(self):<br/>    if self.is_empty():<br/>        print("Queue is empty.")<br/>        return None<br/>    return self.items[-1]</code></pre>
+</section>
+<section id="menu" class="card">
+<h2>8. Menu-Driven Queue Program</h2>
+<pre class="code-block"><code>def menu():<br/>    q = Queue()<br/>    while True:<br/>        print("\n--- QUEUE MENU ---")<br/>        print("1. Enqueue")<br/>        print("2. Dequeue")<br/>        print("3. Front")<br/>        print("4. Rear")<br/>        print("5. Display")<br/>        print("6. Size")<br/>        print("7. Exit")<br/>        choice = int(input("Enter choice: "))<br/><br/>        if choice == 1:<br/>            item = input("Enter item to enqueue: ")<br/>            q.enqueue(item)<br/>        elif choice == 2:<br/>            q.dequeue()<br/>        elif choice == 3:<br/>            print("Front element:", q.front())<br/>        elif choice == 4:<br/>            print("Rear element:", q.rear())<br/>        elif choice == 5:<br/>            q.display()<br/>        elif choice == 6:<br/>            print("Queue size:", q.size())<br/>        elif choice == 7:<br/>            print("Exiting...")<br/>            break</code></pre>
+</section>
+<section id="circular" class="card">
+<h2>9. Circular Queue</h2>
+<p>A <b>circular queue</b> overcomes the limitation of a linear queue where space at the front cannot be reused after dequeue operations. In a circular queue, the rear connects back to the front position.</p>
+<p><b>Advantages:</b></p>
+<ul>
+<li>Efficient memory utilization.</li>
+<li>No need to shift elements.</li>
+<li>All positions in the array can be reused.</li>
+</ul>
+</section>
+<section id="circular-impl" class="card">
+<h2>10. Circular Queue Implementation</h2>
+<pre class="code-block"><code>class CircularQueue:<br/>    def __init__(self, size):<br/>        self.size = size<br/>        self.queue = [None] * size<br/>        self.front = self.rear = -1<br/><br/>    def enqueue(self, item):<br/>        if (self.rear + 1) % self.size == self.front:<br/>            print("Queue is full.")<br/>            return<br/>        if self.front == -1:<br/>            self.front = 0<br/>        self.rear = (self.rear + 1) % self.size<br/>        self.queue[self.rear] = item<br/><br/>    def dequeue(self):<br/>        if self.front == -1:<br/>            print("Queue is empty.")<br/>            return None<br/>        item = self.queue[self.front]<br/>        if self.front == self.rear:<br/>            self.front = self.rear = -1<br/>        else:<br/>            self.front = (self.front + 1) % self.size<br/>        return item</code></pre>
+</section>
+<section id="applications" class="card">
+<h2>11. Applications of Queue</h2>
+<ul>
+<li><b>CPU scheduling:</b> FCFS (First Come, First Served) scheduling in operating systems.</li>
+<li><b>Print spooling:</b> Managing print jobs in the order they are submitted.</li>
+<li><b>Message queues:</b> Communication between processes or services.</li>
+<li><b>Breadth-First Search (BFS):</b> Graph traversal algorithm.</li>
+<li><b>Buffering:</b> IO buffers, keyboard buffers.</li>
+<li><b>Call center systems:</b> Managing customer calls in the order they arrive.</li>
+<li><b>Ticket booking systems:</b> Processing requests in order.</li>
+</ul>
+</section>
+<section id="deque" class="card">
+<h2>12. Double-Ended Queue (Deque)</h2>
+<p>A <b>deque</b> (double-ended queue) allows insertion and deletion at both ends. Python provides the <code>collections.deque</code> class.</p>
+<pre class="code-block"><code>from collections import deque<br/><br/>dq = deque()<br/>dq.append(10)       # Add to rear<br/>dq.appendleft(20)    # Add to front<br/>dq.pop()            # Remove from rear<br/>dq.popleft()        # Remove from front</code></pre>
+</section>
+<section id="priority" class="card">
+<h2>13. Priority Queue</h2>
+<p>A <b>priority queue</b> is a queue where each element has a priority. Elements with higher priority are dequeued before elements with lower priority.</p>
+<pre class="code-block"><code>import heapq<br/><br/>class PriorityQueue:<br/>    def __init__(self):<br/>        self.items = []<br/><br/>    def push(self, item, priority):<br/>        heapq.heappush(self.items, (priority, item))<br/><br/>    def pop(self):<br/>        return heapq.heappop(self.items)[1]</code></pre>
+</section>
+<section id="stack-vs-queue" class="card">
+<h2>14. Stack vs Queue Comparison</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Feature</th><th>Stack</th><th>Queue</th></tr></thead>
+<tbody>
+<tr><td>Principle</td><td>LIFO (Last In, First Out)</td><td>FIFO (First In, First Out)</td></tr>
+<tr><td>Insertion</td><td>Push at top</td><td>Enqueue at rear</td></tr>
+<tr><td>Deletion</td><td>Pop from top</td><td>Dequeue from front</td></tr>
+<tr><td>Ends Used</td><td>One end (top)</td><td>Two ends (front and rear)</td></tr>
+<tr><td>Analogy</td><td>Stack of plates</td><td>Queue at ticket counter</td></tr>
+<tr><td>Primary Operations</td><td>Push, Pop, Peek</td><td>Enqueue, Dequeue, Front</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="revision" class="card revision-card">
+<h2>15. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. What does FIFO stand for?</b><br>First In, First Out.</p>
+<p><b>2. In a queue, where are elements added and removed?</b><br>Elements are added at the rear and removed from the front.</p>
+<p><b>3. Which operation adds an element to a queue?</b><br>Enqueue.</p>
+<p><b>4. Which operation removes an element from a queue?</b><br>Dequeue.</p>
+<p><b>5. What is the advantage of a circular queue over a linear queue?</b><br>It reuses empty spaces at the front after dequeue operations.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Differentiate between stack and queue.</b><br>Stack follows LIFO principle where insertion and deletion occur at the same end (top). Queue follows FIFO principle where insertion occurs at rear and deletion at front. Stack uses push/pop operations while queue uses enqueue/dequeue.</p>
+<p><b>2. Explain the concept of a circular queue.</b><br>A circular queue connects the rear back to the front, forming a circle. When the rear reaches the end of the array, it wraps around to the beginning if space is available. This allows efficient memory utilization compared to a linear queue.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Implement a Queue class in Python with all basic operations and write a menu-driven program to test it.</b><br>Define a Queue class with an internal list. enqueue() appends to the list. dequeue() checks for emptiness then removes index 0. front() returns items[0]. rear() returns items[-1]. is_empty() checks len == 0. size() returns len. display() shows all items. The menu-driven program provides a user interface to test all operations.</p>
+<p><b>2. Explain any four real-life applications of queue data structure.</b><br>(1) CPU scheduling: Processes are scheduled in FCFS order using a queue. (2) Print spooling: Print jobs are queued and processed in order. (3) Call center systems: Incoming calls are placed in a queue and answered in order. (4) Breadth-First Search: BFS uses a queue to keep track of vertices to be explored next.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="computer-networks.html">Next: Computer Networks</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>

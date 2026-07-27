@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>Network Protocols and Security - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on Network Protocols and Security including TCP/IP, HTTP, FTP, SMTP, POP3, and network security concepts."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/network-protocols-security.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"Network Protocols and Security","item":"https://www.techlearners.in/pages/class12/cs/network-protocols-security.html"}]}</script>
+<meta property="og:title" content="Network Protocols and Security - CBSE Class 12 CS 083"><meta property="og:description" content="Study CBSE Class 12 CS notes on Network Protocols and Security."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/network-protocols-security.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - Network Protocols and Security</p>
+<h1>Network Protocols and Security</h1>
+<p class="notice">Network protocols are rules that govern how data is transmitted between devices in a network. Network security involves protecting the network from unauthorized access and threats. This chapter covers major protocols and security concepts as per the CBSE Class 12 Computer Science syllabus.</p>
+<nav class="chapter-toc card">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to Protocols</a></li>
+<li><a href="#osi">OSI Reference Model</a></li>
+<li><a href="#tcp-ip">TCP/IP Model</a></li>
+<li><a href="#http">HTTP and HTTPS</a></li>
+<li><a href="#ftp">FTP - File Transfer Protocol</a></li>
+<li><a href="#smtp">SMTP - Simple Mail Transfer Protocol</a></li>
+<li><a href="#pop3">POP3 and IMAP</a></li>
+<li><a href="#ppp">PPP - Point-to-Point Protocol</a></li>
+<li><a href="#ip">IP Addressing</a></li>
+<li><a href="#dns">DNS - Domain Name System</a></li>
+<li><a href="#security-intro">Network Security Concepts</a></li>
+<li><a href="#threats">Common Network Threats</a></li>
+<li><a href="#firewall">Firewall</a></li>
+<li><a href="#encryption">Encryption and Cryptography</a></li>
+<li><a href="#vpn">VPN - Virtual Private Network</a></li>
+<li><a href="#antivirus">Antivirus and Malware Protection</a></li>
+<li><a href="#best-practices">Network Security Best Practices</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to Protocols</h2>
+<p>A <b>network protocol</b> is a set of rules and conventions that govern how data is transmitted between devices in a network. Protocols define the format, timing, sequencing, and error control of data transmission.</p>
+<p><b>Key functions of protocols:</b></p>
+<ul>
+<li><b>Data formatting:</b> Define how data is structured.</li>
+<li><b>Addressing:</b> Identify source and destination devices.</li>
+<li><b>Routing:</b> Determine the path for data transmission.</li>
+<li><b>Error detection:</b> Identify and handle transmission errors.</li>
+<li><b>Flow control:</b> Manage data transmission speed.</li>
+<li><b>Security:</b> Protect data during transmission.</li>
+</ul>
+</section>
+<section id="osi" class="card">
+<h2>2. OSI Reference Model</h2>
+<p>The <b>OSI (Open Systems Interconnection)</b> model is a conceptual framework with 7 layers that standardizes network communication.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Layer</th><th>Name</th><th>Function</th><th>Protocols/Devices</th></tr></thead>
+<tbody>
+<tr><td>7</td><td>Application</td><td>User interface and application support</td><td>HTTP, FTP, SMTP, DNS</td></tr>
+<tr><td>6</td><td>Presentation</td><td>Data translation, encryption, compression</td><td>SSL/TLS, JPEG, MPEG</td></tr>
+<tr><td>5</td><td>Session</td><td>Session management and synchronization</td><td>NetBIOS, RPC</td></tr>
+<tr><td>4</td><td>Transport</td><td>End-to-end delivery and reliability</td><td>TCP, UDP</td></tr>
+<tr><td>3</td><td>Network</td><td>Routing and addressing</td><td>IP, ICMP, Router</td></tr>
+<tr><td>2</td><td>Data Link</td><td>Frame transmission, error detection</td><td>Ethernet, Switch</td></tr>
+<tr><td>1</td><td>Physical</td><td>Physical transmission of bits</td><td>Hub, Cables, Repeater</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="tcp-ip" class="card">
+<h2>3. TCP/IP Model</h2>
+<p>The <b>TCP/IP (Transmission Control Protocol/Internet Protocol)</b> model is the practical model used on the Internet. It has 4 layers:</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Layer</th><th>Equivalent OSI Layers</th><th>Protocols</th></tr></thead>
+<tbody>
+<tr><td>Application</td><td>5, 6, 7</td><td>HTTP, FTP, SMTP, DNS, DHCP</td></tr>
+<tr><td>Transport</td><td>4</td><td>TCP, UDP</td></tr>
+<tr><td>Internet</td><td>3</td><td>IP, ICMP, ARP</td></tr>
+<tr><td>Network Access</td><td>1, 2</td><td>Ethernet, Wi-Fi, PPP</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="http" class="card">
+<h2>4. HTTP and HTTPS</h2>
+<p><b>HTTP (HyperText Transfer Protocol)</b> is used for transferring web pages on the Internet. It works on a request-response model.</p>
+<ul>
+<li>Default port: 80</li>
+<li>Stateless protocol.</li>
+<li>Methods: GET, POST, PUT, DELETE.</li>
+</ul>
+<p><b>HTTPS (HTTP Secure)</b> is the encrypted version of HTTP using SSL/TLS.</p>
+<ul>
+<li>Default port: 443</li>
+<li>Provides data encryption, authentication, and integrity.</li>
+<li>Uses SSL/TLS certificates for encryption.</li>
+</ul>
+</section>
+<section id="ftp" class="card">
+<h2>5. FTP - File Transfer Protocol</h2>
+<p><b>FTP (File Transfer Protocol)</b> is used for transferring files between computers on a network.</p>
+<ul>
+<li>Default port: 21 (control), 20 (data).</li>
+<li>Supports file upload and download.</li>
+<li>Requires authentication (username/password).</li>
+<li>Anonymous FTP allows public file access.</li>
+</ul>
+</section>
+<section id="smtp" class="card">
+<h2>6. SMTP - Simple Mail Transfer Protocol</h2>
+<p><b>SMTP (Simple Mail Transfer Protocol)</b> is used for sending email messages between servers.</p>
+<ul>
+<li>Default port: 25.</li>
+<li>Used for outgoing mail transmission.</li>
+<li>Works with POP3 or IMAP for receiving emails.</li>
+<li>Relays email from sender to recipient server.</li>
+</ul>
+</section>
+<section id="pop3" class="card">
+<h2>7. POP3 and IMAP</h2>
+<p><b>POP3 (Post Office Protocol version 3)</b> is used for retrieving emails from a mail server.</p>
+<ul>
+<li>Default port: 110.</li>
+<li>Downloads emails to the local device.</li>
+<li>Emails are typically deleted from server after download.</li>
+</ul>
+<p><b>IMAP (Internet Message Access Protocol)</b> is more advanced.</p>
+<ul>
+<li>Default port: 143.</li>
+<li>Emails remain on the server.</li>
+<li>Allows accessing emails from multiple devices.</li>
+<li>Supports server-side folders.</li>
+</ul>
+</section>
+<section id="ppp" class="card">
+<h2>8. PPP - Point-to-Point Protocol</h2>
+<p><b>PPP (Point-to-Point Protocol)</b> is used for direct communication between two network nodes.</p>
+<ul>
+<li>Used for dial-up Internet connections.</li>
+<li>Supports authentication (PAP, CHAP).</li>
+<li>Can encapsulate multiple network layer protocols.</li>
+</ul>
+</section>
+<section id="ip" class="card">
+<h2>9. IP Addressing</h2>
+<p>An <b>IP address</b> is a unique numeric identifier assigned to each device on a network.</p>
+<p><b>IPv4:</b> 32-bit address, written as four octets (e.g., 192.168.1.1). Approximately 4.3 billion addresses.</p>
+<p><b>IPv6:</b> 128-bit address, written as eight groups of hexadecimal digits (e.g., 2001:0db8::1). Provides a much larger address space.</p>
+<p><b>Classes of IPv4:</b></p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Class</th><th>Range</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>1.0.0.0 - 126.255.255.255</td><td>Large networks</td></tr>
+<tr><td>B</td><td>128.0.0.0 - 191.255.255.255</td><td>Medium networks</td></tr>
+<tr><td>C</td><td>192.0.0.0 - 223.255.255.255</td><td>Small networks</td></tr>
+<tr><td>D</td><td>224.0.0.0 - 239.255.255.255</td><td>Multicast</td></tr>
+<tr><td>E</td><td>240.0.0.0 - 255.255.255.255</td><td>Research</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="dns" class="card">
+<h2>10. DNS - Domain Name System</h2>
+<p><b>DNS (Domain Name System)</b> translates human-readable domain names (www.techlearners.in) into IP addresses (185.199.108.153).</p>
+<ul>
+<li>Default port: 53.</li>
+<li>Hierarchical naming system.</li>
+<li>Types of records: A, AAAA, CNAME, MX, NS, TXT.</li>
+<li>DNS servers are organized in a tree structure.</li>
+</ul>
+</section>
+<section id="security-intro" class="card">
+<h2>11. Network Security Concepts</h2>
+<p><b>Network security</b> involves policies and practices to prevent unauthorized access, misuse, modification, or denial of network resources.</p>
+<p><b>Key objectives (CIA Triad):</b></p>
+<ul>
+<li><b>Confidentiality:</b> Data accessible only to authorized users.</li>
+<li><b>Integrity:</b> Data accurate and unmodified during transmission.</li>
+<li><b>Availability:</b> Network and data accessible when needed.</li>
+</ul>
+</section>
+<section id="threats" class="card">
+<h2>12. Common Network Threats</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Threat</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Malware</td><td>Malicious software (viruses, worms, trojans)</td></tr>
+<tr><td>Phishing</td><td>Fraudulent attempts to obtain sensitive information</td></tr>
+<tr><td>DoS/DDoS</td><td>Overwhelming a server with traffic to make it unavailable</td></tr>
+<tr><td>Man-in-the-Middle</td><td>Intercepting communication between two parties</td></tr>
+<tr><td>SQL Injection</td><td>Inserting malicious SQL queries in input fields</td></tr>
+<tr><td>Social Engineering</td><td>Manipulating people to reveal confidential information</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="firewall" class="card">
+<h2>13. Firewall</h2>
+<p>A <b>firewall</b> is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules.</p>
+<ul>
+<li>Acts as a barrier between trusted and untrusted networks.</li>
+<li>Can be hardware-based or software-based.</li>
+<li>Filters traffic based on IP addresses, ports, and protocols.</li>
+<li>Types: Packet filter, Stateful inspection, Proxy firewall.</li>
+</ul>
+</section>
+<section id="encryption" class="card">
+<h2>14. Encryption and Cryptography</h2>
+<p><b>Encryption</b> converts plain text into ciphertext to prevent unauthorized access.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Symmetric</td><td>Same key for encryption and decryption</td><td>AES, DES, Blowfish</td></tr>
+<tr><td>Asymmetric</td><td>Public key for encryption, private key for decryption</td><td>RSA, ECC</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="vpn" class="card">
+<h2>15. VPN - Virtual Private Network</h2>
+<p>A <b>VPN (Virtual Private Network)</b> creates an encrypted tunnel between a user's device and a remote server, providing privacy and security.</p>
+<ul>
+<li>Encrypts all data traffic.</li>
+<li>Hides the user's IP address.</li>
+<li>Allows secure access to private networks remotely.</li>
+<li>Uses protocols like PPTP, L2TP, IPsec, OpenVPN.</li>
+</ul>
+</section>
+<section id="antivirus" class="card">
+<h2>16. Antivirus and Malware Protection</h2>
+<p><b>Antivirus software</b> detects, prevents, and removes malicious software from a computer system.</p>
+<ul>
+<li>Scans files and programs for known malware signatures.</li>
+<li>Provides real-time protection.</li>
+<li>Includes firewall and web protection features.</li>
+<li>Examples: Windows Defender, Kaspersky, Avast.</li>
+</ul>
+</section>
+<section id="best-practices" class="card">
+<h2>17. Network Security Best Practices</h2>
+<ul>
+<li>Use strong passwords and change them regularly.</li>
+<li>Enable two-factor authentication.</li>
+<li>Keep software and operating systems updated.</li>
+<li>Use firewalls and antivirus software.</li>
+<li>Encrypt sensitive data during transmission.</li>
+<li>Use secure protocols (HTTPS, SFTP, SSH).</li>
+<li>Regularly back up important data.</li>
+<li>Educate users about phishing and social engineering.</li>
+<li>Implement network segmentation.</li>
+<li>Monitor network activity for suspicious behaviour.</li>
+</ul>
+</section>
+<section id="revision" class="card revision-card">
+<h2>18. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. What is a network protocol?</b><br>A set of rules governing data transmission between devices.</p>
+<p><b>2. Which protocol is used for web browsing?</b><br>HTTP/HTTPS.</p>
+<p><b>3. What is the default port for HTTPS?</b><br>443.</p>
+<p><b>4. What does DNS stand for?</b><br>Domain Name System.</p>
+<p><b>5. Which device monitors and controls network traffic based on rules?</b><br>Firewall.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Differentiate between HTTP and HTTPS.</b><br>HTTP transmits data in plain text (port 80), while HTTPS uses SSL/TLS encryption (port 443) to secure data. HTTPS provides confidentiality, integrity, and authentication, making it suitable for sensitive transactions like online banking.</p>
+<p><b>2. Explain the CIA triad in network security.</b><br>The CIA triad consists of Confidentiality (ensuring data is accessible only to authorized users), Integrity (ensuring data is accurate and unmodified), and Availability (ensuring network resources are accessible when needed). These three principles form the foundation of information security.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Explain the TCP/IP model with its four layers and the protocols used at each layer.</b><br>The TCP/IP model has four layers: (1) Application Layer - provides user services; protocols include HTTP, FTP, SMTP, DNS. (2) Transport Layer - provides end-to-end communication; protocols include TCP (reliable) and UDP (unreliable). (3) Internet Layer - handles routing and addressing; protocol is IP. (4) Network Access Layer - handles physical transmission; protocols include Ethernet and Wi-Fi.</p>
+<p><b>2. What is a firewall? Explain its types and how it protects a network.</b><br>A firewall is a security system that monitors and filters network traffic based on rules. Types include: Packet filter firewall (inspects packets), Stateful inspection firewall (tracks connection state), and Proxy firewall (acts as intermediary). Firewalls protect by blocking unauthorized access, preventing malware transmission, logging traffic, and creating a barrier between internal and external networks.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="database-management-sql.html">Next: Database Management - SQL</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>

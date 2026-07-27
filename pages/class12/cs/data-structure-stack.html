@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>Data Structure - Stack - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on Stack data structure using Python lists including push, pop, peek operations and applications."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/data-structure-stack.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"Data Structure - Stack","item":"https://www.techlearners.in/pages/class12/cs/data-structure-stack.html"}]}</script>
+<meta property="og:title" content="Data Structure - Stack - CBSE Class 12 CS 083"><meta property="og:description" content="Study CBSE Class 12 CS notes on Stack data structure."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/data-structure-stack.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - Data Structures: Stack</p>
+<h1>Data Structure - Stack</h1>
+<p class="notice">A stack is a linear data structure that follows the Last In, First Out (LIFO) principle. Elements are added and removed from only one end, called the top. This chapter covers stack implementation using Python lists, operations, and applications as per the CBSE Class 12 Computer Science syllabus.</p>
+<nav class="chapter-toc card">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to Stack</a></li>
+<li><a href="#lifo">LIFO Principle</a></li>
+<li><a href="#operations">Basic Stack Operations</a></li>
+<li><a href="#implementation">Stack Implementation using List</a></li>
+<li><a href="#push">Push Operation</a></li>
+<li><a href="#pop">Pop Operation</a></li>
+<li><a href="#peek">Peek/Top Operation</a></li>
+<li><a href="#isempty">isEmpty Operation</a></li>
+<li><a href="#size">Size Operation</a></li>
+<li><a href="#menu">Menu-Driven Stack Program</a></li>
+<li><a href="#applications">Applications of Stack</a></li>
+<li><a href="#balanced">Checking Balanced Parentheses</a></li>
+<li><a href="#postfix">Infix to Postfix Conversion</a></li>
+<li><a href="#postfix-eval">Postfix Expression Evaluation</a></li>
+<li><a href="#limitations">Stack Limitations</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to Stack</h2>
+<p>A <b>stack</b> is an ordered collection of elements where insertion and deletion take place at the same end, called the <b>top</b>. The stack is a linear data structure that follows the <b>LIFO (Last In, First Out)</b> principle.</p>
+<p><b>Analogy:</b> A stack of plates in a cafeteria. The last plate placed on top is the first one removed. You cannot remove a plate from the middle without first removing the plates above it.</p>
+<p><b>Characteristics:</b></p>
+<ul>
+<li>Elements are added and removed only from the top.</li>
+<li>The last element inserted is the first one to be removed.</li>
+<li>Stack has a dynamic size (can grow or shrink).</li>
+<li>Only the top element is accessible at any given time.</li>
+</ul>
+</section>
+<section id="lifo" class="card">
+<h2>2. LIFO Principle</h2>
+<p>LIFO stands for <b>Last In, First Out</b>. The most recently added element is the one that is removed first.</p>
+<pre class="code-block"><code># Stack visualization (top on the right)<br/># Empty: []<br/># Push 10: [10]<br/># Push 20: [10, 20]<br/># Push 30: [10, 20, 30]<br/># Pop:     [10, 20]  (removed 30)<br/># Pop:     [10]      (removed 20)</code></pre>
+</section>
+<section id="operations" class="card">
+<h2>3. Basic Stack Operations</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Operation</th><th>Description</th><th>Time Complexity</th></tr></thead>
+<tbody>
+<tr><td>Push</td><td>Add an element to the top of the stack</td><td>O(1)</td></tr>
+<tr><td>Pop</td><td>Remove and return the top element</td><td>O(1)</td></tr>
+<tr><td>Peek/Top</td><td>Return the top element without removing it</td><td>O(1)</td></tr>
+<tr><td>isEmpty</td><td>Check if the stack is empty</td><td>O(1)</td></tr>
+<tr><td>Size</td><td>Return the number of elements in the stack</td><td>O(1)</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="implementation" class="card">
+<h2>4. Stack Implementation using List</h2>
+<p>In Python, a list can be used to implement a stack efficiently. The end of the list serves as the top of the stack.</p>
+<pre class="code-block"><code>class Stack:<br/>    def __init__(self):<br/>        self.items = []<br/><br/>    def push(self, item):<br/>        self.items.append(item)<br/><br/>    def pop(self):<br/>        if not self.is_empty():<br/>            return self.items.pop()<br/>        return None<br/><br/>    def peek(self):<br/>        if not self.is_empty():<br/>            return self.items[-1]<br/>        return None<br/><br/>    def is_empty(self):<br/>        return len(self.items) == 0<br/><br/>    def size(self):<br/>        return len(self.items)<br/><br/>    def display(self):<br/>        print("Stack (top to bottom):", self.items[::-1])</code></pre>
+</section>
+<section id="push" class="card">
+<h2>5. Push Operation</h2>
+<p>The <b>push</b> operation adds an element to the top of the stack.</p>
+<pre class="code-block"><code>def push(self, item):<br/>    self.items.append(item)<br/>    print(f"Pushed {item} to stack.")</code></pre>
+<p><b>Algorithm:</b></p>
+<ol>
+<li>Accept the element to be inserted.</li>
+<li>Append the element to the end of the list.</li>
+<li>Increment the size of the stack.</li>
+</ol>
+</section>
+<section id="pop" class="card">
+<h2>6. Pop Operation</h2>
+<p>The <b>pop</b> operation removes and returns the top element from the stack.</p>
+<pre class="code-block"><code>def pop(self):<br/>    if self.is_empty():<br/>        print("Stack is empty. Cannot pop.")<br/>        return None<br/>    item = self.items.pop()<br/>    print(f"Popped {item} from stack.")<br/>    return item</code></pre>
+<p><b>Algorithm:</b></p>
+<ol>
+<li>Check if the stack is empty. If empty, return underflow error.</li>
+<li>Remove and return the last element from the list.</li>
+<li>Decrement the size of the stack.</li>
+</ol>
+</section>
+<section id="peek" class="card">
+<h2>7. Peek/Top Operation</h2>
+<p>The <b>peek</b> operation returns the top element without removing it.</p>
+<pre class="code-block"><code>def peek(self):<br/>    if self.is_empty():<br/>        print("Stack is empty.")<br/>        return None<br/>    return self.items[-1]</code></pre>
+</section>
+<section id="isempty" class="card">
+<h2>8. isEmpty Operation</h2>
+<p>The <b>isEmpty</b> operation checks whether the stack has any elements.</p>
+<pre class="code-block"><code>def is_empty(self):<br/>    return len(self.items) == 0</code></pre>
+</section>
+<section id="size" class="card">
+<h2>9. Size Operation</h2>
+<pre class="code-block"><code>def size(self):<br/>    return len(self.items)</code></pre>
+</section>
+<section id="menu" class="card">
+<h2>10. Menu-Driven Stack Program</h2>
+<pre class="code-block"><code>def menu():<br/>    stack = Stack()<br/>    while True:<br/>        print("\n--- STACK MENU ---")<br/>        print("1. Push")<br/>        print("2. Pop")<br/>        print("3. Peek")<br/>        print("4. Display")<br/>        print("5. Size")<br/>        print("6. Exit")<br/>        choice = int(input("Enter choice: "))<br/><br/>        if choice == 1:<br/>            item = input("Enter item to push: ")<br/>            stack.push(item)<br/>        elif choice == 2:<br/>            stack.pop()<br/>        elif choice == 3:<br/>            print("Top element:", stack.peek())<br/>        elif choice == 4:<br/>            stack.display()<br/>        elif choice == 5:<br/>            print("Stack size:", stack.size())<br/>        elif choice == 6:<br/>            print("Exiting...")<br/>            break</code></pre>
+</section>
+<section id="applications" class="card">
+<h2>11. Applications of Stack</h2>
+<ul>
+<li><b>Function calls:</b> Managing function call and return addresses in recursion.</li>
+<li><b>Expression evaluation:</b> Converting infix to postfix and evaluating postfix expressions.</li>
+<li><b>Undo operations:</b> In text editors and software applications.</li>
+<li><b>Browser history:</b> Back and forward navigation.</li>
+<li><b>Balanced parentheses:</b> Checking if brackets are properly matched.</li>
+<li><b>Backtracking:</b> In maze solving and puzzle games.</li>
+<li><b>Syntax parsing:</b> In compilers and interpreters.</li>
+</ul>
+</section>
+<section id="balanced" class="card">
+<h2>12. Checking Balanced Parentheses</h2>
+<pre class="code-block"><code>def is_balanced(expression):<br/>    stack = []<br/>    pairs = {"(": ")", "{": "}", "[": "]"}<br/>    for char in expression:<br/>        if char in pairs:<br/>            stack.append(char)<br/>        elif char in pairs.values():<br/>            if not stack or pairs[stack.pop()] != char:<br/>                return False<br/>    return len(stack) == 0<br/><br/>print(is_balanced("({[]})"))   # True<br/>print(is_balanced("({[})"))    # False</code></pre>
+</section>
+<section id="postfix" class="card">
+<h2>13. Infix to Postfix Conversion</h2>
+<pre class="code-block"><code>def infix_to_postfix(expression):<br/>    precedence = {"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}<br/>    stack = []<br/>    result = []<br/>    for char in expression:<br/>        if char.isalnum():<br/>            result.append(char)<br/>        elif char == "(":<br/>            stack.append(char)<br/>        elif char == ")":<br/>            while stack and stack[-1] != "(":<br/>                result.append(stack.pop())<br/>            stack.pop()  # Remove (<br/>        else:<br/>            while stack and stack[-1] != "(" and precedence.get(char, 0) <= precedence.get(stack[-1], 0):<br/>                result.append(stack.pop())<br/>            stack.append(char)<br/>    while stack:<br/>        result.append(stack.pop())<br/>    return "".join(result)<br/><br/>print(infix_to_postfix("A+B*C"))  # ABC*+</code></pre>
+</section>
+<section id="postfix-eval" class="card">
+<h2>14. Postfix Expression Evaluation</h2>
+<pre class="code-block"><code>def evaluate_postfix(expression):<br/>    stack = []<br/>    for char in expression:<br/>        if char.isdigit():<br/>            stack.append(int(char))<br/>        else:<br/>            b = stack.pop()<br/>            a = stack.pop()<br/>            if char == "+": stack.append(a + b)<br/>            elif char == "-": stack.append(a - b)<br/>            elif char == "*": stack.append(a * b)<br/>            elif char == "/": stack.append(a / b)<br/>    return stack[0]<br/><br/>print(evaluate_postfix("23*5+"))  # (2*3)+5 = 11</code></pre>
+</section>
+<section id="limitations" class="card">
+<h2>15. Stack Limitations</h2>
+<ul>
+<li>Limited access: only the top element is accessible.</li>
+<li>Not suitable for searching or accessing middle elements.</li>
+<li>Array-based implementation has a fixed size if using static arrays.</li>
+<li>Recursive function calls can cause stack overflow for deep recursion.</li>
+</ul>
+</section>
+<section id="revision" class="card revision-card">
+<h2>16. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. What does LIFO stand for?</b><br>Last In, First Out.</p>
+<p><b>2. Name the end from which elements are added and removed in a stack.</b><br>Top.</p>
+<p><b>3. Which list method is used for the push operation in Python?</b><br><code>append()</code>.</p>
+<p><b>4. What is returned when pop() is called on an empty stack?</b><br>None or an underflow error.</p>
+<p><b>5. What does the peek operation do?</b><br>It returns the top element without removing it.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Explain the LIFO principle with a real-life example.</b><br>LIFO principle means the last element inserted is the first one removed. A real-life example is a stack of plates: the last plate placed on top is removed first. Similarly, in a stack data structure, the most recently pushed element is the first one popped.</p>
+<p><b>2. Write the algorithm for push and pop operations.</b><br>Push: (1) Check if stack is full (if using array). (2) Increment top pointer. (3) Add element at top position. Pop: (1) Check if stack is empty. (2) Retrieve element at top. (3) Decrement top pointer. (4) Return the retrieved element.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Implement a stack class in Python with push, pop, peek, isEmpty, size, and display methods. Write a menu-driven program to test it.</b><br>Create a Stack class with an internal list. push() appends to the list. pop() checks for emptiness then uses list.pop(). peek() returns list[-1]. is_empty() checks len == 0. size() returns len. display() shows elements from top to bottom. The menu-driven program offers a user interface to call each method.</p>
+<p><b>2. Explain how a stack can be used to check balanced parentheses with an example.</b><br>Traverse the expression from left to right. When an opening bracket is encountered, push it onto the stack. When a closing bracket is encountered, check if the top of the stack has the matching opening bracket. If yes, pop it; otherwise, the expression is not balanced. After traversal, if the stack is empty, the expression is balanced. Example: "({[]})" is balanced; "({[})" is not.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="data-structure-queue.html">Next: Data Structures - Queue</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>

@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>File Handling - Binary and CSV Files - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on Binary Files (pickle) and CSV Files including dump, load, reader, writer operations."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/file-handling-binary-csv.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"File Handling - Binary and CSV Files","item":"https://www.techlearners.in/pages/class12/cs/file-handling-binary-csv.html"}]}</script>
+<meta property="og:title" content="File Handling - Binary and CSV Files - CBSE Class 12 CS 083"><meta property="og:description" content="Study CBSE Class 12 CS notes on Binary Files (pickle) and CSV Files."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/file-handling-binary-csv.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - File Handling: Binary and CSV</p>
+<h1>File Handling - Binary and CSV Files</h1>
+<p class="notice">Binary files store data in binary format (0s and 1s) and are used for non-text data. CSV (Comma Separated Values) files store tabular data in plain text. This chapter covers reading and writing binary files using the pickle module and CSV files using the csv module.</p>
+<nav class="chapter-toc card">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to Binary Files</a></li>
+<li><a href="#binary-modes">Binary File Modes</a></li>
+<li><a href="#pickle">The Pickle Module</a></li>
+<li><a href="#dump">Writing with dump()</a></li>
+<li><a href="#load">Reading with load()</a></li>
+<li><a href="#binary-example">Binary File Example Program</a></li>
+<li><a href="#search-update">Searching and Updating in Binary Files</a></li>
+<li><a href="#csv-intro">Introduction to CSV Files</a></li>
+<li><a href="#csv-module">The CSV Module</a></li>
+<li><a href="#csv-reader">Reading CSV Files with reader()</a></li>
+<li><a href="#csv-writer">Writing CSV Files with writer()</a></li>
+<li><a href="#dictreader">Using DictReader</a></li>
+<li><a href="#dictwriter">Using DictWriter</a></li>
+<li><a href="#csv-example">CSV File Example Program</a></li>
+<li><a href="#text-vs-binary">Text vs Binary vs CSV</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to Binary Files</h2>
+<p>A <b>binary file</b> stores data in the same format as it is stored in memory. Unlike text files, binary files are not human-readable. They store data as a sequence of bytes.</p>
+<p><b>Characteristics:</b></p>
+<ul>
+<li>Data is stored in binary format (0s and 1s).</li>
+<li>Not human-readable without special tools.</li>
+<li>More efficient for storing complex data structures.</li>
+<li>Faster to read and write compared to text files.</li>
+<li>No newline character conversion.</li>
+</ul>
+<p><b>Common uses:</b> Images (.jpg, .png), audio (.mp3), video (.mp4), executable files (.exe), and Python object serialization (.dat, .pkl).</p>
+</section>
+<section id="binary-modes" class="card">
+<h2>2. Binary File Modes</h2>
+<p>To work with binary files, append <code>"b"</code> to the file mode:</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Mode</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>"rb"</code></td><td>Read binary</td></tr>
+<tr><td><code>"wb"</code></td><td>Write binary (overwrites)</td></tr>
+<tr><td><code>"ab"</code></td><td>Append binary</td></tr>
+<tr><td><code>"rb+"</code></td><td>Read and write binary</td></tr>
+<tr><td><code>"wb+"</code></td><td>Write and read binary</td></tr>
+<tr><td><code>"ab+"</code></td><td>Append and read binary</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="pickle" class="card">
+<h2>3. The Pickle Module</h2>
+<p>The <b>pickle</b> module in Python is used for serializing and deserializing Python objects. Serialization converts a Python object into a byte stream, which can be stored in a binary file.</p>
+<pre class="code-block"><code>import pickle</code></pre>
+<p><b>Key functions:</b></p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Function</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>pickle.dump(obj, file)</code></td><td>Serializes obj and writes it to the binary file</td></tr>
+<tr><td><code>pickle.load(file)</code></td><td>Reads and deserializes the next object from the binary file</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="dump" class="card">
+<h2>4. Writing with dump()</h2>
+<pre class="code-block"><code>import pickle<br/><br/># Storing a list in a binary file<br/>students = ["Riya", "Amit", "Priya", "Rahul"]<br/><br/>with open("students.dat", "wb") as f:<br/>    pickle.dump(students, f)<br/><br/>print("Data written successfully.")</code></pre>
+<p>You can store multiple objects by calling <code>dump()</code> multiple times.</p>
+<pre class="code-block"><code>with open("data.dat", "wb") as f:<br/>    pickle.dump(100, f)        # Integer<br/>    pickle.dump(3.14, f)       # Float<br/>    pickle.dump("Hello", f)    # String<br/>    pickle.dump([1, 2, 3], f)  # List</code></pre>
+</section>
+<section id="load" class="card">
+<h2>5. Reading with load()</h2>
+<pre class="code-block"><code>import pickle<br/><br/>with open("students.dat", "rb") as f:<br/>    data = pickle.load(f)<br/>    print(data)  # Output: ["Riya", "Amit", "Priya", "Rahul"]</code></pre>
+<p>When multiple objects are stored, call <code>load()</code> in the same order as <code>dump()</code> was called. An <code>EOFError</code> is raised when the end of file is reached.</p>
+<pre class="code-block"><code>with open("data.dat", "rb") as f:<br/>    print(pickle.load(f))  # 100<br/>    print(pickle.load(f))  # 3.14<br/>    print(pickle.load(f))  # Hello<br/>    print(pickle.load(f))  # [1, 2, 3]</code></pre>
+</section>
+<section id="binary-example" class="card">
+<h2>6. Binary File Example Program</h2>
+<pre class="code-block"><code>import pickle<br/><br/>def add_student():<br/>    students = []<br/>    n = int(input("Enter number of students: "))<br/>    for i in range(n):<br/>        roll = int(input("Enter roll number: "))<br/>        name = input("Enter name: ")<br/>        marks = float(input("Enter marks: "))<br/>        students.append({"roll": roll, "name": name, "marks": marks})<br/>    with open("students.dat", "wb") as f:<br/>        pickle.dump(students, f)<br/><br/>def display_students():<br/>    try:<br/>        with open("students.dat", "rb") as f:<br/>            data = pickle.load(f)<br/>            for s in data:<br/>                print(f"Roll: {s['roll']}, Name: {s['name']}, Marks: {s['marks']}")<br/>    except FileNotFoundError:<br/>        print("File not found.")</code></pre>
+</section>
+<section id="search-update" class="card">
+<h2>7. Searching and Updating in Binary Files</h2>
+<pre class="code-block"><code>def search_student(roll_no):<br/>    try:<br/>        with open("students.dat", "rb") as f:<br/>            data = pickle.load(f)<br/>            for s in data:<br/>                if s["roll"] == roll_no:<br/>                    print(f"Found: {s['name']}, Marks: {s['marks']}")<br/>                    return<br/>        print("Student not found.")<br/>    except FileNotFoundError:<br/>        print("File not found.")</code></pre>
+<p><b>Updating:</b> To update a record, read all data, modify the required record, and write back the entire data.</p>
+</section>
+<section id="csv-intro" class="card">
+<h2>8. Introduction to CSV Files</h2>
+<p>A <b>CSV (Comma Separated Values)</b> file stores tabular data in plain text. Each line represents a row, and values are separated by commas.</p>
+<pre class="code-block"><code>Roll,Name,Marks<br/>101,Riya,95<br/>102,Amit,87<br/>103,Priya,92</code></pre>
+<p>CSV files can be opened in any text editor or spreadsheet application like Excel.</p>
+</section>
+<section id="csv-module" class="card">
+<h2>9. The CSV Module</h2>
+<p>Python provides the <code>csv</code> module for working with CSV files.</p>
+<pre class="code-block"><code>import csv</code></pre>
+<p><b>Key functions:</b></p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Function/Class</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>csv.reader(file)</code></td><td>Returns a reader object that iterates over rows</td></tr>
+<tr><td><code>csv.writer(file)</code></td><td>Returns a writer object for writing rows</td></tr>
+<tr><td><code>csv.DictReader(file)</code></td><td>Reads CSV as dictionaries (header as keys)</td></tr>
+<tr><td><code>csv.DictWriter(file)</code></td><td>Writes CSV from dictionaries</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="csv-reader" class="card">
+<h2>10. Reading CSV Files with reader()</h2>
+<pre class="code-block"><code>import csv<br/><br/>with open("students.csv", "r") as f:<br/>    reader = csv.reader(f)<br/>    for row in reader:<br/>        print(row)</code></pre>
+<p>To skip the header row:</p>
+<pre class="code-block"><code>with open("students.csv", "r") as f:<br/>    reader = csv.reader(f)<br/>    next(reader)  # Skip header<br/>    for row in reader:<br/>        print(f"Roll: {row[0]}, Name: {row[1]}, Marks: {row[2]}")</code></pre>
+</section>
+<section id="csv-writer" class="card">
+<h2>11. Writing CSV Files with writer()</h2>
+<pre class="code-block"><code>import csv<br/><br/>data = [<br/>    ["Roll", "Name", "Marks"],<br/>    [101, "Riya", 95],<br/>    [102, "Amit", 87],<br/>    [103, "Priya", 92]<br/>]<br/><br/>with open("students.csv", "w", newline="") as f:<br/>    writer = csv.writer(f)<br/>    writer.writerows(data)</code></pre>
+<p>The <code>newline=""</code> parameter prevents extra blank rows on Windows.</p>
+</section>
+<section id="dictreader" class="card">
+<h2>12. Using DictReader</h2>
+<pre class="code-block"><code>import csv<br/><br/>with open("students.csv", "r") as f:<br/>    reader = csv.DictReader(f)<br/>    for row in reader:<br/>        print(row["Name"], row["Marks"])</code></pre>
+<p>DictReader uses the first row as header to create dictionary keys.</p>
+</section>
+<section id="dictwriter" class="card">
+<h2>13. Using DictWriter</h2>
+<pre class="code-block"><code>import csv<br/><br/>students = [<br/>    {"Roll": 101, "Name": "Riya", "Marks": 95},<br/>    {"Roll": 102, "Name": "Amit", "Marks": 87}<br/>]<br/><br/>with open("students.csv", "w", newline="") as f:<br/>    fieldnames = ["Roll", "Name", "Marks"]<br/>    writer = csv.DictWriter(f, fieldnames=fieldnames)<br/>    writer.writeheader()<br/>    writer.writerows(students)</code></pre>
+</section>
+<section id="csv-example" class="card">
+<h2>14. CSV File Example Program</h2>
+<pre class="code-block"><code>import csv<br/><br/>def add_record():<br/>    with open("records.csv", "a", newline="") as f:<br/>        writer = csv.writer(f)<br/>        roll = int(input("Enter roll: "))<br/>        name = input("Enter name: ")<br/>        marks = float(input("Enter marks: "))<br/>        writer.writerow([roll, name, marks])<br/><br/>def display_all():<br/>    try:<br/>        with open("records.csv", "r") as f:<br/>            reader = csv.reader(f)<br/>            for row in reader:<br/>                print(", ".join(row))<br/>    except FileNotFoundError:<br/>        print("File not found.")</code></pre>
+</section>
+<section id="text-vs-binary" class="card">
+<h2>15. Text vs Binary vs CSV - Comparison</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Feature</th><th>Text File</th><th>Binary File</th><th>CSV File</th></tr></thead>
+<tbody>
+<tr><td>Format</td><td>Human-readable</td><td>Machine-readable</td><td>Human-readable</td></tr>
+<tr><td>Extension</td><td>.txt</td><td>.dat, .bin, .pkl</td><td>.csv</td></tr>
+<tr><td>Data Types</td><td>Strings only</td><td>Any Python object</td><td>Strings (numeric stored as text)</td></tr>
+<tr><td>File Size</td><td>Larger</td><td>Smaller</td><td>Moderate</td></tr>
+<tr><td>Processing Speed</td><td>Slower</td><td>Faster</td><td>Moderate</td></tr>
+<tr><td>Module Used</td><td>Built-in open()</td><td>pickle</td><td>csv</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="revision" class="card revision-card">
+<h2>16. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. Which module is used for binary file handling in Python?</b><br>The <code>pickle</code> module.</p>
+<p><b>2. What does pickle.dump() do?</b><br>It serializes a Python object and writes it to a binary file.</p>
+<p><b>3. Which function reads an object from a binary file?</b><br><code>pickle.load()</code>.</p>
+<p><b>4. What file mode is used to write to a binary file?</b><br><code>"wb"</code>.</p>
+<p><b>5. Which module handles CSV files in Python?</b><br>The <code>csv</code> module.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Differentiate between dump() and load().</b><br><code>pickle.dump(obj, file)</code> writes a serialized Python object to a binary file. <code>pickle.load(file)</code> reads and deserializes the next object from a binary file. They are complementary operations.</p>
+<p><b>2. How do you read a CSV file using DictReader?</b><br>DictReader reads the first row as header and returns each subsequent row as a dictionary where keys are column names. Example: <code>with open("file.csv") as f: reader = csv.DictReader(f); for row in reader: print(row["Name"])</code>.</p>
+<p><b>3. What is the purpose of newline="" when writing CSV files?</b><br>It prevents extra blank rows from being added between data rows on Windows systems due to how line endings are handled.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Write a Python program to create a binary file "employee.dat" containing employee records (emp_id, name, salary). Then read and display all records.</b></p>
+<pre class="code-block"><code>import pickle<br/>def create_employee():<br/>    employees = []<br/>    n = int(input("Enter number of employees: "))<br/>    for i in range(n):<br/>        emp_id = int(input("Enter employee ID: "))<br/>        name = input("Enter name: ")<br/>        salary = float(input("Enter salary: "))<br/>        employees.append({"id": emp_id, "name": name, "salary": salary})<br/>    with open("employee.dat", "wb") as f:<br/>        pickle.dump(employees, f)<br/><br/>def display_employees():<br/>    try:<br/>        with open("employee.dat", "rb") as f:<br/>            data = pickle.load(f)<br/>            for emp in data:<br/>                print(f"ID: {emp['id']}, Name: {emp['name']}, Salary: {emp['salary']}")<br/>    except FileNotFoundError:<br/>        print("File not found.")</code></pre>
+<p><b>2. Explain how to write tabular data from a list of dictionaries to a CSV file.</b><br>Use DictWriter with fieldnames matching the dictionary keys. Call writeheader() to write column names, then writerows() to write all data. Example: <code>writer = csv.DictWriter(f, fieldnames=["Name", "Age"]); writer.writeheader(); writer.writerows(data)</code>.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="exception-handling.html">Next: Exception Handling</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>

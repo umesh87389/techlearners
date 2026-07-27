@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>Exception Handling - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on Exception Handling including try, except, else, finally, raising exceptions and custom exceptions."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/exception-handling.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"Exception Handling","item":"https://www.techlearners.in/pages/class12/cs/exception-handling.html"}]}</script>
+<meta property="og:title" content="Exception Handling - CBSE Class 12 CS 083"><meta property="og:description" content="Study CBSE Class 12 Computer Science notes on Exception Handling."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/exception-handling.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - Exception Handling</p>
+<h1>Exception Handling</h1>
+<p class="notice">Exceptions are runtime errors that disrupt the normal flow of program execution. Python provides a robust exception handling mechanism using try, except, else, finally, and raise statements. This chapter covers all aspects of exception handling as per the CBSE Class 12 Computer Science syllabus.</p>
+<nav class="chapter-toc card">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to Exceptions</a></li>
+<li><a href="#types">Common Built-in Exceptions</a></li>
+<li><a href="#try-except">The try-except Block</a></li>
+<li><a href="#multiple">Handling Multiple Exceptions</a></li>
+<li><a href="#else">The else Clause</a></li>
+<li><a href="#finally">The finally Clause</a></li>
+<li><a href="#raise">Raising Exceptions with raise</a></li>
+<li><a href="#assert">The assert Statement</a></li>
+<li><a href="#custom">Creating Custom Exceptions</a></li>
+<li><a href="#exception-info">Getting Exception Information</a></li>
+<li><a href="#nested">Nested try-except Blocks</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to Exceptions</h2>
+<p>An <b>exception</b> is an unexpected event that occurs during program execution. It disrupts the normal flow of the program's instructions.</p>
+<p><b>Common scenarios causing exceptions:</b></p>
+<ul>
+<li>Dividing a number by zero.</li>
+<li>Accessing an index outside list bounds.</li>
+<li>Opening a file that does not exist.</li>
+<li>Converting an invalid string to an integer.</li>
+<li>Importing a module that does not exist.</li>
+</ul>
+<p><b>Exception vs Error:</b> An error indicates a serious problem that should not be caught (syntax errors), while an exception can be caught and handled.</p>
+</section>
+<section id="types" class="card">
+<h2>2. Common Built-in Exceptions</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Exception</th><th>Cause</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><code>ZeroDivisionError</code></td><td>Division or modulo by zero</td><td><code>10 / 0</code></td></tr>
+<tr><td><code>ValueError</code></td><td>Invalid value for a function</td><td><code>int("abc")</code></td></tr>
+<tr><td><code>TypeError</code></td><td>Invalid operation between types</td><td><code>"2" + 3</code></td></tr>
+<tr><td><code>IndexError</code></td><td>List index out of range</td><td><code>lst[10]</code></td></tr>
+<tr><td><code>KeyError</code></td><td>Dictionary key not found</td><td><code>d["xyz"]</code></td></tr>
+<tr><td><code>FileNotFoundError</code></td><td>File does not exist</td><td><code>open("nofile.txt")</code></td></tr>
+<tr><td><code>ImportError</code></td><td>Module import fails</td><td><code>import nonexistent</code></td></tr>
+<tr><td><code>AttributeError</code></td><td>Attribute or method not found</td><td><code>"abc".nonexistent()</code></td></tr>
+<tr><td><code>StopIteration</code></td><td>Iterator has no more items</td><td><code>next(empty_iter)</code></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="try-except" class="card">
+<h2>3. The try-except Block</h2>
+<p>The <code>try</code> block contains code that may raise an exception. The <code>except</code> block handles the exception if it occurs.</p>
+<pre class="code-block"><code>try:<br/>    num = int(input("Enter a number: "))<br/>    result = 10 / num<br/>    print("Result:", result)<br/>except ZeroDivisionError:<br/>    print("Cannot divide by zero.")<br/>except ValueError:<br/>    print("Invalid input. Please enter a valid number.")</code></pre>
+<p><b>Syntax:</b></p>
+<pre class="code-block"><code>try:<br/>    # Code that may raise exception<br/>except ExceptionType:<br/>    # Handle the exception</code></pre>
+</section>
+<section id="multiple" class="card">
+<h2>4. Handling Multiple Exceptions</h2>
+<p>Multiple exceptions can be handled in two ways:</p>
+<h3>Multiple except blocks:</h3>
+<pre class="code-block"><code>try:<br/>    x = int(input("Enter first number: "))<br/>    y = int(input("Enter second number: "))<br/>    print(x / y)<br/>except ZeroDivisionError:<br/>    print("Division by zero not allowed.")<br/>except ValueError:<br/>    print("Invalid input. Enter numeric values.")</code></pre>
+<h3>Single except with tuple:</h3>
+<pre class="code-block"><code>try:<br/>    x = int(input("Enter a number: "))<br/>    result = 100 / x<br/>    print(result)<br/>except (ZeroDivisionError, ValueError) as e:<br/>    print("Error occurred:", e)</code></pre>
+</section>
+<section id="else" class="card">
+<h2>5. The else Clause</h2>
+<p>The <code>else</code> block executes only when no exception occurs in the try block.</p>
+<pre class="code-block"><code>try:<br/>    num = int(input("Enter a number: "))<br/>    result = 100 / num<br/>except ZeroDivisionError:<br/>    print("Cannot divide by zero.")<br/>except ValueError:<br/>    print("Invalid input.")<br/>else:<br/>    print("Division successful. Result:", result)</code></pre>
+</section>
+<section id="finally" class="card">
+<h2>6. The finally Clause</h2>
+<p>The <code>finally</code> block always executes regardless of whether an exception occurs or not. It is commonly used for cleanup operations like closing files or releasing resources.</p>
+<pre class="code-block"><code>try:<br/>    f = open("data.txt", "r")<br/>    content = f.read()<br/>except FileNotFoundError:<br/>    print("File not found.")<br/>finally:<br/>    f.close()<br/>    print("File closed.")</code></pre>
+</section>
+<section id="raise" class="card">
+<h2>7. Raising Exceptions with raise</h2>
+<p>The <code>raise</code> statement is used to explicitly raise an exception. It can be used both inside and outside try blocks.</p>
+<pre class="code-block"><code>def check_age(age):<br/>    if age < 0:<br/>        raise ValueError("Age cannot be negative.")<br/>    elif age > 150:<br/>        raise ValueError("Age seems unrealistic.")<br/>    else:<br/>        print("Valid age:", age)<br/><br/>try:<br/>    check_age(-5)<br/>except ValueError as e:<br/>    print("Error:", e)</code></pre>
+<p><b>Re-raising an exception:</b></p>
+<pre class="code-block"><code>try:<br/>    x = int("abc")<br/>except ValueError:<br/>    print("Invalid input caught.")<br/>    raise  # Re-raise the same exception</code></pre>
+</section>
+<section id="assert" class="card">
+<h2>8. The assert Statement</h2>
+<p>The <code>assert</code> statement is used for debugging. It raises an <code>AssertionError</code> if a condition is False.</p>
+<pre class="code-block"><code>def divide(a, b):<br/>    assert b != 0, "Denominator cannot be zero"<br/>    return a / b<br/><br/>print(divide(10, 2))  # Output: 5.0<br/>print(divide(10, 0))  # Raises AssertionError</code></pre>
+<p>Assertions can be disabled with the <code>-O</code> (optimize) flag when running Python.</p>
+</section>
+<section id="custom" class="card">
+<h2>9. Creating Custom Exceptions</h2>
+<p>You can create custom exceptions by defining a new class that inherits from the built-in <code>Exception</code> class.</p>
+<pre class="code-block"><code>class NegativeNumberError(Exception):<br/>    """Raised when a negative number is provided."""<br/>    pass<br/><br/>class InsufficientFundsError(Exception):<br/>    def __init__(self, balance, amount):<br/>        super().__init__(f"Insufficient funds. Balance: {balance}, Required: {amount}")<br/>        self.balance = balance<br/>        self.amount = amount<br/><br/>def withdraw(balance, amount):<br/>    if amount > balance:<br/>        raise InsufficientFundsError(balance, amount)<br/>    return balance - amount</code></pre>
+</section>
+<section id="exception-info" class="card">
+<h2>10. Getting Exception Information</h2>
+<p>Use the <code>as</code> keyword to capture exception details.</p>
+<pre class="code-block"><code>try:<br/>    x = 10 / 0<br/>except ZeroDivisionError as e:<br/>    print("Exception type:", type(e).__name__)<br/>    print("Exception args:", e.args)<br/>    print("Exception message:", str(e))</code></pre>
+<p>The <code>sys.exc_info()</code> function provides detailed exception information including traceback.</p>
+</section>
+<section id="nested" class="card">
+<h2>11. Nested try-except Blocks</h2>
+<pre class="code-block"><code>try:<br/>    try:<br/>        num = int(input("Enter number: "))<br/>        result = 10 / num<br/>        print("Result:", result)<br/>    except ZeroDivisionError:<br/>        print("Inner: Division by zero.")<br/>except ValueError:<br/>    print("Outer: Invalid input.")</code></pre>
+<p>If the inner block does not handle an exception, it propagates to the outer block.</p>
+</section>
+<section id="best-practices" class="card">
+<h2>12. Best Practices</h2>
+<ul>
+<li>Catch specific exceptions instead of using a bare <code>except:</code>.</li>
+<li>Use <code>finally</code> for cleanup operations (closing files, releasing resources).</li>
+<li>Avoid catching exceptions and then silently ignoring them.</li>
+<li>Use <code>else</code> block for code that should run only when no exception occurs.</li>
+<li>Raise meaningful exceptions with descriptive messages.</li>
+<li>Do not use exceptions for normal control flow.</li>
+<li>Log exception details for debugging purposes.</li>
+<li>Keep try blocks small and focused.</li>
+</ul>
+</section>
+<section id="revision" class="card revision-card">
+<h2>13. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. What is an exception?</b><br>An exception is an unexpected event that occurs during program execution and disrupts normal flow.</p>
+<p><b>2. Which keywords are used for exception handling in Python?</b><br><code>try</code>, <code>except</code>, <code>else</code>, <code>finally</code>, and <code>raise</code>.</p>
+<p><b>3. What is the purpose of the finally block?</b><br>The finally block always executes, regardless of whether an exception occurred or not, and is used for cleanup operations.</p>
+<p><b>4. Which statement is used to manually raise an exception?</b><br>The <code>raise</code> statement.</p>
+<p><b>5. What does the else block do in a try-except statement?</b><br>The else block executes only when no exception occurs in the try block.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Differentiate between except and finally.</b><br>The except block executes only when a specific exception occurs in the try block. The finally block always executes regardless of whether an exception occurred, and is primarily used for cleanup tasks like closing files or releasing resources.</p>
+<p><b>2. How can you handle multiple exceptions in a single try block?</b><br>Multiple exceptions can be handled using multiple except blocks (one for each exception type) or a single except block with a tuple of exception types: <code>except (ValueError, TypeError) as e:</code>.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Write a program that handles division by zero, invalid input, and includes else and finally blocks.</b></p>
+<pre class="code-block"><code>try:<br/>    numerator = float(input("Enter numerator: "))<br/>    denominator = float(input("Enter denominator: "))<br/>    result = numerator / denominator<br/>except ZeroDivisionError:<br/>    print("Error: Cannot divide by zero.")<br/>except ValueError:<br/>    print("Error: Please enter numeric values only.")<br/>else:<br/>    print(f"Result: {result:.2f}")<br/>finally:<br/>    print("Execution completed.")</code></pre>
+<p><b>2. Explain the difference between syntax errors and exceptions with examples.</b><br>Syntax errors occur when Python cannot parse the code due to incorrect grammar, such as missing a colon. They prevent the program from running. Exceptions occur during execution of syntactically correct code, such as dividing by zero. Syntax errors must be fixed before running; exceptions can be caught and handled using try-except blocks.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="data-structure-stack.html">Next: Data Structures - Stack</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>

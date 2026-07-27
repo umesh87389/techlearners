@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQV5L20CWL"></script>
+<script>gtag('js',new Date());gtag('config','G-NQV5L20CWL');</script>
+<title>File Handling - Text Files - CBSE Class 12 CS 083 | TechLearners</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="Study original CBSE Class 12 Computer Science notes on File Handling - Text Files including open, read, write, append operations and the with statement."><link rel="canonical" href="https://www.techlearners.in/pages/class12/cs/file-handling-text.html"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><link rel="stylesheet" href="../../../assets/css/style.css"><link rel="stylesheet" href="../../../assets/css/responsive.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.techlearners.in/"},{"@type":"ListItem","position":2,"name":"CBSE Class 12 CS","item":"https://www.techlearners.in/pages/class12/python.html"},{"@type":"ListItem","position":3,"name":"File Handling - Text Files","item":"https://www.techlearners.in/pages/class12/cs/file-handling-text.html"}]}</script>
+<meta property="og:title" content="File Handling - Text Files - CBSE Class 12 CS 083 | TechLearners"><meta property="og:description" content="Study original CBSE Class 12 Computer Science notes on File Handling - Text Files."><meta property="og:url" content="https://www.techlearners.in/pages/class12/cs/file-handling-text.html"><meta property="og:type" content="website"><meta property="og:image" content="https://www.techlearners.in/assets/images/social-preview.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="en_IN"><meta name="twitter:card" content="summary_large_image"><link rel="preconnect" href="https://firebase.googleapis.com"><link rel="preconnect" href="https://www.youtube-nocookie.com"><link rel="dns-prefetch" href="https://firebase.googleapis.com"><link rel="dns-prefetch" href="https://www.youtube-nocookie.com"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1264513920933707" crossorigin="anonymous"></script></head>
+<body><header class="site-header"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span>Tech<span class="brand-accent">Learners</span></span></a><button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation menu"><span></span><span></span><span></span></button><nav class="nav" id="navMenu"><a href="../../../index.html">Home</a><a href="../../../pages/class9/index.html">Class 9</a><a href="../../../pages/class10/index.html">Class 10</a><a href="../../../pages/class11/index.html">Class 11</a><a href="../../../pages/class12/index.html">Class 12</a><a href="../../../pages/notes/index.html">Notes</a><a href="../../../pages/quizzes/index.html">MCQs</a><a href="../../../pages/question-papers/index.html">Sample Papers</a><a href="../../../pages/guess-papers/index.html">CBSE Board Exam Special</a><a href="../../../contact.html">Contact</a><a class="btn small" href="../../../login.html">Login</a></nav></header>
+<main class="page subject-it"><section class="section narrow">
+<p class="tag">CBSE Class 12 CS (083) - File Handling: Text Files</p>
+<h1>File Handling - Text Files</h1>
+<p class="notice">File handling enables a program to store data permanently on a storage device. This chapter covers reading from and writing to text files using Python, including file modes, the with statement, and various file methods as per the CBSE Class 12 Computer Science syllabus.</p>
+<nav class="chapter-toc card" aria-label="Chapter contents">
+<h2>Chapter Contents</h2>
+<ol>
+<li><a href="#intro">Introduction to File Handling</a></li>
+<li><a href="#file-path">File Path</a></li>
+<li><a href="#open">Opening a File</a></li>
+<li><a href="#modes">File Modes</a></li>
+<li><a href="#close">Closing a File</a></li>
+<li><a href="#write">Writing to a Text File</a></li>
+<li><a href="#read">Reading from a Text File</a></li>
+<li><a href="#readline">The readline() Method</a></li>
+<li><a href="#readlines">The readlines() Method</a></li>
+<li><a href="#append">Appending to a File</a></li>
+<li><a href="#with">The with Statement</a></li>
+<li><a href="#tell-seek">The tell() and seek() Methods</a></li>
+<li><a href="#iterate">Iterating Through a File</a></li>
+<li><a href="#write-writelines">write() vs writelines()</a></li>
+<li><a href="#check-exists">Checking if a File Exists</a></li>
+<li><a href="#standard-streams">Standard Streams</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+<li><a href="#revision">Revision Questions and Answers</a></li>
+</ol>
+</nav>
+<article class="chapter-notes">
+<section id="intro" class="card">
+<h2>1. Introduction to File Handling</h2>
+<p>A <b>file</b> is a named location on a storage device where data is stored permanently. File handling refers to the process of performing operations on files such as creating, opening, reading, writing, and closing them.</p>
+<p><b>Why file handling?</b></p>
+<ul>
+<li>Data persists even after the program terminates.</li>
+<li>Large amounts of data can be processed efficiently.</li>
+<li>Data can be shared between different programs.</li>
+<li>Enables data analysis and reporting.</li>
+</ul>
+<p>Python provides built-in functions and methods for file handling through the <code>open()</code> function which returns a <b>file object</b>.</p>
+</section>
+<section id="file-path" class="card">
+<h2>2. File Path</h2>
+<p>A <b>file path</b> specifies the location of a file on the storage device.</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Path Type</th><th>Description</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Absolute Path</td><td>Complete path from the root directory</td><td><code>C://Users/student/data.txt</code></td></tr>
+<tr><td>Relative Path</td><td>Path relative to the current directory</td><td><code>data.txt</code> or <code>./data.txt</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>In Python, use forward slashes (/) or double backslashes (\\) in paths to avoid escape character issues.</p>
+</section>
+<section id="open" class="card">
+<h2>3. Opening a File</h2>
+<p>The <code>open()</code> function is used to open a file. It returns a file object.</p>
+<pre class="code-block"><code>file_object = open(file_name, mode)</code></pre>
+<p><b>Parameters:</b></p>
+<ul>
+<li><b>file_name:</b> Name or path of the file to be opened.</li>
+<li><b>mode:</b> Specifies the purpose of opening (read, write, append, etc.).</li>
+</ul>
+<pre class="code-block"><code>f = open("sample.txt", "r")  # Open for reading</code></pre>
+</section>
+<section id="modes" class="card">
+<h2>4. File Modes</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Mode</th><th>Description</th><th>File Pointer</th><th>File Does Not Exist</th></tr></thead>
+<tbody>
+<tr><td><code>"r"</code></td><td>Read (default)</td><td>Beginning</td><td>Error</td></tr>
+<tr><td><code>"w"</code></td><td>Write</td><td>Beginning</td><td>Creates new file</td></tr>
+<tr><td><code>"a"</code></td><td>Append</td><td>End</td><td>Creates new file</td></tr>
+<tr><td><code>"x"</code></td><td>Exclusive creation</td><td>Beginning</td><td>Creates new file</td></tr>
+<tr><td><code>"r+"</code></td><td>Read and write</td><td>Beginning</td><td>Error</td></tr>
+<tr><td><code>"w+"</code></td><td>Write and read</td><td>Beginning</td><td>Creates new file</td></tr>
+<tr><td><code>"a+"</code></td><td>Append and read</td><td>End</td><td>Creates new file</td></tr>
+</tbody>
+</table>
+</div>
+<p>For text files, the default mode is <code>"r"</code>. Append <code>"t"</code> to explicitly specify text mode (e.g., <code>"rt"</code>).</p>
+</section>
+<section id="close" class="card">
+<h2>5. Closing a File</h2>
+<p>After completing file operations, the file should be closed using the <code>close()</code> method.</p>
+<pre class="code-block"><code>f = open("sample.txt", "r")<br/># Perform file operations<br/>f.close()</code></pre>
+<p><b>Why close a file?</b></p>
+<ul>
+<li>Frees system resources.</li>
+<li>Ensures data is written completely.</li>
+<li>Prevents accidental modifications.</li>
+<li>Limits file access to other programs.</li>
+</ul>
+</section>
+<section id="write" class="card">
+<h2>6. Writing to a Text File</h2>
+<p>The <code>write()</code> method writes a string to the file. The <code>writelines()</code> method writes a list of strings.</p>
+<pre class="code-block"><code>f = open("notes.txt", "w")<br/>f.write("Python is a powerful programming language.\n")<br/>f.write("It is used for web development, data science, and AI.\n")<br/>f.close()</code></pre>
+<p><b>Important:</b> The <code>"w"</code> mode overwrites the entire file. If the file contains existing data, it will be erased.</p>
+</section>
+<section id="read" class="card">
+<h2>7. Reading from a Text File</h2>
+<p>The <code>read()</code> method reads the entire content of the file as a single string.</p>
+<pre class="code-block"><code>f = open("notes.txt", "r")<br/>content = f.read()<br/>print(content)<br/>f.close()</code></pre>
+<p>You can specify the number of characters to read:</p>
+<pre class="code-block"><code>f = open("notes.txt", "r")<br/>first_20 = f.read(20)  # Read first 20 characters<br/>print(first_20)<br/>f.close()</code></pre>
+</section>
+<section id="readline" class="card">
+<h2>8. The readline() Method</h2>
+<p>The <code>readline()</code> method reads one line at a time from the file. Each call returns the next line including the newline character.</p>
+<pre class="code-block"><code>f = open("notes.txt", "r")<br/>line1 = f.readline()<br/>line2 = f.readline()<br/>print("Line 1:", line1)<br/>print("Line 2:", line2)<br/>f.close()</code></pre>
+<p>When the end of file is reached, <code>readline()</code> returns an empty string <code>""</code>.</p>
+</section>
+<section id="readlines" class="card">
+<h2>9. The readlines() Method</h2>
+<p>The <code>readlines()</code> method reads all lines of the file and returns them as a list of strings.</p>
+<pre class="code-block"><code>f = open("notes.txt", "r")<br/>lines = f.readlines()<br/>for line in lines:<br/>    print(line.strip())  # strip() removes newline<br/>f.close()</code></pre>
+</section>
+<section id="append" class="card">
+<h2>10. Appending to a File</h2>
+<p>The <code>"a"</code> (append) mode adds new content to the end of the file without erasing existing data.</p>
+<pre class="code-block"><code>f = open("notes.txt", "a")<br/>f.write("This line is appended at the end.\n")<br/>f.close()</code></pre>
+<p>If the file does not exist, the <code>"a"</code> mode creates a new file.</p>
+</section>
+<section id="with" class="card">
+<h2>11. The with Statement</h2>
+<p>The <code>with</code> statement ensures that the file is properly closed after operations, even if an exception occurs. This is also called a <b>context manager</b>.</p>
+<pre class="code-block"><code>with open("notes.txt", "r") as f:<br/>    content = f.read()<br/>    print(content)<br/># File is automatically closed here</code></pre>
+<p><b>Advantages of using with:</b></p>
+<ul>
+<li>Automatic file closing.</li>
+<li>Cleaner and more readable code.</li>
+<li>Safer exception handling.</li>
+<li>No need to explicitly call <code>close()</code>.</li>
+</ul>
+</section>
+<section id="tell-seek" class="card">
+<h2>12. The tell() and seek() Methods</h2>
+<p><b>tell()</b> returns the current position of the file pointer (in bytes from the beginning).</p>
+<p><b>seek()</b> moves the file pointer to a specified position.</p>
+<pre class="code-block"><code>with open("notes.txt", "r") as f:<br/>    print(f.tell())      # Output: 0 (beginning)<br/>    f.read(10)<br/>    print(f.tell())      # Output: 10<br/>    f.seek(0)             # Move to beginning<br/>    print(f.tell())      # Output: 0</code></pre>
+<p><b>seek(offset, whence) syntax:</b></p>
+<ul>
+<li><b>whence = 0:</b> From beginning of file (default).</li>
+<li><b>whence = 1:</b> From current position.</li>
+<li><b>whence = 2:</b> From end of file.</li>
+</ul>
+</section>
+<section id="iterate" class="card">
+<h2>13. Iterating Through a File</h2>
+<p>The file object is an iterator. You can loop through it directly to read line by line efficiently.</p>
+<pre class="code-block"><code>with open("notes.txt", "r") as f:<br/>    for line in f:<br/>        print(line.strip())</code></pre>
+<p>This approach is memory-efficient for large files because it reads one line at a time instead of loading the entire file.</p>
+</section>
+<section id="write-writelines" class="card">
+<h2>14. write() vs writelines()</h2>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Method</th><th>Parameter</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><code>write()</code></td><td>A single string</td><td>Writes the string to the file</td></tr>
+<tr><td><code>writelines()</code></td><td>A list/sequence of strings</td><td>Writes each item to the file (without adding newlines)</td></tr>
+</tbody>
+</table>
+</div>
+<pre class="code-block"><code>lines = ["Line 1\n", "Line 2\n", "Line 3\n"]<br/>with open("data.txt", "w") as f:<br/>    f.writelines(lines)</code></pre>
+<p>Note: <code>writelines()</code> does not add newline characters. You must include them in the strings.</p>
+</section>
+<section id="check-exists" class="card">
+<h2>15. Checking if a File Exists</h2>
+<p>Use the <code>os.path.exists()</code> or <code>pathlib</code> module to check if a file exists before opening it.</p>
+<pre class="code-block"><code>import os<br/>if os.path.exists("notes.txt"):<br/>    with open("notes.txt", "r") as f:<br/>        print(f.read())<br/>else:<br/>    print("File does not exist.")</code></pre>
+</section>
+<section id="standard-streams" class="card">
+<h2>16. Standard Streams</h2>
+<p>Python provides three standard file objects:</p>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Stream</th><th>File Object</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>stdin</td><td><code>sys.stdin</code></td><td>Standard input (keyboard)</td></tr>
+<tr><td>stdout</td><td><code>sys.stdout</code></td><td>Standard output (screen)</td></tr>
+<tr><td>stderr</td><td><code>sys.stderr</code></td><td>Standard error (error messages)</td></tr>
+</tbody>
+</table>
+</div>
+<pre class="code-block"><code>import sys<br/>sys.stdout.write("Hello using stdout\n")</code></pre>
+</section>
+<section id="best-practices" class="card">
+<h2>17. Best Practices</h2>
+<ul>
+<li>Always use the <code>with</code> statement to handle files.</li>
+<li>Specify the correct file mode to avoid accidental data loss.</li>
+<li>Handle exceptions using try-except blocks for robust code.</li>
+<li>Close files explicitly if not using <code>with</code>.</li>
+<li>Use absolute paths sparingly; prefer relative paths.</li>
+<li>Check if a file exists before reading.</li>
+<li>Use <code>strip()</code> when reading lines to remove unwanted whitespace.</li>
+<li>Be careful with <code>"w"</code> mode as it overwrites existing data.</li>
+</ul>
+</section>
+<section id="revision" class="card revision-card">
+<h2>18. Revision Questions and Answers</h2>
+<h3>Very Short Answer Questions</h3>
+<p><b>1. Which function is used to open a file in Python?</b><br>The <code>open()</code> function.</p>
+<p><b>2. What is the default file mode in Python?</b><br>The default mode is <code>"r"</code> (read text).</p>
+<p><b>3. Which statement ensures automatic closing of a file?</b><br>The <code>with</code> statement.</p>
+<p><b>4. What does the tell() method return?</b><br>The current position of the file pointer in bytes.</p>
+<p><b>5. What happens if you open a non-existent file in "w" mode?</b><br>A new empty file is created.</p>
+<h3>Short Answer Questions</h3>
+<p><b>1. Differentiate between read() and readline().</b><br><code>read()</code> reads the entire file content as a single string or specified number of characters. <code>readline()</code> reads one line at a time including the newline character. <code>read()</code> is suitable for small files, while <code>readline()</code> is memory-efficient for large files.</p>
+<p><b>2. Explain the difference between "w" and "a" modes.</b><br>The <code>"w"</code> mode opens a file for writing and overwrites the existing content. The file pointer is placed at the beginning. The <code>"a"</code> mode opens a file for appending; new data is added at the end and existing content is preserved.</p>
+<p><b>3. What is a context manager and how does it help in file handling?</b><br>A context manager, used with the <code>with</code> statement, automatically manages resources. In file handling, it ensures the file is properly closed after operations, even if an exception occurs. This eliminates the need for explicit <code>close()</code> calls and prevents resource leaks.</p>
+<h3>Long Answer Questions</h3>
+<p><b>1. Write a Python program to count the number of lines, words, and characters in a text file.</b></p>
+<pre class="code-block"><code>def count_file_stats(filename):<br/>    lines = words = chars = 0<br/>    with open(filename, "r") as f:<br/>        for line in f:<br/>            lines += 1<br/>            words += len(line.split())<br/>            chars += len(line)<br/>    return lines, words, chars<br/><br/>l, w, c = count_file_stats("sample.txt")<br/>print(f"Lines: {l}, Words: {w}, Characters: {c}")</code></pre>
+<p><b>2. Explain seek() and tell() with examples. How can you read a file in reverse order?</b><br><code>tell()</code> returns the current byte position. <code>seek(offset, whence)</code> moves the pointer. To read a file in reverse, you can seek to the end, then read backwards using <code>seek(-1, 2)</code> and process characters in reverse, handling multi-byte characters carefully.</p>
+</section>
+</article>
+<div class="hero-actions chapter-links">
+<a class="btn secondary" href="../chapters.html">Back to CBSE Class 12 CS Chapters</a>
+<a class="btn" href="file-handling-binary-csv.html">Next: File Handling - Binary and CSV Files</a>
+<a class="btn secondary" href="../../quizzes/index.html?class=Class%2012&subject=Python%20083">Related MCQs</a>
+<a class="btn secondary" href="../../question-papers/index.html?class=Class%2012&subject=Python%20083">Related Sample Paper</a>
+</div>
+</section></main>
+<footer class="footer"><p>&copy; 2026 TechLearners. Built for AI students.</p><nav class="footer-links"><a href="../../../privacy.html">Privacy Policy</a><a href="../../../terms.html">Terms</a><a href="../../../disclaimer.html">Disclaimer</a><a href="../../../editorial-policy.html">Editorial Policy</a><a href="../../../about.html">About</a></nav></footer>
+<script defer src="../../../assets/js/main.js?v=growth-loops-2"></script></body></html>
