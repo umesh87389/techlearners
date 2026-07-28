@@ -1,4 +1,4 @@
-﻿@media(max-width:900px){
+﻿﻿@media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:50px}
   .cards,.two{grid-template-columns:1fr 1fr}
   .learning-hierarchy{grid-template-columns:1fr}
@@ -189,7 +189,7 @@
     background: rgba(255, 255, 255, 0.6) !important;
   }
   .nav-dd-menu a::after {
-    content: "u{2192}";
+    content: "\2192";
     font-size: 0.95rem;
     opacity: 0.35;
   }
@@ -214,10 +214,11 @@
   [data-theme="dark"] .nav-dd-menu a:hover {
     background: rgba(175, 225, 55, 0.12) !important;
     color: var(--accent) !important;
-  }    background: rgba(175, 225, 55, 0.12) !important;
-    color: var(--accent) !important;
   }
   .cards,.two{grid-template-columns:1fr}
+    color: var(--accent) !important;
+  }
+
   .site-header{padding:14px 5%}
   .section,.hero{padding-left:5%;padding-right:5%}
   .login-page{padding:30px 5%;align-items:start}
