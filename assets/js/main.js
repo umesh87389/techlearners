@@ -274,7 +274,7 @@ function renderPlainNote(value) {
     listType = type;
   };
   const looksLikeHeading = line => {
-    if (/[:ï¼š]$/.test(line)) return true;
+    if (/[:：]$/.test(line)) return true;
     if (/^(chapter|section|topic|unit|module|key points?|summary|definition|example|activity|steps?|important|remember)\b/i.test(line)) return true;
     return line.length <= 56 && !/[.!?]$/.test(line);
   };
@@ -287,7 +287,7 @@ function renderPlainNote(value) {
       return;
     }
 
-    const bullet = line.match(/^[-*â€¢]\s+(.+)/);
+    const bullet = line.match(/^[-*•]\s+(.+)/);
     const numbered = line.match(/^\d+[.)]\s+(.+)/);
     if (bullet || numbered) {
       openList(bullet ? 'ul' : 'ol');
@@ -298,7 +298,7 @@ function renderPlainNote(value) {
     flushList();
     if (looksLikeHeading(line)) {
       flushParagraph();
-      html.push(`<h3>${escapeHtml(line.replace(/[:ï¼š]$/, ''))}</h3>`);
+      html.push(`<h3>${escapeHtml(line.replace(/[:：]$/, ''))}</h3>`);
       return;
     }
     paragraph.push(escapeHtml(line));
