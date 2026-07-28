@@ -1,4 +1,4 @@
-﻿﻿@media(max-width:900px){
+@media(max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:50px}
   .cards,.two{grid-template-columns:1fr 1fr}
   .learning-hierarchy{grid-template-columns:1fr}
@@ -126,7 +126,16 @@
     border-color: rgba(255, 255, 255, 0.05) !important;
   }
   [data-theme="dark"] .nav a:hover {
-  .nav-dd-wrapper{width:100%}
+    background: rgba(175, 225, 55, 0.12) !important;
+    color: var(--accent) !important;
+  }
+
+  /* Mobile Navigation Class Module / Dropdown Styles */
+  .nav-dd-wrapper {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
   .nav-dd-trigger {
     display: flex !important;
     align-items: center !important;
@@ -139,86 +148,108 @@
     font-weight: 700 !important;
     font-size: 0.95rem !important;
     background: rgba(255, 255, 255, 0.85) !important;
-    cursor: pointer !important;
+    box-shadow: none !important;
     transition: all 0.2s ease !important;
+    cursor: pointer !important;
   }
-  .nav-dd-trigger:hover {
+  .nav-dd-trigger:hover,
+  .nav-dd-trigger[aria-expanded="true"],
+  .nav-dd-wrapper.active .nav-dd-trigger {
     background: var(--accent-soft) !important;
     color: var(--accent) !important;
-    transform: translateX(4px);
     border-color: var(--border) !important;
   }
   .nav-dd-trigger .nav-chevron {
+    width: 14px;
+    height: 14px;
     transition: transform 0.25s ease;
   }
   .nav-dd-trigger[aria-expanded="true"] .nav-chevron {
     transform: rotate(180deg);
   }
+
   .nav-dd-menu {
+    position: static !important;
+    width: 100% !important;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    position: static;
-    width: 100%;
-    box-shadow: none;
-    border: 0;
-    padding: 0 0 0 16px;
-    background: transparent;
-    backdrop-filter: none;
-    visibility: visible;
-    transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease;
+    visibility: hidden;
+    border: 0 !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, padding 0.35s ease, margin 0.35s ease, visibility 0.35s !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
   }
   .nav-dd-menu.show {
-    max-height: 600px;
-    opacity: 1;
-    display: grid !important;
-    gap: 4px;
-    padding: 4px 0 4px 16px;
+    max-height: 400px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    padding: 8px 0 4px 12px !important;
+    margin-top: 4px !important;
   }
+
   .nav-dd-menu a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    white-space: normal;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
     padding: 10px 14px !important;
-    border: 1px solid rgba(1, 71, 81, 0.06) !important;
+    border: 1px solid rgba(1, 71, 81, 0.08) !important;
     border-radius: 8px !important;
-    color: var(--text) !important;
+    color: var(--muted) !important;
     font-weight: 600 !important;
-    font-size: 0.88rem !important;
-    background: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem !important;
+    background: rgba(255, 255, 255, 0.65) !important;
+    transition: all 0.2s ease !important;
   }
   .nav-dd-menu a::after {
-    content: "\2192";
-    font-size: 0.95rem;
+    content: "→";
+    font-size: 1rem;
     opacity: 0.35;
+    transition: transform 0.25s ease, opacity 0.25s ease;
   }
-  .nav-dd-menu a:hover {
+  .nav-dd-menu a:hover,
+  .nav-dd-menu a.active,
+  .nav-dd-menu a[aria-current="page"] {
     background: var(--accent-soft) !important;
     color: var(--accent) !important;
-    transform: translateX(4px);
     border-color: var(--border) !important;
+    transform: translateX(4px);
   }
+
+  /* Dark mode overrides for mobile class navigation module */
   [data-theme="dark"] .nav-dd-trigger {
     background: rgba(13, 35, 38, 0.85) !important;
     border-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text) !important;
   }
-  [data-theme="dark"] .nav-dd-trigger:hover {
+  [data-theme="dark"] .nav-dd-trigger:hover,
+  [data-theme="dark"] .nav-dd-trigger[aria-expanded="true"],
+  [data-theme="dark"] .nav-dd-wrapper.active .nav-dd-trigger {
     background: rgba(175, 225, 55, 0.12) !important;
     color: var(--accent) !important;
+    border-color: var(--border) !important;
   }
   [data-theme="dark"] .nav-dd-menu a {
-    background: rgba(13, 35, 38, 0.7) !important;
+    background: rgba(13, 35, 38, 0.65) !important;
     border-color: rgba(255, 255, 255, 0.04) !important;
+    color: var(--muted) !important;
   }
-  [data-theme="dark"] .nav-dd-menu a:hover {
-    background: rgba(175, 225, 55, 0.12) !important;
+  [data-theme="dark"] .nav-dd-menu a:hover,
+  [data-theme="dark"] .nav-dd-menu a.active,
+  [data-theme="dark"] .nav-dd-menu a[aria-current="page"] {
+    background: rgba(175, 225, 55, 0.15) !important;
     color: var(--accent) !important;
+    border-color: var(--border) !important;
   }
   .cards,.two{grid-template-columns:1fr}
-    color: var(--accent) !important;
-  }
-
   .site-header{padding:14px 5%}
   .section,.hero{padding-left:5%;padding-right:5%}
   .login-page{padding:30px 5%;align-items:start}
