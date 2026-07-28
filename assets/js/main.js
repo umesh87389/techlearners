@@ -1366,7 +1366,7 @@ function initQOTD() {
           <h2>Question of the Day</h2>
         </div>
         <div class="qotd-streak-badge">
-          <span>ðŸ”¥ Streak: <b id="qotdStreak">${streak}</b> Days</span>
+          <span>🔥 Streak: <b id="qotdStreak">${streak}</b> ${streak === 1 ? 'Day' : 'Days'}</span>
         </div>
       </div>
       <p class="qotd-question">${escapeHtml(question.q)}</p>
