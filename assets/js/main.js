@@ -737,18 +737,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (nav) {
     setupThemeToggle(nav);
   }
-  if(btn && nav && !btn.dataset.navToggleReady) {
+  if (btn && nav && !btn.dataset.navToggleReady) {
     btn.dataset.navToggleReady = 'true';
-    btn.addEventListener('click', () => nav.classList.toggle('show'));
+    btn.addEventListener('click', event => {
+      event.stopPropagation();
+      nav.classList.toggle('show');
+    });
   }
   document.addEventListener('click', event => {
     const trigger = event.target.closest('.nav-dd-trigger');
     if (trigger) {
+      event.stopPropagation();
       const menu = trigger.nextElementSibling;
       if (menu && menu.classList.contains('nav-dd-menu')) {
-        event.preventDefault();
         const isOpen = menu.classList.toggle('show');
         trigger.setAttribute('aria-expanded', isOpen);
+        trigger.closest('.nav-dd-wrapper')?.classList.toggle('active', isOpen);
+        document.querySelectorAll('.nav-dd-menu.show').forEach(other => {
+          if (other !== menu) {
+            other.classList.remove('show');
+            other.previousElementSibling?.setAttribute('aria-expanded', 'false');
+            other.closest('.nav-dd-wrapper')?.classList.remove('active');
+          }
+        });
       }
       return;
     }
@@ -757,9 +768,21 @@ document.addEventListener('DOMContentLoaded', () => {
         menu.classList.remove('show');
         const trigger = menu.previousElementSibling;
         if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        menu.closest('.nav-dd-wrapper')?.classList.remove('active');
       });
     }
+    if (nav && nav.classList.contains('show') && !event.target.closest('.nav') && !event.target.closest('.menu-btn')) {
+      nav.classList.remove('show');
+    }
   });
+  if (nav) {
+    nav.addEventListener('click', event => {
+      const link = event.target.closest('a');
+      if (link && !link.closest('.nav-dd-trigger')) {
+        nav.classList.remove('show');
+      }
+    });
+  }
   if (location.pathname.includes('/pages/admin/')) window.TechLearnersAdminNav?.setup(nav || document.querySelector('.nav'));
 
   const root = getSiteRoot();
