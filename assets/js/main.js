@@ -1424,7 +1424,7 @@ function initQOTD() {
           document.getElementById('qotdStreak').textContent = streak;
         }
         feedback.className = "qotd-feedback correct";
-        feedback.innerHTML = `<strong>Correct! ðŸŽ‰</strong><br>${escapeHtml(question.explanation)}`;
+        feedback.innerHTML = `<strong>Correct! 🎉</strong><br>${escapeHtml(question.explanation)}`;
       } else {
         // Streak broken
         streak = 0;
@@ -1433,7 +1433,7 @@ function initQOTD() {
         document.getElementById('qotdStreak').textContent = streak;
         
         feedback.className = "qotd-feedback incorrect";
-        feedback.innerHTML = `<strong>Incorrect. âŒ</strong><br>The correct answer is: <strong>${escapeHtml(question.options[question.answer])}</strong>.<br>${escapeHtml(question.explanation)}`;
+        feedback.innerHTML = `<strong>Incorrect. ❌</strong><br>The correct answer is: <strong>${escapeHtml(question.options[question.answer])}</strong>.<br>${escapeHtml(question.explanation)}`;
       }
     });
   }
@@ -1519,9 +1519,9 @@ function initHomepageLeaderboard() {
       const rank = currentRank;
 
       let rankHtml = `<span class="rank-badge">${rank}</span>`;
-      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥‡ <span class="rank-badge rank-1">1</span></span>`;
-      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥ˆ <span class="rank-badge rank-2">2</span></span>`;
-      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">ðŸ¥‰ <span class="rank-badge rank-3">3</span></span>`;
+      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥇 <span class="rank-badge rank-1">1</span></span>`;
+      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥈 <span class="rank-badge rank-2">2</span></span>`;
+      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥉 <span class="rank-badge rank-3">3</span></span>`;
 
       const currentUser = typeof TechLearnersFirebase !== 'undefined' ? TechLearnersFirebase.peekCurrentUser?.() : null;
       const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
