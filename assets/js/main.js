@@ -742,6 +742,16 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => nav.classList.toggle('show'));
   }
   document.addEventListener('click', event => {
+    const trigger = event.target.closest('.nav-dd-trigger');
+    if (trigger) {
+      const menu = trigger.nextElementSibling;
+      if (menu && menu.classList.contains('nav-dd-menu')) {
+        event.preventDefault();
+        const isOpen = menu.classList.toggle('show');
+        trigger.setAttribute('aria-expanded', isOpen);
+      }
+      return;
+    }
     if (!event.target.closest('.nav-dd-wrapper')) {
       document.querySelectorAll('.nav-dd-menu.show').forEach(menu => {
         menu.classList.remove('show');
