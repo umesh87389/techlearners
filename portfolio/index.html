@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Digital Portfolios | TechLearners Global Academy</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand">
+        <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=160&auto=format&fit=crop&q=80" alt="Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="school-name-text">TechLearners Global Academy</h1>
+          <p class="school-motto-text">Student Digital Portfolio Showcase • <span class="school-year-text">2026–2027</span></p>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active">🏫 Directory</a></li>
+          <li><a href="teams.html" class="nav-link">⚡ Teams & Activity Cycle</a></li>
+          <li><a href="id-card.html" class="nav-link">🪪 QR Cards</a></li>
+          <li><a href="admin.html" class="btn btn-primary btn-sm">🛠️ Teacher Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Search & Filter Section -->
+  <section class="hero-hub">
+    <div class="container">
+      <span class="badge badge-warning" style="margin-bottom: 1rem; color: #78350f;">⭐ 3 Teams • 1 Goal: Practical Portfolios</span>
+      <h1>Student Digital Portfolios</h1>
+      <p>Organized around 3 focused technology teams: <strong>💻 IT Team</strong> (Digital Content), <strong>🤖 Robotics Team</strong> (Models & Hardware), and <strong>🧠 AI Team</strong> (AI Exploration).</p>
+
+      <!-- Search & Filters -->
+      <div class="search-filter-bar">
+        <div class="search-input-wrap">
+          <span style="font-size: 1.2rem;">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search by student name, team, project, or skill (e.g. Python, AI, Posters)..." autofocus>
+        </div>
+        <select id="classFilter" class="filter-select">
+          <option value="all">All Grades (VI – X)</option>
+          <option value="Class VI">Class VI</option>
+          <option value="Class VII">Class VII</option>
+          <option value="Class VIII">Class VIII</option>
+          <option value="Class IX">Class IX</option>
+          <option value="Class X">Class X</option>
+        </select>
+      </div>
+
+      <!-- Team Filter Tabs -->
+      <div class="team-filter-tabs" id="teamFilterTabs">
+        <button class="team-tab active" data-team="all">🌟 All Teams (<span id="allCount">0</span>)</button>
+        <button class="team-tab" data-team="it">💻 IT Team (<span id="itCount">0</span>)</button>
+        <button class="team-tab" data-team="robotics">🤖 Robotics Team (<span id="roboticsCount">0</span>)</button>
+        <button class="team-tab" data-team="ai">🧠 AI Team (<span id="aiCount">0</span>)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Activity Cycle Banner -->
+  <section class="container" style="margin-top: 2rem;">
+    <div class="activity-cycle-banner">
+      <div class="ac-banner-left">
+        <span class="badge badge-accent">⭐ The Universal Team Activity Cycle</span>
+        <h3>Learn → Make → Show → Record</h3>
+        <p>Every team focuses on <strong>one clear job</strong> and produces real evidence: working projects, digital designs, and 1-minute demonstration videos.</p>
+      </div>
+      <div class="ac-banner-steps">
+        <div class="ac-step-pill"><span>1️⃣</span> <strong>Learn</strong> (Concepts)</div>
+        <div class="ac-step-arrow">➔</div>
+        <div class="ac-step-pill"><span>2️⃣</span> <strong>Make</strong> (Projects)</div>
+        <div class="ac-step-arrow">➔</div>
+        <div class="ac-step-pill"><span>3️⃣</span> <strong>Show</strong> (Demo)</div>
+        <div class="ac-step-arrow">➔</div>
+        <div class="ac-step-pill"><span>4️⃣</span> <strong>Record</strong> (1-Min Video)</div>
+      </div>
+      <a href="teams.html" class="btn btn-secondary btn-sm" style="white-space: nowrap;">View Framework & Guide →</a>
+    </div>
+  </section>
+
+  <!-- Student Grid Container -->
+  <main class="container" style="flex: 1;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-size: 1.5rem; font-weight: 800;" id="gridTitleHeading">Student Portfolios</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);" id="gridSubtitleText">Showing all students across IT, Robotics & AI tracks</p>
+      </div>
+      <span id="studentCountBadge" class="badge badge-primary">Loading...</span>
+    </div>
+
+    <!-- Dynamic Students Grid -->
+    <div id="studentsGrid" class="students-grid"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4 class="school-name-text">TechLearners Global Academy</h4>
+        <p>Empowering young minds through digital portfolios, hands-on STEM, Robotics & AI.</p>
+      </div>
+      <div style="display: flex; gap: 0.75rem;">
+        <a href="teams.html" class="btn btn-secondary btn-sm">⚡ Teams & Activity Cycle</a>
+        <a href="admin.html" class="btn btn-secondary btn-sm">🛠️ Teacher Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

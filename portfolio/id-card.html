@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Printable Student QR Portfolio Cards | TechLearners</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    @media print {
+      .print-controls, .navbar, .footer {
+        display: none !important;
+      }
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .id-cards-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+        margin: 0 !important;
+      }
+      .id-card {
+        box-shadow: none !important;
+        border: 1.5px solid #0f172a !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand">
+        <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=160&auto=format&fit=crop&q=80" alt="Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="school-name-text">TechLearners Global Academy</h1>
+          <p class="school-motto-text">Student QR Portfolio Card System • <span class="school-year-text">2026–2027</span></p>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">🏫 Directory</a></li>
+          <li><a href="teams.html" class="nav-link">⚡ Teams & Guide</a></li>
+          <li><a href="admin.html" class="btn btn-secondary btn-sm">🛠️ Admin</a></li>
+          <li><button id="printCardsBtn" class="btn btn-primary btn-sm">🖨️ Print Portfolio Cards</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Controls Bar -->
+  <section class="container print-controls" style="margin-top: 2rem;">
+    <div style="background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; box-shadow: var(--shadow-sm);">
+      <div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.25rem;">Student QR Portfolio Badges</h2>
+        <p style="font-size: 0.9rem;">Print physical cards with verified QR codes for IT, Robotics, and AI team students.</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <!-- Team Filter -->
+        <select id="teamSelectFilter" class="filter-select">
+          <option value="all">🌟 All Teams</option>
+          <option value="it">💻 IT Team</option>
+          <option value="robotics">🤖 Robotics Team</option>
+          <option value="ai">🧠 AI Team</option>
+        </select>
+
+        <!-- Grade Filter -->
+        <select id="classSelectFilter" class="filter-select">
+          <option value="all">All Grades</option>
+          <option value="Class VI">Class VI</option>
+          <option value="Class VII">Class VII</option>
+          <option value="Class VIII">Class VIII</option>
+          <option value="Class IX">Class IX</option>
+          <option value="Class X">Class X</option>
+        </select>
+
+        <button onclick="window.print()" class="btn btn-accent btn-sm">🖨️ Print Batch</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Printable ID Cards List -->
+  <main class="container" style="flex: 1;">
+    <div id="idCardsContainer" class="id-cards-container">
+      <!-- Generated Dynamically via id-card.js -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4 class="school-name-text">TechLearners Global Academy</h4>
+        <p>Printable QR Code Generation Engine • Fast Offline Scanning</p>
+      </div>
+      <div>
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to Hub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/id-card.js"></script>
+</body>
+</html>

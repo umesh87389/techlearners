@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher & Admin Dashboard | Student Portfolio Manager</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand">
+        <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=160&auto=format&fit=crop&q=80" alt="Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="school-name-text">TechLearners Global Academy</h1>
+          <p>Portfolio Administration & Assessment Portal • <span class="school-year-text">2026–2027</span></p>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">🏫 Directory</a></li>
+          <li><a href="teams.html" class="nav-link">⚡ Teams & Guide</a></li>
+          <li><a href="id-card.html" class="nav-link">🪪 QR Cards</a></li>
+          <li><button id="addNewStudentBtn" class="btn btn-primary btn-sm">+ Add New Student</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Admin Main Layout -->
+  <main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-size: 1.75rem; font-weight: 800;">Student Portfolio Management</h2>
+        <p>Assign technology teams (IT, Robotics, AI), configure the 4-step activity cycle, and update student assessments.</p>
+      </div>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button id="exportJsonBtn" class="btn btn-secondary btn-sm" title="Export entire database as JSON">⬇️ Export JSON</button>
+        <button id="importJsonBtn" class="btn btn-secondary btn-sm" title="Import database from JSON">⬆️ Import JSON</button>
+        <button id="resetDefaultBtn" class="btn btn-secondary btn-sm" style="color: var(--danger);" title="Reset to sample dataset">🔄 Reset Defaults</button>
+        <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
+      </div>
+    </div>
+
+    <div class="admin-layout">
+
+      <!-- Sidebar: Student Selector -->
+      <aside class="admin-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <h4 style="font-weight: 800; font-size: 1rem;">Select Student</h4>
+          <span class="badge badge-primary">Database</span>
+        </div>
+        <div id="adminStudentList" class="admin-student-list"></div>
+      </aside>
+
+      <!-- Main Form Container -->
+      <section class="admin-form-container">
+        <form id="studentEditForm">
+          
+          <!-- Header Actions -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem;">
+            <h3 style="font-size: 1.35rem; font-weight: 800;">Edit Student Profile & Track</h3>
+            <div style="display: flex; gap: 0.5rem;">
+              <a id="livePreviewBtn" href="#" target="_blank" class="btn btn-secondary btn-sm">👁️ Live Preview</a>
+              <button type="submit" class="btn btn-primary btn-sm">💾 Save Portfolio</button>
+              <button type="button" id="deleteStudentBtn" class="btn btn-secondary btn-sm" style="color: var(--danger);">🗑️ Delete</button>
+            </div>
+          </div>
+
+          <!-- Section 1: Basic Information & Team Track -->
+          <h4 class="form-section-title">1. Basic Profile & Technology Team Track</h4>
+          
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Student ID</label>
+              <input type="text" id="studentId" class="form-control" readonly style="background: var(--bg-subtle);">
+            </div>
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" id="studentName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Gender</label>
+              <select id="studentGender" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Technology Team Track *</label>
+              <select id="studentTeam" class="form-control" required style="font-weight: 700;">
+                <option value="it">💻 IT Team (Digital Content)</option>
+                <option value="robotics">🤖 Robotics Team (Models & Hardware)</option>
+                <option value="ai">🧠 AI Team (AI Exploration)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Team Role / Title</label>
+              <input type="text" id="studentTeamRole" class="form-control" placeholder="e.g. Lead Robotics Builder">
+            </div>
+            <div class="form-group">
+              <label>Class Grade & Section</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select id="studentClass" class="form-control" style="flex: 2;">
+                  <option value="Class VI">Class VI</option>
+                  <option value="Class VII">Class VII</option>
+                  <option value="Class VIII">Class VIII</option>
+                  <option value="Class IX">Class IX</option>
+                  <option value="Class X">Class X</option>
+                </select>
+                <input type="text" id="studentSection" class="form-control" value="A" placeholder="Sec" style="flex: 1;">
+                <input type="text" id="studentRollNo" class="form-control" value="12" placeholder="Roll" style="flex: 1;">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Avatar Photo URL</label>
+              <input type="url" id="studentAvatar" class="form-control" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label>Cover Banner Image URL</label>
+              <input type="url" id="studentCover" class="form-control" placeholder="https://...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tagline / Headline</label>
+            <input type="text" id="studentTagline" class="form-control" placeholder="e.g. Robotics Team Lead • Sensor & Microcontroller Specialist">
+          </div>
+
+          <div class="form-group">
+            <label>About Me (Bio)</label>
+            <textarea id="studentBio" class="form-control" rows="2"></textarea>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Student Motto / Quote</label>
+              <input type="text" id="studentMotto" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Attendance Record</label>
+              <input type="text" id="studentAttendance" class="form-control" placeholder="e.g. 96.5%">
+            </div>
+            <div class="form-group">
+              <label>Academic Aggregate</label>
+              <input type="text" id="studentAcademicScore" class="form-control" placeholder="e.g. 93.4%">
+            </div>
+          </div>
+
+          <!-- Section 2: Team Activity Cycle -->
+          <h4 class="form-section-title">2. Team Activity Cycle (Learn → Make → Show → Record)</h4>
+          
+          <div class="form-group">
+            <label>Featured Project Name</label>
+            <input type="text" id="cycleProjectName" class="form-control" placeholder="e.g. Smart Soil Moisture & Irrigation Bot" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>1️⃣ Step: LEARN (Concept / Study)</label>
+              <input type="text" id="cycleLearnTitle" class="form-control" placeholder="Title: Learn Circuit & Sensor Logic" style="margin-bottom: 0.35rem;">
+              <textarea id="cycleLearnDesc" class="form-control" rows="2" placeholder="Description of what was learned..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>2️⃣ Step: MAKE (Build / Code)</label>
+              <input type="text" id="cycleMakeTitle" class="form-control" placeholder="Title: Build Working Prototype" style="margin-bottom: 0.35rem;">
+              <textarea id="cycleMakeDesc" class="form-control" rows="2" placeholder="Description of what was created..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>3️⃣ Step: SHOW (Demonstration / Assembly)</label>
+              <input type="text" id="cycleShowTitle" class="form-control" placeholder="Title: Live Exhibition Demo" style="margin-bottom: 0.35rem;">
+              <textarea id="cycleShowDesc" class="form-control" rows="2" placeholder="Description of how it was shown..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>4️⃣ Step: RECORD (1-Minute Video Demo)</label>
+              <input type="text" id="cycleRecordTitle" class="form-control" placeholder="Title: Record 1-Minute Demonstration Video" style="margin-bottom: 0.35rem;">
+              <textarea id="cycleRecordDesc" class="form-control" rows="2" placeholder="Description of the recorded video demo..."></textarea>
+            </div>
+          </div>
+
+          <!-- Section 3: 1-Minute Video Demo -->
+          <h4 class="form-section-title">3. 1-Minute Demonstration & Reflection Video</h4>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Video Title</label>
+              <input type="text" id="videoTitle" class="form-control" placeholder="1-Minute Demonstration Video">
+            </div>
+            <div class="form-group">
+              <label>Video Embed URL (YouTube/Drive/MP4)</label>
+              <input type="url" id="videoUrl" class="form-control" placeholder="https://www.youtube.com/embed/...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Video Summary</label>
+            <textarea id="videoDesc" class="form-control" rows="2"></textarea>
+          </div>
+
+          <!-- Section 4: Projects Showcase -->
+          <div class="form-section-title">
+            <span>4. Student Projects & Deliverables Showcase</span>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addProjectRow()">+ Add Project</button>
+          </div>
+          <div id="projectsRowsContainer"></div>
+
+          <!-- Section 5: Before -> After Growth -->
+          <div class="form-section-title">
+            <span>5. Before → After Growth Records</span>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addGrowthRow()">+ Add Growth Item</button>
+          </div>
+          <div id="growthRowsContainer"></div>
+
+          <!-- Section 6: 360° Skills Scorecard -->
+          <h4 class="form-section-title">6. 360° Skills & Competency Matrix (Sliders 1 to 5)</h4>
+          <div id="scorecardRowsContainer"></div>
+
+          <!-- Section 7: Achievements & Badges -->
+          <div class="form-section-title">
+            <span>7. Achievements & Badges</span>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addAchievementRow()">+ Add Achievement</button>
+          </div>
+          <div id="achievementsRowsContainer"></div>
+
+          <!-- Section 8: Mentor Observation & Parent Feedback -->
+          <h4 class="form-section-title">8. Mentor Observation & Parent Feedback</h4>
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>Teacher / Mentor Name</label>
+              <input type="text" id="teacherName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Teacher Role / Subject</label>
+              <input type="text" id="teacherRole" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Teacher Rating / Grade</label>
+              <input type="text" id="teacherRating" class="form-control" value="Outstanding (A+)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Teacher Observation Remark</label>
+            <textarea id="teacherRemark" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label>Parent(s) Name</label>
+              <input type="text" id="parentName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>Parent Note</label>
+              <textarea id="parentNote" class="form-control" rows="2"></textarea>
+            </div>
+          </div>
+
+          <!-- Section 9: Future Goals -->
+          <div class="form-section-title">
+            <span>9. Future Learning Goals</span>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addGoalRow()">+ Add Goal</button>
+          </div>
+          <div id="goalsRowsContainer"></div>
+
+          <!-- Submit Button in Footer -->
+          <div style="margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary" style="padding-inline: 2rem;">💾 Save All Changes</button>
+          </div>
+
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4 class="school-name-text">TechLearners Global Academy</h4>
+        <p>Teacher Administration & Portfolio Publishing Suite</p>
+      </div>
+      <div>
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to Hub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

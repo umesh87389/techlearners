@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Digital Portfolio | TechLearners</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand">
+        <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=160&auto=format&fit=crop&q=80" alt="Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="school-name-text">TechLearners Global Academy</h1>
+          <p class="school-motto-text">Verified Student Digital Portfolio • <span class="school-year-text">2026–2027</span></p>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">← School Directory</a></li>
+          <li><a href="teams.html" class="nav-link">⚡ Teams & Guide</a></li>
+          <li><button id="shareBtn" class="btn btn-secondary btn-sm">🔗 Share</button></li>
+          <li><a href="admin.html" class="btn btn-primary btn-sm">✏️ Edit in Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Profile Section -->
+  <section class="portfolio-hero">
+    <img id="heroCover" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200" alt="Cover" class="portfolio-cover">
+    
+    <div class="container portfolio-hero-content">
+      <div class="hero-profile-box">
+        <img id="heroAvatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400" alt="Student Photo" class="hero-avatar">
+        
+        <div class="hero-info">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
+            <h1 id="studentName">Student Name</h1>
+            <div id="teamBadgeHero"></div>
+          </div>
+          
+          <div id="studentTeamRole" style="font-weight: 700; font-size: 1.05rem; color: var(--primary); margin-bottom: 0.25rem;">Team Lead</div>
+          <div id="studentClassTag" class="hero-class-tag">Class VIII-A • Roll No. 12</div>
+          <p id="studentTagline" class="hero-tagline">Aspiring Tech Innovator & Coder</p>
+          <p id="studentMotto" class="hero-motto">“Learn by building, improve by sharing.”</p>
+          <p id="studentBio" style="margin-top: 0.65rem; font-size: 0.9rem; color: #475569;"></p>
+        </div>
+
+        <div class="hero-badges-side">
+          <button id="qrModalBtn" class="qr-trigger-btn">
+            <span>📱</span> <span>Scan Portfolio QR</span>
+          </button>
+          <a id="idCardLink" href="id-card.html" class="btn btn-secondary btn-sm" target="_blank">
+            🪪 View ID Card
+          </a>
+          <span id="attendanceBadge" class="badge badge-success">Attendance: 96.4%</span>
+          <span id="academicScoreBadge" class="badge badge-info">Academic: 92.8%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky In-Page Navigation -->
+  <nav class="portfolio-nav-bar">
+    <div class="container portfolio-nav-links">
+      <a href="#activity-cycle" class="p-nav-btn active">⭐ Activity Cycle</a>
+      <a href="#deliverables-checklist" class="p-nav-btn">🎯 Output Verification</a>
+      <a href="#intro-video" class="p-nav-btn">🎬 1-Min Video Demo</a>
+      <a href="#projects" class="p-nav-btn">🚀 Project Works</a>
+      <a href="#growth" class="p-nav-btn">📈 Before → After Growth</a>
+      <a href="#scorecard" class="p-nav-btn">⭐ 360° Scorecard</a>
+      <a href="#achievements" class="p-nav-btn">🏆 Achievements</a>
+      <a href="#gallery" class="p-nav-btn">📸 Gallery</a>
+      <a href="#observations" class="p-nav-btn">👩‍🏫 Remarks</a>
+      <a href="#goals" class="p-nav-btn">🎯 Goals</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Sections -->
+  <main class="container" style="margin-top: 1.5rem;">
+
+    <!-- 1. TEAM ACTIVITY CYCLE (Learn -> Make -> Show -> Record) -->
+    <section id="activity-cycle" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Execution Roadmap</span>
+        <h2>Team Activity Cycle (Learn → Make → Show → Record)</h2>
+        <p id="activityCycleSub">How this student executed their core technology project through the practical 4-step framework.</p>
+      </div>
+
+      <div class="activity-cycle-project-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span style="font-size: 1.5rem;" id="activityProjectIcon">⚡</span>
+            <h3 style="font-size: 1.35rem; font-weight: 800;" id="activityProjectTitle">Featured Project Cycle</h3>
+          </div>
+          <span class="badge badge-success" id="activityTeamPill">Verified Cycle Completion</span>
+        </div>
+
+        <div class="cycle-timeline-grid" id="activityTimelineGrid">
+          <!-- Populated dynamically via portfolio.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. FINAL OUTPUT DELIVERABLES CHECKLIST -->
+    <section id="deliverables-checklist" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Target Verification</span>
+        <h2>Final Output Verification</h2>
+        <p>Verified tangible outputs according to the student's technology team requirements.</p>
+      </div>
+
+      <div class="deliverables-box" id="deliverablesBox">
+        <!-- Populated dynamically via portfolio.js -->
+      </div>
+    </section>
+
+    <!-- 3. 1-MINUTE DEMO / JOURNEY VIDEO -->
+    <section id="intro-video" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Cycle Step 4: Record</span>
+        <h2>1-Minute Demonstration & Showcase Video</h2>
+        <p>A concise, recorded demonstration capturing the working project, poster design, or live AI model.</p>
+      </div>
+
+      <div class="video-showcase-card">
+        <div class="video-frame-wrap">
+          <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+        <div class="video-details">
+          <span class="badge badge-warning" style="align-self: flex-start; margin-bottom: 0.8rem;">📹 1-Minute Demo</span>
+          <h3 id="videoTitle">Demonstration & Activity Reflection</h3>
+          <p id="videoDesc">Watch the live demonstration and walkthrough of this academic year's featured technology project.</p>
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="#projects" class="btn btn-primary btn-sm">Explore Project Files ↓</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. STUDENT PROJECTS & WORKS SHOWCASE -->
+    <section id="projects" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Hands-On Output</span>
+        <h2 id="projectsSectionTitle">Featured Projects & Digital Deliverables</h2>
+        <p id="projectsSectionSub">Interactive software, working hardware circuits, AI models, posters, slide decks, and spreadsheets.</p>
+      </div>
+
+      <div id="projectsContainer" class="projects-grid"></div>
+    </section>
+
+    <!-- 5. BEFORE -> AFTER GROWTH -->
+    <section id="growth" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Demonstrated Progress</span>
+        <h2>Before → After Growth</h2>
+        <p>Real learning is about personal evolution throughout the academic year, not just static grades.</p>
+      </div>
+
+      <div id="growthContainer" class="growth-grid"></div>
+    </section>
+
+    <!-- 6. 360° COMPETENCY SCORECARD -->
+    <section id="scorecard" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Comprehensive Assessment</span>
+        <h2>360° Skills & Competency Matrix</h2>
+        <p>Holistic evaluation of technical aptitude, creative thinking, collaboration, and leadership.</p>
+      </div>
+
+      <div id="scorecardContainer" class="scorecard-grid"></div>
+    </section>
+
+    <!-- 7. ACHIEVEMENTS & BADGES -->
+    <section id="achievements" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Honors & Milestones</span>
+        <h2>Achievements & Certifications</h2>
+        <p>Olympiads, science expo medals, coding distinctions, and leadership commendations.</p>
+      </div>
+
+      <div id="achievementsContainer" class="achievements-grid"></div>
+    </section>
+
+    <!-- 8. CO-CURRICULAR & MEDIA GALLERY -->
+    <section id="gallery" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">School Activities</span>
+        <h2>Activity & Demonstration Gallery</h2>
+        <p>Photos and evidence captured during live demonstrations, lab builds, and school exhibitions.</p>
+      </div>
+
+      <div id="galleryContainer" class="gallery-grid"></div>
+    </section>
+
+    <!-- 9. TEACHER OBSERVATIONS & PARENT NOTES -->
+    <section id="observations" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Holistic Feedback</span>
+        <h2>Teacher Observation & Parent's Note</h2>
+        <p>Continuous mentoring notes from faculty mentors and family perspective.</p>
+      </div>
+
+      <div class="observations-grid">
+        <!-- Teacher Box -->
+        <div class="observation-box">
+          <div class="quote-icon">“</div>
+          <span class="badge badge-primary" style="margin-bottom: 1rem;">👩‍🏫 Teacher Observation</span>
+          <p id="teacherRemarkText" class="observation-text">“Rahul actively participates in practical activities and has shown considerable improvement in problem-solving skills.”</p>
+          <div class="person-meta">
+            <img id="teacherAvatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" class="person-avatar" alt="Teacher">
+            <div class="person-details">
+              <h5 id="teacherName">Mrs. Sunita Roy</h5>
+              <p id="teacherRole">Class Teacher & Faculty Mentor</p>
+            </div>
+            <span id="teacherRatingBadge" class="badge badge-success" style="margin-left: auto;">Grade: A+</span>
+          </div>
+        </div>
+
+        <!-- Parent Box -->
+        <div class="observation-box">
+          <div class="quote-icon">“</div>
+          <span class="badge badge-warning" style="margin-bottom: 1rem; color:#78350f;">👨‍👩‍👦 Parent's Perspective</span>
+          <p id="parentNoteText" class="observation-text">“We are happy to see our child’s confidence and interest in learning grow during this academic year.”</p>
+          <div class="person-meta">
+            <div style="font-size: 2rem;">🏡</div>
+            <div class="person-details">
+              <h5 id="parentName">Mr. Ramesh & Mrs. Priya Kumar</h5>
+              <p id="parentDate">Parent Note • Academic Session</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. FUTURE GOALS -->
+    <section id="goals" class="portfolio-section" style="border-bottom: none;">
+      <div class="section-header">
+        <span class="tag">Vision & Roadmap</span>
+        <h2>Future Learning Goals</h2>
+        <p>Aspirations and targets set for the upcoming academic terms.</p>
+      </div>
+
+      <div id="goalsContainer" class="goals-list"></div>
+    </section>
+
+  </main>
+
+  <!-- QR Code Modal -->
+  <div id="qrModal" class="modal-backdrop">
+    <div class="modal-card">
+      <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">📱 Student Portfolio QR Code</h3>
+      <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem;">Scan this QR code with any smartphone camera to view this portfolio instantly.</p>
+      
+      <div id="qrCodeBox" style="display: flex; justify-content: center; margin-bottom: 1.5rem;"></div>
+
+      <div style="display: flex; gap: 0.75rem; justify-content: center;">
+        <button id="closeQrModal" class="btn btn-secondary">Close</button>
+        <a id="downloadIdCardBtn" href="id-card.html" class="btn btn-primary">Print QR Card</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal -->
+  <div id="imageLightboxModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width: 700px; padding: 1.25rem;">
+      <img id="lightboxImage" src="" alt="Enlarged view" style="width: 100%; border-radius: 12px; max-height: 70vh; object-fit: contain;">
+      <p id="lightboxCaption" style="margin-top: 0.75rem; font-weight: 700; color: #0f172a;"></p>
+      <button id="closeLightbox" class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;">Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4 class="school-name-text">TechLearners Global Academy</h4>
+        <p>Official Digital Student Portfolio System • Academic Year <span class="school-year-text">2026–2027</span></p>
+      </div>
+      <div>
+        <a href="index.html" class="btn btn-secondary btn-sm">← Back to School Directory</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/portfolio.js"></script>
+</body>
+</html>
