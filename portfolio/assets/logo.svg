@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="brand-light" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#014751"/>
+      <stop offset="1" stop-color="#368995"/>
+    </linearGradient>
+    <linearGradient id="brand-dark" x1="10" y1="8" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#afe137"/>
+      <stop offset="1" stop-color="#70c0cc"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #f9f9f9; stroke: #afe137; }
+      .mark { fill: url(#brand-light); }
+      .txt { fill: #ffffff; }
+      @media (prefers-color-scheme: dark) {
+        .bg { fill: #091a1c; stroke: #70c0cc; }
+        .mark { fill: url(#brand-dark); }
+        .txt { fill: #091a1c; }
+      }
+    </style>
+  </defs>
+  <rect class="bg" x="1" y="1" width="62" height="62" rx="17" stroke-width="2"/>
+  <path class="mark" d="M14 13C23 5 45 8 53 19c8 12 3 31-12 38-11 5-29 0-32-13-3-11-2-24 5-31Z"/>
+  <text class="txt" x="32" y="39" font-family="Arial, sans-serif" font-size="21" font-weight="700" text-anchor="middle">AI</text>
+</svg>

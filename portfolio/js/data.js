@@ -9,10 +9,10 @@
  */
 
 const DEFAULT_SCHOOL_CONFIG = {
-  schoolName: "TechLearners Global Academy",
+  schoolName: "Techlearners Digital Portfolio",
   schoolMotto: "Inspiring Innovation, Excellence & Character",
   academicYear: "2026–2027",
-  logoUrl: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=160&auto=format&fit=crop&q=80",
+  logoUrl: "assets/logo.svg",
   contactEmail: "portfolios@techlearners.edu.in",
   portalUrl: "https://techlearners.in/portfolio/"
 };
