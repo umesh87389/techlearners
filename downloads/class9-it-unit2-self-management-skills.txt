@@ -1,0 +1,149 @@
+CBSE Class 9 Information Technology (IT 402)
+Employability Skills - Unit 2: Self-Management Skills - I
+Comprehensive Study & Revision Notes
+
+================================================================================
+CHAPTER 7: INTRODUCTION TO SELF-MANAGEMENT
+================================================================================
+
+1. Meaning & Definition of Self-Management:
+- We have a vast range of resources available to us; management helps us to use these resources optimally so that we can fetch a good result.
+- Self-management is the process of managing ourselves—managing all aspects related to us, including our work, nature, thoughts, emotions, and time.
+- Learning the art of managing these aspects makes an individual more capable, skillful, disciplined, and successful.
+
+2. The Management Process:
+- The act of management is a collection of various types of activities performed to complete a task and meet its objective efficiently.
+- Management functions can be classified into 4 core activities:
+  1) Planning:
+     * The most fundamental function of management.
+     * Involves deciding beforehand what to do, how to do it, when to do it, and who will do it.
+     * Planning provides a complete roadmap for performing the activity successfully and achieving the goal.
+     * It is the thinking process that decides objectives and prepares a detailed plan for conducting the activity.
+  2) Organizing:
+     * The second prime management function after planning.
+     * It arranges resources, materials, equipment, and roles, and initiates the implementation of the plan.
+  3) Execution:
+     * In this phase, actual action is performed as per the plan.
+     * Continuous observation and monitoring are maintained regarding the ongoing progress of the activity.
+  4) Controlling:
+     * A vital management function performed whenever actual performance deviates from planned performance.
+     * It consists of corrective actions carried out to bring performance back on track to complete the activity and meet the objective.
+
+3. Self-Management Skills:
+- Self-management skills refer to our ability to manage (plan, organize, execute, and control) our own behavior, thoughts, and emotions to become a more productive, reliable, and effective person.
+- A person with strong self-management skills clearly understands what to do and how to act across different situations.
+
+4. Essential Self-Management Skills:
+1) Initiative:
+   - Recognizing and doing what needs to be done before anyone asks the individual to do so.
+   - Taking initiative comprises 4 parts:
+     i) Recognizing the need
+     ii) Claiming the responsibility to do something for that need
+     iii) Finding a solution
+     iv) Carrying out the solution till the end
+2) Organizational Skills:
+   - Skills that allow you to stay focused on the work you are supposed to do and complete it efficiently.
+   - Example: An organized person will sequence activities methodically so that after whitewashing/painting, the room looks clean, tidy, and all resources are utilized in the best possible way.
+3) Accountability:
+   - Being responsible for your actions, whether they result in failures or rewards.
+   - Accountability means always accepting responsibility for your outcomes, whether good or bad, without making excuses.
+
+5. Management Cycle (6 Steps):
+Effective management follows a structured 6-step cycle:
+- Step I: Defining / Planning goal objective
+- Step II: Selecting suitable environment / techniques
+- Step III: Organise the component under management
+- Step IV: Allocation / execution of work
+- Step V: Remedial / redressal concept added (corrective measures)
+- Step VI: Feedback (evaluating results to improve future performance)
+
+6. Tools of Self-Management:
+1) Self-Motivation:
+   - The internal drive, passion, and enthusiasm that pushes an individual to take action and accomplish goals without requiring external pressure or supervision.
+2) Time Management:
+   - The ability to plan, prioritize, and allocate time effectively among essential tasks so that deadlines are met without rush or stress.
+3) Responsibility:
+   - Taking complete ownership of assigned duties, honoring commitments, and facing consequences honestly.
+
+7. Factors Affecting Self-Management Skills in an Organisation:
+- Physical Factors: Internal individual factors such as happiness, lack of interest, low self-confidence, fatigue, and personal health.
+- Social Factors: Interpersonal interactions or disputes, demographic factors, behavioral patterns, cultural differences, and language barriers.
+
+8. Importance & Advantages of Self-Management Skills:
+- Why are self-management skills important for an individual?
+  Self-management skills are necessary for the overall development of personality. They make the person more organized, productive, and calm.
+- Key Advantages:
+  1. Better control over situations and self
+  2. Better productivity and output
+  3. Less stress and mental anxiety
+  4. Better physical and mental health
+  5. High quality work
+  6. Better relationships with co-workers, teachers, and peers
+
+
+================================================================================
+CHAPTER 8: BUILDING SELF-CONFIDENCE
+================================================================================
+
+1. Introduction & Definition of Self-Confidence:
+- Self-confidence is a belief that one is capable of successfully meeting and overcoming the demands of a task.
+- It is a positive state of mind present in the person much before the action actually starts.
+
+2. Attitude Comparison:
+- Attitude of Self-Confident People:
+  * Positive attitude towards challenges
+  * Correct judgment of self and realistic self-awareness
+  * Focus on the right things and constructive actions
+  * Unshakable faith in oneself
+  * Viewing failures as stepping stones to success
+- Attitude of Non-Confident People:
+  * Constant fear of failure
+  * Blaming others for mistakes and setbacks
+  * Quitting tasks very easily
+  * Always waiting for instructions or permissions before taking action
+  * Avoiding conflicts and difficult discussions
+  * Hesitation to take calculated risks
+  * Avoiding social gatherings and group interactions
+
+3. Importance of Self-Confidence:
+The following points describe the importance of self-confidence:
+- Leads to better self-esteem
+- Decreased anxiety and nervous tension
+- Makes a person a better leader
+- Increases motivation and drive to achieve
+- Ensures a continuous feeling of security and peace of mind
+
+4. SWOT Analysis (Personal Assessment):
+- Formulated in management studies (by P.K. Twaan):
+  * S - Strength: Strengths are the things a person is extremely good at.
+  * W - Weakness: Weaknesses are the areas in which a person has to improve.
+  * O - Opportunity: Favorable external conditions, resources, or chances for personal and academic growth.
+  * T - Threat: External obstacles, distractions, or negative influences that can hinder progress.
+
+5. SMART Approach to Goal Setting:
+A disciplined approach to setting and reaching targets:
+- S - Specific: A specific goal clearly answers the five 'W' questions: What, Why, Who, Where, Which.
+- M - Measurable: To determine if your goal is measurable, ask questions such as: How much? How many? How will I know when it is accomplished?
+- A - Achievable: Your goal needs to be realistic and attainable given available resources and skills to be successful.
+- R - Realistic: Realistic means that your goal is something that you are both willing and able to work towards.
+- T - Time-bound: Every goal needs a target date, so that you have a deadline to focus on and something to work toward.
+
+6. Practical Steps to Improve Self-Confidence:
+1) Accept Yourself:
+   - Accepting yourself means recognizing all the good and bad aspects, identifying your achievements and failures in life, and holding yourself responsible for them without any guilt or ill feelings.
+2) Focus on Your Achievements:
+   - When you focus on your achievements, it generates positivity, enthusiasm, and a fresh zeal that boosts your confidence and inspires you.
+3) Learn from Past Mistakes:
+   - When you have accepted yourself, you accept your failures as well. You lessen their negative impact on your nature and life once you accept them. They are now no longer capable of generating ill feelings or affecting your life negatively.
+4) Analyse Your Failures:
+   - If you fail again, it means that some sort of corrective measures are still needed. Plug those gaps and try again with determination.
+5) Don't Care What Others Think About You:
+   - Free yourself from the pressure of seeking constant external validation. Focus on your principles and meaningful self-improvement.
+6) Stop Comparing Yourself with Others:
+   - Every individual has unique talents and paths. Measure your growth against your own past self rather than against others.
+
+7. Grooming and Personal Hygiene:
+- Grooming Definition:
+  Grooming is the act of making oneself appear neat, orderly, clean, and intelligent.
+- Why Grooming Matters:
+  The way you dress and groom sends a strong statement about your confidence, intelligence, and sincerity, or it might communicate the opposite impression if neglected. Neat personal appearance creates a positive first impression and enhances self-worth.

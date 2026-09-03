@@ -1,0 +1,151 @@
+CBSE Class 9 Information Technology (IT 402)
+Employability Skills - Unit 1: Communication Skills - I
+Comprehensive Study & Revision Notes
+
+================================================================================
+CHAPTER 1: COMMUNICATION BASICS
+================================================================================
+
+1. Meaning of Communication:
+- The word "Communication" originates from the Latin word "communicare", which means "to share".
+- Communication is the process of sharing and exchanging information, ideas, facts, opinions, thoughts, and feelings between two or more persons through speech, writing, signals, or behavior.
+
+2. Objectives of Communication:
+Every act of communication has a clear purpose. The three primary objectives are:
+- Inform: To provide factual knowledge, instructions, data, notices, or announcements to the receiver.
+- Influence: To convince, persuade, change attitudes, or guide behavior and decisions of others.
+- Express: To convey personal thoughts, emotions, ideas, feelings, and viewpoints.
+
+3. Effective vs. Non-Effective Communication:
+- Effective Communication: Occurs when the message sent by the sender is received, decoded, and understood by the receiver in the exact same sense and intent as intended. It builds trust, clarity, and productive results.
+- Non-Effective Communication: Occurs when the receiver misinterprets, misunderstands, or fails to receive the intended message due to noise, lack of clarity, or barriers. It creates confusion, errors, disputes, and wasted effort.
+
+4. Characteristics of Effective Communication (The 7 Cs of Communication):
+To ensure communication is effective, it must adhere to the 7 Cs:
+1. Clear: The message should be easily understandable with clear purpose, unambiguous words, and straightforward ideas.
+2. Concise: The message must be brief, direct, and to the point, avoiding unnecessary words and repetition.
+3. Concrete: The message should be specific, definite, and supported by facts and figures, rather than vague statements.
+4. Correct: The message must have accurate information, correct facts, proper grammar, right spelling, and suitable language.
+5. Coherent: All parts of the message should be logically connected, well-structured, and relevant to the main topic.
+6. Complete: The message must convey all necessary information and details so the receiver can understand it and take appropriate action.
+7. Courteous: The communication must be polite, respectful, sincere, and considerate of the feelings and viewpoints of the receiver.
+
+
+================================================================================
+CHAPTER 2: ELEMENTS OF A COMMUNICATION PROCESS
+================================================================================
+
+1. Process of Communication (Communication Cycle):
+The communication process is a dynamic, circular cycle that moves through seven sequential components:
+[Sender] -> [Message] -> [Encoding] -> [Communication Channel] -> [Receiver] -> [Decoding] -> [Feedback] -> (Returns to Sender)
+
+2. Definitions of the 7 Elements:
+1. Sender:
+   - The person or source who initiates the communication by generating a thought, idea, or information to share.
+2. Message:
+   - The actual content, idea, information, request, feeling, or opinion that the sender wishes to transmit.
+3. Encoding (Encoder):
+   - The process of translating the sender's internal thoughts and ideas into a symbolic form (words, symbols, gestures, diagrams, or numbers) suitable for transmission.
+4. Communication Channel (Medium):
+   - The physical vehicle, path, or medium through which the encoded message travels from the sender to the receiver (e.g., face-to-face speech, telephone call, email, letter, notice board, text message, television, radio).
+5. Receiver:
+   - The individual or audience for whom the message is intended and who receives the transmitted signal.
+6. Decoding (Decoder):
+   - The process by which the receiver interprets, analyzes, and translates the received symbols back into meaningful thoughts and ideas to understand the message.
+7. Feedback:
+   - The response, reaction, or reply sent by the receiver back to the sender. Feedback confirms whether the message was received and understood correctly, completing the communication cycle.
+
+
+================================================================================
+CHAPTER 3: TYPES AND METHODS OF COMMUNICATION
+================================================================================
+
+Communications can be categorized into four major methods/types:
+
+1. Oral Communication:
+- Oral communication occurs when we speak with others directly using spoken words.
+- Examples: Face-to-face conversations, telephonic discussions, classroom lectures, group discussions, meetings, and public speeches.
+- Advantages: Fast, immediate feedback, personal touch, easy clarification.
+
+2. Written Communication:
+- In this process, people communicate by writing and exchanging written or printed messages.
+- Examples: Letters, circulars, notes, reports, emails, memoranda, SMS, books, and articles.
+- Advantages: Creates a permanent legal record, provides precision, can be stored and distributed to many people.
+
+3. Non-Verbal Communication:
+- In this type of communication, the communicator conveys his/her thoughts and feelings through body language without the use of words.
+- Key Elements of Non-Verbal Communication:
+  * Facial Expressions: Expressing happiness, anger, sadness, surprise, or disapproval (e.g., smiling, frowning).
+  * Voice & Tone: The pitch, loudness, modulation, and tempo of speaking that convey emotion.
+  * Gestures: Deliberate body and hand movements (e.g., waving hands, thumbs up, pointing, nodding).
+  * Postures: The way a person stands, sits, or carries their body, reflecting confidence or insecurity.
+  * Eye Contact: Maintaining eye contact shows attentiveness, honesty, and confidence.
+
+4. Visual Communication:
+- Visual communication is a tool used for representing information graphically and visually.
+- Examples: Images, photographs, graphs, bar charts, flowcharts, infographics, symbols, signs, road signs, and videos.
+- Advantages: Transcends language barriers, grabs attention quickly, simplifies complex statistics.
+
+5. Audio-Visual Communication:
+- Combines auditory and visual media to convey messages powerfully.
+- Equipment Used: Television equipment, smartphones, speakers, microphones, video players, and multimedia projectors.
+
+
+================================================================================
+CHAPTER 4: BARRIERS TO COMMUNICATION
+================================================================================
+
+1. What is a Communication Barrier?
+- Communication Barrier is a hindrance, obstacle, or interference that gets created in sending, receiving, and understanding the message that one person sends to another.
+- Barriers distort the message, resulting in misinterpretation, confusion, and ineffective communication.
+
+2. Types of Communication Barriers:
+1. Physical Barrier:
+   - A barrier created because of the physical distance, environmental noise, bad acoustics, poor equipment, or physical obstructions between the sender and the receiver.
+2. Perceptual Barrier:
+   - Any factor that prevents us from making an accurate perception or impression of something or someone. It arises when sender and receiver view the same situation through different filters or preconceptions.
+3. Emotional Barrier:
+   - An emotional barrier is a mental limitation or emotional state (such as anger, fear, anxiety, prejudice, mistrust, or defensiveness) that prevents people from openly communicating their thoughts and feelings with each other.
+4. Cultural Barrier:
+   - Cultural barriers result when people of different cultures communicate and are unable to understand each other's customs, traditions, habits, norms, and etiquette, resulting in inconveniences and difficulties.
+5. Language Barrier:
+   - Language is the most basic tool for communication. Without a common knowledge of language, vocabulary, grammar, idioms, or technical jargon, most communication cannot take place.
+6. Interpersonal Barrier:
+   - An interpersonal barrier is something that prevents communication ease and effectiveness between two or more persons.
+   - Factors that contribute to interpersonal communication barriers:
+     * Language difference (unfamiliar dialect or terms)
+     * Generational differences (differences in age, outlook, and slang)
+     * Cultural difference
+     * Personality differences (introvert vs. extrovert clashes)
+     * Stage fear (nervousness when speaking publicly)
+     * Poor self-esteem (lack of confidence in one's ideas)
+     * Social anxiety (fear of social situations and judgments)
+
+
+================================================================================
+CHAPTER 5: PERSPECTIVE IN COMMUNICATION
+================================================================================
+
+1. Meaning of Perspective:
+- Perspective is an individual's unique point of view according to which he/she interprets and understands every communication and event happening around him/her.
+- Our perspectives act as internal lenses through which we process words, actions, and situations.
+
+2. Factors Affecting Perspectives in Communication:
+1. Visual Perception:
+   - The ability to see and interpret visual information and appearance that surrounds us. Visual cues and first impressions often frame our perspective before words are spoken.
+2. Language:
+   - Language is one of the most powerful tools that humans have invented. We express ourselves through language and share information with others. Different words carry different connotations for different individuals.
+3. Past Experiences:
+   - Past experiences are the events that have made up our life till the present moment. They can be positive or negative events. Both together create our perspective. Our past experiences affect how we approach a situation and how well we handle any situation.
+4. Prejudices:
+   - A prejudice is basically a preconceived opinion that is not based on reason or actual experience. It is an unjustified or incorrect attitude towards an individual, based solely on opinions formed in some ways or the other.
+5. Environment:
+   - The physical surroundings and setting in which communication is taking place imposes hindrance (confusion, noise, extreme cold/heat, lack of privacy) and does not let the message pass effectively.
+6. Beliefs:
+   - Beliefs are personal convictions and inferences drawn by people based on their upbringing, faith, and life experiences. They influence what we accept as true or credible.
+7. Feelings:
+   - Feelings are the emotional states of a person. Feelings play a major role in communication. Types of feeling states include:
+     * Hostile (aggressive, angry, resentful)
+     * Joyful (happy, enthusiastic, cheerful)
+     * Sad (depressed, downcast, sorrowful)
+   - When a person is joyful, communication is receptive and warm; when hostile or sad, communication is often guarded, strained, or defensive.

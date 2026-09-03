@@ -1,0 +1,157 @@
+CBSE Class 9 Information Technology (IT 402)
+Employability Skills - Units 1 & 2: Important Questions and Answers
+
+================================================================================
+UNIT 1: COMMUNICATION SKILLS - I (SOLVED QUESTIONS)
+================================================================================
+
+Q1. What is the origin and meaning of the word 'Communication'?
+Ans: The word 'Communication' originates from the Latin word 'communicare', which means 'to share'. Communication is the process of exchanging information, ideas, thoughts, facts, opinions, and feelings between two or more persons through speech, writing, or signals.
+
+Q2. What are the three primary objectives of communication?
+Ans: The three primary objectives of communication are:
+1. Inform: To share facts, instructions, announcements, and information.
+2. Influence: To persuade, convince, or change the behavior and decisions of others.
+3. Express: To express personal thoughts, emotions, and feelings.
+
+Q3. What is the difference between effective and non-effective communication?
+Ans:
+- Effective communication occurs when the receiver understands the message in the exact sense and intent intended by the sender, leading to clarity and successful action.
+- Non-effective communication occurs when the message is misunderstood, misinterpreted, or distorted, leading to confusion, ambiguity, and failure to achieve the objective.
+
+Q4. Enumerate the 7 Cs of Effective Communication.
+Ans: The 7 Cs of communication are:
+1. Clear (simple, unambiguous expression)
+2. Concise (brief and to the point)
+3. Concrete (specific, factual, not vague)
+4. Correct (accurate in facts, grammar, and spelling)
+5. Coherent (logical structure and flow)
+6. Complete (provides all required details)
+7. Courteous (polite, respectful, and considerate)
+
+Q5. Draw and describe the 7 elements of the Communication Cycle.
+Ans:
+The Communication Process flow:
+Sender -> Message -> Encoding -> Communication Channel -> Receiver -> Decoding -> Feedback -> (Back to Sender)
+1. Sender: Initiates communication and develops the idea.
+2. Message: The actual content, idea, or information to convey.
+3. Encoding: Converting ideas into words, symbols, or gestures.
+4. Communication Channel: The medium through which the message travels (phone, email, speech, letter).
+5. Receiver: The intended recipient of the message.
+6. Decoding: Interpreting received symbols back into meaning.
+7. Feedback: The receiver's response confirming understanding.
+
+Q6. What are the different types and methods of communication?
+Ans:
+1. Verbal Communication: Communication using words.
+   a) Oral: Spoken communication (face-to-face, phone, speech).
+   b) Written: Written words (letters, emails, reports, notes).
+2. Non-Verbal Communication: Communication through body language (facial expressions, tone of voice, gestures, postures, eye contact).
+3. Visual Communication: Graphical representation (images, drawings, charts, signs, diagrams, videos).
+4. Audio-Visual Communication: Uses both sound and visuals (smartphones, television, video players, projectors).
+
+Q7. What is a Communication Barrier? List its main types.
+Ans: A Communication Barrier is a hindrance, obstacle, or interference that gets created in sending, receiving, and understanding the message that one person transmits to another.
+Main types:
+1. Physical Barrier (distance, noise, faulty equipment)
+2. Perceptual Barrier (preconceived notions, biases)
+3. Emotional Barrier (fear, anger, mistrust)
+4. Cultural Barrier (misunderstanding traditions, customs)
+5. Language Barrier (lack of shared vocabulary or slang)
+6. Interpersonal Barrier (stage fear, poor self-esteem, social anxiety, personality differences)
+
+Q8. What is 'Perspective' in communication and what factors affect it?
+Ans: Perspective is an individual's unique point of view according to which he/she interprets and understands every communication and event happening around them.
+Factors affecting perspective:
+1. Visual Perception
+2. Language
+3. Past Experiences
+4. Prejudices
+5. Environment
+6. Beliefs
+7. Feelings (Hostile, Joyful, Sad)
+
+
+================================================================================
+UNIT 2: SELF-MANAGEMENT SKILLS - I (SOLVED QUESTIONS)
+================================================================================
+
+Q9. Define Management and Self-Management.
+Ans:
+- Management: We have a vast range of resources; management helps us use these resources optimally so that we can fetch a good result.
+- Self-Management: The process of managing ourselves—managing all aspects related to us: our work, nature, thoughts, emotions, and time. It makes a person capable, skillful, disciplined, and successful.
+
+Q10. Explain the 4 fundamental management activities.
+Ans:
+1. Planning: The most fundamental function; deciding beforehand what, how, when, and who will do the task. Provides a complete roadmap and sets objectives.
+2. Organizing: Arranges resources, tools, and roles; initiates the implementation of the plan.
+3. Execution: The actual performance of actions as per the plan with continuous observation of progress.
+4. Controlling: Taking corrective measures whenever actual performance deviates from planned performance to achieve objectives.
+
+Q11. What are the essential self-management skills?
+Ans:
+1. Initiative: Doing what needs to be done before being asked. Comprises 4 parts:
+   i) Recognizing the need
+   ii) Claiming responsibility
+   iii) Finding a solution
+   iv) Carrying out the solution till the end
+2. Organizational Skills: Staying focused and sequencing activities efficiently (e.g., sequencing work so that after room whitewashing, the space is neat and resources are optimally utilized).
+3. Accountability: Accepting full responsibility for actions and outcomes, whether good or bad.
+
+Q12. What are the 6 steps of the Management Cycle?
+Ans:
+- Step I: Defining / Planning goal objective
+- Step II: Selecting suitable environment / techniques
+- Step III: Organise the component under management
+- Step IV: Allocation / execution of work
+- Step V: Remedial / redressal concept added (corrective actions)
+- Step VI: Feedback
+
+Q13. What are the factors that affect self-management skills in an organisation?
+Ans:
+1. Physical Factors: Internal personal factors like happiness, less interest, low confidence, and health.
+2. Social Factors: Less interaction or disputes, demographic factors, behavioral, cultural, and language factors.
+
+Q14. Why are self-management skills important for an individual?
+Ans: Self-management skills are necessary for the overall development of personality. They make a person more organized, productive, and calm.
+Advantages include:
+- Better control over self and situations
+- Better productivity
+- Less stress
+- Better health
+- High quality work
+- Better relationships with co-workers and peers
+
+Q15. Compare the attitudes of self-confident people versus non-confident people.
+Ans:
+- Self-Confident People: Positive attitude, correct judgment of self, focus on right things, faith in oneself, view failures as stepping stones to success.
+- Non-Confident People: Fear of failure, blame others, quit easily, constantly wait for instructions/permissions, avoid conflicts, refuse to take risks, avoid social gatherings.
+
+Q16. What is SWOT Analysis? Define Strength and Weakness.
+Ans: SWOT Analysis is a personal self-assessment tool formulated in management studies:
+- S: Strength (things a person is extremely good at)
+- W: Weakness (areas in which a person has to improve)
+- O: Opportunity (external chances for growth)
+- T: Threat (external challenges or obstacles)
+
+Q17. Explain the SMART approach to goal setting.
+Ans:
+- S - Specific: Answers What, Why, Who, Where, Which.
+- M - Measurable: Answers How much? How many? How will I know it is accomplished?
+- A - Achievable: Attainable and realistic.
+- R - Realistic: Something one is willing and able to work towards.
+- T - Time-bound: Has a clear target date and deadline.
+
+Q18. What are the 6 steps to improve self-confidence?
+Ans:
+1. Accept yourself (acknowledge strengths, failures, and take responsibility without guilt)
+2. Focus on your achievements (generates positivity and enthusiasm)
+3. Learn from past mistakes (lessens emotional sting and turns errors into lessons)
+4. Analyse your failures (identify gaps, take corrective measures, and try again)
+5. Don't care what others think about you (stop seeking validation)
+6. Stop comparing yourself with others (measure against your own past self)
+
+Q19. Define Grooming and explain why it is important.
+Ans:
+Grooming is the act of making oneself appear neat, orderly, clean, and intelligent.
+Importance: The way you dress and groom sends an immediate statement about your confidence, intelligence, and sincerity. Good grooming fosters high self-esteem and creates a positive, respectful impression in academic, professional, and personal environments.
