@@ -1,0 +1,164 @@
+CBSE Class 9 Information Technology (Subject Code 402)
+Unit 3: Basic ICT Skills - I
+Classroom Study Notes (Teacher: Umesh Tripathi)
+
+================================================================================
+CHAPTER 9: INTRODUCTION TO ICT
+================================================================================
+
+1. WHAT IS ICT?
+- ICT is the short form of Information and Communication Technology.
+- Component Breakdown:
+  * Information: It is basically facts and figures that are of value to the recipient.
+  * Communication: Communication is the act of receiving, giving, or sharing information with others in an understandable form.
+  * Technology: Technology is the application of scientific knowledge to perform practical tasks in our daily lives.
+
+  ICT Structural Flow:
+  ICT
+   ├── Information
+   ├── Communication
+   └── Technology
+
+2. ROLE OF ICT:
+- Information Technology (IT) aims at making required information available at a faster speed and with more ease.
+
+3. IMPORTANCE OF ICT:
+- ICT is continuously influencing our lives and changing our work methodologies.
+- There is hardly any area left now where its application and effects cannot be observed.
+
+4. ICT IN DAILY LIFE:
+These days, people are making use of ICT for their day-to-day tasks. Every sphere of life is greatly influenced by ICT.
+The following are the key developments that have taken place in the recent past:
+1) Students attend classes and take examinations online.
+2) People sell and advertise their products online.
+3) Payment of bills, taxes, dues, etc. can be easily done using ICT applications.
+4) Railway, air, movie, and other types of tickets can be booked in advance sitting at home.
+5) You can call a taxi using your mobile phone.
+
+5. ICT TOOLS:
+- Definition:
+  All those devices and equipment that are used for introducing information and communication technology in the work environment for enhancing the ease of operations and increasing the efficiency of work are called ICT tools.
+
+- Most Commonly Used ICT Tools:
+  * Desktops and Laptops
+  * Smartphones
+  * Tablets (Tab)
+  * E-Readers (e.g., Kindle)
+  * Radio
+  * Television (TV)
+  * Smart TV (ATV), etc.
+
+6. SOFTWARE AS AN ICT TOOL:
+- Definition:
+  Software is a series of instructions that make an ICT device work for us.
+
+- Popular Software Packages in ICT:
+  1) Electronic Spreadsheet:
+     - It is used for classifying data and presenting it in the form of tables.
+     - It also provides facilities to define formulae and perform automatic calculations, charts, and graphs.
+     - Examples: Microsoft Excel, Apple Numbers, Quip, EtherCalc.
+
+  2) Database Management System (DBMS):
+     - It is used for storing large volumes of data on the computer and retrieving it as per requirement.
+     - Examples: MS-Access, MySQL, Oracle.
+
+  3) Web Browser:
+     - Web Browser is the software using which the entire World Wide Web (WWW) can be searched and the information there can be viewed.
+     - Popular Web Browsers: Google Chrome, Microsoft Edge, Mozilla Firefox, Apple Safari.
+
+  4) Search Engines:
+     - Search Engines are used for finding any type of information on any topic on the internet.
+     - One has to specify the topic of choice called a 'search term'.
+     - Popular Search Engines: Google search engine, Microsoft Bing, Yahoo search engine, Baidu, DuckDuckGo.
+
+
+================================================================================
+CHAPTER 10: INTRODUCTION TO COMPUTER SYSTEM
+================================================================================
+
+1. INTRODUCTION & DEFINITION:
+- A computer is an electronic device that accepts data from us, processes it, and displays the information.
+
+2. DATA:
+- Raw facts and figures are termed as data.
+
+3. PROCESSING:
+- The act of performing arithmetic and logical operations is called processing.
+  a) Arithmetic Operations:
+     Operations like addition (+), subtraction (-), multiplication (*), and division (/) are examples of processing.
+  b) Logical Operations:
+     Operations like A > B, A = 100, AGE < 65 are also examples of processing.
+
+4. INFORMATION:
+- The result obtained after processing the data is called information.
+
+5. WORKING OF A COMPUTER (IPO CYCLE):
+- Note that the computer comprises different types of units, using which all these tasks are performed.
+- The input unit of the computer takes data from us.
+- Its processor processes the data.
+- Its output unit displays the result.
+
+  Data Flow Diagram (IPO Cycle):
+  ┌────────────┐    Data    ┌───────────┐ Processed Data ┌─────────────┐            ┌─────────────┐
+  │ Input Unit │ ─────────> │ Processor │ ─────────────> │ Output Unit │ ─────────> │ Information │
+  └────────────┘            └───────────┘                └─────────────┘            └─────────────┘
+
+6. COMPUTER ORGANISATION:
+The computer is an electronic data processing device. It comprises the following major units:
+
+                 ┌──────────────────────────────────────┐
+                 │    CENTRAL PROCESSING UNIT (CPU)     │
+                 │                                      │
+  ┌────────────┐ │  ┌────────────────────────────────┐  │ ┌─────────────┐
+  │ Input Unit │─┼─>│ Memory Unit (MU)               │  ├─┼>│ Output Unit │
+  └────────────┘ │  ├────────────────────────────────┤  │ └─────────────┘
+                 │  │ Control Unit (CU)              │  │
+                 │  ├────────────────────────────────┤  │
+                 │  │ Arithmetic & Logic Unit (ALU)  │  │
+                 │  └───────────────┬────────────────┘  │
+                 └──────────────────┼───────────────────┘
+                                    │
+                                    ▼
+                         ┌────────────────────┐
+                         │    Storage Unit    │
+                         │ (Permanent Storage)│
+                         └────────────────────┘
+
+7. EXPLANATION OF FUNCTIONAL UNITS:
+
+- Input Unit:
+  * The input unit is used for entering data in the computer.
+  * A keyboard is the main input unit that is used for entering data.
+  * Other input units include mouse, scanner, microphone, and webcam.
+
+- Central Processing Unit (CPU):
+  * It is the main unit of the computer.
+  * It is used for processing of data.
+  * The CPU consists of the following subunits:
+    1) Memory Unit (MU): Holds data and instructions during processing.
+    2) Arithmetic and Logical Unit (ALU): Performs arithmetic calculations and logical decisions.
+    3) Control Unit (CU): Coordinates and manages operations across all computer hardware.
+
+- Output Unit:
+  * The output unit is for displaying the result.
+  * A monitor is the main output unit that is used on every computer.
+  * Other output units include printers, speakers, and projectors.
+
+- Storage Unit:
+  * Storage units are used to store data permanently for future use.
+
+
+================================================================================
+SUPPLEMENTARY: PERSONAL HYGIENE & SELF-CONFIDENCE SUGGESTIONS
+================================================================================
+1. Personal Hygiene:
+   It is a habit or a practice through which we keep ourselves clean.
+
+2. Suggestions for Boosting Self-Confidence:
+   The following are practical suggestions for boosting self-confidence:
+   - Take care of your body and maintain good health.
+   - Dress appropriately and smartly.
+   - Maintain a circle of good friends.
+   - Talk to yourself positively each day.
+   - Respect others and help them.
+   - Learn to say no to unreasonable requests.

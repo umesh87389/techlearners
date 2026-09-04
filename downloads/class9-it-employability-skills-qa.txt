@@ -155,3 +155,70 @@ Q19. Define Grooming and explain why it is important.
 Ans:
 Grooming is the act of making oneself appear neat, orderly, clean, and intelligent.
 Importance: The way you dress and groom sends an immediate statement about your confidence, intelligence, and sincerity. Good grooming fosters high self-esteem and creates a positive, respectful impression in academic, professional, and personal environments.
+
+Q20. What is Personal Hygiene and what are the key suggestions for boosting self-confidence?
+Ans:
+Personal Hygiene is a habit or a practice through which we keep ourselves clean and healthy.
+Key Suggestions for Boosting Self-Confidence:
+1. Take care of your body and maintain good health.
+2. Dress appropriately and smartly.
+3. Maintain a circle of good friends.
+4. Talk to yourself positively each day.
+5. Respect others and help them.
+6. Learn to say no to unreasonable requests.
+
+Q21. What is ICT? Explain its three constituent components.
+Ans:
+ICT is the short form of Information and Communication Technology.
+1. Information: Facts and figures that are organized and possess value and meaning to the recipient.
+2. Communication: The act of receiving, giving, or sharing information with others in an understandable form.
+3. Technology: The application of scientific knowledge to perform practical tasks in daily lives.
+
+Q22. What is the role and importance of ICT?
+Ans:
+- Role: Information Technology (IT) aims at making required information available at a faster speed and with more ease.
+- Importance: ICT continuously influences our lives and changes our work methodologies. There is hardly any area left now where its application and effects cannot be observed.
+
+Q23. Mention 5 developments in daily life brought about by ICT.
+Ans:
+1. Online Classes & Exams: Students attend classes and take examinations online.
+2. E-Commerce & Advertising: People sell and advertise their products online.
+3. Digital Payments: Payment of bills, taxes, dues, etc. can easily be done using ICT applications.
+4. Online Reservations: Railway, air, movie, and event tickets can be booked in advance sitting at home.
+5. Online Transportation: Calling and tracking taxi/cab rides using mobile phones.
+
+Q24. What are ICT tools? Name commonly used ICT tools.
+Ans:
+All devices and equipment used for introducing information and communication technology in the work environment to enhance ease of operations and increase work efficiency are called ICT tools.
+Commonly used ICT tools:
+- Desktops and Laptops
+- Smartphones
+- Tablets (Tab)
+- E-Readers (e.g. Kindle)
+- Radio, Television (TV), and Smart TV (ATV)
+
+Q25. Explain four popular software packages that serve as ICT tools.
+Ans:
+1. Electronic Spreadsheet: Used for classifying data and presenting it in table form. Provides formulas, automatic calculations, charts, and graphs (e.g., MS Excel, Apple Numbers, Quip, EtherCalc).
+2. Database Management System (DBMS): Used for storing large volumes of data on computers and retrieving it as per requirement (e.g., MS-Access, MySQL, Oracle).
+3. Web Browser: Software using which the entire World Wide Web can be searched and viewed (e.g., Google Chrome, Microsoft Edge, Mozilla Firefox, Apple Safari).
+4. Search Engines: Used for finding any type of information on any topic on the internet using search terms (e.g., Google, Microsoft Bing, Yahoo, Baidu, DuckDuckGo).
+
+Q26. Define a Computer and distinguish between Data, Processing, and Information.
+Ans:
+A computer is an electronic device that accepts data from us, processes it, and displays the information.
+- Data: Raw facts and figures without direct meaning or context.
+- Processing: The act of performing arithmetic (+, -, *, /) and logical (A > B, A = 100, AGE < 65) operations on data.
+- Information: The meaningful, organized result obtained after processing data.
+
+Q27. Explain the Computer IPO Cycle and the functional subunits of the CPU.
+Ans:
+The computer works on the Input-Process-Output (IPO) cycle:
+Input Unit (Data) ──> Processor (Processing) ──> Output Unit (Processed Data / Information).
+
+Subunits of the Central Processing Unit (CPU):
+1. Memory Unit (MU): Temporarily holds data, instructions, and intermediate results during active processing.
+2. Arithmetic and Logical Unit (ALU): Performs all arithmetic calculations (+, -, *, /) and logical comparisons (<, >, ==, !=).
+3. Control Unit (CU): Coordinates and manages operations across all units of the computer system.
+- Output Unit: Displays processed results (e.g., Monitor).
+- Storage Unit: Stores data and programs permanently (e.g., HDD, SSD, Pen Drive).

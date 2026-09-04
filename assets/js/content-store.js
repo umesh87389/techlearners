@@ -52,7 +52,8 @@
     if (defaultCache.has(cacheKey)) return defaultCache.get(cacheKey);
     const versions = {
       chapters: 'detailed-chapters-1',
-      quizQuestions: 'practice-questions-2'
+      quizQuestions: 'practice-questions-2',
+      notes: 'class9-it-pdf-1'
     };
     const version = versions[type] ? `?v=${versions[type]}` : '';
     const promise = fetch(`${dataRoot || 'data'}/${type}.json${version}`).then(response => {
@@ -72,6 +73,7 @@
     if (type === 'chapters') return getChapters(dataRoot);
     if (type === 'quizQuestions') return getQuizQuestions(dataRoot);
     if (type === 'quizzes') return getQuizzes(dataRoot);
+    if (type === 'notes') return getNotes(dataRoot);
 
     const skipCloud = !isAdminPage && (type === 'announcements' || type === 'focus');
     if (isAdminPage && firebase.configured && !skipCloud) {
@@ -105,6 +107,55 @@
 
     if (stored) return stored;
     return defaultsPromise;
+  }
+
+  function appendNoteItems(baseItems, extraItems) {
+    const existing = new Set((baseItems || []).map(item => [item.class, item.subject || 'AI', item.title || ''].map(v => String(v || '').trim().toLowerCase()).join('|')));
+    const additions = (extraItems || []).filter(item => {
+      if (!item || !item.title) return false;
+      const key = [item.class, item.subject || 'AI', item.title || ''].map(v => String(v || '').trim().toLowerCase()).join('|');
+      if (existing.has(key)) return false;
+      existing.add(key);
+      return true;
+    });
+    return additions.length ? [...(baseItems || []), ...additions] : (baseItems || []);
+  }
+
+  async function getNotes(dataRoot) {
+    let defaults = [];
+    try {
+      defaults = await getDefaults('notes', dataRoot);
+    } catch (error) {
+      console.warn('Unable to load bundled notes.', error);
+    }
+    const stored = getStored('notes');
+    const localMerged = appendNoteItems(defaults, stored);
+
+    if (isAdminPage && firebase.configured) {
+      try {
+        const cloudItems = await getCloudContent('notes');
+        const merged = appendNoteItems(defaults, cloudItems);
+        safeStorage.setItem(storagePrefix + 'notes', JSON.stringify(merged));
+        return merged;
+      } catch (error) {
+        console.warn('Unable to load cloud notes; using local content.', error);
+      }
+    }
+
+    if (!isAdminPage && firebase.configured) {
+      setTimeout(async () => {
+        try {
+          const cloudItems = await getCloudContent('notes');
+          const merged = appendNoteItems(defaults, cloudItems);
+          safeStorage.setItem(storagePrefix + 'notes', JSON.stringify(merged));
+          document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'notes' } }));
+        } catch (e) {
+          console.warn('Background notes sync failed', e);
+        }
+      }, 50);
+    }
+
+    return localMerged;
   }
 
   function appendDownloadOnlyItems(baseItems, extraItems) {

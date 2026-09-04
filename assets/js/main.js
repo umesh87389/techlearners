@@ -1002,7 +1002,7 @@ function loadNotes(className, subject = 'AI'){
         <div class="rich-text-content">${renderRichText(n.description)}</div>
         <div class="note-actions">
           <a class="btn small" href="${escapeHtml(detailUrl)}" target="_blank" rel="noopener" data-note-id="${escapeHtml(id)}">Click Here</a>
-          ${n.file ? `<a class="btn small secondary" href="${escapeHtml(noteUrl(n.file))}" target="_blank" rel="noopener" data-note-id="${escapeHtml(id)}">Open optional file</a>` : ''}
+          ${n.file ? `<a class="btn small secondary" href="${escapeHtml(noteUrl(n.file))}" target="_blank" rel="noopener" data-note-id="${escapeHtml(id)}">${n.file.toLowerCase().endsWith('.pdf') ? 'Open PDF Notes' : 'Open optional file'}</a>` : ''}
           <button class="btn small secondary" type="button" data-share-note="${escapeHtml(absoluteDetailUrl)}" data-share-title="${escapeHtml(n.title)}">Share note</button>
         </div>
       </article>`;
@@ -1061,7 +1061,7 @@ function loadNoteDetail() {
         <div class="note-content rich-text-content">${renderNoteContent(note.content || note.description)}</div>
         <div class="detail-actions">
           <a class="btn secondary" href="${escapeHtml(listUrl)}">Back to notes</a>
-          ${note.file ? `<a class="btn secondary" href="${escapeHtml(noteUrl(note.file))}" target="_blank" rel="noopener">Open optional file</a>` : ''}
+          ${note.file ? `<a class="btn secondary" href="${escapeHtml(noteUrl(note.file))}" target="_blank" rel="noopener">${note.file.toLowerCase().endsWith('.pdf') ? 'Open PDF Notes' : 'Open optional file'}</a>` : ''}
           <a class="btn secondary" href="../quizzes/index.html?${new URLSearchParams({ class: note.class, subject: note.subject || 'AI' })}">Related MCQs</a>
           <a class="btn secondary" href="../question-papers/index.html?${new URLSearchParams({ class: note.class, subject: note.subject || 'AI' })}#browsePapers">Related sample papers</a>
         </div>
