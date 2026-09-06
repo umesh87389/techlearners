@@ -32,17 +32,33 @@
     </div>
   </header>
 
-  <!-- Sticky Actions Bar -->
+  <!-- Sticky Actions Bar & View Switcher -->
   <aside class="builder-topbar no-print" aria-label="Builder actions and printing">
     <div class="builder-topbar-content">
-      <div style="display: flex; align-items: center; gap: 0.6rem;">
+      
+      <!-- Brand & Status -->
+      <div class="topbar-brand">
         <span style="font-size: 1.3rem;">📋</span>
         <div>
-          <strong style="font-size: 0.95rem; color: #0f172a;">Portfolio Builder & 1-Page Generator</strong>
-          <span class="badge badge-success" style="font-size: 0.72rem; margin-left: 0.4rem;">A4 Single-Page Ready</span>
+          <div class="topbar-brand-title">Portfolio Builder</div>
+          <span class="badge badge-success" style="font-size: 0.7rem;">A4 1-Page Ready</span>
         </div>
       </div>
 
+      <!-- View Mode Switcher (Form View / Preview / Side-by-Side) -->
+      <div class="view-mode-switch" role="group" aria-label="View Mode">
+        <button type="button" class="mode-btn active" id="btnModeForm" onclick="setViewMode('form')" title="Comfortable full-width form editing">
+          <span class="mode-icon">📝</span> <span class="mode-text">Form View</span>
+        </button>
+        <button type="button" class="mode-btn" id="btnModePreview" onclick="setViewMode('preview')" title="View single-page A4 print canvas">
+          <span class="mode-icon">👁️</span> <span class="mode-text">A4 Preview</span>
+        </button>
+        <button type="button" class="mode-btn d-desktop-only" id="btnModeSplit" onclick="setViewMode('split')" title="Side-by-side editing and live preview">
+          <span class="mode-icon">📑</span> <span class="mode-text">Side-by-Side</span>
+        </button>
+      </div>
+
+      <!-- Topbar Actions -->
       <div class="topbar-actions">
         <button type="button" onclick="loadSampleData()" class="btn btn-secondary btn-sm" title="Populate with SHM Academy sample data">
           <span>⚡</span> Sample Data
@@ -57,8 +73,8 @@
           <span>📤</span> Import
           <input type="file" accept=".json" onchange="importJson(this)" style="display: none;">
         </label>
-        <a href="template.html" class="btn btn-secondary btn-sm" title="View the official docx content">
-          <span>📄</span> Full Docx
+        <a href="template.html" class="btn btn-secondary btn-sm d-desktop-only" title="View the official docx content">
+          <span>📄</span> Docx
         </a>
         <button type="button" onclick="printSinglePage()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.35);">
           <span>🖨️</span> Print Single-Page (A4)
@@ -69,28 +85,72 @@
 
   <!-- Main Workspace -->
   <main class="container" style="max-width: 1440px;">
-    <div class="builder-layout">
+    <div class="builder-layout mode-form" id="builderLayout">
 
       <!-- LEFT COLUMN: INTERACTIVE FORM -->
-      <section class="builder-form-card no-print" aria-label="Student Portfolio Form">
+      <section class="builder-form-card no-print" id="builderFormCard" aria-label="Student Portfolio Form">
         
+        <!-- Form Header & Presentation Mode Toggle -->
+        <div class="form-header-bar">
+          <div class="form-header-title">
+            <h2>📝 Student Portfolio Form</h2>
+            <p>Fill out the official portfolio sections. Every change updates the single-page A4 canvas instantly.</p>
+          </div>
+          <div class="form-display-toggle">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #475569;">Form Display:</span>
+            <button type="button" class="btn-display-toggle active" id="btnDisplayTabs" onclick="setSectionDisplayMode('tabs')">📑 Steps</button>
+            <button type="button" class="btn-display-toggle" id="btnDisplayAll" onclick="setSectionDisplayMode('all')">📜 All Sections</button>
+          </div>
+        </div>
+
+        <!-- Step Progress Tracker (for Tabbed Mode) -->
+        <div class="step-progress-wrapper" id="stepProgressWrapper">
+          <div class="step-progress-meta">
+            <span id="stepProgressText">Step 1 of 10 • 🏫 School Information & Student Profile</span>
+            <span id="stepProgressPercent">10% Complete</span>
+          </div>
+          <div class="step-progress-track">
+            <div class="step-progress-fill" id="stepProgressFill" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Quick Jump Bar (Active in All-Sections Mode) -->
+        <div class="all-sections-jump-bar" id="allSectionsJumpBar">
+          <strong>Jump to Section:</strong>
+          <select id="jumpSectionSelect" onchange="jumpToSection(this.value)">
+            <option value="paneProfile">1. School & Profile</option>
+            <option value="paneAbout">2. About Me</option>
+            <option value="paneGoals">3. Goals & Focus</option>
+            <option value="paneAcademics">4. Academic Progress</option>
+            <option value="paneSkills">5. Skills Matrix</option>
+            <option value="paneActivities">6. Activities & Awards</option>
+            <option value="paneProjects">7. Projects & Participation</option>
+            <option value="paneReflection">8. Reflection & Best Work</option>
+            <option value="paneAssessment">9. Teacher & Parent</option>
+            <option value="paneYear">10. Year in One Page</option>
+          </select>
+        </div>
+
         <!-- Tab navigation -->
-        <div class="builder-section-nav" role="tablist">
-          <button class="section-tab-btn active" data-target="paneProfile">1. Profile & Photo</button>
-          <button class="section-tab-btn" data-target="paneAbout">2. About Me</button>
-          <button class="section-tab-btn" data-target="paneGoals">3. Goals</button>
-          <button class="section-tab-btn" data-target="paneAcademics">4. Academic Marks</button>
-          <button class="section-tab-btn" data-target="paneSkills">5. Skills 1–5</button>
-          <button class="section-tab-btn" data-target="paneActivities">6. Activities & Awards</button>
-          <button class="section-tab-btn" data-target="paneProjects">7. Projects & Evidence</button>
-          <button class="section-tab-btn" data-target="paneReflection">8. Reflection</button>
-          <button class="section-tab-btn" data-target="paneAssessment">9. Teacher & Parent</button>
-          <button class="section-tab-btn" data-target="paneYear">10. Year in One Page</button>
+        <div class="builder-section-nav" id="sectionTabNav" role="tablist">
+          <button class="section-tab-btn active" data-target="paneProfile" onclick="goToStep(0)">1. Profile</button>
+          <button class="section-tab-btn" data-target="paneAbout" onclick="goToStep(1)">2. About Me</button>
+          <button class="section-tab-btn" data-target="paneGoals" onclick="goToStep(2)">3. Goals</button>
+          <button class="section-tab-btn" data-target="paneAcademics" onclick="goToStep(3)">4. Academics</button>
+          <button class="section-tab-btn" data-target="paneSkills" onclick="goToStep(4)">5. Skills 1–5</button>
+          <button class="section-tab-btn" data-target="paneActivities" onclick="goToStep(5)">6. Activities</button>
+          <button class="section-tab-btn" data-target="paneProjects" onclick="goToStep(6)">7. Projects</button>
+          <button class="section-tab-btn" data-target="paneReflection" onclick="goToStep(7)">8. Reflection</button>
+          <button class="section-tab-btn" data-target="paneAssessment" onclick="goToStep(8)">9. Assessment</button>
+          <button class="section-tab-btn" data-target="paneYear" onclick="goToStep(9)">10. Year Highlights</button>
         </div>
 
         <!-- 1. Profile Pane -->
         <div class="form-step-pane active" id="paneProfile">
-          <div class="form-group-title">🏫 1. School Information & Student Profile</div>
+          <div class="form-group-title">
+            <span>🏫 1. School Information & Student Profile</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 1 of 10</span>
+          </div>
           
           <div class="field-grid-3">
             <div class="form-field">
@@ -169,11 +229,21 @@
               <input type="text" id="f_photoUrl" placeholder="https://...">
             </div>
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" disabled style="opacity: 0.5;">⬅️ Previous</button>
+            <div class="step-nav-status">Step 1 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 2. About Me ➔</button>
+          </div>
         </div>
 
         <!-- 2. About Me Pane -->
         <div class="form-step-pane" id="paneAbout">
-          <div class="form-group-title">👤 2. About Me</div>
+          <div class="form-group-title">
+            <span>👤 2. About Me & Self Reflection</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 2 of 10</span>
+          </div>
           
           <div class="form-field">
             <label for="f_aboutSentence">Introduction Sentence (My name is... I study in...)</label>
@@ -202,11 +272,21 @@
             <label for="f_improveOne">🌱 One Thing I Want To Improve</label>
             <input type="text" id="f_improveOne" placeholder="e.g. Public speaking and stage presentation confidence">
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 1. Profile</button>
+            <div class="step-nav-status">Step 2 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 3. Goals ➔</button>
+          </div>
         </div>
 
         <!-- 3. Goals Pane -->
         <div class="form-step-pane" id="paneGoals">
-          <div class="form-group-title">🎯 3. My Goals & Focus</div>
+          <div class="form-group-title">
+            <span>🎯 3. My Goals & Focus</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 3 of 10</span>
+          </div>
           
           <div class="form-field">
             <label for="f_shortGoal">⏱️ Short-Term Goal</label>
@@ -220,7 +300,7 @@
 
           <div class="form-field">
             <label>📌 This Year I Want To (Checklist items from document):</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem; margin-top: 0.4rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.85rem; margin-top: 0.4rem;">
               <label><input type="checkbox" checked> Improve academic performance</label>
               <label><input type="checkbox" checked> Become more confident</label>
               <label><input type="checkbox" checked> Improve communication skills</label>
@@ -229,35 +309,57 @@
               <label><input type="checkbox" checked> Improve reading/writing skills</label>
             </div>
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 2. About</button>
+            <div class="step-nav-status">Step 3 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 4. Academics ➔</button>
+          </div>
         </div>
 
         <!-- 4. Academic Marks Pane -->
         <div class="form-step-pane" id="paneAcademics">
-          <div class="form-group-title">📊 4. Academic Progress</div>
+          <div class="form-group-title">
+            <span>📊 4. Academic Progress</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 4 of 10</span>
+          </div>
           <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.75rem;">Subject wise marks / grades across Term 1, Mid Term, and Term 2.</p>
           
-          <table class="builder-table-input">
-            <thead>
-              <tr>
-                <th>Subject</th>
-                <th style="width: 70px; text-align: center;">Term 1</th>
-                <th style="width: 70px; text-align: center;">Mid Term</th>
-                <th style="width: 70px; text-align: center;">Term 2</th>
-                <th>Remarks</th>
-              </tr>
-            </thead>
-            <tbody id="academicsInputBody"></tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="builder-table-input">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th style="width: 70px; text-align: center;">Term 1</th>
+                  <th style="width: 70px; text-align: center;">Mid Term</th>
+                  <th style="width: 70px; text-align: center;">Term 2</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+              <tbody id="academicsInputBody"></tbody>
+            </table>
+          </div>
 
           <div class="form-field" style="margin-top: 1rem;">
             <label for="f_academicAchievement">🏆 My Academic Achievement</label>
             <input type="text" id="f_academicAchievement" placeholder="e.g. Ranked 1st in Class VIII Annual Academic Honors.">
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 3. Goals</button>
+            <div class="step-nav-status">Step 4 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 5. Skills ➔</button>
+          </div>
         </div>
 
         <!-- 5. Skills Pane -->
         <div class="form-step-pane" id="paneSkills">
-          <div class="form-group-title">⚡ 5. My Skills & Competencies (Rate 1 to 5)</div>
+          <div class="form-group-title">
+            <span>⚡ 5. My Skills & Competencies (Rate 1 to 5)</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 5 of 10</span>
+          </div>
           
           <div class="field-grid-3">
             <div class="form-field">
@@ -297,6 +399,13 @@
               <input type="number" step="0.1" min="1" max="5" id="f_skill_digitalSkills">
             </div>
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 4. Academics</button>
+            <div class="step-nav-status">Step 5 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 6. Activities ➔</button>
+          </div>
         </div>
 
         <!-- 6. Activities & Awards Pane -->
@@ -312,11 +421,21 @@
             <button type="button" onclick="addAchievementRow()" class="btn btn-secondary btn-sm" style="margin-left: auto;">+ Add Award</button>
           </div>
           <div id="achievementsInputRows"></div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 5. Skills</button>
+            <div class="step-nav-status">Step 6 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 7. Projects ➔</button>
+          </div>
         </div>
 
         <!-- 7. Projects Pane -->
         <div class="form-step-pane" id="paneProjects">
-          <div class="form-group-title">💡 8. Projects & School Participation</div>
+          <div class="form-group-title">
+            <span>💡 8. Projects & School Participation</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 7 of 10</span>
+          </div>
           
           <!-- Project 1 -->
           <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.85rem; margin-bottom: 1rem;">
@@ -360,11 +479,21 @@
             <label for="f_memorableActivity">🌟 Most Memorable School Activity</label>
             <input type="text" id="f_memorableActivity" placeholder="e.g. Demonstrating the irrigation bot in the Annual Science Fair.">
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 6. Activities</button>
+            <div class="step-nav-status">Step 7 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 8. Reflection ➔</button>
+          </div>
         </div>
 
         <!-- 8. Reflection Pane -->
         <div class="form-step-pane" id="paneReflection">
-          <div class="form-group-title">🌱 9. My Reflection & Best Work</div>
+          <div class="form-group-title">
+            <span>🌱 9. My Reflection & Best Work</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 8 of 10</span>
+          </div>
           
           <div class="form-field">
             <label for="f_refLearn">What did I learn this year?</label>
@@ -396,14 +525,24 @@
             <label for="f_bestWorkNote">🎨 Best Work Description / Evidence</label>
             <input type="text" id="f_bestWorkNote" placeholder="e.g. Arduino prototype schematics and video demonstration verified.">
           </div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 7. Projects</button>
+            <div class="step-nav-status">Step 8 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 9. Assessment ➔</button>
+          </div>
         </div>
 
         <!-- 9. Teacher & Parent Pane -->
         <div class="form-step-pane" id="paneAssessment">
-          <div class="form-group-title">👩‍🏫 10. Teacher's Assessment & Parent Feedback</div>
+          <div class="form-group-title">
+            <span>👩‍🏫 10. Teacher's Assessment & Parent Feedback</span>
+            <span style="font-size: 0.78rem; color: #64748b; font-weight: 500;">Step 9 of 10</span>
+          </div>
           
           <!-- Teacher Ratings -->
-          <div class="field-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 0.85rem;">
+          <div class="field-grid-4" style="margin-bottom: 0.85rem;">
             <div class="form-field">
               <label for="f_tr_academic">Academic</label>
               <select id="f_tr_academic">
@@ -476,12 +615,20 @@
             <button type="button" onclick="addPlanRow()" class="btn btn-secondary btn-sm" style="margin-left: auto;">+ Add Action</button>
           </div>
           <div id="improvementInputRows"></div>
+
+          <!-- Step Navigation Footer -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 8. Reflection</button>
+            <div class="step-nav-status">Step 9 of 10</div>
+            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 10. Year in One Page ➔</button>
+          </div>
         </div>
 
         <!-- 10. Year in One Page Pane -->
         <div class="form-step-pane" id="paneYear">
           <div class="form-group-title" style="color: #92400e; border-color: #f59e0b;">
-            ⭐ 11. My Year in One Page (Executive Highlights)
+            <span>⭐ 11. My Year in One Page (Executive Highlights)</span>
+            <span style="font-size: 0.78rem; color: #b45309; font-weight: 500;">Final Step 10 of 10</span>
           </div>
           
           <div class="field-grid-2">
@@ -521,24 +668,62 @@
             <input type="text" id="f_studentSignDate" placeholder="15 March 2027">
           </div>
 
-          <div style="margin-top: 1.5rem; text-align: right;">
-            <button type="button" onclick="printSinglePage()" class="btn btn-primary" style="background: #1e1b4b; padding: 0.75rem 1.5rem; font-size: 1rem;">
-              🖨️ Print Single-Page Portfolio Now
-            </button>
+          <!-- Final Step Actions -->
+          <div class="step-nav-footer">
+            <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 9. Assessment</button>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button type="button" onclick="setViewMode('preview')" class="btn btn-secondary">
+                👁️ View A4 Sheet Preview
+              </button>
+              <button type="button" onclick="printSinglePage()" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
+                🖨️ Print Single-Page Portfolio Now
+              </button>
+            </div>
           </div>
         </div>
 
       </section>
 
       <!-- RIGHT COLUMN: LIVE SINGLE-PAGE PRINT CANVAS -->
-      <section class="preview-wrapper" aria-label="Live Single-Page Print Canvas">
-        <div id="singlePageSheet">
-          <!-- Populated dynamically by builder.js -->
+      <section class="preview-wrapper" id="previewWrapper" aria-label="Live Single-Page Print Canvas">
+        
+        <!-- Zoom & Viewport Bar -->
+        <div class="sheet-zoom-bar no-print">
+          <div class="zoom-controls">
+            <span style="font-weight: 700; color: #1e1b4b; margin-right: 0.2rem;">Zoom:</span>
+            <button type="button" class="zoom-btn active" data-zoom="fit" onclick="setPreviewZoom('fit')">🔍 Fit Screen</button>
+            <button type="button" class="zoom-btn" data-zoom="0.5" onclick="setPreviewZoom(0.5)">50%</button>
+            <button type="button" class="zoom-btn" data-zoom="0.75" onclick="setPreviewZoom(0.75)">75%</button>
+            <button type="button" class="zoom-btn" data-zoom="1" onclick="setPreviewZoom(1)">100%</button>
+          </div>
+          <div style="display: flex; gap: 0.4rem; align-items: center;">
+            <button type="button" onclick="setViewMode('form')" class="btn btn-secondary btn-sm d-mobile-only">
+              ← Edit Form
+            </button>
+            <button type="button" onclick="printSinglePage()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700;">
+              🖨️ Print A4
+            </button>
+          </div>
         </div>
+
+        <!-- Scaler Viewport -->
+        <div class="sheet-viewport" id="sheetViewport">
+          <div class="sheet-scaler" id="sheetScaler">
+            <div id="singlePageSheet">
+              <!-- Populated dynamically by builder.js -->
+            </div>
+          </div>
+        </div>
+
       </section>
 
     </div>
   </main>
+
+  <!-- Floating Mobile Action Button (FAB) -->
+  <button type="button" class="mobile-preview-fab no-print" id="mobilePreviewFab" onclick="toggleMobilePreview()">
+    <span>👁️</span> <span>View A4 Sheet</span>
+  </button>
 
   <!-- Footer -->
   <footer class="footer no-print">

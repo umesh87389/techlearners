@@ -138,6 +138,23 @@ const SAMPLE_SHM_STUDENT = {
 };
 
 let currentData = Object.assign({}, SAMPLE_SHM_STUDENT);
+let currentStepIndex = 0;
+let currentViewMode = "form";
+let currentDisplayMode = "tabs";
+let currentZoom = "fit";
+
+const STEP_META = [
+  { id: "paneProfile", name: "1. School Information & Student Profile", short: "1. Profile" },
+  { id: "paneAbout", name: "2. About Me & Self Reflection", short: "2. About" },
+  { id: "paneGoals", name: "3. My Goals & Focus", short: "3. Goals" },
+  { id: "paneAcademics", name: "4. Academic Progress & Marks", short: "4. Academics" },
+  { id: "paneSkills", name: "5. My Skills & Competencies (1–5)", short: "5. Skills" },
+  { id: "paneActivities", name: "6. Co-Curricular Activities & Awards", short: "6. Activities" },
+  { id: "paneProjects", name: "7. Projects & School Participation", short: "7. Projects" },
+  { id: "paneReflection", name: "8. Reflection & Best Work Evidence", short: "8. Reflection" },
+  { id: "paneAssessment", name: "9. Teacher's Assessment & Parent Feedback", short: "9. Assessment" },
+  { id: "paneYear", name: "10. My Year in One Page (Highlights)", short: "10. Highlights" }
+];
 
 // Initialize application
 document.addEventListener("DOMContentLoaded", function() {
@@ -145,6 +162,26 @@ document.addEventListener("DOMContentLoaded", function() {
   bindTabNavigation();
   bindFormInputs();
   renderPreview(currentData);
+  goToStep(0);
+
+  // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
+  if (window.innerWidth >= 1200) {
+    setViewMode("split");
+  } else {
+    setViewMode("form");
+  }
+
+  // Initial scale calibration
+  requestAnimationFrame(applySheetScale);
+
+  // Recalibrate scale on resize/orientation change
+  let resizeTimer;
+  window.addEventListener("resize", function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      applySheetScale();
+    }, 120);
+  });
 });
 
 // Load from LocalStorage
@@ -170,18 +207,185 @@ function saveToLocalStorage() {
 // Tab navigation for form sections
 function bindTabNavigation() {
   const tabs = document.querySelectorAll(".section-tab-btn");
-  tabs.forEach(tab => {
+  tabs.forEach((tab, index) => {
     tab.addEventListener("click", function() {
-      tabs.forEach(t => t.classList.remove("active"));
-      this.classList.add("active");
-      const targetPane = this.getAttribute("data-target");
-      document.querySelectorAll(".form-step-pane").forEach(p => p.classList.remove("active"));
-      const pane = document.getElementById(targetPane);
-      if (pane) pane.classList.add("active");
+      goToStep(index);
     });
   });
 }
 
+// Step navigation
+function goToStep(stepIndex) {
+  if (stepIndex < 0) stepIndex = 0;
+  if (stepIndex >= STEP_META.length) stepIndex = STEP_META.length - 1;
+  currentStepIndex = stepIndex;
+
+  const meta = STEP_META[stepIndex];
+
+  // Update tab buttons
+  const tabs = document.querySelectorAll(".section-tab-btn");
+  tabs.forEach(t => {
+    t.classList.remove("active");
+    if (t.getAttribute("data-target") === meta.id) {
+      t.classList.add("active");
+      t.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  });
+
+  // Update step panes
+  document.querySelectorAll(".form-step-pane").forEach(p => p.classList.remove("active"));
+  const pane = document.getElementById(meta.id);
+  if (pane) pane.classList.add("active");
+
+  // Update step progress indicator
+  const progText = document.getElementById("stepProgressText");
+  const progPercent = document.getElementById("stepProgressPercent");
+  const progFill = document.getElementById("stepProgressFill");
+  const pct = Math.round(((stepIndex + 1) / STEP_META.length) * 100);
+
+  if (progText) progText.textContent = `Step ${stepIndex + 1} of 10 • ${meta.name}`;
+  if (progPercent) progPercent.textContent = `${pct}% Complete`;
+  if (progFill) progFill.style.width = `${pct}%`;
+
+  // Update jump select dropdown
+  const jumpSel = document.getElementById("jumpSectionSelect");
+  if (jumpSel) jumpSel.value = meta.id;
+
+  // Smooth scroll form card to top
+  const formCard = document.getElementById("builderFormCard");
+  if (formCard && window.innerWidth <= 1100) {
+    const cardRect = formCard.getBoundingClientRect();
+    if (cardRect.top < 0 || cardRect.top > 200) {
+      formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  } else if (formCard) {
+    formCard.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function nextStep() {
+  goToStep(currentStepIndex + 1);
+}
+
+function prevStep() {
+  goToStep(currentStepIndex - 1);
+}
+
+// Section display mode: 'tabs' or 'all'
+function setSectionDisplayMode(mode) {
+  currentDisplayMode = mode;
+  const formCard = document.getElementById("builderFormCard");
+  const btnTabs = document.getElementById("btnDisplayTabs");
+  const btnAll = document.getElementById("btnDisplayAll");
+
+  if (mode === "all") {
+    if (formCard) formCard.classList.add("show-all-sections");
+    if (btnTabs) btnTabs.classList.remove("active");
+    if (btnAll) btnAll.classList.add("active");
+  } else {
+    if (formCard) formCard.classList.remove("show-all-sections");
+    if (btnTabs) btnTabs.classList.add("active");
+    if (btnAll) btnAll.classList.remove("active");
+    goToStep(currentStepIndex);
+  }
+}
+
+function jumpToSection(targetId) {
+  if (currentDisplayMode === "all") {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    const idx = STEP_META.findIndex(m => m.id === targetId);
+    if (idx !== -1) goToStep(idx);
+  }
+}
+
+// View mode switcher: 'form', 'preview', or 'split'
+function setViewMode(mode) {
+  if (!["form", "preview", "split"].includes(mode)) mode = "form";
+  currentViewMode = mode;
+
+  const layout = document.getElementById("builderLayout");
+  if (layout) {
+    layout.classList.remove("mode-form", "mode-preview", "mode-split");
+    layout.classList.add(`mode-${mode}`);
+  }
+
+  // Update mode buttons in topbar
+  ["form", "preview", "split"].forEach(m => {
+    const btn = document.getElementById("btnMode" + m.charAt(0).toUpperCase() + m.slice(1));
+    if (btn) {
+      if (m === mode) btn.classList.add("active");
+      else btn.classList.remove("active");
+    }
+  });
+
+  // Update mobile FAB
+  const fab = document.getElementById("mobilePreviewFab");
+  if (fab) {
+    if (mode === "preview") {
+      fab.innerHTML = "<span>📝</span> <span>Back to Form</span>";
+    } else {
+      fab.innerHTML = "<span>👁️</span> <span>View A4 Sheet</span>";
+    }
+  }
+
+  if (mode === "preview" || mode === "split") {
+    requestAnimationFrame(applySheetScale);
+  }
+}
+
+function toggleMobilePreview() {
+  if (currentViewMode === "form") {
+    setViewMode("preview");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    setViewMode("form");
+  }
+}
+
+// A4 Preview Zoom Controls
+function setPreviewZoom(zoom) {
+  currentZoom = zoom;
+
+  document.querySelectorAll(".zoom-btn").forEach(btn => {
+    btn.classList.remove("active");
+    const val = btn.getAttribute("data-zoom");
+    if (val === String(zoom)) {
+      btn.classList.add("active");
+    }
+  });
+
+  applySheetScale();
+}
+
+// Apply responsive scale to #singlePageSheet without blowout
+function applySheetScale() {
+  const viewport = document.getElementById("sheetViewport");
+  const scaler = document.getElementById("sheetScaler");
+  const sheet = document.getElementById("singlePageSheet");
+  if (!viewport || !scaler || !sheet) return;
+
+  const viewportWidth = viewport.clientWidth;
+  if (viewportWidth <= 0) return;
+
+  const sheetPxWidth = 794; // 210mm in px at 96dpi
+  const sheetPxHeight = 1123; // 297mm in px at 96dpi
+
+  let scale = 1;
+  if (currentZoom === "fit") {
+    const availableWidth = Math.max(260, viewportWidth - 24);
+    scale = Math.min(1.05, Math.max(0.32, availableWidth / sheetPxWidth));
+  } else {
+    scale = parseFloat(currentZoom) || 1;
+  }
+
+  scaler.style.transform = `scale(${scale})`;
+  scaler.style.transformOrigin = "top center";
+  scaler.style.width = `${sheetPxWidth}px`;
+  scaler.style.height = `${sheetPxHeight * scale}px`;
+  scaler.style.marginBottom = `${Math.max(16, 20 * scale)}px`;
+}
 // Bind all inputs
 function bindFormInputs() {
   syncDataToForm(currentData);
@@ -845,6 +1049,7 @@ function renderPreview(d) {
       </div>
     </div>
   `;
+  requestAnimationFrame(applySheetScale);
 }
 
 // Print Single Page Function
@@ -984,3 +1189,12 @@ window.addPlanRow = addPlanRow;
 window.updateActivity = updateActivity;
 window.updateAchievement = updateAchievement;
 window.updatePlan = updatePlan;
+window.goToStep = goToStep;
+window.nextStep = nextStep;
+window.prevStep = prevStep;
+window.setSectionDisplayMode = setSectionDisplayMode;
+window.jumpToSection = jumpToSection;
+window.setViewMode = setViewMode;
+window.toggleMobilePreview = toggleMobilePreview;
+window.setPreviewZoom = setPreviewZoom;
+window.applySheetScale = applySheetScale;
