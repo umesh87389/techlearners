@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
   bindFormInputs();
   renderPreview(currentData);
   initTeacherMode();
+  initReviewStatus();
   goToStep(0);
 
   // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
@@ -349,6 +350,10 @@ function updateTeacherLockUI() {
     if (addPlanBtn) {
       addPlanBtn.style.display = "none";
     }
+  }
+
+  if (typeof updateReviewStatusUI === "function") {
+    updateReviewStatusUI();
   }
 }
 
@@ -1281,7 +1286,7 @@ function renderPreview(d) {
         <div class="sp-card">
           <div class="sp-card-title">
             <span>👩‍🏫 Teacher’s Assessment</span>
-            <span style="font-size: 6pt; color: #16a34a;">Exemplary Rating</span>
+            <span style="font-size: 6pt; color: ${d.reviewStatus === 'approved' ? '#16a34a' : (d.reviewStatus === 'pending' ? '#d97706' : '#16a34a')}; font-weight: 700;">${d.reviewStatus === 'approved' ? '✔ Verified & Approved' : (d.reviewStatus === 'pending' ? '⌛ Under Review' : 'Exemplary Rating')}</span>
           </div>
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px 3px; font-size: 6.2pt; background: #f8fafc; padding: 2px 4px; border-radius: 3px; margin-bottom: 2px;">
             <div>Acad: <strong>${(d.teacherRatings && d.teacherRatings.academic) || "Excellent"}</strong></div>
@@ -1503,6 +1508,368 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+// =============================================================
+// PORTFOLIO REVIEW & SUBMISSION WORKFLOW
+// =============================================================
+
+function initReviewStatus() {
+  window.addEventListener("portfolio-review-submitted", function() {
+    updateReviewStatusUI();
+  });
+  window.addEventListener("portfolio-review-updated", function() {
+    updateReviewStatusUI();
+  });
+  updateReviewStatusUI();
+}
+
+function getActiveSubmission() {
+  if (window.PortfolioReviewStore) {
+    if (currentData && currentData.reviewSubmissionId) {
+      const byId = window.PortfolioReviewStore.getById(currentData.reviewSubmissionId);
+      if (byId) return byId;
+    }
+    if (currentData && currentData.studentName) {
+      return window.PortfolioReviewStore.getByStudent(currentData.studentName, currentData.classSection);
+    }
+  }
+  return null;
+}
+
+function updateReviewStatusUI() {
+  const statusPill = document.getElementById("portfolioReviewStatusPill");
+  const dot = document.getElementById("reviewStatusDot");
+  const label = document.getElementById("reviewStatusText");
+  const actionBtn = document.getElementById("btnReviewActionTrigger");
+  const actionBox = document.getElementById("teacherReviewActionBox");
+  const actionBoxTitle = document.getElementById("teacherReviewBoxTitle");
+  const actionBoxMeta = document.getElementById("teacherReviewBoxMeta");
+  const actionBoxIcon = document.getElementById("teacherReviewBoxIcon");
+  const approveBtn = document.getElementById("btnTeacherReviewApprove");
+
+  const sub = getActiveSubmission();
+  const status = (sub && sub.status) || (currentData && currentData.reviewStatus) || "draft";
+
+  if (!statusPill) return;
+
+  statusPill.classList.remove("review-pill-draft", "review-pill-pending", "review-pill-approved");
+  if (dot) dot.classList.remove("blue", "yellow", "green");
+
+  if (status === "approved") {
+    statusPill.classList.add("review-pill-approved");
+    if (dot) dot.classList.add("green");
+    const reviewer = (sub && sub.reviewedBy) || (currentData && currentData.reviewedBy) || "Teacher";
+    if (label) label.textContent = `Review: 🟢 Approved (${reviewer})`;
+    if (actionBtn) {
+      actionBtn.textContent = "✅ Receipt";
+      actionBtn.title = "View Teacher Review Approval Details";
+    }
+
+    if (actionBox) {
+      actionBox.style.display = "flex";
+      actionBox.classList.remove("pending-review");
+      if (actionBoxIcon) actionBoxIcon.textContent = "✅";
+      if (actionBoxTitle) actionBoxTitle.textContent = "Student Portfolio Profile Reviewed & Approved";
+      const signDate = (sub && sub.reviewedAtFormatted) || (currentData && currentData.reviewedAtFormatted) || (currentData && currentData.teacherSignDate) || "Verified";
+      if (actionBoxMeta) actionBoxMeta.textContent = `Verified by ${reviewer} on ${signDate}. Official academic marks, skills matrix, and evaluation endorsed.`;
+      if (approveBtn) {
+        approveBtn.textContent = "📝 Update Assessment";
+        approveBtn.style.background = "#4338ca";
+        approveBtn.style.borderColor = "#4338ca";
+      }
+    }
+  } else if (status === "pending") {
+    statusPill.classList.add("review-pill-pending");
+    if (dot) dot.classList.add("yellow");
+    const dateStr = (sub && sub.submittedAtFormatted) || (currentData && currentData.submittedAtFormatted) || "Recently";
+    if (label) label.textContent = `Review: 🟡 Pending Review (${dateStr.split(',')[0]})`;
+    if (actionBtn) {
+      actionBtn.textContent = "👁️ View / Resend";
+      actionBtn.title = "View Submission Receipt or Re-send profile";
+    }
+
+    if (actionBox) {
+      actionBox.style.display = "flex";
+      actionBox.classList.add("pending-review");
+      if (actionBoxIcon) actionBoxIcon.textContent = "📨";
+      if (actionBoxTitle) actionBoxTitle.textContent = "Portfolio Profile Submitted for Teacher Review";
+      const noteSnippet = (sub && sub.studentNote) ? ` • Note: "${escapeHtml(sub.studentNote)}"` : "";
+      if (actionBoxMeta) actionBoxMeta.textContent = `Submitted on ${dateStr}${noteSnippet}. Awaiting teacher assessment and verification.`;
+      if (approveBtn) {
+        approveBtn.textContent = "✅ Approve & Complete Review";
+        approveBtn.style.background = "#16a34a";
+        approveBtn.style.borderColor = "#16a34a";
+      }
+    }
+  } else {
+    // Draft / Not submitted
+    statusPill.classList.add("review-pill-draft");
+    if (dot) dot.classList.add("blue");
+    if (label) label.textContent = "Review: Ready to Send";
+    if (actionBtn) {
+      actionBtn.textContent = "📨 Send";
+      actionBtn.title = "Save and submit portfolio profile for teacher review";
+    }
+
+    if (actionBox) {
+      if (isTeacherMode) {
+        actionBox.style.display = "flex";
+        actionBox.classList.add("pending-review");
+        if (actionBoxIcon) actionBoxIcon.textContent = "👩‍🏫";
+        if (actionBoxTitle) actionBoxTitle.textContent = "Teacher Assessment Mode Active";
+        if (actionBoxMeta) actionBoxMeta.textContent = "Student has not yet submitted an official review request. You can evaluate and directly approve marks below.";
+        if (approveBtn) {
+          approveBtn.textContent = "✅ Sign & Approve Portfolio";
+          approveBtn.style.background = "#16a34a";
+          approveBtn.style.borderColor = "#16a34a";
+        }
+      } else {
+        actionBox.style.display = "none";
+      }
+    }
+  }
+}
+
+function openSaveAndSendModal() {
+  readFormToData();
+
+  if (!currentData.studentName || !currentData.studentName.trim()) {
+    alert("⚠️ Please enter the Student's Full Name in Step 1 (Profile) before saving and sending for teacher review.");
+    goToStep(0);
+    const inp = document.getElementById("f_studentName");
+    if (inp) {
+      inp.focus();
+      inp.style.borderColor = "#dc2626";
+      setTimeout(() => { inp.style.borderColor = ""; }, 2500);
+    }
+    return;
+  }
+
+  if (!currentData.classSection || !currentData.classSection.trim()) {
+    alert("⚠️ Please enter the Class & Section in Step 1 (Profile) before saving and sending for teacher review.");
+    goToStep(0);
+    const inp = document.getElementById("f_classSection");
+    if (inp) {
+      inp.focus();
+      inp.style.borderColor = "#dc2626";
+      setTimeout(() => { inp.style.borderColor = ""; }, 2500);
+    }
+    return;
+  }
+
+  const modal = document.getElementById("saveSendReviewModal");
+  if (!modal) return;
+
+  // Populate modal summary fields
+  const nameEl = document.getElementById("modalSummaryStudentName");
+  const classEl = document.getElementById("modalSummaryClass");
+  const rollAdmEl = document.getElementById("modalSummaryRollAdm");
+  const sessionEl = document.getElementById("modalSummarySession");
+  const teacherInput = document.getElementById("reviewTargetTeacher");
+  const noteInput = document.getElementById("reviewStudentNote");
+  const feedback = document.getElementById("saveSendFeedback");
+
+  if (nameEl) nameEl.textContent = currentData.studentName;
+  if (classEl) classEl.textContent = currentData.classSection;
+  if (rollAdmEl) rollAdmEl.textContent = `${currentData.rollNo || "—"} / ${currentData.admissionNo || "—"}`;
+  if (sessionEl) sessionEl.textContent = currentData.academicSession || "2026–2027";
+
+  const sub = getActiveSubmission();
+  if (teacherInput) {
+    teacherInput.value = (sub && sub.targetTeacher) || currentData.classTeacher || "";
+  }
+  if (noteInput) {
+    noteInput.value = (sub && sub.studentNote) || currentData.studentReviewNote || "";
+  }
+  if (feedback) feedback.textContent = "";
+
+  modal.style.display = "flex";
+}
+
+function closeSaveSendModal() {
+  const modal = document.getElementById("saveSendReviewModal");
+  if (modal) modal.style.display = "none";
+}
+
+function handleConfirmSendForReview(e) {
+  if (e && e.preventDefault) e.preventDefault();
+
+  readFormToData();
+
+  const teacherInput = document.getElementById("reviewTargetTeacher");
+  const noteInput = document.getElementById("reviewStudentNote");
+  const targetTeacher = teacherInput ? teacherInput.value.trim() : (currentData.classTeacher || "");
+  const studentNote = noteInput ? noteInput.value.trim() : "";
+
+  if (targetTeacher) {
+    currentData.classTeacher = targetTeacher;
+    setVal("f_classTeacher", targetTeacher);
+  }
+
+  let submissionRecord = null;
+  if (window.PortfolioReviewStore) {
+    submissionRecord = window.PortfolioReviewStore.submitReview({
+      studentName: currentData.studentName,
+      classSection: currentData.classSection,
+      rollNo: currentData.rollNo,
+      admissionNo: currentData.admissionNo,
+      targetTeacher: targetTeacher,
+      studentNote: studentNote,
+      data: currentData
+    });
+  }
+
+  currentData.reviewStatus = "pending";
+  currentData.reviewStatusLabel = "Pending Teacher Review";
+  currentData.submittedAt = (submissionRecord && submissionRecord.submittedAt) || new Date().toISOString();
+  currentData.submittedAtFormatted = (submissionRecord && submissionRecord.submittedAtFormatted) || new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  currentData.targetTeacher = targetTeacher;
+  currentData.studentReviewNote = studentNote;
+  if (submissionRecord && submissionRecord.id) {
+    currentData.reviewSubmissionId = submissionRecord.id;
+  }
+
+  saveToLocalStorage();
+  updateReviewStatusUI();
+  renderPreview(currentData);
+  closeSaveSendModal();
+
+  alert(`✅ Portfolio profile successfully saved & sent for teacher review!\n\n• Student: ${currentData.studentName}\n• Class: ${currentData.classSection}\n• Reviewer: ${targetTeacher || "Class Teacher"}\n• Status: Pending Teacher Review\n\nYour portfolio profile has been queued in the Teacher Admin Dashboard for evaluation of your marks, skills matrix, and teacher remarks.`);
+
+  return false;
+}
+
+function handleReviewStatusPillClick() {
+  const sub = getActiveSubmission();
+  const status = (sub && sub.status) || (currentData && currentData.reviewStatus) || "draft";
+  if (status === "draft") {
+    openSaveAndSendModal();
+  } else {
+    openReviewReceiptModal();
+  }
+}
+
+function handleReviewBadgeAction(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  handleReviewStatusPillClick();
+}
+
+function openReviewReceiptModal() {
+  const modal = document.getElementById("reviewReceiptModal");
+  const content = document.getElementById("receiptModalContent");
+  const title = document.getElementById("receiptModalTitle");
+  const icon = document.getElementById("receiptStatusIcon");
+
+  if (!modal || !content) return;
+
+  const sub = getActiveSubmission();
+  const status = (sub && sub.status) || (currentData && currentData.reviewStatus) || "pending";
+  const isApproved = status === "approved";
+
+  if (icon) icon.textContent = isApproved ? "✅" : "⌛";
+  if (title) title.textContent = isApproved ? "Portfolio Approved & Verified" : "Review Submission Receipt";
+
+  const submissionId = (sub && sub.id) || (currentData && currentData.reviewSubmissionId) || "SUB-" + (currentData.studentName || "record");
+  const submittedDate = (sub && sub.submittedAtFormatted) || (currentData && currentData.submittedAtFormatted) || "Recently";
+  const teacherName = (sub && sub.targetTeacher) || (currentData && currentData.classTeacher) || "Class Teacher";
+  const reviewedBy = (sub && sub.reviewedBy) || (currentData && currentData.reviewedBy) || teacherName;
+  const reviewedAt = (sub && sub.reviewedAtFormatted) || (currentData && currentData.reviewedAtFormatted) || "";
+  const teacherRemarks = (sub && sub.teacherRemarks) || (currentData && currentData.teacherRemarks) || "";
+  const studentNote = (sub && sub.studentNote) || (currentData && currentData.studentReviewNote) || "";
+
+  content.innerHTML = `
+    <div style="background: ${isApproved ? "#f0fdf4" : "#fffbeb"}; border: 1.5px solid ${isApproved ? "#86efac" : "#fde68a"}; border-radius: 10px; padding: 0.85rem; margin-bottom: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+        <span style="font-weight: 800; font-size: 0.88rem; color: ${isApproved ? "#166534" : "#92400e"};">
+          ${isApproved ? "🟢 Reviewed & Approved by Teacher" : "🟡 Under Review by Class Teacher"}
+        </span>
+        <span style="font-family: monospace; font-size: 0.72rem; color: #64748b;">${escapeHtml(submissionId)}</span>
+      </div>
+      <p style="margin: 0; font-size: 0.8rem; color: #475569;">
+        ${isApproved ? `Official assessment verified by <strong>${escapeHtml(reviewedBy)}</strong> on ${escapeHtml(reviewedAt)}.` : `Submitted on ${escapeHtml(submittedDate)} to <strong>${escapeHtml(teacherName)}</strong>.`}
+      </p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.82rem;">
+      <div><span style="color: #64748b;">Student Name:</span><br><strong>${escapeHtml(currentData.studentName || "—")}</strong></div>
+      <div><span style="color: #64748b;">Class & Section:</span><br><strong>${escapeHtml(currentData.classSection || "—")}</strong></div>
+      <div><span style="color: #64748b;">Roll / Admission:</span><br><strong>${escapeHtml(currentData.rollNo || "—")} / ${escapeHtml(currentData.admissionNo || "—")}</strong></div>
+      <div><span style="color: #64748b;">Assigned Teacher:</span><br><strong>${escapeHtml(teacherName)}</strong></div>
+    </div>
+
+    ${studentNote ? `
+      <div style="margin-bottom: 0.85rem;">
+        <span style="font-weight: 700; font-size: 0.78rem; color: #475569; display: block; margin-bottom: 0.2rem;">📝 Student Note to Teacher:</span>
+        <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.5rem 0.65rem; font-size: 0.82rem; color: #334155; font-style: italic;">
+          “${escapeHtml(studentNote)}”
+        </div>
+      </div>
+    ` : ""}
+
+    ${isApproved && teacherRemarks ? `
+      <div style="margin-bottom: 0.85rem;">
+        <span style="font-weight: 700; font-size: 0.78rem; color: #166534; display: block; margin-bottom: 0.2rem;">👩‍🏫 Official Teacher Assessment Remarks:</span>
+        <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 0.5rem 0.65rem; font-size: 0.82rem; color: #14532d; font-weight: 600;">
+          “${escapeHtml(teacherRemarks)}”
+        </div>
+      </div>
+    ` : ""}
+  `;
+
+  modal.style.display = "flex";
+}
+
+function closeReviewReceiptModal() {
+  const modal = document.getElementById("reviewReceiptModal");
+  if (modal) modal.style.display = "none";
+}
+
+function approveCurrentStudentReview() {
+  if (!isTeacherMode) {
+    openTeacherAuthModal();
+    return;
+  }
+
+  const teacherRole = sessionStorage.getItem("portfolio_teacher_role") || (currentData && currentData.classTeacher) || "Class Teacher";
+  const defaultRemarks = (currentData && currentData.teacherRemarks) || "Demonstrates outstanding curiosity, consistent diligence, and exemplary practical project work.";
+  
+  const enteredRemarks = prompt(`👩‍🏫 Enter / Confirm Teacher Remarks to Approve Portfolio for ${currentData.studentName}:`, defaultRemarks);
+  if (enteredRemarks === null) return;
+
+  const todayStr = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  currentData.teacherRemarks = enteredRemarks.trim();
+  setVal("f_teacherRemarks", currentData.teacherRemarks);
+
+  if (!currentData.teacherSignDate || !currentData.teacherSignDate.trim()) {
+    currentData.teacherSignDate = todayStr;
+    setVal("f_teacherSignDate", todayStr);
+  }
+
+  const sub = getActiveSubmission();
+  const submissionId = (sub && sub.id) || (currentData && currentData.reviewSubmissionId) || "SUB-" + Date.now().toString(36).toUpperCase();
+
+  if (window.PortfolioReviewStore) {
+    window.PortfolioReviewStore.approveReview(submissionId, {
+      status: "approved",
+      reviewedBy: teacherRole,
+      teacherRemarks: currentData.teacherRemarks,
+      teacherRatings: currentData.teacherRatings
+    });
+  }
+
+  currentData.reviewStatus = "approved";
+  currentData.reviewStatusLabel = "Reviewed & Approved";
+  currentData.reviewedBy = teacherRole;
+  currentData.reviewedAt = new Date().toISOString();
+  currentData.reviewedAtFormatted = todayStr;
+
+  saveToLocalStorage();
+  updateReviewStatusUI();
+  renderPreview(currentData);
+
+  alert(`✅ Portfolio Profile for ${currentData.studentName} is officially APPROVED!\n\n• Verified By: ${teacherRole}\n• Sign Date: ${currentData.teacherSignDate}\n• Status: Reviewed & Approved\n\nThe single-page print and verified records are now officially endorsed.`);
+}
+
 // Global hooks
 window.printSinglePage = printSinglePage;
 window.loadSampleData = loadSampleData;
@@ -1530,3 +1897,15 @@ window.toggleTeacherAuth = toggleTeacherAuth;
 window.handleTeacherPasscodeSubmit = handleTeacherPasscodeSubmit;
 window.lockTeacherMode = lockTeacherMode;
 window.updateTeacherLockUI = updateTeacherLockUI;
+
+// Review hooks
+window.openSaveAndSendModal = openSaveAndSendModal;
+window.closeSaveSendModal = closeSaveSendModal;
+window.handleConfirmSendForReview = handleConfirmSendForReview;
+window.handleReviewStatusPillClick = handleReviewStatusPillClick;
+window.handleReviewBadgeAction = handleReviewBadgeAction;
+window.openReviewReceiptModal = openReviewReceiptModal;
+window.closeReviewReceiptModal = closeReviewReceiptModal;
+window.approveCurrentStudentReview = approveCurrentStudentReview;
+window.updateReviewStatusUI = updateReviewStatusUI;
+

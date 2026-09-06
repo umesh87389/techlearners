@@ -58,6 +58,9 @@
 
       <!-- Topbar Actions -->
       <div class="topbar-actions">
+        <button type="button" id="btnSaveAndSendReview" onclick="openSaveAndSendModal()" class="btn btn-sm btn-save-send" title="Save and send your portfolio profile for teacher's review & grading">
+          <span>📨</span> <span class="btn-text-full">Save & Send for Teacher Review</span>
+        </button>
         <button type="button" onclick="loadSampleData()" class="btn btn-secondary btn-sm" title="Populate with SHM Academy sample data">
           <span>⚡</span> Sample Data
         </button>
@@ -98,6 +101,11 @@
                 <span id="teacherStatusLabel">Student Mode (Academics & Skills Locked)</span>
                 <button type="button" id="btnTeacherAuthTrigger" class="btn-pill-action">🔑 Teacher Unlock</button>
               </div>
+              <div id="portfolioReviewStatusPill" class="teacher-status-pill review-pill-draft" onclick="handleReviewStatusPillClick()" style="cursor: pointer;" title="Review status: Click to view details or send">
+                <span class="status-dot blue" id="reviewStatusDot"></span>
+                <span id="reviewStatusText">Review: Ready to Send</span>
+                <button type="button" id="btnReviewActionTrigger" class="btn-pill-action" onclick="handleReviewBadgeAction(event)">📨 Send</button>
+              </div>
             </div>
             <p>Fill out student portfolio sections. Academics, Skills Matrix, and Assessment are evaluated and filled exclusively by teachers.</p>
           </div>
@@ -105,6 +113,25 @@
             <span style="font-size: 0.78rem; font-weight: 700; color: #475569;">Form Display:</span>
             <button type="button" class="btn-display-toggle active" id="btnDisplayTabs" onclick="setSectionDisplayMode('tabs')">📑 Steps</button>
             <button type="button" class="btn-display-toggle" id="btnDisplayAll" onclick="setSectionDisplayMode('all')">📜 All Sections</button>
+          </div>
+        </div>
+
+        <!-- Teacher Review Action Box (Visible in Teacher Mode or when submitted) -->
+        <div id="teacherReviewActionBox" class="teacher-review-box pending-review" style="display: none;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.6rem;" id="teacherReviewBoxIcon">📨</span>
+            <div>
+              <strong id="teacherReviewBoxTitle" style="display: block; font-size: 0.95rem; color: #1e1b4b;">Student Portfolio Profile Submitted for Review</strong>
+              <span id="teacherReviewBoxMeta" style="font-size: 0.78rem; color: #475569;">Awaiting teacher verification of marks, skills, and assessment.</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;" id="teacherReviewBoxActions">
+            <button type="button" id="btnTeacherReviewApprove" onclick="approveCurrentStudentReview()" class="btn btn-sm btn-primary" style="background: #16a34a; border-color: #16a34a; font-weight: 700;">
+              ✅ Approve & Complete Review
+            </button>
+            <button type="button" onclick="openReviewReceiptModal()" class="btn btn-secondary btn-sm">
+              👁️ View Details
+            </button>
           </div>
         </div>
 
@@ -239,7 +266,12 @@
           <div class="step-nav-footer">
             <button type="button" class="btn btn-secondary" disabled style="opacity: 0.5;">⬅️ Previous</button>
             <div class="step-nav-status">Step 1 of 10</div>
-            <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 2. About Me ➔</button>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" onclick="openSaveAndSendModal()" class="btn btn-secondary btn-sm" style="font-weight: 700; color: #15803d; border-color: #86efac; background: #f0fdf4; display: inline-flex; align-items: center; gap: 0.35rem;" title="Save profile and send to teacher for review">
+                <span>💾</span> Save & Send Profile for Review
+              </button>
+              <button type="button" class="btn btn-primary" onclick="nextStep()">Next: 2. About Me ➔</button>
+            </div>
           </div>
         </div>
 
@@ -715,6 +747,9 @@
               <button type="button" onclick="setViewMode('preview')" class="btn btn-secondary">
                 👁️ View A4 Sheet Preview
               </button>
+              <button type="button" onclick="openSaveAndSendModal()" class="btn btn-success" style="background: #15803d; border-color: #15803d; color: #fff; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);" title="Save and send your portfolio profile for teacher's review & grading">
+                <span>📨</span> Save & Send for Teacher Review
+              </button>
               <button type="button" onclick="printSinglePage()" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
                 🖨️ Print Single-Page Portfolio Now
               </button>
@@ -881,6 +916,113 @@
     </div>
   </div>
 
+  <!-- Save and Send Portfolio for Teacher Review Modal -->
+  <div id="saveSendReviewModal" class="teacher-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="saveSendModalTitle">
+    <div class="teacher-modal-card" style="max-width: 520px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.8rem;">📨</span>
+          <div>
+            <h3 id="saveSendModalTitle" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0f172a;">Save & Send for Teacher Review</h3>
+            <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: #64748b;">Submit portfolio profile to your class teacher for official evaluation</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeSaveSendModal()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #94a3b8; padding: 0.2rem;" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="saveSendReviewForm" onsubmit="return handleConfirmSendForReview(event)">
+        <!-- Profile Summary Card -->
+        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 0.85rem; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+            <span style="font-size: 0.76rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Student Profile Summary</span>
+            <span class="badge badge-success" style="font-size: 0.68rem;">Ready for Submission</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; font-size: 0.85rem;">
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Student Name</span>
+              <strong id="modalSummaryStudentName" style="color: #0f172a;">Aarav Gupta</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Class & Section</span>
+              <strong id="modalSummaryClass" style="color: #0f172a;">Class VIII - A</strong>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Roll / Admission No</span>
+              <span id="modalSummaryRollAdm" style="font-weight: 600; color: #334155;">14 / SHM-2024-089</span>
+            </div>
+            <div>
+              <span style="color: #64748b; font-size: 0.75rem; display: block;">Academic Session</span>
+              <span id="modalSummarySession" style="font-weight: 600; color: #334155;">2026–2027</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Teacher Field -->
+        <div class="form-field" style="margin-bottom: 0.85rem;">
+          <label for="reviewTargetTeacher" style="font-weight: 700; font-size: 0.84rem;">Class Teacher / Reviewer</label>
+          <input type="text" id="reviewTargetTeacher" placeholder="e.g. Mrs. Sunita Roy (Class Teacher)" style="font-size: 0.9rem; padding: 0.55rem 0.75rem;">
+        </div>
+
+        <!-- Optional Message / Note to Teacher -->
+        <div class="form-field" style="margin-bottom: 1rem;">
+          <label for="reviewStudentNote" style="font-weight: 700; font-size: 0.84rem;">Message or Note for Teacher (Optional)</label>
+          <textarea id="reviewStudentNote" rows="2" placeholder="e.g. Dear Teacher, please review my robotics project evidence and verify my Term 2 academic marks." style="font-size: 0.85rem; padding: 0.55rem 0.75rem;"></textarea>
+        </div>
+
+        <!-- Explanatory Box -->
+        <div style="background: #eef2ff; border-left: 4px solid #4f46e5; border-radius: 6px; padding: 0.65rem 0.75rem; margin-bottom: 1.15rem; font-size: 0.78rem; color: #3730a3; line-height: 1.45;">
+          <strong>ℹ️ What happens next:</strong>
+          <ul style="margin: 0.25rem 0 0; padding-left: 1.1rem;">
+            <li>Your complete portfolio profile and project evidence will be saved securely.</li>
+            <li>Your submission is queued in the Teacher Admin Dashboard for official review.</li>
+            <li>Your teacher will verify your grades, evaluate your skills matrix, and complete your assessment.</li>
+          </ul>
+        </div>
+
+        <div id="saveSendFeedback" style="font-size: 0.82rem; font-weight: 600; min-height: 20px; margin-bottom: 0.75rem;"></div>
+
+        <div style="display: flex; gap: 0.65rem; justify-content: flex-end; flex-wrap: wrap;">
+          <button type="button" onclick="closeSaveSendModal()" class="btn btn-secondary btn-sm">
+            Cancel
+          </button>
+          <button type="submit" id="btnSubmitReviewConfirm" class="btn btn-success btn-sm" style="background: #15803d; border-color: #15803d; color: #fff; font-weight: 700; padding: 0.45rem 1rem;">
+            📨 Save & Send for Review
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Review Submission Details & Receipt Modal -->
+  <div id="reviewReceiptModal" class="teacher-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="receiptModalTitle">
+    <div class="teacher-modal-card" style="max-width: 500px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.8rem;" id="receiptStatusIcon">📋</span>
+          <div>
+            <h3 id="receiptModalTitle" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0f172a;">Portfolio Review Status</h3>
+            <p id="receiptModalSubtitle" style="margin: 0.2rem 0 0; font-size: 0.8rem; color: #64748b;">Official Teacher Review & Verification Details</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeReviewReceiptModal()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #94a3b8; padding: 0.2rem;" aria-label="Close modal">✕</button>
+      </div>
+
+      <div id="receiptModalContent" style="font-size: 0.85rem;">
+        <!-- Filled dynamically -->
+      </div>
+
+      <div style="display: flex; gap: 0.65rem; justify-content: flex-end; margin-top: 1.25rem; flex-wrap: wrap;">
+        <button type="button" onclick="openSaveAndSendModal()" class="btn btn-secondary btn-sm" style="font-weight: 700; color: #15803d; border-color: #86efac; background: #f0fdf4;">
+          🔄 Update & Re-submit Profile
+        </button>
+        <button type="button" onclick="closeReviewReceiptModal()" class="btn btn-secondary btn-sm">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/portfolio-review.js"></script>
   <script src="js/teacher-pins.js"></script>
   <script src="js/builder.js"></script>
 </body>

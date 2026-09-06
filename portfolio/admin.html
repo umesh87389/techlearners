@@ -10,6 +10,7 @@
   <script defer src="../assets/js/firebase-config.js"></script>
   <script defer src="../assets/js/firebase-client.js"></script>
   <script defer src="../assets/js/content-store.js"></script>
+  <script defer src="js/portfolio-review.js"></script>
   <script defer src="js/portfolio-auth-guard.js"></script>
   <script defer src="js/teacher-pins.js"></script>
 </head>
@@ -46,6 +47,7 @@
         <p>Assign technology teams (IT, Robotics, AI), configure the 4-step activity cycle, and update student assessments.</p>
       </div>
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button id="btnReviewQueue" class="btn btn-primary btn-sm" onclick="openReviewQueueModal()" style="background: #059669; border-color: #059669; color: #fff; font-weight: 700;" title="Review student portfolio profiles submitted for teacher evaluation">📨 Review Queue (<span id="pendingReviewsCount">0</span>)</button>
         <button id="managePinsBtn" class="btn btn-primary btn-sm" onclick="openPinManagerModal()" style="background: #4338ca; border-color: #4338ca; color: #fff; font-weight: 700;" title="Configure School Master PIN and Class-Wise Teacher Passcodes">🔐 Teacher PINs</button>
         <button id="exportExcelBtn" class="btn btn-primary btn-sm" style="background: #16a34a; border-color: #16a34a; color: #fff; font-weight: 700;" title="Download all student records in Excel format">📊 Export to Excel (.xlsx/.csv)</button>
         <button id="exportJsonBtn" class="btn btn-secondary btn-sm" title="Export entire database as JSON">⬇️ Export JSON</button>
@@ -369,6 +371,42 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Student Portfolio Review Queue Modal -->
+  <div id="reviewQueueModal" class="teacher-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="queueModalTitle">
+    <div class="teacher-modal-card" style="max-width: 780px; width: 95%; max-height: 88vh; display: flex; flex-direction: column;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.8rem;">📨</span>
+          <div>
+            <h3 id="queueModalTitle" style="margin: 0; font-size: 1.25rem; font-weight: 800; color: #0f172a;">Student Portfolio Review Queue</h3>
+            <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: #64748b;">Profiles submitted by students for teacher evaluation, marks & assessment</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeReviewQueueModal()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #94a3b8; padding: 0.2rem;" aria-label="Close modal">✕</button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: #334155;" id="queueSummaryText">
+          Submissions
+        </div>
+        <div style="display: flex; gap: 0.4rem;">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnFilterQueueAll" onclick="filterReviewQueue('all')" style="font-weight: 700;">All</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnFilterQueuePending" onclick="filterReviewQueue('pending')" style="color: #b45309; font-weight: 700;">Pending</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnFilterQueueApproved" onclick="filterReviewQueue('approved')" style="color: #15803d; font-weight: 700;">Approved</button>
+        </div>
+      </div>
+
+      <div id="reviewQueueContainer" style="overflow-y: auto; max-height: 52vh; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.5rem;">
+        <!-- Rendered by admin.js -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <span style="font-size: 0.78rem; color: #64748b;">Reviewing a portfolio allows adding official marks, skills scores, and teacher remarks.</span>
+        <button type="button" onclick="closeReviewQueueModal()" class="btn btn-secondary btn-sm">Close</button>
+      </div>
     </div>
   </div>
 

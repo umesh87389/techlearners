@@ -31,11 +31,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const teamIcon = getTeamIcon(student.team);
 
+      let reviewBadgeHtml = "";
+      if (window.PortfolioReviewStore) {
+        const sub = window.PortfolioReviewStore.getByStudent(student.name, `${student.class} - ${student.section}`) || window.PortfolioReviewStore.getByStudent(student.name);
+        if (sub) {
+          if (sub.status === "pending") {
+            reviewBadgeHtml = `<span style="display: inline-block; font-size: 0.65rem; font-weight: 700; background: #fef3c7; color: #92400e; padding: 1px 6px; border-radius: 4px; margin-top: 3px;">🟡 Needs Review</span>`;
+          } else if (sub.status === "approved") {
+            reviewBadgeHtml = `<span style="display: inline-block; font-size: 0.65rem; font-weight: 700; background: #dcfce7; color: #166534; padding: 1px 6px; border-radius: 4px; margin-top: 3px;">🟢 Approved</span>`;
+          }
+        }
+      }
+
       item.innerHTML = `
         <img src="${student.avatar}" class="admin-student-thumb" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'">
         <div style="flex: 1; min-width: 0;">
           <div style="font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${teamIcon} ${student.name}</div>
           <div style="font-size: 0.75rem; color: var(--text-muted);">${student.class}-${student.section} • ${(student.team || "it").toUpperCase()} Team</div>
+          ${reviewBadgeHtml}
         </div>
       `;
       studentListEl.appendChild(item);
@@ -777,9 +790,207 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // =============================================================
+  // STUDENT PORTFOLIO REVIEW QUEUE (TEACHER & ADMIN)
+  // =============================================================
+  let currentQueueFilter = "all";
+
+  function updatePendingReviewsBadge() {
+    const badge = document.getElementById("pendingReviewsCount");
+    if (badge && window.PortfolioReviewStore) {
+      badge.textContent = window.PortfolioReviewStore.getPendingCount();
+    }
+  }
+
+  function openReviewQueueModal() {
+    const modal = document.getElementById("reviewQueueModal");
+    if (!modal) return;
+    renderReviewQueue(currentQueueFilter);
+    modal.style.display = "flex";
+  }
+
+  function closeReviewQueueModal() {
+    const modal = document.getElementById("reviewQueueModal");
+    if (modal) modal.style.display = "none";
+  }
+
+  function filterReviewQueue(type) {
+    currentQueueFilter = type;
+    ["All", "Pending", "Approved"].forEach(btnType => {
+      const b = document.getElementById("btnFilterQueue" + btnType);
+      if (b) {
+        if (btnType.toLowerCase() === type.toLowerCase()) {
+          b.style.background = "#e2e8f0";
+          b.style.fontWeight = "800";
+        } else {
+          b.style.background = "";
+          b.style.fontWeight = "";
+        }
+      }
+    });
+    renderReviewQueue(type);
+  }
+
+  function renderReviewQueue(filter = "all") {
+    const container = document.getElementById("reviewQueueContainer");
+    const summaryText = document.getElementById("queueSummaryText");
+    if (!container || !window.PortfolioReviewStore) return;
+
+    let submissions = window.PortfolioReviewStore.getAll();
+    if (filter === "pending") {
+      submissions = submissions.filter(s => s.status === "pending");
+    } else if (filter === "approved") {
+      submissions = submissions.filter(s => s.status === "approved");
+    }
+
+    if (summaryText) {
+      const pendingCount = window.PortfolioReviewStore.getPendingCount();
+      summaryText.textContent = `Showing ${submissions.length} submission(s) • ${pendingCount} awaiting teacher review`;
+    }
+
+    if (submissions.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 2rem 1rem; color: #64748b;">
+          <span style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem;">📭</span>
+          <strong style="font-size: 0.95rem; color: #1e293b; display: block; margin-bottom: 0.25rem;">No submissions found</strong>
+          <p style="font-size: 0.82rem; margin: 0;">Students can save and send their portfolios for review from the Portfolio Builder.</p>
+        </div>
+      `;
+      return;
+    }
+
+    let html = `
+      <table class="review-queue-table">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Class / Roll</th>
+            <th>Submitted On</th>
+            <th>Status</th>
+            <th>Student Note</th>
+            <th style="text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    submissions.forEach(sub => {
+      const isPending = sub.status === "pending";
+      const statusPill = isPending
+        ? `<span style="background: #fef3c7; color: #92400e; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 9999px; border: 1px solid #fde68a;">🟡 Pending</span>`
+        : `<span style="background: #dcfce7; color: #166534; font-weight: 700; font-size: 0.72rem; padding: 2px 8px; border-radius: 9999px; border: 1px solid #86efac;">🟢 Approved</span>`;
+
+      html += `
+        <tr>
+          <td>
+            <strong style="color: #0f172a; display: block;">${escapeAdminHtml(sub.studentName)}</strong>
+            <span style="font-size: 0.7rem; color: #64748b; font-family: monospace;">${escapeAdminHtml(sub.id)}</span>
+          </td>
+          <td>
+            <span>${escapeAdminHtml(sub.classSection || "—")}</span>
+            <span style="display: block; font-size: 0.72rem; color: #64748b;">Roll: ${escapeAdminHtml(sub.rollNo || "—")}</span>
+          </td>
+          <td>
+            <span style="font-size: 0.78rem; color: #334155;">${escapeAdminHtml(sub.submittedAtFormatted || "—")}</span>
+          </td>
+          <td>${statusPill}</td>
+          <td style="max-width: 180px; font-size: 0.78rem; color: #475569;">
+            ${sub.studentNote ? `“${escapeAdminHtml(sub.studentNote)}”` : "<span style='color: #94a3b8;'>None</span>"}
+          </td>
+          <td style="text-align: right; white-space: nowrap;">
+            <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
+              <a href="builder.html" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" title="Open Portfolio Builder to assess student">
+                🎓 Open
+              </a>
+              ${isPending ? `
+                <button type="button" class="btn btn-primary btn-sm" onclick="quickApproveSubmission('${sub.id}')" style="background: #16a34a; border-color: #16a34a; font-size: 0.75rem; padding: 0.25rem 0.55rem; font-weight: 700;">
+                  ✅ Approve
+                </button>
+              ` : `
+                <span style="font-size: 0.72rem; color: #16a34a; font-weight: 600; padding: 0.25rem;">Reviewed</span>
+              `}
+              <button type="button" class="btn btn-secondary btn-sm" onclick="deleteReviewSubmissionAdmin('${sub.id}')" style="color: #dc2626; font-size: 0.75rem; padding: 0.25rem 0.45rem;" title="Delete submission">
+                ✕
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `</tbody></table>`;
+    container.innerHTML = html;
+  }
+
+  function quickApproveSubmission(id) {
+    const sub = window.PortfolioReviewStore.getById(id);
+    if (!sub) return;
+
+    const teacherRemarks = prompt(
+      `Enter / Confirm Teacher Remarks to approve portfolio for ${sub.studentName}:`,
+      sub.teacherRemarks || "Approved • Demonstrates diligent learning and verified practical project output."
+    );
+    if (teacherRemarks === null) return;
+
+    window.PortfolioReviewStore.approveReview(id, {
+      status: "approved",
+      reviewedBy: "Teacher & Admin Dashboard",
+      teacherRemarks: teacherRemarks.trim()
+    });
+
+    updatePendingReviewsBadge();
+    renderReviewQueue(currentQueueFilter);
+    renderStudentSidebar();
+    alert(`✅ Portfolio for ${sub.studentName} marked as Reviewed & Approved!`);
+  }
+
+  function deleteReviewSubmissionAdmin(id) {
+    if (confirm("Delete this portfolio review submission?")) {
+      window.PortfolioReviewStore.deleteSubmission(id);
+      updatePendingReviewsBadge();
+      renderReviewQueue(currentQueueFilter);
+      renderStudentSidebar();
+    }
+  }
+
+  function escapeAdminHtml(str) {
+    if (str === null || str === undefined) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Review Event Listeners
+  window.addEventListener("portfolio-review-submitted", () => {
+    updatePendingReviewsBadge();
+    renderStudentSidebar();
+    if (document.getElementById("reviewQueueModal")?.style.display === "flex") {
+      renderReviewQueue(currentQueueFilter);
+    }
+  });
+
+  window.addEventListener("portfolio-review-updated", () => {
+    updatePendingReviewsBadge();
+    renderStudentSidebar();
+    if (document.getElementById("reviewQueueModal")?.style.display === "flex") {
+      renderReviewQueue(currentQueueFilter);
+    }
+  });
+
+  // Expose globally for HTML onclick handlers
+  window.openReviewQueueModal = openReviewQueueModal;
+  window.closeReviewQueueModal = closeReviewQueueModal;
+  window.filterReviewQueue = filterReviewQueue;
+  window.quickApproveSubmission = quickApproveSubmission;
+  window.deleteReviewSubmissionAdmin = deleteReviewSubmissionAdmin;
+
   // Initial Load
   const students = DataStore.getStudents();
   renderStudentSidebar();
+  updatePendingReviewsBadge();
   if (students.length > 0) {
     loadStudentToForm(students[0].id);
   }

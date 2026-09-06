@@ -413,4 +413,65 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target === imageLightboxModal) imageLightboxModal.classList.remove("active");
     });
   }
+
+  // Portfolio Review Status & Submission
+  function updatePortfolioReviewBadge() {
+    const badge = document.getElementById("reviewStatusHeroBadge");
+    const sendBtn = document.getElementById("btnSendPortfolioReview");
+    if (!badge) return;
+
+    let sub = null;
+    if (window.PortfolioReviewStore) {
+      sub = window.PortfolioReviewStore.getByStudent(student.name, `${student.class} - ${student.section}`) || window.PortfolioReviewStore.getByStudent(student.name);
+    }
+
+    if (sub && sub.status === "approved") {
+      badge.style.display = "inline-block";
+      badge.className = "badge badge-success";
+      badge.innerHTML = `🟢 Verified by ${sub.reviewedBy || "Teacher"}`;
+      if (sendBtn) {
+        sendBtn.innerHTML = `<span>✅</span> <span>Review Approved</span>`;
+        sendBtn.style.background = "#16a34a";
+        sendBtn.style.borderColor = "#16a34a";
+      }
+    } else if (sub && sub.status === "pending") {
+      badge.style.display = "inline-block";
+      badge.className = "badge badge-warning";
+      badge.style.color = "#78350f";
+      badge.innerHTML = `🟡 Review Pending (${sub.submittedAtFormatted ? sub.submittedAtFormatted.split(',')[0] : 'Submitted'})`;
+      if (sendBtn) {
+        sendBtn.innerHTML = `<span>⌛</span> <span>Review Pending</span>`;
+        sendBtn.style.background = "#d97706";
+        sendBtn.style.borderColor = "#d97706";
+      }
+    } else {
+      badge.style.display = "none";
+    }
+  }
+  updatePortfolioReviewBadge();
+
+  window.sendActivePortfolioForReview = function() {
+    if (!window.PortfolioReviewStore) return;
+
+    const teacherName = (student.teacherObservation && student.teacherObservation.teacherName) || "Class Teacher";
+    const note = prompt(`Send ${student.name}'s portfolio profile for Teacher Review?\n\nEnter optional note for teacher:`, "Please review my digital portfolio deliverables and project evidence.");
+    if (note === null) return; // User cancelled
+
+    window.PortfolioReviewStore.submitReview({
+      studentName: student.name,
+      classSection: `${student.class} - ${student.section}`,
+      rollNo: student.rollNo,
+      admissionNo: student.id,
+      targetTeacher: teacherName,
+      studentNote: note.trim(),
+      data: student
+    });
+
+    updatePortfolioReviewBadge();
+    alert(`✅ Portfolio profile for ${student.name} successfully saved and sent for teacher review!\n\nStatus: Pending Teacher Review\nAssigned: ${teacherName}\n\nYour portfolio is now queued for teacher assessment.`);
+  };
+
+  window.addEventListener("portfolio-review-submitted", updatePortfolioReviewBadge);
+  window.addEventListener("portfolio-review-updated", updatePortfolioReviewBadge);
 });
+

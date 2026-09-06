@@ -9,6 +9,7 @@
   <script defer src="../assets/js/firebase-config.js"></script>
   <script defer src="../assets/js/firebase-client.js"></script>
   <script defer src="../assets/js/content-store.js"></script>
+  <script defer src="js/portfolio-review.js"></script>
 </head>
 <body>
 
@@ -66,6 +67,9 @@
         </div>
 
         <div class="hero-badges-side">
+          <button id="btnSendPortfolioReview" class="btn btn-primary btn-sm" onclick="sendActivePortfolioForReview()" style="margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #15803d; border-color: #15803d; font-weight: 700;" title="Save and send this portfolio profile for teacher review">
+            <span>📨</span> <span>Send for Teacher Review</span>
+          </button>
           <a href="builder.html" class="btn btn-primary btn-sm" style="margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #1e1b4b; border-color: #1e1b4b;">
             <span>🖨️</span> <span>Print 1-Page Summary</span>
           </a>
@@ -75,6 +79,7 @@
           <a id="idCardLink" href="id-card.html" class="btn btn-secondary btn-sm" target="_blank">
             🪪 View ID Card
           </a>
+          <span id="reviewStatusHeroBadge" class="badge" style="display: none; font-weight: 700;"></span>
           <span id="attendanceBadge" class="badge badge-success">Attendance: 96.4%</span>
           <span id="academicScoreBadge" class="badge badge-info">Academic: 92.8%</span>
         </div>
