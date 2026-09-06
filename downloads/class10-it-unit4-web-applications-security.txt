@@ -1,0 +1,86 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+UNIT 4: WEB APPLICATIONS AND SECURITY - COMPLETE REVISION NOTES
+================================================================================
+
+1. COMPUTER ACCESSIBILITY OPTIONS (WINDOWS CONTROL PANEL)
+- Accessibility features assist individuals with disabilities to operate computers comfortably.
+- Keyboard Tab:
+  * StickyKeys: Keeps modifier keys (Shift, Ctrl, Alt, Win) active sequentially so user can press one key at a time. Press Shift 5 times to enable.
+  * FilterKeys: Ignores repeated, brief, or accidental keystrokes caused by hand tremors. Hold right Shift for 8 seconds.
+  * ToggleKeys: Emits high/low tone beeps when Caps Lock, Num Lock, or Scroll Lock are toggled. Hold Num Lock for 5 seconds.
+- Sound Tab:
+  * SoundSentry: Provides visual screen warnings (flashing window title or border) when audio alerts play.
+  * ShowSounds: Directs software to display visual captions and text transcripts for audio.
+- Display Tab:
+  * High Contrast: Inverts colors for enhanced readability (e.g., yellow on black).
+  * Cursor Options: Adjusts width and blink rate of the text cursor for easy tracking.
+- Mouse Tab:
+  * MouseKeys: Uses numeric keypad keys to control mouse pointer movement and clicks.
+- General Tab:
+  * SerialKeys: Connects alternative input switches/sensors through serial ports for individuals with severe motor challenges.
+
+2. COMPUTER NETWORKING FUNDAMENTALS
+- Computer Network: Interconnected collection of autonomous computers sharing resources and communicating data.
+- Advantages: Hardware sharing, software sharing, cost reduction, centralized storage, instant messaging.
+- Network Architectures:
+  * Peer-to-Peer (P2P): Every computer has equal rights; no central server; suitable for small setups (<15 PCs).
+  * Client-Server: Centralized powerful server provides resources, security, and data; client computers request services.
+- Network Types:
+  * PAN (Personal Area Network): Range <= 10m (Bluetooth, smartwatch, hotspot).
+  * LAN (Local Area Network): Room, office, building, school campus (up to 1-2 km).
+  * MAN (Metropolitan Area Network): City or town (up to 50 km, Cable TV, Municipal CCTV).
+  * WAN (Wide Area Network): Global scale (The Internet, banking ATM networks).
+- Transmission Media:
+  * Guided (Wired): Twisted Pair (RJ-45 LAN cables), Coaxial (Cable TV), Fiber Optic (light signals, glass, ultra-fast).
+  * Unguided (Wireless): Radio waves (Wi-Fi, Bluetooth), Microwaves (cellular, towers), Infrared (remotes), Satellite.
+- Hardware: NIC (MAC address), Modem (Modulation/Demodulation), Hub (broadcasts to all), Switch (intelligent, directed), Router (forwards packets across networks via IP).
+
+3. INTERNET CONCEPTS & TECHNOLOGIES
+- WWW: World Wide Web; hypertext document system invented by Tim Berners-Lee in 1989.
+- Webpage vs Website: Webpage is a single document; Website is a collection of related pages.
+- URL: Uniform Resource Locator (unique global web address).
+- IP Address & DNS: IP is numerical device address; DNS maps domain names to IP addresses.
+- ISP: Internet Service Provider (Jio, Airtel, BSNL). Bandwidth: bits per second (bps, Mbps).
+- Access Technologies: Dial-up (56kbps, obsolete), DSL, Cable Broadband, FTTH (Fiber), Wi-Fi (IEEE 802.11), WiMAX (citywide wireless, up to 50 km), Mobile Broadband (4G/5G).
+
+4. INSTANT MESSAGING & BLOGGING
+- Instant Messaging (IM): Synchronous real-time text/voice/video communication. Application-based (WhatsApp, Skype, Telegram) vs Web-based (WhatsApp Web).
+- Chat Etiquette: Brief polite greetings, concise text, avoid ALL CAPS (perceived as shouting), never share sensitive OTPs/passwords.
+- Blog: Weblog; online journal with posts in reverse chronological order.
+- Offline Blog Editors: Software allowing drafting and editing blog posts without an active internet connection (e.g., Qumana, Windows Live Writer, BlogDesk). Posts synchronize and publish automatically once connected.
+
+5. ONLINE TRANSACTIONS & SAFE PRACTICES
+- E-Commerce (Amazon, Flipkart), Online Ticketing (IRCTC), Net Banking, UPI (Virtual Payment Address).
+- Safety Rules:
+  * Verify HTTPS and locked padlock icon (SSL/TLS encryption).
+  * Never share OTP, PIN, or CVV.
+  * Avoid public Wi-Fi and public cyber cafe computers for banking transactions.
+  * Enable Two-Factor Authentication (2FA).
+  * Regularly monitor bank statements and SMS transaction alerts.
+
+6. CYBER SECURITY THREATS & COUNTERMEASURES
+- Malware:
+  * Virus: Malicious code attached to executable host files; requires human trigger.
+  * Worm: Standalone self-replicating malware spreading automatically across networks; consumes bandwidth.
+  * Trojan Horse: Malicious code disguised as legitimate useful software; creates backdoor access.
+  * Spyware & Keylogger: Secretly monitors user behavior and records keystrokes.
+  * Ransomware: Encrypts files and demands ransom money.
+- Attacks: Phishing (fake emails/websites stealing credentials), Spoofing (forging sender identity), Denial of Service (DoS/DDoS - flooding server with fake traffic).
+- Best Practices: Strong passwords (8-12 chars, upper/lower/numbers/symbols), updated Antivirus, Firewall (filters traffic), OS patches, clearing cookies/cache, regular backups.
+
+7. WORKPLACE HEALTH AND SAFETY
+- Ergonomics: Science of arranging equipment safely and comfortably.
+  * Repetitive Strain Injury (RSI): Caused by repetitive typing; use wrist rest, keep wrists straight.
+  * Back/Neck Pain: Use adjustable lumbar chairs; keep monitor at eye level; feet flat on floor.
+  * Computer Vision Syndrome (CVS): Follow the 20-20-20 rule (every 20 mins, look at an object 20 ft away for 20 secs).
+- Slips, Trips & Falls: Keep cables inside conduits along walls; clean liquid spills immediately; keep aisles clear.
+- Electrical & Fire Safety: Do not overload sockets; inspect cords for fraying; keep liquids away from electronics.
+- Fire Extinguisher PASS Technique:
+  * P - Pull the pin.
+  * A - Aim at the base of the fire.
+  * S - Squeeze the handle.
+  * S - Sweep from side to side.
+- Use CO2 (Class C) or Dry Powder extinguishers for electrical equipment; NEVER use water on electrical fires.
+- Emergency Evacuation: Sound alarm, use staircases (NEVER elevators), gather at external Assembly Point.
+================================================================================

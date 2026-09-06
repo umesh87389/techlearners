@@ -1,0 +1,90 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+UNIT 3: DATABASE MANAGEMENT SYSTEM (DBMS & SQL) - COMPLETE REVISION NOTES
+================================================================================
+
+1. DATA VS INFORMATION & DBMS BASICS
+- Data: Raw, unprocessed facts and figures without direct meaning (e.g., 95, 'Neha').
+- Information: Processed, organized data that is meaningful and useful for decision making.
+- Database: An organized collection of logically related data stored electronically.
+- DBMS: Software used to create, manage, query, and maintain databases (e.g., LibreOffice Base, MySQL, MS Access).
+- Advantages of DBMS:
+  * Controls data redundancy (eliminates duplication).
+  * Prevents data inconsistency.
+  * Facilitates data sharing among multiple users.
+  * Enforces data security and privacy.
+  * Maintains data integrity via validation rules.
+  * Provides backup and disaster recovery.
+
+2. RELATIONAL DATABASE (RDBMS) CONCEPTS
+- Relational Model: Proposed by Dr. E.F. Codd in 1970; organizes data in related tables.
+- Relation: A two-dimensional table of columns and rows.
+- Tuple (Record / Row): A horizontal row representing a complete entity record.
+- Attribute (Field / Column): A vertical column representing a specific characteristic.
+- Domain: The pool of legal, valid values allowed for an attribute.
+- Degree: Total number of attributes (columns) in a relation.
+- Cardinality: Total number of tuples (rows/records) in a relation.
+
+3. KEYS IN DBMS
+- Primary Key (PK): Unique identifier for each record in a table. Cannot contain duplicate values and CANNOT BE NULL.
+- Composite Primary Key: A primary key composed of two or more attributes combined.
+- Candidate Key: All attributes or attribute sets capable of uniquely identifying tuples.
+- Alternate Key: Candidate keys not selected as the Primary Key (Alternate = Candidate - Primary).
+- Foreign Key (FK): An attribute in a child table whose values reference the Primary Key of a parent table, linking both tables.
+
+4. COMMON DATA TYPES IN BASE & SQL
+- Text: CHAR(n) [fixed length], VARCHAR(n) [variable length], LONGVARCHAR [memo].
+- Numeric: TINYINT, SMALLINT, INTEGER, BIGINT, DECIMAL(p,s), NUMERIC, FLOAT.
+- Date/Time: DATE [YYYY-MM-DD], TIME [HH:MM:SS], TIMESTAMP [Date + Time].
+- Boolean: BOOLEAN (True/False, Yes/No, 1/0).
+- Binary: BINARY, VARBINARY, BLOB [images, audio, signatures].
+
+5. TABLE OPERATIONS & REFERENTIAL INTEGRITY
+- Table Creation: Design View (custom fields, types, properties) or Table Wizard.
+- Setting PK: Right-click field selector in Design View -> Primary Key.
+- Referential Integrity: Ensures foreign key values in a child table match an existing primary key in the parent table. Prevents orphaned records.
+  * Update/Delete Rules: No Action / Restrict, Cascade Update / Cascade Delete, Set NULL, Set Default.
+- Relationships: One-to-One (1:1), One-to-Many (1:N), Many-to-Many (M:N). Tools > Relationships...
+
+6. STRUCTURED QUERY LANGUAGE (SQL)
+- SQL is the standard language for relational databases. Case-insensitive; terminated with ';'.
+- Classification:
+  * DDL (Data Definition Language): CREATE TABLE, ALTER TABLE, DROP TABLE.
+  * DML (Data Manipulation Language): SELECT, INSERT INTO, UPDATE, DELETE.
+
+7. SQL COMMANDS SYNTAX & EXAMPLES
+- CREATE TABLE:
+  CREATE TABLE Students (
+      RollNo INT PRIMARY KEY,
+      Name VARCHAR(50) NOT NULL,
+      Class VARCHAR(5),
+      Marks DECIMAL(5,2)
+  );
+
+- ALTER TABLE:
+  ALTER TABLE Students ADD Email VARCHAR(100);
+  ALTER TABLE Students DROP COLUMN Class;
+
+- DROP TABLE:
+  DROP TABLE Students;
+
+- INSERT INTO:
+  INSERT INTO Students VALUES (101, 'Aarav Sharma', '10A', 92.50);
+
+- SELECT:
+  SELECT * FROM Students;
+  SELECT Name, Marks FROM Students WHERE Marks >= 75 ORDER BY Marks DESC;
+
+- UPDATE:
+  UPDATE Students SET Marks = 95.00 WHERE RollNo = 101;
+
+- DELETE:
+  DELETE FROM Students WHERE RollNo = 101;
+
+- WHERE Filtering Operators: =, <>, >, <, >=, <=, AND, OR, NOT, BETWEEN ... AND, IN (...), LIKE ('A%', '%Sharma', '_a%'), IS NULL.
+- Aggregate Functions: COUNT(*), SUM(col), AVG(col), MAX(col), MIN(col).
+
+8. FORMS AND REPORTS
+- Form: A user-friendly graphical interface for inserting, editing, and navigating records one by one. Created via Form Wizard. Controls: Text Box, List Box, Buttons.
+- Report: Formatted, printable summary document generated from tables/queries for printing and executive presentation. Created via Report Wizard. Supports grouping and sorting.
+================================================================================

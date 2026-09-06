@@ -1,21 +1,39 @@
-CBSE Class 10 IT - Advanced Digital Skills Revision Notes
+================================================================================
+CBSE CLASS 10 IT (SUBJECT CODE 402) - QUICK REVISION SUMMARY
+================================================================================
+Unit 1: Digital Documentation (Advanced)
+- Styles (Paragraph, Character, Page, Frame, List) ensure consistency and enable automatic TOC.
+- Image positioning: Anchoring (To Page, To Paragraph, To Character, As Character) and Text Wrapping (None, Parallel, Optimal, Through).
+- Templates provide reusable document designs (.ott).
+- Table of Contents automatically lists Heading 1, 2, 3 levels and page numbers.
+- Mail Merge merges a master document with a structured data source to generate personalized letters, certificates, and labels.
 
-Digital Documentation Advanced
-Styles keep document formatting consistent. Templates provide reusable designs. A table of contents helps readers navigate long documents. Mail merge creates personalised letters, labels, certificates, and notices from one main document and a data source.
+Unit 2: Electronic Spreadsheets (Advanced)
+- Data Consolidation (Data > Consolidate) combines multiple data ranges using SUM, AVERAGE, etc.
+- Subtotals groups data and calculates category-wise summaries (data must be sorted first).
+- What-If Scenarios test alternative numbers on the same sheet.
+- Goal Seek calculates the required input for a target output; Solver handles multiple variables and constraints.
+- Multi-sheet reference syntax: =SheetName.CellAddress (Calc) or =SheetName!CellAddress (Excel).
+- Hyperlinks: Absolute (full path) vs Relative (partial path).
+- Track Changes records and reviews edits with Accept/Reject dialogs.
+- Macros automate repetitive actions using LibreOffice Basic or VBA.
 
-Electronic Spreadsheets Advanced
-Spreadsheets use formulas, functions, references, sorting, filtering, validation, and charts. Use absolute references for fixed values and review formulas before copying them.
+Unit 3: Database Management System (DBMS & SQL)
+- RDBMS stores data in linked tables (relations) with rows (tuples) and columns (attributes).
+- Degree = Number of columns; Cardinality = Number of rows.
+- Primary Key uniquely identifies records (no duplicates, no NULL). Foreign Key links child table to parent PK.
+- Referential Integrity prevents orphaned child records.
+- SQL DDL: CREATE TABLE, ALTER TABLE, DROP TABLE.
+- SQL DML: SELECT, INSERT INTO, UPDATE, DELETE.
+- Queries filter records using WHERE, LIKE, BETWEEN, IN, ORDER BY, and aggregate functions (COUNT, SUM, AVG).
+- Forms allow intuitive record entry; Reports present formatted printable summaries.
 
-Database Management System
-A database stores related data. A table contains records and fields. A primary key uniquely identifies a record. Queries retrieve selected information. Forms help with data entry, and reports present information clearly.
-
-Web Applications and Security
-Web applications run in a browser and support email, cloud documents, online forms, e-learning, banking, and collaboration. Security is important because online data can be misused.
-
-Safe practices:
-- Use strong unique passwords.
-- Avoid suspicious links.
-- Check website addresses.
-- Keep software updated.
-- Back up important files.
-- Protect personal information.
+Unit 4: Web Applications and Security
+- Accessibility options: StickyKeys, FilterKeys, ToggleKeys, SoundSentry, High Contrast, MouseKeys.
+- Networks: PAN (10m), LAN (building), MAN (city), WAN (global).
+- P2P (equal peers) vs Client-Server (centralized servers).
+- Offline Blog Editors (Qumana, Windows Live Writer) allow drafting posts without internet.
+- Cyber threats: Virus (needs host), Worm (self-propagating), Trojan (disguised), Ransomware, Phishing.
+- Safe practices: HTTPS/padlock, strong passwords, 2FA, firewalls, regular backups.
+- Workplace Safety: Ergonomics (20-20-20 rule, lumbar support), Cable management, Fire safety (PASS technique: Pull, Aim, Squeeze, Sweep).
+================================================================================

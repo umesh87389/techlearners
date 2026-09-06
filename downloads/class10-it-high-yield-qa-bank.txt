@@ -1,0 +1,68 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+HIGH-YIELD IMPORTANT QUESTIONS & ANSWERS REVISION BANK
+================================================================================
+
+SECTION A: DIGITAL DOCUMENTATION (ADVANCED)
+Q1. Differentiate between Paragraph Style and Character Style.
+Ans: A Paragraph Style controls all formatting attributes of an entire paragraph including text alignment, line spacing, tab stops, margins, and borders. A Character Style applies only to selected characters or words within a paragraph, modifying font name, size, bold, italics, or color without affecting the rest of the paragraph.
+
+Q2. What are the benefits of using templates in word processing?
+Ans: Templates provide reusable document foundations containing pre-configured styles, page layouts, fonts, logos, and headers. They eliminate repetitive setup work, enforce design consistency across organizational documents, and save considerable time.
+
+Q3. What is the role of a data source in mail merge?
+Ans: A data source is a structured file (such as a Calc spreadsheet, database table, or CSV file) containing individual changing records (such as names, addresses, and marks) that are merged into the merge fields of the main document to produce personalized letters or certificates.
+
+SECTION B: ELECTRONIC SPREADSHEETS (ADVANCED)
+Q4. Explain the purpose of Data Consolidation with an example.
+Ans: Data Consolidation merges data from multiple separate worksheets or workbooks into a single master summary sheet using statistical functions like SUM or AVERAGE. Example: Consolidating sales figures from four separate quarterly sheets (Q1, Q2, Q3, Q4) into an Annual Sales Summary worksheet.
+
+Q5. What is Goal Seek? How does it differ from standard formulas?
+Ans: Goal Seek is a reverse-calculation tool. Standard formulas calculate an unknown output from known input cells. Goal Seek determines the input value needed in a designated variable cell to produce a specific, desired target outcome in a formula cell.
+
+Q6. Explain the difference between Relative and Absolute Hyperlinks.
+Ans: An absolute hyperlink stores the complete path from the root drive or protocol (e.g., https://techlearners.in or C:\Docs\report.ods); it breaks only if the target file is renamed or moved. A relative hyperlink stores only the partial path relative to the current file location (e.g., data/term1.ods); it continues to function if both files are moved together in the folder hierarchy.
+
+Q7. What is a Macro in Calc?
+Ans: A Macro is a recorded or scripted sequence of keystrokes, menu commands, and actions saved under a name that can be executed on demand to automate repetitive tasks.
+
+SECTION C: DATABASE MANAGEMENT SYSTEM (DBMS & SQL)
+Q8. Differentiate between DDL and DML commands with two examples of each.
+Ans:
+- DDL (Data Definition Language): Commands that define, alter, or drop database table schemas. Examples: CREATE TABLE, ALTER TABLE.
+- DML (Data Manipulation Language): Commands that access, insert, modify, and delete data records inside tables. Examples: SELECT, INSERT INTO, UPDATE, DELETE.
+
+Q9. Define Primary Key, Candidate Key, and Foreign Key.
+Ans:
+- Primary Key: An attribute that uniquely identifies each tuple in a relation; cannot contain duplicate values or NULL.
+- Candidate Key: Any attribute or set of attributes capable of uniquely identifying tuples in a relation.
+- Foreign Key: An attribute in a child table whose values match the Primary Key of a parent table, establishing a link between both tables.
+
+Q10. What is Referential Integrity and why is it essential?
+Ans: Referential Integrity is a relational database rule ensuring that foreign key values in a child table always match an existing, valid primary key in the parent table. It prevents orphaned records and stops accidental deletion of parent records that have dependent child data.
+
+SECTION D: WEB APPLICATIONS AND SECURITY
+Q11. Explain StickyKeys, FilterKeys, and ToggleKeys.
+Ans:
+- StickyKeys: Allows modifier keys (Shift, Ctrl, Alt, Win) to stay active when pressed sequentially, helping users who cannot press multiple keys at once.
+- FilterKeys: Ignores brief, rapid, or repeated keystrokes caused by hand tremors.
+- ToggleKeys: Emits high and low tone beeps when locking keys (Caps Lock, Num Lock, Scroll Lock) are toggled.
+
+Q12. Differentiate between Peer-to-Peer (P2P) and Client-Server network architectures.
+Ans: In P2P architecture, all workstations have equal status, privileges, and responsibilities without a central server. In Client-Server architecture, dedicated powerful servers manage centralized resources, security, and databases, while client computers request services from the server.
+
+Q13. What is an Offline Blog Editor? State two advantages.
+Ans: An offline blog editor is a desktop application (e.g., Qumana, Windows Live Writer) that enables writers to draft, format, and review blog posts without an active internet connection. Advantages:
+1. Prevents loss of content due to sudden browser crashes or internet dropouts.
+2. Saves mobile data and allows offline writing while traveling.
+
+Q14. Explain the PASS technique for operating a fire extinguisher.
+Ans:
+- P: Pull the safety pin to break the tamper seal.
+- A: Aim the nozzle at the base of the fire.
+- S: Squeeze the handle lever to release the extinguishing agent.
+- S: Sweep the nozzle gently from side to side across the base of the fire.
+
+Q15. What precautions should be taken to prevent Computer Vision Syndrome (CVS)?
+Ans: Position the monitor 18-24 inches away from eyes, keep the screen slightly below eye level, adjust room lighting to eliminate glare, blink frequently, and follow the 20-20-20 rule (every 20 minutes, look at an object 20 feet away for 20 seconds).
+================================================================================
