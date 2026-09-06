@@ -1457,6 +1457,11 @@ textarea.form-control {
   }
 }
 
+/* Hidden on screen, shown only when printed */
+.print-only-brand-header {
+  display: none;
+}
+
 /* Print Stylesheet - Centered & Proper Balanced Margins */
 @page {
   size: A4 portrait;
@@ -1478,6 +1483,20 @@ textarea.form-control {
   }
   .navbar, .footer, .portfolio-nav-bar, .qr-trigger-btn, .btn, .no-print, .modal-backdrop {
     display: none !important;
+  }
+  .print-only-brand-header {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 15px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0f172a;
+  }
+  .print-header-logo {
+    height: 38px;
+    width: auto;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   main,
   main.container,

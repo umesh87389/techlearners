@@ -657,11 +657,40 @@
   border-bottom: 1.5px solid #0f172a;
   padding-bottom: 5px;
   margin-bottom: 4px;
+  gap: 10px;
+}
+
+.sp-brand-header-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 25mm;
+  flex-shrink: 0;
+}
+
+.sp-techlearners-logo {
+  width: 22mm;
+  height: 20mm;
+  object-fit: contain;
+  display: block;
+}
+
+.sp-techlearners-label {
+  font-size: 6.2pt;
+  font-weight: 800;
+  color: #1e1b4b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 1px;
+  line-height: 1;
 }
 
 .sp-school-block {
   text-align: left;
   flex: 1;
+  min-width: 0;
 }
 
 .sp-school-title {
@@ -926,6 +955,24 @@
   font-size: 6.2pt;
   color: #64748b;
   margin: 0;
+}
+
+.sp-watermark-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 2px;
+  padding-top: 1.5px;
+  border-top: 0.5px dashed #cbd5e1;
+  font-size: 5.8pt;
+  color: #64748b;
+}
+
+.sp-footer-logo {
+  height: 10px;
+  width: auto;
+  vertical-align: middle;
 }
 
 /* =============================================================

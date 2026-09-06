@@ -603,6 +603,134 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // EXPORT EXCEL (Excel-Compatible CSV with UTF-8 BOM)
+  const exportExcelBtn = document.getElementById("exportExcelBtn");
+  if (exportExcelBtn) {
+    exportExcelBtn.addEventListener("click", () => {
+      const students = DataStore.getStudents();
+      if (!students || students.length === 0) {
+        alert("No student records available to export.");
+        return;
+      }
+
+      function csvClean(val) {
+        if (val === null || val === undefined) return '""';
+        const str = String(val).replace(/"/g, '""').replace(/\r?\n/g, ' | ');
+        return `"${str}"`;
+      }
+
+      const headers = [
+        "Student ID",
+        "Full Name",
+        "Gender",
+        "Class",
+        "Section",
+        "Roll No",
+        "Technology Team",
+        "Team Role",
+        "Tagline / Specialization",
+        "Bio",
+        "Motto",
+        "Attendance (%)",
+        "Academic Score (%)",
+        "Activity Project Name",
+        "Learn Phase",
+        "Make Phase",
+        "Show Phase",
+        "Record Phase",
+        "Video Demo Title",
+        "Video Demo URL",
+        "Total Projects Count",
+        "Projects List",
+        "Total Achievements Count",
+        "Achievements List",
+        "Scorecard Averages",
+        "Growth Records",
+        "Teacher Name",
+        "Teacher Role",
+        "Teacher Rating",
+        "Teacher Remarks",
+        "Parent Name",
+        "Parent Feedback",
+        "Future Goals"
+      ];
+
+      const rows = students.map(s => {
+        const ac = s.activityCycle || {};
+        const learnStr = ac.learn ? `${ac.learn.title || ''}: ${ac.learn.desc || ''}` : '';
+        const makeStr = ac.make ? `${ac.make.title || ''}: ${ac.make.desc || ''}` : '';
+        const showStr = ac.show ? `${ac.show.title || ''}: ${ac.show.desc || ''}` : '';
+        const recordStr = ac.record ? `${ac.record.title || ''}: ${ac.record.desc || ''}` : '';
+
+        const projs = s.projects || [];
+        const projsStr = projs.map((p, i) => `${i + 1}. [${p.category || 'Deliverable'}] ${p.title} (${(p.techStack || []).join(', ')})`).join('; ');
+
+        const achs = s.achievements || [];
+        const achsStr = achs.map((a, i) => `${i + 1}. ${a.title} - ${a.award || ''} [${a.event || ''}]`).join('; ');
+
+        const scorecard = s.scorecard || [];
+        const scoreStr = scorecard.map(sc => `${sc.area}: ${sc.level}/5`).join('; ');
+
+        const growth = s.growthRecords || [];
+        const growthStr = growth.map(g => `${g.skill}: Before="${g.before}" -> After="${g.after}"`).join('; ');
+
+        const goals = s.futureGoals || [];
+        const goalsStr = goals.map((g, i) => `${i + 1}. ${typeof g === 'object' ? (g.goal || JSON.stringify(g)) : g}`).join('; ');
+
+        const teacher = s.teacherObservation || {};
+        const parent = s.parentNote || {};
+        const video = s.introVideo || {};
+
+        return [
+          csvClean(s.id),
+          csvClean(s.name),
+          csvClean(s.gender || "Not specified"),
+          csvClean(s.class),
+          csvClean(s.section),
+          csvClean(s.rollNo),
+          csvClean((s.team || "it").toUpperCase()),
+          csvClean(s.teamRole || ""),
+          csvClean(s.tagline || ""),
+          csvClean(s.bio || ""),
+          csvClean(s.motto || ""),
+          csvClean(s.attendance || ""),
+          csvClean(s.academicScore || ""),
+          csvClean(ac.projectName || ""),
+          csvClean(learnStr),
+          csvClean(makeStr),
+          csvClean(showStr),
+          csvClean(recordStr),
+          csvClean(video.title || ""),
+          csvClean(video.videoUrl || ""),
+          csvClean(projs.length),
+          csvClean(projsStr),
+          csvClean(achs.length),
+          csvClean(achsStr),
+          csvClean(scoreStr),
+          csvClean(growthStr),
+          csvClean(teacher.teacherName || ""),
+          csvClean(teacher.role || ""),
+          csvClean(teacher.rating || ""),
+          csvClean(teacher.remark || ""),
+          csvClean(parent.parentsName || ""),
+          csvClean(parent.note || ""),
+          csvClean(goalsStr)
+        ].join(",");
+      });
+
+      const csvData = [headers.map(h => `"${h}"`).join(","), ...rows].join("\r\n");
+      const blob = new Blob(["\uFEFF" + csvData], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `TechLearners_Student_Portfolios_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
   // EXPORT JSON
   document.getElementById("exportJsonBtn").addEventListener("click", () => {
     const students = DataStore.getStudents();

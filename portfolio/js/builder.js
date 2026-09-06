@@ -1035,6 +1035,10 @@ function renderPreview(d) {
   sheet.innerHTML = `
     <!-- 1. Header & Student Meta -->
     <div class="sp-header">
+      <div class="sp-brand-header-col">
+        <img src="assets/logo.svg" alt="TechLearners" class="sp-techlearners-logo">
+        <span class="sp-techlearners-label">TechLearners</span>
+      </div>
       <div class="sp-school-block">
         <div class="sp-school-title">${school}</div>
         <div class="sp-school-motto">${motto}</div>
@@ -1291,6 +1295,10 @@ function renderPreview(d) {
           <strong>Principal / Seal</strong>
           <p>${school} • Verified Record</p>
         </div>
+      </div>
+      <div class="sp-watermark-strip">
+        <img src="assets/logo.svg" alt="TechLearners" class="sp-footer-logo">
+        <span>Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform • Verified Academic Record</span>
       </div>
     </div>
   `;
