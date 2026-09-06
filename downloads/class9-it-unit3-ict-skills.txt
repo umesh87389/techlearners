@@ -1,164 +1,960 @@
-CBSE Class 9 Information Technology (Subject Code 402)
-Unit 3: Basic ICT Skills - I
-Classroom Study Notes (Teacher: Umesh Tripathi)
+================================================================================
+CBSE CLASS 9 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+PART A: EMPLOYABILITY SKILLS - UNIT 3: BASIC ICT SKILLS - I
+COMPLETE REVISION & STUDY NOTES
+Prepared for TechLearners (Author: Umesh Tripathi)
+================================================================================
 
 ================================================================================
-CHAPTER 9: INTRODUCTION TO ICT
+SESSION 1: INTRODUCTION TO ICT & ICT TOOLS
 ================================================================================
 
 1. WHAT IS ICT?
-- ICT is the short form of Information and Communication Technology.
-- Component Breakdown:
-  * Information: It is basically facts and figures that are of value to the recipient.
-  * Communication: Communication is the act of receiving, giving, or sharing information with others in an understandable form.
-  * Technology: Technology is the application of scientific knowledge to perform practical tasks in our daily lives.
+- ICT stands for Information and Communication Technology.
+- It encompasses all technological tools and resources used to communicate, create,
+  disseminate, store, and manage information.
+- Core Component Breakdown:
+  * Information: Processed data, facts, and figures that have meaning and value
+    to the recipient (e.g., student report card, weather forecast).
+  * Communication: The process of passing, sharing, or exchanging information,
+    ideas, and messages between individuals or groups in an understandable form.
+  * Technology: The practical application of scientific knowledge and tools to
+    solve problems and perform tasks efficiently in our daily lives.
 
-  ICT Structural Flow:
-  ICT
-   ├── Information
-   ├── Communication
-   └── Technology
+  Structural Relationship:
+  ICT = Information (Data with meaning) + Communication (Exchange) + Technology (Digital tools)
 
 2. ROLE OF ICT:
-- Information Technology (IT) aims at making required information available at a faster speed and with more ease.
+- Information Technology (IT) aims at making required information available at a
+  much faster speed, with high accuracy, and with remarkable ease.
+- It bridges geographical boundaries and connects individuals across the globe in real time.
 
-3. IMPORTANCE OF ICT:
-- ICT is continuously influencing our lives and changing our work methodologies.
-- There is hardly any area left now where its application and effects cannot be observed.
+3. IMPORTANCE OF ICT IN DAILY LIFE (5 KEY DEVELOPMENTS):
+1) Online Education & Learning:
+   Students attend virtual classrooms, download digital notes, watch recorded video lectures,
+   and take online tests and competitive examinations from home.
+2) E-Commerce & Online Advertising:
+   Businesses sell, market, and advertise products globally through websites and digital ads,
+   enabling 24x7 online shopping.
+3) Digital Payments & Online Banking:
+   Payment of utility bills, taxes, school fees, and shopping bills is processed smoothly
+   using UPI, net banking, debit/credit cards, and digital wallet applications.
+4) Advance Ticketing & Travel Booking:
+   Railway (IRCTC), airline, bus, and movie tickets can be booked in advance without
+   waiting in long physical queues.
+5) On-Demand Transport & Delivery:
+   Commuters can book cabs and taxis (e.g., Uber, Ola) and order groceries or food directly
+   to their doorstep using smartphone apps.
 
-4. ICT IN DAILY LIFE:
-These days, people are making use of ICT for their day-to-day tasks. Every sphere of life is greatly influenced by ICT.
-The following are the key developments that have taken place in the recent past:
-1) Students attend classes and take examinations online.
-2) People sell and advertise their products online.
-3) Payment of bills, taxes, dues, etc. can be easily done using ICT applications.
-4) Railway, air, movie, and other types of tickets can be booked in advance sitting at home.
-5) You can call a taxi using your mobile phone.
+4. ICT IN VARIOUS SECTORS:
+- Education: Smartboards, virtual labs, online study portals (Swayam, Diksha), multimedia animations.
+- Healthcare: Telemedicine, computerized patient history, MRI/CT scan diagnostics, robotic surgery.
+- Governance (E-Governance): Digital portals for Aadhaar, passport services, DigiLocker, online FIRs.
+- Banking: Core banking systems, ATMs, mobile banking apps, instant fund transfers (NEFT, RTGS, IMPS).
+- Entertainment: High-definition video streaming, digital music platforms, interactive gaming.
 
-5. ICT TOOLS:
+5. WHAT ARE ICT TOOLS?
 - Definition:
-  All those devices and equipment that are used for introducing information and communication technology in the work environment for enhancing the ease of operations and increasing the efficiency of work are called ICT tools.
+  All devices, equipment, software packages, and communication infrastructure used
+  for introducing information and communication technology in the personal and work
+  environments to enhance operational ease and maximize productivity are called ICT tools.
 
-- Most Commonly Used ICT Tools:
-  * Desktops and Laptops
+- Hardware ICT Tools:
+  * Personal Computers (Desktop PCs & Laptops)
   * Smartphones
-  * Tablets (Tab)
-  * E-Readers (e.g., Kindle)
-  * Radio
-  * Television (TV)
-  * Smart TV (ATV), etc.
+  * Tablets (Tabs)
+  * E-Book Readers (e.g., Amazon Kindle)
+  * Radio & Television (TV)
+  * Smart Interactive TVs (Android / Apple TV)
+  * Digital Projectors & Smartboards
 
-6. SOFTWARE AS AN ICT TOOL:
-- Definition:
-  Software is a series of instructions that make an ICT device work for us.
-
-- Popular Software Packages in ICT:
-  1) Electronic Spreadsheet:
-     - It is used for classifying data and presenting it in the form of tables.
-     - It also provides facilities to define formulae and perform automatic calculations, charts, and graphs.
-     - Examples: Microsoft Excel, Apple Numbers, Quip, EtherCalc.
-
-  2) Database Management System (DBMS):
-     - It is used for storing large volumes of data on the computer and retrieving it as per requirement.
-     - Examples: MS-Access, MySQL, Oracle.
-
-  3) Web Browser:
-     - Web Browser is the software using which the entire World Wide Web (WWW) can be searched and the information there can be viewed.
-     - Popular Web Browsers: Google Chrome, Microsoft Edge, Mozilla Firefox, Apple Safari.
-
+- Software as an ICT Tool:
+  Software is a series of step-by-step instructions or programs that direct computer
+  hardware to execute specific operations.
+  Major software categories used as ICT tools:
+  1) Electronic Spreadsheets:
+     - Classifies tabular data into rows and columns.
+     - Performs automatic mathematical calculations, complex formulas, and dynamic charts.
+     - Examples: Microsoft Excel, LibreOffice Calc, Google Sheets, Apple Numbers.
+  2) Database Management Systems (DBMS):
+     - Stores, organizes, and retrieves massive volumes of structured records securely.
+     - Examples: MySQL, Microsoft Access, Oracle Database, LibreOffice Base.
+  3) Web Browsers:
+     - Software applications that allow users to navigate, access, and display web pages on the WWW.
+     - Examples: Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari, Opera.
   4) Search Engines:
-     - Search Engines are used for finding any type of information on any topic on the internet.
-     - One has to specify the topic of choice called a 'search term'.
-     - Popular Search Engines: Google search engine, Microsoft Bing, Yahoo search engine, Baidu, DuckDuckGo.
+     - Web-based search programs that index websites and return relevant search results based
+       on user keywords.
+     - Examples: Google, Microsoft Bing, Yahoo, DuckDuckGo, Baidu.
 
 
 ================================================================================
-CHAPTER 10: INTRODUCTION TO COMPUTER SYSTEM
+SESSION 2: COMPUTER SYSTEM & FUNCTIONAL ORGANISATION
 ================================================================================
 
-1. INTRODUCTION & DEFINITION:
-- A computer is an electronic device that accepts data from us, processes it, and displays the information.
+1. DEFINITION OF A COMPUTER:
+- A computer is an electronic, programmable data processing device that accepts raw data
+  as input from the user, processes it under the control of stored instructions, stores
+  the data if required, and produces meaningful information as output.
 
-2. DATA:
-- Raw facts and figures are termed as data.
+2. DATA VS. INFORMATION:
+--------------------------------------------------------------------------------
+Feature             Data                              Information
+--------------------------------------------------------------------------------
+Definition          Raw, unorganized facts,           Processed, structured, and
+                    figures, symbols, or observations meaningful data
+Value / Context     Lacks meaning on its own          Provides context and actionable insights
+Dependency          Input to the computer             Output produced by the computer
+Example             Marks: 85, 92, 78, 90             "Arjun scored an average of 86.25% (Grade A)"
+--------------------------------------------------------------------------------
 
-3. PROCESSING:
-- The act of performing arithmetic and logical operations is called processing.
-  a) Arithmetic Operations:
-     Operations like addition (+), subtraction (-), multiplication (*), and division (/) are examples of processing.
-  b) Logical Operations:
-     Operations like A > B, A = 100, AGE < 65 are also examples of processing.
+3. MEANING OF PROCESSING:
+- Processing refers to the manipulation, calculation, and logical evaluation of raw data
+  by the Central Processing Unit (CPU).
+- Processing includes:
+  * Arithmetic Operations: Fundamental mathematical calculations such as Addition (+),
+    Subtraction (-), Multiplication (*), and Division (/).
+  * Logical Operations: Decision-making and comparison operations that evaluate conditional
+    statements such as Equal To (=), Not Equal To (!=), Greater Than (>), Less Than (<),
+    Greater Than or Equal To (>=), and Less Than or Equal To (<=).
 
-4. INFORMATION:
-- The result obtained after processing the data is called information.
+4. THE INPUT-PROCESS-OUTPUT (IPO) CYCLE:
+Every computer functions based on the IPO cycle:
+1. Input: Entering data and programs into the system through input hardware.
+2. Process: Manipulating and computing the data in the CPU according to instructions.
+3. Output: Presenting the calculated results in a human-readable form.
+4. Storage: Saving results or intermediate data permanently on storage media.
 
-5. WORKING OF A COMPUTER (IPO CYCLE):
-- Note that the computer comprises different types of units, using which all these tasks are performed.
-- The input unit of the computer takes data from us.
-- Its processor processes the data.
-- Its output unit displays the result.
+ASCII IPO Flow Diagram:
+┌──────────────┐         Raw Data         ┌────────────────────────┐      Processed Result      ┌──────────────┐
+│  INPUT UNIT  │ ───────────────────────> │ CENTRAL PROCESSING UNIT│ ─────────────────────────> │ OUTPUT UNIT  │
+│ (Keyboard,   │                          │         (CPU)          │                            │  (Monitor,   │
+│  Mouse, etc.)│                          └────────────────────────┘                            │ Printer, etc)│
+└──────────────┘                                      │    ▲                                    └──────────────┘
+                                                      │    │
+                                            Store Data│    │ Retrieve Data
+                                                      ▼    │
+                                          ┌────────────────────────┐
+                                          │   STORAGE UNIT (HDD)   │
+                                          └────────────────────────┘
 
-  Data Flow Diagram (IPO Cycle):
-  ┌────────────┐    Data    ┌───────────┐ Processed Data ┌─────────────┐            ┌─────────────┐
-  │ Input Unit │ ─────────> │ Processor │ ─────────────> │ Output Unit │ ─────────> │ Information │
-  └────────────┘            └───────────┘                └─────────────┘            └─────────────┘
+5. COMPUTER ORGANISATION (FUNCTIONAL UNITS):
+A computer architecture consists of four interconnected functional subsystems:
 
-6. COMPUTER ORGANISATION:
-The computer is an electronic data processing device. It comprises the following major units:
+A. Input Unit:
+   - Encodes user instructions and data into binary signals (0s and 1s) that the CPU understands.
+   - Primary Input Device: Keyboard (used for typing alphanumeric characters and commands).
+   - Pointing Device: Mouse, Touchpad, Trackball.
+   - Optical / Scanning Devices:
+     * Flatbed Scanner (converts printed paper documents to digital graphics).
+     * Optical Mark Reader (OMR - reads pen/pencil marks on objective exam answer sheets).
+     * Optical Character Reader (OCR - converts scanned printed text into editable characters).
+     * Magnetic Ink Character Recognition (MICR - reads special magnetic ink numbers on bank cheques).
+     * Barcode Reader (reads universal product barcode stripes in retail stores).
+     * QR Code Scanner (reads 2D Quick Response matrix barcodes via camera).
+   - Audio/Video Input: Microphone (voice input), Webcam (live video capture).
 
-                 ┌──────────────────────────────────────┐
-                 │    CENTRAL PROCESSING UNIT (CPU)     │
-                 │                                      │
-  ┌────────────┐ │  ┌────────────────────────────────┐  │ ┌─────────────┐
-  │ Input Unit │─┼─>│ Memory Unit (MU)               │  ├─┼>│ Output Unit │
-  └────────────┘ │  ├────────────────────────────────┤  │ └─────────────┘
-                 │  │ Control Unit (CU)              │  │
-                 │  ├────────────────────────────────┤  │
-                 │  │ Arithmetic & Logic Unit (ALU)  │  │
-                 │  └───────────────┬────────────────┘  │
-                 └──────────────────┼───────────────────┘
-                                    │
-                                    ▼
-                         ┌────────────────────┐
-                         │    Storage Unit    │
-                         │ (Permanent Storage)│
-                         └────────────────────┘
+B. Central Processing Unit (CPU - Brain of the Computer):
+   - The CPU controls, coordinates, and executes all computational instructions.
+   - It contains three major subunits:
+     1) Arithmetic & Logic Unit (ALU):
+        - Executes all fundamental arithmetic calculations (+, -, *, /) and logical decisions
+          (AND, OR, NOT, comparisons).
+     2) Control Unit (CU):
+        - Acts as the central traffic manager or supervisor of the computer.
+        - Fetches instructions from memory, decodes them, directs the flow of signals between
+          ALU, registers, input, and output units.
+     3) Memory Unit (MU) / Registers:
+        - Small, extremely high-speed temporary storage cells located right inside the processor.
+        - Holds immediate operands, current instructions, and intermediate computation values.
 
-7. EXPLANATION OF FUNCTIONAL UNITS:
+C. Output Unit:
+   - Decodes internal binary results into human-understandable visual, printed, or audio output.
+   - Visual Display Unit (VDU / Monitor):
+     * The primary output unit.
+     * Displays soft copies of text, graphics, and video.
+     * Technologies: CRT (Cathode Ray Tube - legacy), LCD (Liquid Crystal Display),
+       LED (Light Emitting Diode), OLED (Organic LED).
+   - Printers (Produces Hard Copies on Paper):
+     * Impact Printers: Physical mechanical contact with paper through an inked ribbon
+       (e.g., Dot Matrix Printer - noisy, slow, inexpensive, used for continuous bills/tickets).
+     * Non-Impact Printers: No physical striking; uses toner or ink droplets
+       (e.g., Inkjet Printer - liquid ink cartridges, good for photos;
+        Laser Printer - uses dry powdered toner and laser beam, very fast, razor-sharp text).
+   - Plotters: High-precision printing hardware for large architectural blueprints and CAD engineering drawings.
+   - Speakers & Headphones: Audio output units that reproduce sound signals.
+   - Digital Projectors: Magnifies computer display output onto large projection screens.
 
-- Input Unit:
-  * The input unit is used for entering data in the computer.
-  * A keyboard is the main input unit that is used for entering data.
-  * Other input units include mouse, scanner, microphone, and webcam.
+D. Storage Unit:
+   - Stores programs, user documents, multimedia files, and the operating system permanently.
+   - Retains information even when the computer system is switched off.
 
-- Central Processing Unit (CPU):
-  * It is the main unit of the computer.
-  * It is used for processing of data.
-  * The CPU consists of the following subunits:
-    1) Memory Unit (MU): Holds data and instructions during processing.
-    2) Arithmetic and Logical Unit (ALU): Performs arithmetic calculations and logical decisions.
-    3) Control Unit (CU): Coordinates and manages operations across all computer hardware.
-
-- Output Unit:
-  * The output unit is for displaying the result.
-  * A monitor is the main output unit that is used on every computer.
-  * Other output units include printers, speakers, and projectors.
-
-- Storage Unit:
-  * Storage units are used to store data permanently for future use.
+6. KEY CHARACTERISTICS OF A COMPUTER:
+- Speed: Can execute billions of instructions per second (measured in GHz, MIPS).
+- Accuracy: Delivers 100% accurate results provided the input and instructions are correct (GIGO: Garbage In, Garbage Out).
+- Diligence: Free from tiredness, boredom, fatigue, or loss of concentration.
+- Versatility: Capable of executing completely diverse tasks (from word processing to space navigation).
+- Storage Capacity: Can store vast libraries of data reliably in minimal physical space.
+- Reliability: Consistent performance over prolonged operating periods without mechanical errors.
 
 
 ================================================================================
-SUPPLEMENTARY: PERSONAL HYGIENE & SELF-CONFIDENCE SUGGESTIONS
+SESSION 3: MEMORY HIERARCHY, UNITS & PERIPHERAL PORTS
 ================================================================================
-1. Personal Hygiene:
-   It is a habit or a practice through which we keep ourselves clean.
 
-2. Suggestions for Boosting Self-Confidence:
-   The following are practical suggestions for boosting self-confidence:
-   - Take care of your body and maintain good health.
-   - Dress appropriately and smartly.
-   - Maintain a circle of good friends.
-   - Talk to yourself positively each day.
-   - Respect others and help them.
-   - Learn to say no to unreasonable requests.
+1. PRIMARY MEMORY (MAIN MEMORY):
+- Directly accessible by the CPU via the system memory bus.
+- It comprises RAM, ROM, and Cache Memory:
+
+A. RAM (Random Access Memory):
+   - Working memory of the computer where currently active programs and data reside.
+   - Read / Write Memory: CPU can both read data from and write data to RAM.
+   - Volatile Memory: All stored contents are immediately erased when electrical power is switched off.
+   - Types:
+     * SRAM (Static RAM): Faster, uses flip-flops, does not need periodic refreshing, used in Cache.
+     * DRAM (Dynamic RAM): Slower, uses capacitors and transistors, requires continuous refreshing, used in main system RAM.
+
+B. ROM (Read Only Memory):
+   - Pre-recorded memory containing permanent system startup firmware.
+   - Read-Only: Normally, data can only be read; users cannot write or overwrite data easily.
+   - Non-Volatile Memory: Retains its contents permanently even during power outages.
+   - Contains BIOS (Basic Input/Output System) and the Bootstrap Loader routine.
+   - Types:
+     * PROM (Programmable ROM): Programmed once by the manufacturer using a PROM programmer.
+     * EPROM (Erasable Programmable ROM): Can be erased by exposing the chip to strong ultraviolet (UV) light.
+     * EEPROM (Electrically Erasable Programmable ROM): Can be erased and reprogrammed electrically
+       without removing it from the motherboard (Flash ROM).
+
+C. Cache Memory:
+   - A specialized, ultra-fast temporary memory buffer placed directly between the CPU and main RAM.
+   - Stores frequently and recently accessed instructions to reduce CPU wait cycles.
+   - Divided into Level 1 (L1), Level 2 (L2), and Level 3 (L3) cache.
+
+2. SECONDARY STORAGE (AUXILIARY STORAGE):
+- Permanent, high-capacity, non-volatile storage used to store data, files, and programs long-term.
+- Common Types:
+  * Hard Disk Drive (HDD): Magnetic storage device consisting of spinning magnetic platters and read/write heads.
+  * Solid State Drive (SSD): Flash memory-based storage with no moving parts. Much faster read/write speeds,
+    shock-resistant, silent, and consumes less power than traditional HDDs.
+  * Optical Discs:
+    - CD-ROM (Compact Disc): Stores ~700 MB of data.
+    - DVD-ROM (Digital Versatile Disc): Stores ~4.7 GB (single layer) to 8.5 GB (dual layer).
+    - Blu-ray Disc (BD): Uses blue-violet laser; stores 25 GB to 50 GB of high-definition data.
+  * USB Flash Drives (Pen Drives): Compact, portable solid-state flash memory connecting via USB.
+  * Memory Cards (SD / MicroSD): Miniature flash cards used in digital cameras and smartphones.
+  * Cloud Storage: Remote virtual storage hosted on secure internet servers (Google Drive, OneDrive, iCloud).
+
+3. UNITS OF COMPUTER MEMORY MEASUREMENT:
+- Binary Digit (Bit): The smallest fundamental unit of digital data. Value is either 0 or 1.
+- Nibble: A group of 4 bits (e.g., 1010).
+- Byte (B): A group of 8 bits. Represents a single character (letter, digit, or symbol).
+
+Complete Memory Conversion Table:
+--------------------------------------------------------------------------------
+Unit                Symbol        Exact Value                     Approx. Capacity
+--------------------------------------------------------------------------------
+Bit                 b             0 or 1 (Binary digit)           Single electrical state
+Nibble              -             4 bits                          Half a byte
+Byte                B             8 bits                          1 alphanumeric character
+Kilobyte            KB            1024 Bytes (2^10 Bytes)         1 page of plain text (~1 KB)
+Megabyte            MB            1024 KB    (2^20 Bytes)         1 MP3 audio song (~4-5 MB)
+Gigabyte            GB            1024 MB    (2^30 Bytes)         1 HD feature movie (~2-4 GB)
+Terabyte            TB            1024 GB    (2^40 Bytes)         Library of thousands of movies
+Petabyte            PB            1024 TB    (2^50 Bytes)         Massive enterprise datacenter
+--------------------------------------------------------------------------------
+Remember: In digital computing, multiples use powers of 2 (2^10 = 1024), NOT 1000!
+
+4. COMPUTER HARDWARE PORTS & CONNECTORS:
+Ports are physical sockets located on the computer case / motherboard used to connect
+external peripheral devices:
+- USB (Universal Serial Bus):
+  * Type-A (standard rectangular connector for keyboards, mice, flash drives).
+  * Type-C (modern, reversible connector supporting ultra-fast data, video, and power delivery).
+- HDMI (High-Definition Multimedia Interface): Transmits uncompressed digital high-definition
+  video and multi-channel audio through a single cable to monitors, TVs, and projectors.
+- VGA (Video Graphics Array): Older 15-pin analog connector transmitting video signals only to monitors.
+- RJ-45 Ethernet Port: Used to connect a wired network cable (LAN cable) for high-speed internet.
+- 3.5mm Audio Jacks: Used for connecting external microphones (pink), headphones/speakers (green),
+  and line-in audio (blue).
+- Power Port: Connects the power supply unit (SMPS) to the mains electrical outlet.
+
+
+================================================================================
+SESSION 4: COMPUTER HARDWARE & SOFTWARE
+================================================================================
+
+1. HARDWARE VS. SOFTWARE:
+- Hardware:
+  * The physical, tangible electronic, magnetic, and mechanical components of a computer that
+    can be seen and touched.
+  * Examples: Keyboard, monitor, hard disk, CPU chip, motherboard, RAM stick.
+- Software:
+  * A set of programs, instructions, and procedures that tell computer hardware what to do
+    and how to perform a given task.
+  * Intangible: Cannot be physically touched.
+  * Examples: Windows 11, LibreOffice, Google Chrome, Python interpreter.
+- Interdependence: Hardware cannot function without software instructions; software cannot run
+  without physical hardware circuitry. Both are complementary.
+
+2. CLASSIFICATION OF SOFTWARE:
+
+                          ┌────────────────────────┐
+                          │    COMPUTER SOFTWARE   │
+                          └───────────┬────────────┘
+                 ┌────────────────────┴────────────────────┐
+                 ▼                                         ▼
+      ┌─────────────────────┐                   ┌─────────────────────┐
+      │   SYSTEM SOFTWARE   │                   │ APPLICATION SOFTWARE│
+      └──────────┬──────────┘                   └──────────┬──────────┘
+      ┌──────────┼──────────┐                   ┌──────────┴──────────┐
+      ▼          ▼          ▼                   ▼                     ▼
+┌──────────┐┌─────────┐┌─────────┐        ┌───────────┐         ┌───────────┐
+│Operating ││Language ││Utility  │        │General-   │         │Customized/│
+│  System  ││Transltr ││Programs │        │Purpose    │         │Tailored   │
+└──────────┘└─────────┘└─────────┘        └───────────┘         └───────────┘
+
+A. System Software:
+   Software that directly manages computer hardware resources and provides a base platform
+   for application software to run.
+   Subtypes:
+   1) Operating System (OS):
+      - The master software program that acts as an interface between user, application software,
+        and underlying hardware.
+      - Functions: Process scheduling, memory management, file system organization, device management,
+        security, and user interface.
+      - Examples: Microsoft Windows, GNU/Linux, Apple macOS, Google Android, Apple iOS.
+   2) Device Drivers:
+      - Dedicated translator software that allows the OS to communicate with a specific peripheral device
+        (e.g., printer driver, graphics driver, Wi-Fi driver).
+   3) Language Translators:
+      - Converts human-written source code into machine-executable binary machine code (0s and 1s):
+        * Assembler: Translates Assembly language mnemonics into machine code.
+        * Compiler: Translates the entire High-Level Language program into machine code at once
+          before execution (e.g., C, C++). Fast execution, reports all syntax errors together.
+        * Interpreter: Translates and executes High-Level code line by line (e.g., Python).
+          Easier debugging, halts immediately on the first encountered error.
+   4) Utility Software:
+      - Maintenance and housekeeping programs designed to protect, optimize, and tune system performance:
+        * Antivirus Software: Scans, detects, and quarantines malicious virus programs (e.g., Windows Defender).
+        * Disk Cleanup: Scans hard drives to delete temporary cache, cookies, and junk files.
+        * Disk Defragmenter: Reassembles fragmented pieces of files on magnetic disks to speed up file access.
+        * File Compression Tools: Reduces file size to save storage space and transmission time (e.g., 7-Zip, WinRAR).
+        * Backup Utilities: Automates scheduled copying of essential files to secondary/cloud storage.
+
+B. Application Software:
+   Programs developed to solve specific end-user problems or perform personalized tasks.
+   1) General-Purpose Application Software:
+      - Mass-market software catering to common day-to-day computing needs:
+        * Word Processors: Document typing and formatting (LibreOffice Writer, MS Word).
+        * Electronic Spreadsheets: Numerical accounting and analysis (LibreOffice Calc, MS Excel).
+        * Presentation Software: Slide visual displays (LibreOffice Impress, MS PowerPoint).
+        * Database Management: Data collection and querying (LibreOffice Base, MS Access).
+        * Multimedia Players: Audio and video playback (VLC Media Player, Windows Media Player).
+   2) Customized / Specific-Purpose Software (Tailored Software):
+      - Custom-coded to fulfill the bespoke requirements of a particular organization:
+        * School Management & Fee Portal Software
+        * Hospital Patient Management System
+        * Hotel Reservation and Billing System
+        * Airline / Railway Reservation Systems (e.g., IRCTC)
+
+3. SOFTWARE LICENSING MODELS:
+- Proprietary / Commercial Software:
+  * Source code is kept secret (closed source). Users purchase a license to use it under restrictive terms.
+  * Redistribution or modification is strictly prohibited.
+  * Examples: Microsoft Windows, Adobe Photoshop, Microsoft Office.
+- Free and Open Source Software (FOSS):
+  * Users have the freedom to run, study, modify, and redistribute the software and its source code.
+  * Examples: GNU/Linux (Ubuntu), LibreOffice, GIMP, Mozilla Firefox, Python.
+- Freeware: Software available completely free of charge, but source code is closed (e.g., Adobe Acrobat Reader).
+- Shareware: Trial software provided free for an evaluation period (e.g., 30 days) before requiring purchase.
+
+
+================================================================================
+SESSION 5: BASIC COMPUTER OPERATIONS & OS INTERFACE
+================================================================================
+
+1. COMPUTER BOOTING:
+- Booting is the automated initial startup sequence that loads the operating system from
+  secondary storage (hard drive/SSD) into main memory (RAM) when the computer is turned on.
+- The Booting Sequence:
+  1) Power supply activates the motherboard.
+  2) CPU initializes and executes the BIOS (Basic Input/Output System) stored in ROM.
+  3) BIOS performs the POST (Power-On Self-Test) to verify that all vital hardware components
+     (RAM, keyboard, storage drives, graphics) are functioning properly.
+  4) BIOS locates the Master Boot Record (MBR/GPT) on the boot drive.
+  5) The Bootstrap Loader loads the Operating System kernel into RAM.
+  6) The OS initializes drivers and displays the user login screen / Desktop.
+
+- Types of Booting:
+  * Cold Booting (Hard Boot): Starting a computer from a completely powered-OFF state by
+    pressing the physical power button on the CPU cabinet or laptop.
+  * Warm Booting (Soft Boot): Restarting a computer that is already running without cutting
+    off the main power supply (e.g., selecting Start -> Restart, or pressing Ctrl + Alt + Delete).
+
+2. GUI OPERATING SYSTEM INTERFACE (WINDOWS ENVIRONMENT):
+- Desktop:
+  * The primary on-screen workspace that appears after logging in.
+  * Contains the background wallpaper, desktop icons, and the taskbar.
+- Desktop Icons:
+  * System Icons: Default system tools like This PC (file manager), Recycle Bin, Network, Control Panel.
+  * Shortcut Icons: Small icons containing a curved arrow overlay in the bottom-left corner;
+    serves as a direct pointer to an application, folder, or file.
+  * Application / File Icons: Direct document files (.docx, .pdf) or program executables.
+- The Taskbar:
+  * The horizontal bar normally positioned at the very bottom edge of the screen.
+  * Sub-components:
+    1) Start Button: Opens the Start Menu containing all installed apps, power options (Sleep, Restart, Shut Down),
+       and system settings.
+    2) Search Bar / Icon: Allows instant searching for apps, files, settings, and web answers.
+    3) Pinned & Active Application Buttons: Icons representing pinned favorites and currently active open windows.
+    4) Notification Area (System Tray): Located on the far right; displays the system clock/calendar,
+       network Wi-Fi connection, speaker volume, battery indicator, and background app status.
+    5) Show Desktop Button: Thin sliver on the extreme bottom-right corner that minimizes all open windows instantly.
+
+3. MOUSE OPERATIONS:
+- Point: Hovering the mouse pointer over an on-screen object.
+- Single Left Click: Highlights, activates, or selects an item.
+- Double Click: Rapidly clicking the left mouse button twice; used to open a file, folder, or launch a program.
+- Right Click: Opens the contextual shortcut menu displaying relevant commands (Open, Copy, Delete, Properties).
+- Click and Drag (Drag & Drop): Pressing and holding the left button down while moving the mouse pointer,
+  then releasing it; used to move or copy files, resize windows, and select blocks of text.
+- Scroll Wheel: Rolling the wheel forwards or backwards to scroll web pages and documents vertically.
+
+4. KEYBOARD LAYOUT & ESSENTIAL SHORTCUT KEYS:
+- Function Keys (F1 - F12):
+  * F1: Universal Help
+  * F2: Rename selected file or folder
+  * F5: Refresh active window or web page
+- Navigation Keys: Arrow keys, Home (jump to start of line), End (jump to end of line),
+  Page Up (scroll up one full screen), Page Down (scroll down one full screen).
+- Modifier Keys: Ctrl, Alt, Shift (used in conjunction with other keys).
+- Special Keys: Enter (executes command/new line), Esc (cancels active dialog), Backspace (erases character to left),
+  Delete (erases character to right), Tab (jumps cursor ahead), Caps Lock (toggles uppercase typing).
+
+High-Yield Keyboard Shortcuts Table:
+--------------------------------------------------------------------------------
+Shortcut Key        Action / Function
+--------------------------------------------------------------------------------
+Ctrl + C            Copy selected text, file, or object
+Ctrl + X            Cut selected text, file, or object
+Ctrl + V            Paste copied or cut text, file, or object
+Ctrl + Z            Undo last action
+Ctrl + Y            Redo last undone action
+Ctrl + S            Save current document or file
+Ctrl + A            Select all items or entire text
+Ctrl + P            Print current document
+Ctrl + F            Find / Search for specific text
+Alt + F4            Close currently active application window (or open Shut Down dialog)
+Alt + Tab           Switch between currently running application windows
+Windows Key + D     Minimize all open windows and show the Desktop
+Windows Key + E     Open File Explorer (This PC)
+Windows Key + L     Lock computer workstation immediately
+Shift + Delete      Permanently delete selected file without sending to Recycle Bin
+--------------------------------------------------------------------------------
+
+
+================================================================================
+SESSION 6: FILE AND FOLDER MANAGEMENT
+================================================================================
+
+1. WHAT IS A FILE?
+- A file is a named collection of related records, data, or information stored on a
+  secondary storage device (such as an SSD, hard disk, or pen drive).
+- Every file has a specific file format identified by its extension.
+
+2. WHAT IS A FOLDER (DIRECTORY)?
+- A folder is a virtual container used to store, organize, and categorize files and other
+  folders (called subfolders) in a systematic hierarchical tree structure.
+- Folders prevent clutter and enable users to locate documents quickly.
+
+3. ANATOMY OF A FILE NAME:
+A standard filename has two distinct segments separated by a period (dot):
+`[Primary Name].[File Extension]`
+- Primary Name: Given by the user to identify the file contents (e.g., `Science_Project`).
+- Period (`.`): Separates the primary name from the extension.
+- File Extension: 3 or 4 alphanumeric characters automatically appended by the application to specify
+  the file format and tell the OS which program to use to open it (e.g., `.docx`).
+
+4. COMMON FILE FORMATS & EXTENSIONS TABLE:
+--------------------------------------------------------------------------------
+Category            Extension               File Type / Application
+--------------------------------------------------------------------------------
+Plain Text          .txt                    Simple unformatted text (Notepad)
+Rich Document       .docx                   Microsoft Word document
+Open Document       .odt                    LibreOffice Writer text document
+Portable Document   .pdf                    Adobe Portable Document Format
+Rich Text           .rtf                    Rich Text Format document
+Spreadsheet         .xlsx                   Microsoft Excel workbook
+Open Spreadsheet    .ods                    LibreOffice Calc spreadsheet
+Data Table          .csv                    Comma Separated Values data sheet
+Presentation        .pptx                   Microsoft PowerPoint presentation
+Open Presentation   .odp                    LibreOffice Impress slide show
+Image / Graphic     .jpg / .jpeg            Joint Photographic Experts Group (compressed photo)
+Image / Graphic     .png                    Portable Network Graphics (lossless, transparent)
+Animated Graphic    .gif                    Graphics Interchange Format (simple animations)
+Vector Graphic      .svg                    Scalable Vector Graphics
+Bitmap Graphic      .bmp                    Uncompressed Windows Bitmap
+Audio               .mp3                    MPEG Audio Layer III (standard music)
+Audio               .wav                    Waveform Audio (uncompressed CD-quality audio)
+Video               .mp4                    MPEG-4 Video (universal web/mobile video)
+Video               .avi                    Audio Video Interleave (Windows video)
+Executable          .exe                    Executable binary program file (Windows)
+Compressed Archive  .zip / .rar             Compressed archive container (zip folder)
+Web Page            .html / .htm            HyperText Markup Language web source
+--------------------------------------------------------------------------------
+
+5. FILE OPERATIONS (STEP-BY-STEP):
+- Creating a New Folder:
+  Right-click on blank Desktop area -> Select 'New' -> Click 'Folder' -> Type name -> Press Enter.
+- Renaming a File/Folder:
+  Select the item -> Press F2 (or Right-click -> Rename) -> Type the new name -> Press Enter.
+- Moving a File (Cut and Paste):
+  Select item -> Press Ctrl + X -> Open destination folder -> Press Ctrl + V.
+  (Removes file from original source and places it in destination).
+- Copying a File (Copy and Paste):
+  Select item -> Press Ctrl + C -> Open destination folder -> Press Ctrl + V.
+  (Keeps the original file intact and creates an identical duplicate).
+- Deleting a File (Recycle Bin):
+  Select item -> Press Delete key (or Right-click -> Delete).
+  The file is moved to the Recycle Bin and can be restored if needed.
+- Permanent Deletion:
+  Select item -> Press Shift + Delete -> Confirm prompt.
+  The file bypasses the Recycle Bin completely and cannot be restored easily.
+- Restoring from Recycle Bin:
+  Open Recycle Bin -> Locate file -> Right-click file -> Click 'Restore'.
+  File returns to its original folder location.
+
+6. SEARCHING FILES USING WILDCARDS:
+Wildcard characters are special symbols used to search for files when the exact filename is forgotten:
+1) Asterisk (*) Wildcard:
+   - Matches any string of zero or more characters.
+   - Examples:
+     * `*.docx`     : Finds every file with the `.docx` extension.
+     * `report*.*`  : Finds any file whose name begins with `report`, regardless of extension.
+     * `*india*.*`  : Finds all files containing the word `india` anywhere in their name.
+2) Question Mark (?) Wildcard:
+   - Matches exactly one single character at that specific position.
+   - Examples:
+     * `test?.txt`  : Matches `test1.txt`, `testA.txt`, but NOT `test12.txt`.
+     * `class??.pdf`: Matches `class09.pdf`, `class10.pdf`, but NOT `class1.pdf`.
+
+
+================================================================================
+SESSION 7: COMPUTER NETWORKING & INTERNET BASICS
+================================================================================
+
+1. WHAT IS A COMPUTER NETWORK?
+- An interconnection of two or more autonomous computers or computing devices via communication
+  media (wired cables or wireless links) to share hardware resources (printers, scanners),
+  data files, software programs, and internet connectivity.
+
+2. TYPES OF COMPUTER NETWORKS (GEOGRAPHICAL CLASSIFICATION):
+--------------------------------------------------------------------------------
+Type     Full Form                   Coverage Span       Typical Example
+--------------------------------------------------------------------------------
+PAN      Personal Area Network       Within 10 meters    Smartphone paired with Bluetooth smartwatch/earbuds
+LAN      Local Area Network          Single room/school  School computer laboratory, office floor
+MAN      Metropolitan Area Network   Entire city         City cable television network, municipal Wi-Fi
+WAN      Wide Area Network           Country / Worldwide The Global Internet, multinational bank ATM network
+--------------------------------------------------------------------------------
+
+3. TRANSMISSION MEDIA:
+- Guided (Wired) Media:
+  * Twisted Pair Cable (Ethernet / CAT6 cables with RJ-45 connectors): Inexpensive, standard in LANs.
+  * Coaxial Cable: Shielded copper cable used in cable TV connections.
+  * Optical Fiber Cable: Uses thin glass/plastic fibers to transmit data as light pulses. Immune to
+    electrical noise, extremely fast, used in broadband backbones and submarine cables.
+- Unguided (Wireless) Media:
+  * Radio Waves (Wi-Fi, Bluetooth, Cellular 4G/5G).
+  * Microwaves (Satellite communication, point-to-point tower links).
+  * Infrared (Short-range line-of-sight communication like TV remote controls).
+
+4. INTERNET & WEB CONCEPTS:
+- Internet:
+  The global "network of networks" linking billions of computers using the standard TCP/IP protocol suite.
+- World Wide Web (WWW):
+  A massive system of interlinked hypertext documents and multimedia resources accessed over the internet.
+  Created by Sir Tim Berners-Lee in 1989.
+- Web Page: A single digital document written in HTML and hosted on the web.
+- Website: A related collection of publicly accessible web pages grouped under a single domain name.
+- Web Server: A powerful host computer that stores website files and serves them to client web browsers on demand.
+- Web Client: The user's device running a web browser that requests and displays web pages.
+
+5. WEB BROWSER VS. SEARCH ENGINE:
+--------------------------------------------------------------------------------
+Parameter          Web Browser                         Search Engine
+--------------------------------------------------------------------------------
+Definition         Software installed on the client    Online web service used to search
+                   device used to view web pages       the internet using keywords
+Function           Retrieves and renders HTML code     Indexes web pages and ranks results
+Installation       Must be installed locally           Accessed via a web browser over URL
+Examples           Google Chrome, Mozilla Firefox,     Google, Microsoft Bing, Yahoo,
+                   Microsoft Edge, Apple Safari        DuckDuckGo, Baidu
+--------------------------------------------------------------------------------
+
+6. ANATOMY OF A URL (UNIFORM RESOURCE LOCATOR):
+A URL is the unique global web address of an internet resource.
+Example URL: `https://www.techlearners.in/pages/notes/index.html`
+- `https://`                  : Protocol (HyperText Transfer Protocol Secure).
+- `www`                       : Subdomain (World Wide Web).
+- `techlearners.in`           : Domain Name / Host Server.
+- `/pages/notes/`             : Directory path on the host web server.
+- `index.html`                : Specific file or resource requested.
+
+7. HTTP VS. HTTPS:
+- HTTP (HyperText Transfer Protocol): Transmits web data in plain text. Vulnerable to eavesdropping and interception.
+- HTTPS (HTTP Secure): Encrypts all transmitted data using SSL/TLS encryption. Indicated by a padlock icon
+  in the browser address bar. Essential for online banking, shopping, and password logins.
+
+8. BANDWIDTH & INTERNET SPEED:
+- Bandwidth: The maximum data-carrying capacity of a communication channel per second.
+- Measured in bits per second: bps, Kbps (Kilobits/sec), Mbps (Megabits/sec), Gbps (Gigabits/sec).
+  (Note: 1 Byte/sec = 8 bits/sec; downloading at 1 MB/s requires an 8 Mbps connection).
+
+
+================================================================================
+SESSION 8: ELECTRONIC MAIL (EMAIL) ARCHITECTURE & ETIQUETTE
+================================================================================
+
+1. WHAT IS ELECTRONIC MAIL (EMAIL)?
+- A digital transmission system used for exchanging electronic messages, text, and attached
+  multimedia files between users across computer networks.
+- Advantages: Extremely fast delivery (instant), practically zero cost, 24x7 worldwide reach,
+  supports attachments (documents, images), provides an automated paperless audit trail.
+
+2. STRUCTURE OF AN EMAIL ADDRESS:
+Every email address consists of two parts separated by the `@` ("at the rate") symbol:
+`username@domain_name`
+- `username`: The unique mailbox identifier chosen by the user (e.g., `tripathi.umesh`).
+- `@`: Separator symbol.
+- `domain_name`: The web domain of the email service provider (e.g., `techlearners.in` or `gmail.com`).
+- Example: `student@techlearners.in`
+
+3. KEY FIELDS IN AN EMAIL COMPOSITION WINDOW:
+- `To`: Primary recipients who are directly addressed and expected to respond or take action.
+- `Cc` (Carbon Copy): Secondary recipients who need visibility of the message for awareness.
+  * All recipients listed in both `To` and `Cc` can see everyone's email addresses.
+- `Bcc` (Blind Carbon Copy): Confidential or secret recipients.
+  * Addresses in `Bcc` are completely concealed and hidden from everyone in `To`, `Cc`, and other `Bcc` recipients.
+  * Excellent for preserving privacy when sending bulk circulars to hundreds of students or parents.
+- `Subject`: A brief, descriptive title summarizing the main topic or purpose of the email.
+- `Body`: The actual content, message paragraphs, greetings, and closing signatures.
+- `Attachment`: External files (PDF documents, spreadsheets, photos, compressed zip files)
+  attached using the paperclip icon. Maximum single email limit is typically 20-25 MB.
+
+4. STANDARD EMAIL FOLDERS:
+- Inbox: Stores all incoming received messages.
+- Sent: Stores copies of all messages that have been successfully dispatched.
+- Drafts: Automatically saves unfinished or unsent emails.
+- Spam / Junk: Automatically segregates unsolicited, suspicious, or mass promotional messages.
+- Trash / Bin: Temporarily holds deleted emails (usually auto-purged after 30 days).
+- Archive: Keeps important read emails safe without cluttering the active Inbox.
+
+5. EMAIL NETIQUETTE RULES (PROFESSIONAL CONDUCT):
+1) Always include a concise, meaningful Subject line (never leave it blank).
+2) Begin with a professional, polite greeting (e.g., "Dear Sir/Madam", "Hello Dr. Sharma").
+3) Never write entire messages in ALL CAPITAL LETTERS—in digital communication, ALL CAPS is
+   considered equivalent to shouting and is considered extremely rude.
+4) Keep the message clear, well-structured, and concise.
+5) Proofread for spelling and grammatical errors before hitting 'Send'.
+6) Be cautious when clicking "Reply All"—use "Reply All" only if every member genuinely needs your response.
+
+
+================================================================================
+SESSION 9: COMPUTER MAINTENANCE, DATA BACKUP & CYBER SAFETY
+================================================================================
+
+1. PHYSICAL COMPUTER CARE & MAINTENANCE:
+Regular physical care ensures hardware longevity and reliable performance:
+- Dust Cleaning: Gently clean screen, keyboard, and vents using a dry, soft microfiber cloth.
+  Never spray liquids directly onto monitors or motherboards.
+- Liquid & Food Restriction: Never eat snacks or keep water, tea, or beverages near computers.
+  Spills cause catastrophic electrical short-circuits.
+- Proper Ventilation: Keep desktop CPU towers and laptop cooling fan vents unblocked. Ensure at least
+  3-4 inches of clear space around vents to prevent processor thermal throttling or burnout.
+- Power Protection: Always plug computers into a UPS (Uninterruptible Power Supply) or voltage stabilizer
+  to guard against electrical voltage spikes, blackouts, and brownouts.
+- Safe Storage Handling: Always use the "Safely Remove Hardware and Eject Media" tray option before
+  unplugging USB flash drives to prevent data corruption.
+
+2. SOFTWARE MAINTENANCE & SYSTEM OPTIMIZATION:
+- Disk Cleanup: Periodically run the built-in Disk Cleanup utility to delete temporary cache files,
+  downloaded installer files, browser offline cache, and empty the Recycle Bin to free up disk space.
+- Disk Defragmentation: Run Disk Defragmenter on mechanical Hard Disk Drives (HDDs) to consolidate
+  scattered clusters into contiguous blocks, dramatically speeding up file read/write operations.
+  (Note: SSDs do not require defragmentation!).
+- Software Updates: Keep the Operating System, device drivers, and security software updated with
+  the latest vendor security patches.
+- Data Backup Strategy (The 3-2-1 Rule):
+  * 3 Copies: Maintain at least 3 total copies of all critical data (1 primary working copy + 2 backups).
+  * 2 Media Types: Store copies on 2 distinct storage media types (e.g., internal SSD + external USB drive).
+  * 1 Offsite Copy: Keep at least 1 backup copy in an offsite physical location or secure cloud storage
+    (e.g., Google Drive, OneDrive) to protect against fire, theft, or local hardware failure.
+
+3. CYBER THREATS & MALWARE:
+Malware (Malicious Software) is any hostile program designed to compromise system security,
+steal confidential information, or disrupt digital operations:
+- Computer Virus (Vital Information Resources Under Siege):
+  * A destructive program that attaches itself to an executable host file (.exe) and replicates
+    when the infected file is executed, damaging data and slowing the PC.
+- Computer Worm:
+  * A self-replicating malware program that spreads autonomously across computer networks without
+    requiring a human host file or human intervention, choking network bandwidth.
+- Trojan Horse:
+  * Deceptive malware disguised as useful, harmless software (such as a game or utility).
+  * Once installed, it opens a secret backdoor granting cybercriminals unauthorized remote access.
+- Spyware:
+  * Secretly installs itself to monitor user activities, track browsing history, and capture
+    confidential keystrokes and passwords (keyloggers).
+- Adware:
+  * Automatically downloads and displays unwanted banner advertisements and intrusive pop-up windows.
+- Ransomware:
+  * Malicious software that uses military-grade encryption to lock all user documents and files,
+    demanding a steep financial ransom payment in cryptocurrency for the decryption key.
+- Phishing:
+  * Social engineering cyber attack where attackers send fraudulent emails or text messages masquerading
+    as legitimate banks, tax authorities, or trusted companies to dupe users into revealing passwords,
+    OTP codes, or credit card numbers.
+- Spam: Unsolicited bulk commercial advertisements flooding user mailboxes.
+
+4. CYBER SAFETY & SECURITY BEST PRACTICES:
+- Strong Password Guidelines:
+  * Use a minimum of 8 to 16 characters in length.
+  * Combine uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and special symbols (@, #, $, %, &).
+  * Never use obvious personal information (your name, birthday, mobile number, bike number).
+  * Never reuse the same password across multiple online accounts.
+- Two-Factor Authentication (2FA / MFA):
+  * Always activate 2FA; requires entering an OTP received on mobile or generated by an authenticator
+    app in addition to your password.
+- Firewall:
+  * A network security barrier that monitors and filters incoming and outgoing network traffic
+    based on established security rules, blocking unauthorized external access.
+- Safe Browsing Habits:
+  * Verify the padlock icon and `https://` in the browser URL bar before submitting payment details.
+  * Never click on unverified email links or download attachments from unknown senders.
+  * Always log out from accounts after using public or shared computers (cyber cafe, school lab).
+
+5. DIGITAL FOOTPRINT:
+- The permanent digital trail of records, traces, and data left behind whenever a user browses
+  the internet, posts on social media, fills online forms, or clicks links.
+- Types:
+  * Active Digital Footprint: Data shared intentionally (social media posts, blog comments, uploaded photos).
+  * Passive Digital Footprint: Data collected invisibly without direct user awareness (IP address logs,
+    browsing history, tracking cookies).
+- Digital Footprints can impact future college admissions, employment opportunities, and digital reputation.
+
+
+================================================================================
+SESSION 10: HIGH-YIELD CBSE EXAM REVISION QUESTIONS & ANSWERS BANK
+================================================================================
+
+PART 1: MULTIPLE CHOICE QUESTIONS (MCQs) WITH EXPLANATIONS
+
+Q1. Which unit of the CPU is responsible for performing arithmetic operations and comparisons?
+    (a) Memory Unit (MU)
+    (b) Control Unit (CU)
+    (c) Arithmetic and Logic Unit (ALU)
+    (d) Secondary Storage
+Ans: (c) Arithmetic and Logic Unit (ALU).
+Explanation: The ALU executes all fundamental calculations (+, -, *, /) and logical comparisons (<, >, =).
+
+Q2. What type of computer memory is volatile in nature?
+    (a) ROM
+    (b) RAM
+    (c) Hard Disk
+    (d) DVD-ROM
+Ans: (b) RAM (Random Access Memory).
+Explanation: Volatile memory loses its stored data immediately when electrical power is switched off.
+
+Q3. Which keyboard shortcut is used to permanently delete a file bypassing the Recycle Bin?
+    (a) Delete
+    (b) Ctrl + Delete
+    (c) Shift + Delete
+    (d) Alt + Delete
+Ans: (c) Shift + Delete.
+Explanation: Pressing Shift + Delete bypasses the Recycle Bin and marks the file clusters as unrecoverable.
+
+Q4. Which of the following is an example of an open-source operating system?
+    (a) Microsoft Windows 11
+    (b) Apple macOS
+    (c) GNU/Linux
+    (d) Apple iOS
+Ans: (c) GNU/Linux.
+Explanation: Linux is Free and Open Source Software (FOSS), allowing users to access and modify its source code.
+
+Q5. In an email composition window, which field hides recipient addresses from all other recipients?
+    (a) To
+    (b) Cc
+    (c) Bcc
+    (d) Subject
+Ans: (c) Bcc (Blind Carbon Copy).
+Explanation: Addresses placed in Bcc are confidential and completely hidden from To, Cc, and other Bcc recipients.
+
+Q6. How many bytes are there in 1 Kilobyte (KB)?
+    (a) 1000 Bytes
+    (b) 1024 Bytes
+    (c) 8 Bytes
+    (d) 1048576 Bytes
+Ans: (b) 1024 Bytes.
+Explanation: Digital systems calculate memory in binary powers of 2; 2^10 = 1024 Bytes.
+
+Q7. Which wildcard character matches any number of characters in a file search?
+    (a) Question mark (?)
+    (b) Asterisk (*)
+    (c) Hash (#)
+    (d) Ampersand (&)
+Ans: (b) Asterisk (*).
+Explanation: The asterisk matches any string of zero or more characters (e.g., `*.docx`).
+
+
+PART 2: HIGH-YIELD 2-MARK CONCEPTUAL & DIFFERENTIATION QUESTIONS
+
+Q1. Differentiate between Data and Information.
+Ans:
+- Data: Raw, unprocessed facts, figures, and symbols that lack context or meaning on their own
+  (e.g., 85, 92, 78).
+- Information: Processed, structured, and organized data presented in a meaningful context that aids
+  decision-making (e.g., "Student scored 85% average in Term 1").
+
+Q2. Differentiate between RAM and ROM.
+Ans:
+--------------------------------------------------------------------------------
+Feature             RAM                               ROM
+--------------------------------------------------------------------------------
+Full Form           Random Access Memory              Read Only Memory
+Volatility          Volatile (contents erased         Non-Volatile (contents retained
+                    when power is turned off)         permanently without power)
+Operation           Read and Write memory             Read-only memory
+Purpose             Holds active running programs     Holds startup firmware (BIOS &
+                    and user data                     Bootstrap Loader)
+--------------------------------------------------------------------------------
+
+Q3. Differentiate between Cold Booting and Warm Booting.
+Ans:
+- Cold Booting (Hard Boot): Starting a computer from a completely powered-off state by pressing
+  the physical power switch. The system runs complete hardware initialization and POST checks.
+- Warm Booting (Soft Boot): Restarting a computer that is already switched on and running, using
+  OS commands (Start -> Restart) or key combinations (Ctrl + Alt + Delete), without a total power interruption.
+
+Q4. Differentiate between System Software and Application Software.
+Ans:
+- System Software: Software that directly manages and coordinates underlying hardware resources
+  and provides a platform for application software to run (e.g., Windows, Linux, device drivers).
+- Application Software: Software designed to help end-users perform specific tasks or solve real-world
+  problems (e.g., LibreOffice Writer, MS Excel, web browsers).
+
+Q5. Differentiate between a Compiler and an Interpreter.
+Ans:
+- Compiler: Translates the entire high-level source code into machine code in one single pass before execution
+  (e.g., C, C++). Execution is very fast, but all errors are presented together at the end.
+- Interpreter: Translates and executes high-level source code line-by-line sequentially (e.g., Python).
+  Debugging is easier because it stops execution immediately at the exact line containing an error.
+
+Q6. Differentiate between Moving a file and Copying a file.
+Ans:
+- Moving a file (Cut and Paste - Ctrl+X, Ctrl+V): Removes the file from its original location and transfers
+  it to a new folder. Only one copy exists after the move.
+- Copying a file (Copy and Paste - Ctrl+C, Ctrl+V): Leaves the original file in its existing location and
+  creates an identical duplicate in the destination folder. Two copies exist after copying.
+
+Q7. Explain the use of Wildcard characters (* and ?) in searching files.
+Ans:
+- Asterisk (*): Represents any sequence of zero, one, or multiple characters.
+  Example: `bio*.*` finds `biology.docx`, `biography.pdf`, and `biotech.xlsx`.
+- Question Mark (?): Represents exactly one single character at that exact position.
+  Example: `term?.docx` finds `term1.docx` and `termA.docx`, but not `term10.docx`.
+
+Q8. Differentiate between LAN and WAN.
+Ans:
+- LAN (Local Area Network): Confined to a small geographical area such as a single room, school lab,
+  or office building. Has high data transfer speeds, low error rates, and uses private cabling.
+- WAN (Wide Area Network): Spans a vast geographical region such as a country or the entire planet
+  (e.g., the Internet). Uses public telecommunication and satellite links, with lower speeds and higher latency.
+
+Q9. Differentiate between a Web Browser and a Search Engine.
+Ans:
+- Web Browser: A client software application installed on a device used to retrieve, format, and display
+  web pages from the World Wide Web (e.g., Google Chrome, Edge, Firefox).
+- Search Engine: An online search utility accessible via a web browser that searches its vast indexed database
+  to locate web pages matching user search keywords (e.g., Google, Bing, DuckDuckGo).
+
+Q10. Differentiate between `Cc` and `Bcc` fields in an email.
+Ans:
+- `Cc` (Carbon Copy): Used to send copies of the email to secondary recipients for their information.
+  All recipients in `To` and `Cc` can see all email addresses listed in both fields.
+- `Bcc` (Blind Carbon Copy): Used to send confidential copies. The email addresses entered in `Bcc`
+  are hidden and cannot be seen by any other recipient in `To`, `Cc`, or `Bcc`.
+
+Q11. Differentiate between a Computer Virus, a Worm, and a Trojan Horse.
+Ans:
+- Virus: Malicious code that attaches itself to an executable host file and spreads only when the infected
+  program is executed by a user.
+- Worm: Standalone malware that self-replicates across computer networks automatically without needing a host
+  file or human intervention.
+- Trojan Horse: Malware disguised as genuine, attractive software (like a free utility or game) that secretly
+  creates a backdoor into the system once installed.
+
+Q12. What is the 3-2-1 Data Backup Rule?
+Ans:
+The 3-2-1 rule is the industry-standard data preservation guideline:
+- 3: Maintain at least 3 total copies of your important data (1 primary original + 2 backups).
+- 2: Store the backup copies on 2 distinct storage media types (e.g., internal SSD + external hard drive).
+- 1: Keep at least 1 backup copy in an offsite location or on a secure cloud storage service.
+
+Q13. List four key guidelines for creating a strong, secure password.
+Ans:
+1. Minimum Length: Keep password at least 8 to 16 characters long.
+2. Character Diversity: Combine uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and special symbols (@, #, $, %).
+3. Unpredictability: Never use obvious personal details (birth dates, names, phone numbers, dictionary words).
+4. Uniqueness: Use a unique password for each online account and never share passwords with anyone.
+
+
+PART 3: 4-MARK DESCRIPTIVE QUESTIONS
+
+Q1. Explain the functional units of a computer system with the help of a neat block diagram.
+Ans:
+A computer system comprises four major interconnected functional units:
+1. Input Unit: Accepts data and instructions from the user and converts them into machine-readable binary form (Keyboard, Mouse, Scanner).
+2. Central Processing Unit (CPU): The computational brain consisting of:
+   - Arithmetic & Logic Unit (ALU): Executes mathematical computations (+, -, *, /) and logical evaluations (<, >, =).
+   - Control Unit (CU): Acts as the supervisor; decodes instructions, directs data flow, and coordinates hardware units.
+   - Memory Unit (MU) / Registers: Ultra-fast temporary internal storage holding active operands and instructions.
+3. Storage Unit: Stores data permanently (Secondary storage: HDD, SSD, USB drives).
+4. Output Unit: Converts processed binary output into human-readable visual, audio, or printed format (Monitor, Printer, Speakers).
+
+Functional Architecture Diagram:
+                     ┌─────────────────────────────────────────┐
+                     │      CENTRAL PROCESSING UNIT (CPU)      │
+                     │                                         │
+┌────────────────┐   │  ┌───────────────────────────────────┐  │   ┌─────────────────┐
+│   INPUT UNIT   │───┼─>│ Memory Unit (MU / Registers)      │  ├───┼──>│   OUTPUT UNIT   │
+│(Keyboard/Mouse)│   │  ├───────────────────────────────────┤  │   │   (Monitor/     │
+└────────────────┘   │  │ Control Unit (CU)                 │  │   │    Printer)     │
+                     │  ├───────────────────────────────────┤  │   └─────────────────┘
+                     │  │ Arithmetic & Logic Unit (ALU)     │  │
+                     │  └─────────────────┬─────────────────┘  │
+                     └────────────────────┼────────────────────┘
+                                          │
+                                          ▼
+                               ┌─────────────────────┐
+                               │    STORAGE UNIT     │
+                               │ (Hard Disk Drive /  │
+                               │  Solid State Drive) │
+                               └─────────────────────┘
+
+Q2. Describe the maintenance practices required to ensure the longevity of computer hardware and software.
+Ans:
+A. Physical Hardware Maintenance:
+1. Keep the computer dust-free by cleaning surfaces and fan vents regularly with a dry microfiber cloth.
+2. Keep food and drinks strictly away from the computer desk to prevent liquid spills.
+3. Ensure adequate ventilation space (at least 3-4 inches) around laptop fan vents and CPU cabinets.
+4. Protect against power surges and power outages by connecting the PC to a UPS.
+5. Always safely eject external USB storage drives before unplugging them.
+
+B. Software Maintenance & System Care:
+1. Run the Disk Cleanup tool regularly to delete temporary files, cache, and empty the Recycle Bin.
+2. Run Disk Defragmentation periodically on mechanical hard drives to optimize file clusters.
+3. Keep the Operating System and installed software up to date with the latest security patches.
+4. Install and maintain an active, updated Antivirus program to scan downloads and external storage.
+5. Practice regular backups using the 3-2-1 strategy to protect against data loss.
+================================================================================
