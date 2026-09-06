@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>\n  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Teacher & Admin Dashboard | Student Portfolio Manager</title>
@@ -10,6 +11,7 @@
   <script defer src="../assets/js/firebase-client.js"></script>
   <script defer src="../assets/js/content-store.js"></script>
   <script defer src="js/portfolio-auth-guard.js"></script>
+  <script defer src="js/teacher-pins.js"></script>
 </head>
 <body>
 
@@ -44,6 +46,7 @@
         <p>Assign technology teams (IT, Robotics, AI), configure the 4-step activity cycle, and update student assessments.</p>
       </div>
       <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button id="managePinsBtn" class="btn btn-primary btn-sm" onclick="openPinManagerModal()" style="background: #4338ca; border-color: #4338ca; color: #fff; font-weight: 700;" title="Configure School Master PIN and Class-Wise Teacher Passcodes">🔐 Teacher PINs</button>
         <button id="exportExcelBtn" class="btn btn-primary btn-sm" style="background: #16a34a; border-color: #16a34a; color: #fff; font-weight: 700;" title="Download all student records in Excel format">📊 Export to Excel (.xlsx/.csv)</button>
         <button id="exportJsonBtn" class="btn btn-secondary btn-sm" title="Export entire database as JSON">⬇️ Export JSON</button>
         <button id="importJsonBtn" class="btn btn-secondary btn-sm" title="Import database from JSON">⬆️ Import JSON</button>
@@ -57,7 +60,8 @@
         <h3 style="margin: 0; font-size: 1.05rem; color: #1e1b4b;">📋 Official Student Portfolio (SHM Academy Document & Single-Page Print)</h3>
         <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: #4338ca;">Fill student details matching the official portfolio document and generate verified 1-page A4 printable portfolios.</p>
       </div>
-      <div style="display: flex; gap: 0.5rem;">
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button type="button" onclick="openPinManagerModal()" class="btn btn-secondary btn-sm" style="background: #fff; color: #4338ca; font-weight: 700; border: 1.5px solid #c7d2fe;">⚙️ Teacher & Class PINs</button>
         <a href="builder.html" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b;">🎓 Open Portfolio →</a>
         <a href="template.html" class="btn btn-secondary btn-sm">📄 View Official Template</a>
       </div>
@@ -312,6 +316,61 @@
       </div>
     </div>
   </footer>
+
+  <!-- Teacher & Class PINs Manager Modal -->
+  <div id="pinManagerModal" class="teacher-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="pinManagerTitle">
+    <div class="teacher-modal-card" style="max-width: 520px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.8rem;">🔐</span>
+          <div>
+            <h3 id="pinManagerTitle" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0f172a;">Manage Teacher & Class PINs</h3>
+            <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: #64748b;">Configure Master PIN and Class-Wise Passcodes</p>
+          </div>
+        </div>
+        <button type="button" onclick="closePinManagerModal()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #94a3b8; padding: 0.2rem;" aria-label="Close modal">✕</button>
+      </div>
+
+      <p style="font-size: 0.84rem; color: #334155; line-height: 1.4; margin-bottom: 1rem;">
+        Set distinct PINs for each class teacher (Class VI – XII) or use the Master PIN for all grades. Saved securely in school settings.
+      </p>
+
+      <form id="pinConfigForm" onsubmit="return handleSavePinConfig(event)">
+        <!-- Master PIN -->
+        <div style="background: #eef2ff; border: 1.5px solid #c7d2fe; border-radius: 8px; padding: 0.85rem; margin-bottom: 1rem;">
+          <label style="display: block; font-weight: 800; font-size: 0.85rem; color: #1e1b4b; margin-bottom: 0.35rem;">
+            ⭐ Master School PIN (All Classes & Admin)
+          </label>
+          <input type="text" id="cfgMasterPin" class="form-control" placeholder="e.g. shm2026" required style="font-weight: 700;">
+          <span style="font-size: 0.72rem; color: #4338ca; display: block; margin-top: 0.25rem;">Grants full unlocking and access across all classes.</span>
+        </div>
+
+        <!-- Class-Wise PINs Grid -->
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-weight: 800; font-size: 0.85rem; color: #0f172a; margin-bottom: 0.5rem;">
+            🏫 Class-Wise Teacher Passcodes
+          </label>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem;" id="classPinsGrid">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <div id="pinManagerFeedback" style="font-size: 0.82rem; font-weight: 600; min-height: 20px; margin-bottom: 0.75rem;"></div>
+
+        <div style="display: flex; gap: 0.65rem; justify-content: flex-end; flex-wrap: wrap;">
+          <button type="button" onclick="handleResetPinConfig()" class="btn btn-secondary btn-sm" style="color: #dc2626;">
+            🔄 Reset Defaults
+          </button>
+          <button type="button" onclick="closePinManagerModal()" class="btn btn-secondary btn-sm">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm" style="background: #16a34a; border-color: #16a34a; font-weight: 700;">
+            💾 Save PIN Settings
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="js/data.js"></script>

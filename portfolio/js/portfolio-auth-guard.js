@@ -190,6 +190,9 @@
         await window.TechLearnersContent.signIn(email, pass);
         const isAdmin = await window.TechLearnersContent.requireAdmin();
         if (isAdmin) {
+          sessionStorage.setItem("portfolio_is_master_admin", "true");
+          sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+          sessionStorage.setItem("portfolio_teacher_role", "Master Administrator");
           msg.className = "auth-gate-msg ok";
           msg.textContent = "Admin verified! Unlocking portfolio...";
           setTimeout(unlockPage, 600);
@@ -203,6 +206,9 @@
       }
       
       // Fallback session verification if offline
+      sessionStorage.setItem("portfolio_is_master_admin", "true");
+      sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+      sessionStorage.setItem("portfolio_teacher_role", "Master Administrator");
       unlockPage();
     } catch (err) {
       msg.className = "auth-gate-msg err";
@@ -221,6 +227,9 @@
         await window.TechLearnersContent.googleSignIn();
         const isAdmin = await window.TechLearnersContent.requireAdmin();
         if (isAdmin) {
+          sessionStorage.setItem("portfolio_is_master_admin", "true");
+          sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+          sessionStorage.setItem("portfolio_teacher_role", "Master Administrator");
           msg.className = "auth-gate-msg ok";
           msg.textContent = "Google Admin verified! Unlocking...";
           setTimeout(unlockPage, 600);
@@ -239,6 +248,9 @@
       if (window.TechLearnersContent && typeof window.TechLearnersContent.requireAdmin === "function") {
         const isAdmin = await window.TechLearnersContent.requireAdmin();
         if (isAdmin) {
+          sessionStorage.setItem("portfolio_is_master_admin", "true");
+          sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+          sessionStorage.setItem("portfolio_teacher_role", "Master Administrator");
           unlockPage();
           return;
         }

@@ -198,6 +198,9 @@ function initTeacherMode() {
     window.TechLearnersContent.requireAdmin().then(function(isAdmin) {
       if (isAdmin) {
         isTeacherMode = true;
+        sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+        sessionStorage.setItem("portfolio_is_master_admin", "true");
+        sessionStorage.setItem("portfolio_teacher_role", "Master Administrator");
         updateTeacherLockUI();
       }
     }).catch(function() {});
@@ -228,11 +231,13 @@ function updateTeacherLockUI() {
   const assessmentInputs = document.querySelectorAll("#f_tr_academic, #f_tr_discipline, #f_tr_regularity, #f_tr_teamwork, #f_teacherRemarks, #f_teacherSignDate, #improvementInputRows input");
   const addPlanBtn = document.querySelector('button[onclick="addPlanRow()"]');
 
+  const verifiedRole = sessionStorage.getItem("portfolio_teacher_role") || "Teacher Mode";
+
   if (isTeacherMode) {
     // UNLOCKED: Teacher Mode Active
     if (statusPill) {
       statusPill.className = "teacher-status-pill teacher-mode";
-      if (statusLabel) statusLabel.textContent = "👩‍🏫 Teacher Mode Active (Verified)";
+      if (statusLabel) statusLabel.textContent = `👩‍🏫 ${verifiedRole} Active`;
       if (authTrigger) {
         authTrigger.textContent = "🔒 Switch to Student Mode";
         authTrigger.onclick = lockTeacherMode;
@@ -247,8 +252,8 @@ function updateTeacherLockUI() {
         const btn = b.querySelector(".teacher-mode-btn");
         const icon = b.querySelector(".lock-banner-icon");
         if (icon) icon.textContent = "🔓";
-        if (strong) strong.textContent = "Teacher Mode Active • Editing Enabled";
-        if (p) p.textContent = "You are authenticated as Teacher/Staff. You may enter or modify official student grades, skills, and assessment rubrics.";
+        if (strong) strong.textContent = `${verifiedRole} • Editing Enabled`;
+        if (p) p.textContent = `You are authenticated as ${verifiedRole}. Official student marks, skills matrix, and teacher assessment rubrics are unlocked for editing.`;
         if (btn) {
           btn.textContent = "🔒 Switch to Student Mode";
           btn.onclick = lockTeacherMode;
@@ -378,15 +383,34 @@ function handleTeacherPasscodeSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
   const input = document.getElementById("inputTeacherCode");
   const feedback = document.getElementById("teacherAuthFeedback");
-  const code = (input && input.value ? input.value : "").trim().toLowerCase();
+  const code = (input && input.value ? input.value : "").trim();
 
-  const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
-  if (validCodes.includes(code)) {
+  let verification = null;
+  const studentCls = (currentData && currentData.classSection) || (document.getElementById("f_classSection") ? document.getElementById("f_classSection").value : "") || "";
+
+  if (window.TeacherPINStore && typeof window.TeacherPINStore.verify === "function") {
+    verification = window.TeacherPINStore.verify(code, studentCls);
+  } else {
+    // Fallback if script not loaded
+    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+    if (validCodes.includes(code.toLowerCase())) {
+      verification = { valid: true, role: "Teacher/Staff", isMaster: true, message: "Verified as School Teacher" };
+    } else {
+      verification = { valid: false, message: "Incorrect teacher passcode. Please verify or ask school admin." };
+    }
+  }
+
+  if (verification && verification.valid) {
     isTeacherMode = true;
     sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+    if (verification.isMaster) {
+      sessionStorage.setItem("portfolio_is_master_admin", "true");
+    }
+    sessionStorage.setItem("portfolio_teacher_role", verification.role || "Teacher");
+
     if (feedback) {
       feedback.style.color = "#16a34a";
-      feedback.textContent = "✅ Teacher verified! Unlocking Academics, Skills & Assessment...";
+      feedback.textContent = `✅ ${verification.message || "Teacher verified!"} Unlocking official sections...`;
     }
     setTimeout(function() {
       closeTeacherAuthModal();
@@ -396,7 +420,7 @@ function handleTeacherPasscodeSubmit(e) {
   } else {
     if (feedback) {
       feedback.style.color = "#dc2626";
-      feedback.textContent = "❌ Incorrect teacher passcode. Please verify or ask school admin.";
+      feedback.textContent = `❌ ${verification && verification.message ? verification.message : "Incorrect teacher passcode. Please verify or ask school admin."}`;
     }
     if (input) input.select();
   }
@@ -406,9 +430,18 @@ function handleTeacherPasscodeSubmit(e) {
 function lockTeacherMode() {
   isTeacherMode = false;
   sessionStorage.removeItem("portfolio_teacher_unlocked");
+  sessionStorage.removeItem("portfolio_is_master_admin");
+  sessionStorage.removeItem("portfolio_teacher_role");
   updateTeacherLockUI();
   renderPreview(currentData);
 }
+
+// Re-render lock UI if PIN settings change
+window.addEventListener("teacher-pins-updated", function() {
+  if (isTeacherMode) {
+    updateTeacherLockUI();
+  }
+});
 
 // Load from LocalStorage
 function loadSavedData() {
