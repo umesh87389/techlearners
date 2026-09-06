@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
   bindTabNavigation();
   bindFormInputs();
   renderPreview(currentData);
+  initTeacherMode();
   goToStep(0);
 
   // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
@@ -183,6 +184,231 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 120);
   });
 });
+
+// =============================================================
+// TEACHER-ONLY SECTIONS PROTECTION & AUTHENTICATION
+// Academics, Skills Matrix & Assessment are to be filled by teacher only
+// =============================================================
+let isTeacherMode = false;
+
+function initTeacherMode() {
+  if (sessionStorage.getItem("portfolio_teacher_unlocked") === "true") {
+    isTeacherMode = true;
+  } else if (window.TechLearnersContent && typeof window.TechLearnersContent.requireAdmin === "function") {
+    window.TechLearnersContent.requireAdmin().then(function(isAdmin) {
+      if (isAdmin) {
+        isTeacherMode = true;
+        updateTeacherLockUI();
+      }
+    }).catch(function() {});
+  }
+  updateTeacherLockUI();
+}
+
+function updateTeacherLockUI() {
+  const statusPill = document.getElementById("teacherModeStatusPill");
+  const statusLabel = document.getElementById("teacherStatusLabel");
+  const authTrigger = document.getElementById("btnTeacherAuthTrigger");
+
+  const academicsBanner = document.getElementById("bannerAcademicsLock");
+  const skillsBanner = document.getElementById("bannerSkillsLock");
+  const assessmentBanner = document.getElementById("bannerAssessmentLock");
+
+  const tagAcademics = document.getElementById("tagAcademicsLock");
+  const tagSkills = document.getElementById("tagSkillsLock");
+  const tagAssessment = document.getElementById("tagAssessmentLock");
+
+  // Inputs list for Academics
+  const academicsInputs = document.querySelectorAll("#academicsInputBody input, #f_academicAchievement");
+  
+  // Inputs list for Skills
+  const skillsInputs = document.querySelectorAll("#paneSkills input");
+
+  // Inputs list for Teacher Assessment
+  const assessmentInputs = document.querySelectorAll("#f_tr_academic, #f_tr_discipline, #f_tr_regularity, #f_tr_teamwork, #f_teacherRemarks, #f_teacherSignDate, #improvementInputRows input");
+  const addPlanBtn = document.querySelector('button[onclick="addPlanRow()"]');
+
+  if (isTeacherMode) {
+    // UNLOCKED: Teacher Mode Active
+    if (statusPill) {
+      statusPill.className = "teacher-status-pill teacher-mode";
+      if (statusLabel) statusLabel.textContent = "👩‍🏫 Teacher Mode Active (Verified)";
+      if (authTrigger) {
+        authTrigger.textContent = "🔒 Switch to Student Mode";
+        authTrigger.onclick = lockTeacherMode;
+      }
+    }
+
+    [academicsBanner, skillsBanner, assessmentBanner].forEach(function(b) {
+      if (b) {
+        b.classList.add("unlocked");
+        const strong = b.querySelector(".lock-banner-text strong");
+        const p = b.querySelector(".lock-banner-text p");
+        const btn = b.querySelector(".teacher-mode-btn");
+        const icon = b.querySelector(".lock-banner-icon");
+        if (icon) icon.textContent = "🔓";
+        if (strong) strong.textContent = "Teacher Mode Active • Editing Enabled";
+        if (p) p.textContent = "You are authenticated as Teacher/Staff. You may enter or modify official student grades, skills, and assessment rubrics.";
+        if (btn) {
+          btn.textContent = "🔒 Switch to Student Mode";
+          btn.onclick = lockTeacherMode;
+        }
+      }
+    });
+
+    [tagAcademics, tagSkills, tagAssessment].forEach(function(t) {
+      if (t) t.textContent = "🔓";
+    });
+
+    // Enable inputs
+    academicsInputs.forEach(function(el) {
+      el.disabled = false;
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.removeAttribute("title");
+    });
+    skillsInputs.forEach(function(el) {
+      el.disabled = false;
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.removeAttribute("title");
+    });
+    assessmentInputs.forEach(function(el) {
+      el.disabled = false;
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.removeAttribute("title");
+    });
+    if (addPlanBtn) {
+      addPlanBtn.style.display = "inline-flex";
+    }
+  } else {
+    // LOCKED: Student & Regular User Mode (Default)
+    if (statusPill) {
+      statusPill.className = "teacher-status-pill student-mode";
+      if (statusLabel) statusLabel.textContent = "Student Mode (Academics & Skills Locked)";
+      if (authTrigger) {
+        authTrigger.textContent = "🔑 Teacher Unlock";
+        authTrigger.onclick = openTeacherAuthModal;
+      }
+    }
+
+    [academicsBanner, skillsBanner, assessmentBanner].forEach(function(b) {
+      if (b) {
+        b.classList.remove("unlocked");
+        const strong = b.querySelector(".lock-banner-text strong");
+        const p = b.querySelector(".lock-banner-text p");
+        const btn = b.querySelector(".teacher-mode-btn");
+        const icon = b.querySelector(".lock-banner-icon");
+        if (icon) icon.textContent = "🔒";
+        if (strong) {
+          if (b.id === "bannerAcademicsLock") strong.textContent = "Official Teacher-Only Section • Academic Marks & Grades";
+          else if (b.id === "bannerSkillsLock") strong.textContent = "Official Teacher-Only Section • 360° Skills Matrix";
+          else strong.textContent = "Official Teacher-Only Section • Evaluation & Assessment Rubrics";
+        }
+        if (p) {
+          if (b.id === "bannerAcademicsLock") p.textContent = "Subject marks and academic honors are officially evaluated by the Class Teacher. Students and unauthorized users cannot edit these entries.";
+          else if (b.id === "bannerSkillsLock") p.textContent = "Core skill competency ratings (1.0 to 5.0) are certified by the Class Teacher. Students are not permitted to change these scores.";
+          else p.textContent = "Conduct rubrics, teacher remarks, and improvement plans are certified by the Class Teacher. Unauthorized student edits are prohibited.";
+        }
+        if (btn) {
+          btn.textContent = "🔑 Teacher Unlock";
+          btn.onclick = openTeacherAuthModal;
+        }
+      }
+    });
+
+    [tagAcademics, tagSkills, tagAssessment].forEach(function(t) {
+      if (t) t.textContent = "🔒";
+    });
+
+    // Lock and disable inputs
+    academicsInputs.forEach(function(el) {
+      el.disabled = true;
+      el.setAttribute("readonly", "true");
+      el.classList.add("field-locked");
+      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
+    });
+    skillsInputs.forEach(function(el) {
+      el.disabled = true;
+      el.setAttribute("readonly", "true");
+      el.classList.add("field-locked");
+      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
+    });
+    assessmentInputs.forEach(function(el) {
+      el.disabled = true;
+      el.setAttribute("readonly", "true");
+      el.classList.add("field-locked");
+      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
+    });
+    if (addPlanBtn) {
+      addPlanBtn.style.display = "none";
+    }
+  }
+}
+
+function openTeacherAuthModal() {
+  const modal = document.getElementById("teacherAuthModal");
+  if (modal) {
+    modal.style.display = "flex";
+    const input = document.getElementById("inputTeacherCode");
+    if (input) {
+      input.value = "";
+      input.focus();
+    }
+    const feedback = document.getElementById("teacherAuthFeedback");
+    if (feedback) feedback.textContent = "";
+  }
+}
+
+function closeTeacherAuthModal() {
+  const modal = document.getElementById("teacherAuthModal");
+  if (modal) modal.style.display = "none";
+}
+
+function toggleTeacherAuth() {
+  if (isTeacherMode) {
+    lockTeacherMode();
+  } else {
+    openTeacherAuthModal();
+  }
+}
+
+function handleTeacherPasscodeSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const input = document.getElementById("inputTeacherCode");
+  const feedback = document.getElementById("teacherAuthFeedback");
+  const code = (input && input.value ? input.value : "").trim().toLowerCase();
+
+  const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+  if (validCodes.includes(code)) {
+    isTeacherMode = true;
+    sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+    if (feedback) {
+      feedback.style.color = "#16a34a";
+      feedback.textContent = "✅ Teacher verified! Unlocking Academics, Skills & Assessment...";
+    }
+    setTimeout(function() {
+      closeTeacherAuthModal();
+      updateTeacherLockUI();
+      renderPreview(currentData);
+    }, 450);
+  } else {
+    if (feedback) {
+      feedback.style.color = "#dc2626";
+      feedback.textContent = "❌ Incorrect teacher passcode. Please verify or ask school admin.";
+    }
+    if (input) input.select();
+  }
+  return false;
+}
+
+function lockTeacherMode() {
+  isTeacherMode = false;
+  sessionStorage.removeItem("portfolio_teacher_unlocked");
+  updateTeacherLockUI();
+  renderPreview(currentData);
+}
 
 // Load from LocalStorage
 function loadSavedData() {
@@ -576,38 +802,50 @@ function readFormToData() {
   currentData.parentSuggestions = getVal("f_parentSuggestions");
   currentData.parentSignDate = getVal("f_parentSignDate");
   currentData.studentSignDate = getVal("f_studentSignDate");
-  currentData.academicAchievement = getVal("f_academicAchievement");
   currentData.memorableActivity = getVal("f_memorableActivity");
   currentData.bestWorkNote = getVal("f_bestWorkNote");
 
-  // Read Teacher Ratings
-  const trKeys = ["academic", "discipline", "regularity", "communication", "participation", "teamwork", "leadership", "creativity"];
-  currentData.teacherRatings = currentData.teacherRatings || {};
-  trKeys.forEach(k => {
-    currentData.teacherRatings[k] = getVal("f_tr_" + k, "Excellent");
-  });
+  // =========================================================
+  // TEACHER-ONLY FIELDS PROTECTION:
+  // If not in teacher mode, DO NOT read or overwrite:
+  // - Academics table and academic achievement
+  // - Skills matrix ratings
+  // - Teacher ratings, teacher remarks, teacher sign date
+  // =========================================================
+  if (isTeacherMode) {
+    currentData.academicAchievement = getVal("f_academicAchievement");
+    currentData.teacherRemarks = getVal("f_teacherRemarks");
+    currentData.teacherSignDate = getVal("f_teacherSignDate");
 
-  // Read skills
-  const skillKeys = ["communication", "reading", "writing", "creativity", "problemSolving", "teamwork", "leadership", "timeManagement", "digitalSkills"];
-  currentData.skills = currentData.skills || {};
-  skillKeys.forEach(k => {
-    currentData.skills[k] = getVal("f_skill_" + k, "5.0");
-  });
+    // Read Teacher Ratings
+    const trKeys = ["academic", "discipline", "regularity", "communication", "participation", "teamwork", "leadership", "creativity"];
+    currentData.teacherRatings = currentData.teacherRatings || {};
+    trKeys.forEach(k => {
+      currentData.teacherRatings[k] = getVal("f_tr_" + k, "Excellent");
+    });
 
-  // Read Academics Table
-  const rows = document.querySelectorAll("#academicsInputBody tr");
-  const newAcademics = [];
-  rows.forEach(tr => {
-    const subj = tr.querySelector(".subj-name")?.value.trim();
-    const t1 = tr.querySelector(".subj-t1")?.value.trim();
-    const mid = tr.querySelector(".subj-mid")?.value.trim();
-    const t2 = tr.querySelector(".subj-t2")?.value.trim();
-    const rem = tr.querySelector(".subj-rem")?.value.trim();
-    if (subj) {
-      newAcademics.push({ subject: subj, t1: t1, mid: mid, t2: t2, remarks: rem });
-    }
-  });
-  if (newAcademics.length > 0) currentData.academics = newAcademics;
+    // Read skills
+    const skillKeys = ["communication", "reading", "writing", "creativity", "problemSolving", "teamwork", "leadership", "timeManagement", "digitalSkills"];
+    currentData.skills = currentData.skills || {};
+    skillKeys.forEach(k => {
+      currentData.skills[k] = getVal("f_skill_" + k, "5.0");
+    });
+
+    // Read Academics Table
+    const rows = document.querySelectorAll("#academicsInputBody tr");
+    const newAcademics = [];
+    rows.forEach(tr => {
+      const subj = tr.querySelector(".subj-name")?.value.trim();
+      const t1 = tr.querySelector(".subj-t1")?.value.trim();
+      const mid = tr.querySelector(".subj-mid")?.value.trim();
+      const t2 = tr.querySelector(".subj-t2")?.value.trim();
+      const rem = tr.querySelector(".subj-rem")?.value.trim();
+      if (subj) {
+        newAcademics.push({ subject: subj, t1: t1, mid: mid, t2: t2, remarks: rem });
+      }
+    });
+    if (newAcademics.length > 0) currentData.academics = newAcademics;
+  }
 }
 
 // Render Academics inputs
@@ -626,6 +864,7 @@ function renderAcademicsTable() {
     `;
     tbody.appendChild(tr);
   });
+  updateTeacherLockUI();
 }
 
 // Render Activities inputs
@@ -749,9 +988,11 @@ function renderImprovementInputs() {
     `;
     container.appendChild(div);
   });
+  updateTeacherLockUI();
 }
 
 function updatePlan(idx, field, val) {
+  if (!isTeacherMode) return; // Protected: Teacher only
   if (currentData.improvementPlans[idx]) {
     currentData.improvementPlans[idx][field] = val;
     renderPreview(currentData);
@@ -760,6 +1001,10 @@ function updatePlan(idx, field, val) {
 }
 
 function addPlanRow() {
+  if (!isTeacherMode) {
+    openTeacherAuthModal();
+    return;
+  }
   currentData.improvementPlans.push({ area: "New Target Area", plan: "Action steps", target: "Term 2", progress: "Initiated" });
   renderImprovementInputs();
   renderPreview(currentData);
@@ -1098,6 +1343,14 @@ function loadSampleData() {
 
 function clearForm() {
   if (confirm("Are you sure you want to clear the form?")) {
+    const prevAcademics = currentData.academics;
+    const prevAchievement = currentData.academicAchievement;
+    const prevSkills = currentData.skills;
+    const prevTeacherRatings = currentData.teacherRatings;
+    const prevTeacherRemarks = currentData.teacherRemarks;
+    const prevTeacherSignDate = currentData.teacherSignDate;
+    const prevImprovementPlans = currentData.improvementPlans;
+
     currentData = {
       schoolName: "SHM ACADEMY",
       schoolMotto: "“Infinite Knowledge Through Education”",
@@ -1123,7 +1376,7 @@ function clearForm() {
       shortGoal: "",
       longGoal: "",
       goalsChecked: [false, false, false, false, false, false],
-      academics: [
+      academics: isTeacherMode ? [
         { subject: "English", t1: "", mid: "", t2: "", remarks: "" },
         { subject: "Hindi", t1: "", mid: "", t2: "", remarks: "" },
         { subject: "Mathematics", t1: "", mid: "", t2: "", remarks: "" },
@@ -1131,12 +1384,12 @@ function clearForm() {
         { subject: "Social Science", t1: "", mid: "", t2: "", remarks: "" },
         { subject: "Computer / IT", t1: "", mid: "", t2: "", remarks: "" },
         { subject: "Other", t1: "", mid: "", t2: "", remarks: "" }
-      ],
-      academicAchievement: "",
-      skills: {
+      ] : (prevAcademics || []),
+      academicAchievement: isTeacherMode ? "" : (prevAchievement || ""),
+      skills: isTeacherMode ? {
         communication: "5.0", reading: "5.0", writing: "5.0", creativity: "5.0",
         problemSolving: "5.0", teamwork: "5.0", leadership: "5.0", timeManagement: "5.0", digitalSkills: "5.0"
-      },
+      } : (prevSkills || {}),
       activities: [],
       achievements: [],
       proj1Title: "", proj1Did: "", proj1Learned: "",
@@ -1144,13 +1397,14 @@ function clearForm() {
       participationChecks: [], memorableActivity: "",
       refLearn: "", refAchieve: "", refChallenge: "", refOvercome: "", refBetter: "",
       bestWorkNote: "",
-      teacherRatings: {
+      teacherRatings: isTeacherMode ? {
         academic: "Good", discipline: "Good", regularity: "Good", communication: "Good",
         participation: "Good", teamwork: "Good", leadership: "Good", creativity: "Good"
-      },
-      teacherRemarks: "", teacherSignDate: "",
+      } : (prevTeacherRatings || {}),
+      teacherRemarks: isTeacherMode ? "" : (prevTeacherRemarks || ""),
+      teacherSignDate: isTeacherMode ? "" : (prevTeacherSignDate || ""),
       parentStrengths: "", parentImprove: "", parentSuggestions: "", parentSignDate: "",
-      improvementPlans: [],
+      improvementPlans: isTeacherMode ? [] : (prevImprovementPlans || []),
       yearAchievement: "", yearFavSubject: "", yearFavActivity: "", yearAward: "",
       yearNewLearned: "", yearProudOf: "", yearGoalNext: "",
       studentSignDate: "", principalRemarks: ""
@@ -1174,23 +1428,27 @@ function exportJson() {
 }
 
 // Import JSON
-function importJson(inputEl) {
-  const file = inputEl.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        currentData = JSON.parse(e.target.result);
+function importJson(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (typeof data === "object" && data !== null) {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, data);
         syncDataToForm(currentData);
         renderPreview(currentData);
         saveToLocalStorage();
         alert("Portfolio data imported successfully!");
-      } catch(err) {
-        alert("Invalid JSON file format.");
+      } else {
+        alert("Invalid portfolio JSON format.");
       }
-    };
-    reader.readAsText(file);
-  }
+    } catch(err) {
+      alert("Error reading JSON file: " + err.message);
+    }
+  };
+  reader.readAsText(file);
 }
 
 // Helper: Escape HTML
@@ -1225,3 +1483,9 @@ window.setViewMode = setViewMode;
 window.toggleMobilePreview = toggleMobilePreview;
 window.setPreviewZoom = setPreviewZoom;
 window.applySheetScale = applySheetScale;
+window.openTeacherAuthModal = openTeacherAuthModal;
+window.closeTeacherAuthModal = closeTeacherAuthModal;
+window.toggleTeacherAuth = toggleTeacherAuth;
+window.handleTeacherPasscodeSubmit = handleTeacherPasscodeSubmit;
+window.lockTeacherMode = lockTeacherMode;
+window.updateTeacherLockUI = updateTeacherLockUI;
