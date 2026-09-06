@@ -1059,6 +1059,33 @@ function printSinglePage() {
   window.print();
 }
 
+// Window print event listeners for clean centered printing and smooth screen restoration
+window.addEventListener("beforeprint", function() {
+  const scaler = document.getElementById("sheetScaler");
+  if (scaler) {
+    scaler.dataset.prevTransform = scaler.style.transform || "";
+    scaler.dataset.prevWidth = scaler.style.width || "";
+    scaler.dataset.prevHeight = scaler.style.height || "";
+    scaler.style.transform = "none";
+    scaler.style.width = "100%";
+    scaler.style.height = "auto";
+    scaler.style.margin = "0 auto";
+  }
+});
+
+window.addEventListener("afterprint", function() {
+  const scaler = document.getElementById("sheetScaler");
+  if (scaler) {
+    if (scaler.dataset.prevTransform) scaler.style.transform = scaler.dataset.prevTransform;
+    if (scaler.dataset.prevWidth) scaler.style.width = scaler.dataset.prevWidth;
+    if (scaler.dataset.prevHeight) scaler.style.height = scaler.dataset.prevHeight;
+    delete scaler.dataset.prevTransform;
+    delete scaler.dataset.prevWidth;
+    delete scaler.dataset.prevHeight;
+  }
+  applySheetScale();
+});
+
 // Reset / Load Sample
 function loadSampleData() {
   if (confirm("Load official sample data from portfolio.docx (SHM Academy)? Current unsaved edits will be replaced.")) {

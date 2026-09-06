@@ -1018,17 +1018,22 @@
 }
 
 /* =============================================================
-   PRINT MEDIA QUERY: STABLE SINGLE-PAGE FIT
+   PRINT MEDIA QUERY: PERFECT CENTERED SINGLE-PAGE FIT
+   Symmetrical, proper margins from all 4 sides (Top, Right, Bottom, Left)
    ============================================================= */
 @page {
   size: A4 portrait;
-  margin: 4mm 6mm 4mm 6mm;
+  margin: 8mm; /* Symmetrical, proper 8mm margin from all 4 sides of the sheet */
 }
 
 @media print {
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+
   html, body {
     width: 100% !important;
-    height: 100% !important;
+    min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
@@ -1037,6 +1042,7 @@
     print-color-adjust: exact !important;
   }
 
+  /* Hide all non-printable navigation, toolbar, buttons and form controls */
   .no-print,
   .site-header,
   .navbar,
@@ -1046,53 +1052,89 @@
   .builder-section-nav,
   .sheet-zoom-bar,
   .mobile-preview-fab,
+  .step-nav-footer,
+  .d-mobile-only,
+  .preview-wrapper > h3,
+  .preview-wrapper > p,
   .btn {
     display: none !important;
   }
 
+  /* Completely reset ALL parent wrappers so they don't offset or constrain printing */
+  main,
+  main.container,
+  .container,
+  .container-narrow,
   .builder-layout,
+  .preview-wrapper,
+  #previewWrapper,
   .preview-stage,
   .sheet-viewport,
-  .sheet-scaler {
+  #sheetViewport,
+  .sheet-scaler,
+  #sheetScaler {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
-    overflow: visible !important;
-    transform: none !important;
-    margin: 0 !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
     padding: 0 !important;
-  }
-
-  .preview-wrapper {
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
     border: none !important;
     box-shadow: none !important;
     position: static !important;
-    max-height: none !important;
+    transform: none !important;
     overflow: visible !important;
-    display: block !important;
+    float: none !important;
+    background: transparent !important;
   }
 
+  /* Perfect Single-Page Sheet: Centered, symmetrical margins, zero page-break spill */
   #singlePageSheet {
-    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    width: 194mm !important;
+    min-width: 194mm !important;
+    max-width: 194mm !important;
+    height: 281mm !important;
+    min-height: 281mm !important;
+    max-height: 281mm !important;
     margin: 0 auto !important;
-    width: 198mm !important;
-    min-width: 198mm !important;
-    max-width: 198mm !important;
-    height: 284mm !important;
-    min-height: 284mm !important;
-    max-height: 284mm !important;
-    padding: 5mm 6mm 4mm 6mm !important;
+    padding: 5mm 6mm !important;
     border: 1.5px solid #000000 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+    page-break-before: avoid !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
-    overflow: hidden !important;
+    break-inside: avoid !important;
     transform: none !important;
+    background: #ffffff !important;
   }
 
   #singlePageSheet::before {
-    border-color: #000000 !important;
+    content: "" !important;
+    position: absolute !important;
+    top: 2mm !important;
+    left: 2mm !important;
+    right: 2mm !important;
+    bottom: 2mm !important;
+    border: 0.8px solid #000000 !important;
+    pointer-events: none !important;
+  }
+
+  /* Ensure cards, badges and tables print with clear crisp borders */
+  .sp-card,
+  .sp-profile-meta-grid,
+  .sp-year-ribbon,
+  .sp-table th,
+  .sp-table td {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }

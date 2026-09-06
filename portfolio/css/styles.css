@@ -1457,29 +1457,59 @@ textarea.form-control {
   }
 }
 
-/* Print Stylesheet */
+/* Print Stylesheet - Centered & Proper Balanced Margins */
+@page {
+  size: A4 portrait;
+  margin: 10mm; /* Symmetrical proper 10mm margins from all sides */
+}
+
 @media print {
-  body {
+  *, *::before, *::after {
+    box-sizing: border-box !important;
+  }
+  html, body {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: #fff !important;
     color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  .navbar, .footer, .portfolio-nav-bar, .qr-trigger-btn, .btn, .no-print {
+  .navbar, .footer, .portfolio-nav-bar, .qr-trigger-btn, .btn, .no-print, .modal-backdrop {
     display: none !important;
   }
+  main,
+  main.container,
+  .container,
+  .container-narrow {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
   .id-cards-container {
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15mm !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
   }
   .id-card {
     box-shadow: none !important;
-    border: 1px solid #000 !important;
+    border: 1.5px solid #000 !important;
     margin: 0 auto 2rem !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .portfolio-hero-content {
     margin-top: 0 !important;
   }
   .card, .hero-profile-box {
     box-shadow: none !important;
-    border: 1px solid #ddd !important;
+    border: 1px solid #cbd5e1 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
 

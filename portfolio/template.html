@@ -157,19 +157,53 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm 12mm 15mm; /* Balanced, proper standard document margins */
+    }
     @media print {
+      *, *::before, *::after {
+        box-sizing: border-box !important;
+      }
+      html, body {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
       .navbar, .footer, .doc-actions-bar, .no-print {
         display: none !important;
+      }
+      main,
+      main.container,
+      .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
       }
       .doc-container {
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         max-width: 100% !important;
+        width: 100% !important;
       }
-      body {
-        background: #fff !important;
+      .doc-header {
+        text-align: center !important;
+        margin-top: 0 !important;
+      }
+      .doc-section {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+      .doc-table {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
     }
   </style>
