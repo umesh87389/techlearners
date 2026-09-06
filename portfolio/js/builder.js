@@ -448,9 +448,47 @@ window.addEventListener("teacher-pins-updated", function() {
   }
 });
 
-// Load from LocalStorage
+// Load from LocalStorage or URL student ID
 function loadSavedData() {
   try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get("id");
+    const reviewId = urlParams.get("reviewId");
+
+    if (studentId && window.DataStore) {
+      const dbStudent = window.DataStore.getStudentById(studentId);
+      if (dbStudent) {
+        if (dbStudent.portfolioBuilderData) {
+          currentData = Object.assign({}, SAMPLE_SHM_STUDENT, dbStudent.portfolioBuilderData);
+        } else {
+          // Map dbStudent fields to builder currentData
+          currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+            id: dbStudent.id,
+            studentName: dbStudent.name || "",
+            classSection: `${dbStudent.class || "Class VIII"}${dbStudent.section ? " - " + dbStudent.section : ""}`,
+            rollNo: dbStudent.rollNo || "",
+            admissionNo: dbStudent.admissionNo || dbStudent.id || "",
+            dob: dbStudent.dob || "",
+            photoUrl: dbStudent.avatar || SAMPLE_SHM_STUDENT.photoUrl,
+            aboutSentence: dbStudent.bio || "",
+            interests: dbStudent.tagline || "",
+            classTeacher: (dbStudent.teacherObservation && dbStudent.teacherObservation.teacherName) || "",
+            teacherRemarks: (dbStudent.teacherObservation && dbStudent.teacherObservation.remark) || "",
+            reviewStatus: dbStudent.reviewStatus || "pending"
+          });
+        }
+        return;
+      }
+    }
+
+    if (reviewId && window.PortfolioReviewStore) {
+      const sub = window.PortfolioReviewStore.getById(reviewId);
+      if (sub && sub.portfolioData) {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, sub.portfolioData);
+        return;
+      }
+    }
+
     const saved = localStorage.getItem("tl_shm_portfolio_data");
     if (saved) {
       currentData = JSON.parse(saved);
@@ -460,9 +498,20 @@ function loadSavedData() {
   }
 }
 
+let syncDbDebounceTimer = null;
+function debouncedSyncStudentToDatabase() {
+  clearTimeout(syncDbDebounceTimer);
+  syncDbDebounceTimer = setTimeout(() => {
+    if (currentData && currentData.studentName && currentData.studentName.trim()) {
+      syncStudentToDatabase({ source: "auto_save" });
+    }
+  }, 1200);
+}
+
 function saveToLocalStorage() {
   try {
     localStorage.setItem("tl_shm_portfolio_data", JSON.stringify(currentData));
+    debouncedSyncStudentToDatabase();
   } catch(e) {
     console.warn("LocalStorage save failed:", e);
   }
@@ -1347,6 +1396,21 @@ function renderPreview(d) {
 function printSinglePage() {
   readFormToData();
   renderPreview(currentData);
+
+  // Automatically add & sync student to the database for teacher/admin review
+  if (currentData.studentName && currentData.studentName.trim()) {
+    try {
+      syncStudentToDatabase({
+        source: "print",
+        forceReviewSubmit: true,
+        studentNote: "Student generated single-page printable portfolio (A4). Auto-submitted for teacher evaluation."
+      });
+      showSaveToast(`📄 Profile for "${currentData.studentName}" automatically recorded in database for teacher review!`);
+    } catch (err) {
+      console.warn("Auto-sync on print:", err);
+    }
+  }
+
   window.print();
 }
 
@@ -1705,37 +1769,339 @@ function handleConfirmSendForReview(e) {
     setVal("f_classTeacher", targetTeacher);
   }
 
-  let submissionRecord = null;
-  if (window.PortfolioReviewStore) {
-    submissionRecord = window.PortfolioReviewStore.submitReview({
-      studentName: currentData.studentName,
-      classSection: currentData.classSection,
-      rollNo: currentData.rollNo,
-      admissionNo: currentData.admissionNo,
-      targetTeacher: targetTeacher,
-      studentNote: studentNote,
-      data: currentData
-    });
-  }
-
-  currentData.reviewStatus = "pending";
-  currentData.reviewStatusLabel = "Pending Teacher Review";
-  currentData.submittedAt = (submissionRecord && submissionRecord.submittedAt) || new Date().toISOString();
-  currentData.submittedAtFormatted = (submissionRecord && submissionRecord.submittedAtFormatted) || new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   currentData.targetTeacher = targetTeacher;
   currentData.studentReviewNote = studentNote;
-  if (submissionRecord && submissionRecord.id) {
-    currentData.reviewSubmissionId = submissionRecord.id;
-  }
+  currentData.reviewStatus = "pending";
+  currentData.reviewStatusLabel = "Pending Teacher Review";
+
+  // Automatically save and sync student into master database and review queue
+  const dbStudent = syncStudentToDatabase({
+    source: "send_review",
+    forceReviewSubmit: true,
+    studentNote: studentNote || "Submitted for teacher review & evaluation."
+  });
 
   saveToLocalStorage();
   updateReviewStatusUI();
   renderPreview(currentData);
   closeSaveSendModal();
 
-  alert(`✅ Portfolio profile successfully saved & sent for teacher review!\n\n• Student: ${currentData.studentName}\n• Class: ${currentData.classSection}\n• Reviewer: ${targetTeacher || "Class Teacher"}\n• Status: Pending Teacher Review\n\nYour portfolio profile has been queued in the Teacher Admin Dashboard for evaluation of your marks, skills matrix, and teacher remarks.`);
+  showSaveToast(`Profile for "${currentData.studentName}" saved & queued for teacher review!`, 5000);
+
+  alert(`✅ Portfolio profile successfully saved & sent for teacher review!\n\n• Student: ${currentData.studentName}\n• Class: ${currentData.classSection}\n• Reviewer: ${targetTeacher || "Class Teacher"}\n• Status: Pending Teacher Review\n\nYour portfolio profile has been automatically added to the database and queued in the Teacher Admin Dashboard for evaluation of your marks, skills matrix, and teacher remarks.`);
 
   return false;
+}
+
+/**
+ * Synchronize current student portfolio to the master database (DataStore)
+ * and ensure it is tracked in PortfolioReviewStore so admins and teachers can review.
+ * @param {Object} [options]
+ * @param {string} [options.source] - "manual_save" | "auto_save" | "print" | "send_review" | "teacher_approval"
+ * @param {boolean} [options.forceReviewSubmit] - If true, registers/updates in PortfolioReviewStore
+ * @param {string} [options.studentNote] - Optional note from student
+ */
+function syncStudentToDatabase(options = {}) {
+  if (!currentData || !currentData.studentName || !currentData.studentName.trim()) {
+    return null;
+  }
+
+  const sName = currentData.studentName.trim();
+  let sClass = "Class VIII";
+  let sSection = "A";
+
+  if (currentData.classSection) {
+    const rawClass = currentData.classSection.trim();
+    if (rawClass.includes("-")) {
+      const parts = rawClass.split("-").map(p => p.trim());
+      sClass = parts[0] || "Class VIII";
+      sSection = parts[1] || "A";
+    } else if (rawClass.includes(" ")) {
+      const parts = rawClass.split(" ");
+      sSection = parts.pop();
+      sClass = parts.join(" ") || "Class VIII";
+    } else {
+      sClass = rawClass;
+    }
+  }
+
+  let existingStudent = null;
+  if (window.DataStore && typeof window.DataStore.getStudents === "function") {
+    const students = window.DataStore.getStudents();
+    if (currentData.id) {
+      existingStudent = students.find(s => s.id === currentData.id);
+    }
+    if (!existingStudent && currentData.admissionNo) {
+      existingStudent = students.find(s => (s.admissionNo && s.admissionNo.toLowerCase() === currentData.admissionNo.trim().toLowerCase()) || s.id === currentData.admissionNo.trim());
+    }
+    if (!existingStudent && sName) {
+      existingStudent = students.find(s => s.name && s.name.trim().toLowerCase() === sName.toLowerCase());
+    }
+  }
+
+  // Generate or preserve ID
+  const studentId = (existingStudent && existingStudent.id) || currentData.id || 
+    ("tl-2026-" + sName.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").slice(0, 16) + "-" + Math.random().toString(36).substr(2, 4));
+  currentData.id = studentId;
+
+  // Infer student team
+  let studentTeam = (existingStudent && existingStudent.team) || "it";
+  const corpus = `${currentData.interests || ""} ${currentData.proj1Title || ""} ${currentData.proj1Did || ""} ${currentData.yearFavActivity || ""}`.toLowerCase();
+  if (corpus.includes("robot") || corpus.includes("circuit") || corpus.includes("arduino") || corpus.includes("sensor")) {
+    studentTeam = "robotics";
+  } else if (corpus.includes("ai") || corpus.includes("artificial") || corpus.includes("vision") || corpus.includes("machine learning")) {
+    studentTeam = "ai";
+  }
+
+  // Sync projects
+  const dbProjects = (existingStudent && Array.isArray(existingStudent.projects) && existingStudent.projects.length > 0)
+    ? [...existingStudent.projects]
+    : [];
+
+  if (currentData.proj1Title && !dbProjects.some(p => p.title === currentData.proj1Title)) {
+    dbProjects.unshift({
+      id: "proj-1-" + Date.now().toString(36),
+      title: currentData.proj1Title,
+      category: studentTeam === "robotics" ? "Hardware & Robotics" : (studentTeam === "ai" ? "AI Exploration" : "Digital IT"),
+      icon: studentTeam === "robotics" ? "🤖" : (studentTeam === "ai" ? "🧠" : "💻"),
+      summary: currentData.proj1Did || "Primary capstone project documented in student portfolio.",
+      techStack: [currentData.proj1Learned || "Practical Tech"].filter(Boolean),
+      impact: "Single-Page Verified Portfolio Project",
+      liveDemoUrl: "",
+      repoUrl: ""
+    });
+  }
+
+  if (currentData.proj2Title && !dbProjects.some(p => p.title === currentData.proj2Title)) {
+    dbProjects.push({
+      id: "proj-2-" + Date.now().toString(36),
+      title: currentData.proj2Title,
+      category: "Digital Content & Web",
+      icon: "🚀",
+      summary: currentData.proj2Did || "Secondary technology project.",
+      techStack: [currentData.proj2Learned || "Web & Media"].filter(Boolean),
+      impact: "Demonstrated in class reviews",
+      liveDemoUrl: "",
+      repoUrl: ""
+    });
+  }
+
+  // Sync achievements
+  const dbAchievements = (existingStudent && Array.isArray(existingStudent.achievements) && existingStudent.achievements.length > 0)
+    ? [...existingStudent.achievements]
+    : [];
+
+  if (Array.isArray(currentData.achievements)) {
+    currentData.achievements.forEach((ach, i) => {
+      if (ach && ach.title && !dbAchievements.some(a => a.title === ach.title)) {
+        dbAchievements.push({
+          id: "ach-" + (i + 1) + "-" + Date.now().toString(36),
+          title: ach.title,
+          issuer: ach.event || "SHM Academy",
+          year: (ach.date || "2026").match(/\d{4}/)?.[0] || "2026",
+          category: "School & Co-Curricular",
+          badge: ach.award || "Honor Award"
+        });
+      }
+    });
+  }
+
+  // Calculate Academic Score Average
+  let academicScoreStr = (existingStudent && existingStudent.academicScore) || "92.5%";
+  if (Array.isArray(currentData.academics) && currentData.academics.length > 0) {
+    let sum = 0, count = 0;
+    currentData.academics.forEach(ac => {
+      const val = parseFloat(ac.t2 || ac.mid || ac.t1);
+      if (!isNaN(val)) {
+        sum += val;
+        count++;
+      }
+    });
+    if (count > 0) {
+      academicScoreStr = (sum / count).toFixed(1) + "%";
+    }
+  }
+
+  // Scorecard
+  let scorecard = (existingStudent && Array.isArray(existingStudent.scorecard) && existingStudent.scorecard.length > 0)
+    ? existingStudent.scorecard
+    : [];
+  if ((!scorecard || scorecard.length === 0) && Array.isArray(currentData.academics)) {
+    scorecard = currentData.academics.map(ac => ({
+      area: ac.subject,
+      level: parseFloat(ac.t2 || ac.mid || ac.t1 || "85") || 85,
+      description: ac.remarks || "Assessed academic performance"
+    }));
+  }
+
+  // Register in Review Queue if forced or pending
+  let reviewRecord = null;
+  if (window.PortfolioReviewStore && (options.forceReviewSubmit || currentData.reviewStatus === "pending")) {
+    try {
+      reviewRecord = window.PortfolioReviewStore.submitReview({
+        studentName: sName,
+        classSection: currentData.classSection || `${sClass} - ${sSection}`,
+        rollNo: currentData.rollNo || "1",
+        admissionNo: currentData.admissionNo || studentId,
+        targetTeacher: currentData.classTeacher || "Class Teacher",
+        studentNote: options.studentNote || (options.source === "print" 
+          ? "Single-page printable portfolio generated. Auto-submitted for teacher evaluation." 
+          : "Saved & submitted from Portfolio Profile Builder."),
+        data: currentData
+      });
+      if (reviewRecord && reviewRecord.id) {
+        currentData.reviewSubmissionId = reviewRecord.id;
+        currentData.reviewStatus = reviewRecord.status || "pending";
+        currentData.reviewStatusLabel = reviewRecord.statusLabel || "Pending Teacher Review";
+      }
+    } catch (e) {
+      console.warn("PortfolioReviewStore auto-submit:", e);
+    }
+  }
+
+  // Create or update student record in DataStore
+  const dbStudent = {
+    ...(existingStudent || {}),
+    id: studentId,
+    name: sName,
+    gender: (existingStudent && existingStudent.gender) || "Male",
+    team: studentTeam,
+    teamRole: (existingStudent && existingStudent.teamRole) || (studentTeam === "robotics" ? "Robotics & Hardware Scholar" : (studentTeam === "ai" ? "AI Exploration Specialist" : "IT Digital Content Specialist")),
+    class: sClass,
+    section: sSection,
+    rollNo: currentData.rollNo || (existingStudent && existingStudent.rollNo) || "1",
+    admissionNo: currentData.admissionNo || (existingStudent && existingStudent.admissionNo) || studentId,
+    dob: currentData.dob || (existingStudent && existingStudent.dob) || "2012-08-15",
+    avatar: currentData.photoUrl || (existingStudent && existingStudent.avatar) || "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400",
+    coverImage: (existingStudent && existingStudent.coverImage) || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200",
+    tagline: currentData.interests ? `${currentData.interests} • ${currentData.schoolName || "SHM Academy"}` : ((existingStudent && existingStudent.tagline) || "Student Portfolio Builder"),
+    bio: currentData.aboutSentence || (existingStudent && existingStudent.bio) || "Dedicated student portfolio profile.",
+    motto: currentData.schoolMotto || (existingStudent && existingStudent.motto) || "“Infinite Knowledge Through Education.”",
+    attendance: (existingStudent && existingStudent.attendance) || "97.5%",
+    academicScore: academicScoreStr,
+    activityCycle: (existingStudent && existingStudent.activityCycle) || {
+      team: studentTeam,
+      projectName: currentData.proj1Title || "Hands-on Technology Project",
+      learn: {
+        title: "Learn & Research Concepts",
+        desc: currentData.proj1Learned || "Researched principles, logic, and practical frameworks."
+      },
+      make: {
+        title: "Build & Execute Prototype",
+        desc: currentData.proj1Did || "Constructed and implemented the working project."
+      },
+      show: {
+        title: "Live Exhibition & Demonstration",
+        desc: currentData.memorableActivity || "Demonstrated live in school exhibitions."
+      },
+      record: {
+        title: "Record Video & Documentation",
+        desc: currentData.bestWorkNote || "Recorded portfolio showcase and verified deliverables."
+      }
+    },
+    outputDeliverables: (existingStudent && existingStudent.outputDeliverables) || {
+      target: "1–3 working projects + photos + demonstration video",
+      status: `Completed (${dbProjects.length} Projects, ${dbAchievements.length} Badges)`,
+      items: []
+    },
+    introVideo: (existingStudent && existingStudent.introVideo) || {
+      title: "Student Project Showcase",
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      description: "Demonstration of student practical projects."
+    },
+    growthRecords: (existingStudent && existingStudent.growthRecords) || [
+      { skill: "Problem Solving", icon: "🧠", before: "Basic analytical reasoning", after: "Advanced structured solution building" },
+      { skill: "Digital Collaboration", icon: "💻", before: "Individual tasks", after: "Team project coordination and demo leadership" }
+    ],
+    scorecard: scorecard,
+    projects: dbProjects,
+    achievements: dbAchievements,
+    teacherObservation: {
+      teacherName: currentData.classTeacher || ((existingStudent && existingStudent.teacherObservation && existingStudent.teacherObservation.teacherName) || "Class Teacher"),
+      role: "Class Teacher & Mentor",
+      remark: currentData.teacherRemarks || ((existingStudent && existingStudent.teacherObservation && existingStudent.teacherObservation.remark) || "Profile saved in database and ready for teacher evaluation."),
+      rating: (existingStudent && existingStudent.teacherObservation && existingStudent.teacherObservation.rating) || "Outstanding (A+)",
+      date: currentData.teacherSignDate || "Current Academic Session"
+    },
+    parentNote: {
+      parentsName: currentData.fatherName || currentData.motherName || ((existingStudent && existingStudent.parentNote && existingStudent.parentNote.parentsName) || "Parent / Guardian"),
+      note: currentData.parentStrengths || ((existingStudent && existingStudent.parentNote && existingStudent.parentNote.note) || "Active participant in school learning programs."),
+      date: currentData.parentSignDate || "Current Academic Session"
+    },
+    futureGoals: Array.isArray(currentData.improvementPlans) && currentData.improvementPlans.length > 0
+      ? currentData.improvementPlans.map(p => `${p.area}: ${p.plan} (${p.target || "Upcoming Term"})`)
+      : ((existingStudent && existingStudent.futureGoals) || [currentData.shortGoal, currentData.longGoal].filter(Boolean)),
+    reviewStatus: currentData.reviewStatus || "pending",
+    reviewSubmissionId: currentData.reviewSubmissionId || null,
+    lastSavedAt: new Date().toISOString(),
+    lastSavedSource: options.source || "manual",
+    portfolioBuilderData: Object.assign({}, currentData)
+  };
+
+  if (window.DataStore && typeof window.DataStore.saveStudent === "function") {
+    window.DataStore.saveStudent(dbStudent);
+  }
+
+  // Notify listeners across application
+  try {
+    window.dispatchEvent(new CustomEvent("student-database-updated", { detail: dbStudent }));
+  } catch (e) {}
+
+  return dbStudent;
+}
+
+/**
+ * Save profile explicitly to database with user feedback
+ * @param {boolean} showAlert
+ */
+function saveProfileToDatabase(showAlert = true) {
+  readFormToData();
+
+  if (!currentData.studentName || !currentData.studentName.trim()) {
+    alert("⚠️ Please enter the Student Full Name before saving to the database.");
+    const nameInput = document.getElementById("f_studentName");
+    if (nameInput) {
+      goToStep(0);
+      nameInput.focus();
+    }
+    return;
+  }
+
+  saveToLocalStorage();
+  const dbStudent = syncStudentToDatabase({
+    source: "manual_save",
+    forceReviewSubmit: true,
+    studentNote: "Student clicked 'Save Profile' in Portfolio Builder. Auto-queued for teacher & admin review."
+  });
+
+  updateReviewStatusUI();
+  renderPreview(currentData);
+
+  const toastMsg = `Profile for "${currentData.studentName}" saved to database! Admins & teachers can now review.`;
+  showSaveToast(toastMsg, 5000);
+
+  if (showAlert) {
+    alert(`✅ Student Profile Saved to Database!\n\n• Student: ${currentData.studentName}\n• Class: ${currentData.classSection}\n• Database ID: ${currentData.id}\n• Review Status: ${currentData.reviewStatusLabel || "Pending Teacher Review"}\n\nTeachers and Admins can now view, evaluate, and review this portfolio profile in the Admin Dashboard.`);
+  }
+}
+
+/**
+ * Display non-intrusive floating toast notification
+ */
+function showSaveToast(message, duration = 4000) {
+  let toast = document.getElementById("portfolioSaveToast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "portfolioSaveToast";
+    toast.className = "portfolio-save-toast";
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<span style="font-size: 1.15rem;">💾</span> <span>${message}</span>`;
+  toast.style.display = "flex";
+  clearTimeout(toast._timeout);
+  toast._timeout = setTimeout(() => {
+    if (toast) toast.style.display = "none";
+  }, duration);
 }
 
 function handleReviewStatusPillClick() {
@@ -1863,6 +2229,10 @@ function approveCurrentStudentReview() {
   currentData.reviewedAt = new Date().toISOString();
   currentData.reviewedAtFormatted = todayStr;
 
+  syncStudentToDatabase({
+    source: "teacher_approval"
+  });
+
   saveToLocalStorage();
   updateReviewStatusUI();
   renderPreview(currentData);
@@ -1898,7 +2268,7 @@ window.handleTeacherPasscodeSubmit = handleTeacherPasscodeSubmit;
 window.lockTeacherMode = lockTeacherMode;
 window.updateTeacherLockUI = updateTeacherLockUI;
 
-// Review hooks
+// Review & Database sync hooks
 window.openSaveAndSendModal = openSaveAndSendModal;
 window.closeSaveSendModal = closeSaveSendModal;
 window.handleConfirmSendForReview = handleConfirmSendForReview;
@@ -1908,4 +2278,8 @@ window.openReviewReceiptModal = openReviewReceiptModal;
 window.closeReviewReceiptModal = closeReviewReceiptModal;
 window.approveCurrentStudentReview = approveCurrentStudentReview;
 window.updateReviewStatusUI = updateReviewStatusUI;
+window.syncStudentToDatabase = syncStudentToDatabase;
+window.saveProfileToDatabase = saveProfileToDatabase;
+window.showSaveToast = showSaveToast;
+
 

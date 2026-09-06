@@ -1272,6 +1272,33 @@
   border-left-color: #d97706;
 }
 
+/* Database Sync & Save Notification Toast */
+.portfolio-save-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100000;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 420px;
+  pointer-events: auto;
+}
+
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Disabled/Locked Input Styling */
 .field-locked,
 input.field-locked,

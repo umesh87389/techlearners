@@ -123,10 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Goals
     renderGoalsInputs(student.futureGoals || []);
 
-    // Live preview link
+    // Live preview link & builder review link
     const previewBtn = document.getElementById("livePreviewBtn");
     if (previewBtn) {
       previewBtn.href = `portfolio.html?id=${encodeURIComponent(student.id)}`;
+    }
+    const builderBtn = document.getElementById("openInBuilderBtn");
+    if (builderBtn) {
+      builderBtn.href = `builder.html?id=${encodeURIComponent(student.id)}`;
     }
   }
 
@@ -899,7 +903,15 @@ document.addEventListener("DOMContentLoaded", () => {
           </td>
           <td style="text-align: right; white-space: nowrap;">
             <div style="display: flex; gap: 0.35rem; justify-content: flex-end;">
-              <a href="builder.html" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" title="Open Portfolio Builder to assess student">
+              <a href="${(() => {
+                let matchingStudentId = null;
+                if (window.DataStore && typeof window.DataStore.getStudents === 'function') {
+                  const allStudents = window.DataStore.getStudents();
+                  const found = allStudents.find(s => s.name && s.name.trim().toLowerCase() === String(sub.studentName).trim().toLowerCase());
+                  if (found) matchingStudentId = found.id;
+                }
+                return matchingStudentId ? `builder.html?id=${encodeURIComponent(matchingStudentId)}` : `builder.html?reviewId=${encodeURIComponent(sub.id)}`;
+              })()}" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" title="Open Portfolio Builder to assess student">
                 🎓 Open
               </a>
               ${isPending ? `
@@ -975,6 +987,14 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("portfolio-review-updated", () => {
     updatePendingReviewsBadge();
     renderStudentSidebar();
+    if (document.getElementById("reviewQueueModal")?.style.display === "flex") {
+      renderReviewQueue(currentQueueFilter);
+    }
+  });
+
+  window.addEventListener("student-database-updated", () => {
+    renderStudentSidebar();
+    updatePendingReviewsBadge();
     if (document.getElementById("reviewQueueModal")?.style.display === "flex") {
       renderReviewQueue(currentQueueFilter);
     }

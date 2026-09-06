@@ -86,8 +86,9 @@
           <!-- Header Actions -->
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 0.75rem;">
             <h3 style="font-size: 1.35rem; font-weight: 800;">Edit Student Profile & Track</h3>
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
               <a id="livePreviewBtn" href="#" target="_blank" class="btn btn-secondary btn-sm">👁️ Live Preview</a>
+              <a id="openInBuilderBtn" href="builder.html" target="_blank" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b;" title="Open and review this student in Portfolio Builder">🎓 Review in Portfolio</a>
               <button type="submit" class="btn btn-primary btn-sm">💾 Save Portfolio</button>
               <button type="button" id="deleteStudentBtn" class="btn btn-secondary btn-sm" style="color: var(--danger);">🗑️ Delete</button>
             </div>
@@ -412,6 +413,8 @@
 
   <!-- Scripts -->
   <script src="js/data.js"></script>
+  <script src="js/portfolio-review.js"></script>
+  <script src="js/teacher-pins.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>
