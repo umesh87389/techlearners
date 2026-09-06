@@ -1,0 +1,622 @@
+/* -------------------------------------------------------------
+ * STUDENT PORTFOLIO BUILDER & 1-PAGE PRINT STYLESHEET
+ * Optimized for Interactive Editing & Flawless 1-Page A4 Printing
+ * ------------------------------------------------------------- */
+
+:root {
+  --primary: #4338ca;
+  --primary-hover: #3730a3;
+  --primary-light: #eef2ff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+  --card-bg: #ffffff;
+}
+
+/* Builder App Layout */
+.builder-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1.5rem;
+  margin: 1.5rem auto;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .builder-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Top Toolbar */
+.builder-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.85rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.builder-topbar-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Form Container & Tabs */
+.builder-form-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.06);
+  padding: 1.5rem;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.builder-section-nav {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.section-tab-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.section-tab-btn:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.section-tab-btn.active {
+  background: #4338ca;
+  border-color: #4338ca;
+  color: #ffffff;
+}
+
+/* Form Group & Inputs */
+.form-step-pane {
+  display: none;
+}
+
+.form-step-pane.active {
+  display: block;
+  animation: fadeInPane 0.25s ease-out;
+}
+
+@keyframes fadeInPane {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-group-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.field-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.field-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+@media (max-width: 650px) {
+  .field-grid-2, .field-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  margin-bottom: 0.85rem;
+}
+
+.form-field label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 0.3rem;
+}
+
+.form-field input[type="text"],
+.form-field input[type="date"],
+.form-field input[type="number"],
+.form-field input[type="email"],
+.form-field input[type="tel"],
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.9rem;
+  background: #f8fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #4338ca;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.12);
+}
+
+/* Dynamic Rows / Subtables */
+.builder-table-input {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.builder-table-input th, .builder-table-input td {
+  border: 1px solid #cbd5e1;
+  padding: 0.45rem 0.6rem;
+}
+
+.builder-table-input th {
+  background: #f1f5f9;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.builder-table-input input, .builder-table-input select {
+  width: 100%;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+}
+
+.builder-table-input input:focus, .builder-table-input select:focus {
+  border-color: #4338ca;
+  background: #ffffff;
+  outline: none;
+}
+
+/* Live Preview Sheet (Screen Display) */
+.preview-wrapper {
+  background: #e2e8f0;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: sticky;
+  top: 75px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* =============================================================
+   SINGLE-PAGE A4 PORTFOLIO PRINT CANVAS
+   Engineered for absolute single-page fit
+   ============================================================= */
+#singlePageSheet {
+  width: 210mm;
+  min-width: 210mm;
+  max-width: 210mm;
+  height: 297mm;
+  min-height: 297mm;
+  max-height: 297mm;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 7mm 8mm 6mm 8mm;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid #1e293b;
+}
+
+/* Double Border Accent */
+#singlePageSheet::before {
+  content: "";
+  position: absolute;
+  top: 2.5mm;
+  left: 2.5mm;
+  right: 2.5mm;
+  bottom: 2.5mm;
+  border: 0.6px solid #4338ca;
+  pointer-events: none;
+}
+
+/* 1. Header & Student Meta */
+.sp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #0f172a;
+  padding-bottom: 5px;
+  margin-bottom: 4px;
+}
+
+.sp-school-block {
+  text-align: left;
+  flex: 1;
+}
+
+.sp-school-title {
+  font-size: 17pt;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.sp-school-motto {
+  font-size: 8.5pt;
+  font-style: italic;
+  color: #475569;
+  margin: 1px 0 2px;
+}
+
+.sp-doc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-doc-title-badge {
+  background: #1e1b4b;
+  color: #ffffff;
+  font-size: 8.5pt;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sp-doc-session-text {
+  font-size: 8pt;
+  font-weight: 700;
+  color: #334155;
+}
+
+.sp-photo-wrapper {
+  width: 25mm;
+  height: 29mm;
+  border: 1.2px solid #0f172a;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.sp-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Student Particulars Bar */
+.sp-profile-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px 8px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin-bottom: 4px;
+  font-size: 7.2pt;
+}
+
+.sp-meta-item strong {
+  color: #334155;
+}
+
+.sp-meta-item span {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* 2. Ribbon: My Year In One Page */
+.sp-year-ribbon {
+  background: #fdfbf7;
+  border: 1px solid #f59e0b;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin-bottom: 5px;
+}
+
+.sp-ribbon-title {
+  font-size: 7.5pt;
+  font-weight: 800;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-ribbon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px 6px;
+  font-size: 6.8pt;
+}
+
+.sp-ribbon-pill {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #ffffff;
+  border: 0.5px solid #fde68a;
+  padding: 1.5px 4px;
+  border-radius: 3px;
+}
+
+.sp-ribbon-pill strong {
+  color: #78350f;
+}
+
+/* 3. Main Two Columns Body */
+.sp-body-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 4px;
+}
+
+.sp-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+
+/* Card Block in Sheet */
+.sp-card {
+  border: 0.8px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 3px 5px;
+  background: #ffffff;
+}
+
+.sp-card-title {
+  font-size: 7.5pt;
+  font-weight: 800;
+  color: #1e1b4b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 0.8px solid #e2e8f0;
+  padding-bottom: 1.5px;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Tables inside Single-Page Sheet */
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 6.8pt;
+  line-height: 1.15;
+}
+
+.sp-table th, .sp-table td {
+  border: 0.5px solid #cbd5e1;
+  padding: 1.5px 3px;
+  text-align: left;
+}
+
+.sp-table th {
+  background: #f1f5f9;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sp-table td.center, .sp-table th.center {
+  text-align: center;
+}
+
+/* Skills Rating Badges */
+.sp-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px 4px;
+  font-size: 6.8pt;
+}
+
+.sp-skill-badge {
+  display: flex;
+  justify-content: space-between;
+  background: #f8fafc;
+  border: 0.5px solid #e2e8f0;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+.sp-skill-badge .score {
+  font-weight: 800;
+  color: #4338ca;
+}
+
+/* Compact Checklists */
+.sp-mini-check-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px 4px;
+  font-size: 6.5pt;
+}
+
+.sp-mini-check-list span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 4. Bottom Signatures & Declaration */
+.sp-footer {
+  border-top: 1.2px solid #0f172a;
+  padding-top: 3px;
+  font-size: 6.8pt;
+}
+
+.sp-declaration-quote {
+  font-style: italic;
+  color: #475569;
+  text-align: center;
+  margin-bottom: 3px;
+  font-size: 6.5pt;
+}
+
+.sp-signatures-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  text-align: center;
+}
+
+.sp-sig-col {
+  padding-top: 6px;
+}
+
+.sp-sig-line {
+  border-top: 0.8px solid #0f172a;
+  margin-bottom: 1px;
+}
+
+.sp-sig-col strong {
+  font-size: 7pt;
+  color: #0f172a;
+}
+
+.sp-sig-col p {
+  font-size: 6.2pt;
+  color: #64748b;
+  margin: 0;
+}
+
+/* =============================================================
+   PRINT MEDIA QUERY: STABLE SINGLE-PAGE FIT
+   ============================================================= */
+@page {
+  size: A4 portrait;
+  margin: 4mm 6mm 4mm 6mm;
+}
+
+@media print {
+  html, body {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  .site-header,
+  .navbar,
+  .footer,
+  .builder-topbar,
+  .builder-form-card,
+  .builder-section-nav,
+  .preview-wrapper > h3,
+  .preview-wrapper > p,
+  .btn {
+    display: none !important;
+  }
+
+  .builder-layout {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-wrapper {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #singlePageSheet {
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    width: 198mm !important;
+    min-width: 198mm !important;
+    max-width: 198mm !important;
+    height: 284mm !important;
+    min-height: 284mm !important;
+    max-height: 284mm !important;
+    padding: 5mm 6mm 4mm 6mm !important;
+    border: 1.5px solid #000000 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  #singlePageSheet::before {
+    border-color: #000000 !important;
+  }
+}

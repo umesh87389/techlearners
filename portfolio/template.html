@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Student Portfolio Document (SHM Academy) | TechLearners</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .doc-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+      color: #1e293b;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+    }
+    .doc-header {
+      text-align: center;
+      border-bottom: 3px double #0f172a;
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .doc-badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4338ca;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.35rem 1rem;
+      border-radius: 9999px;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .doc-school-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin: 0;
+      letter-spacing: 0.04em;
+    }
+    .doc-school-motto {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #475569;
+      margin: 0.35rem 0 0.75rem;
+    }
+    .doc-session {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #334155;
+    }
+    .doc-section {
+      margin-bottom: 2.25rem;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 1.75rem;
+    }
+    .doc-section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #f8fafc;
+      padding: 0.5rem 1rem;
+      border-left: 5px solid #4338ca;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    .doc-table th, .doc-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .doc-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .doc-blank-line {
+      display: inline-block;
+      border-bottom: 1px solid #64748b;
+      min-width: 180px;
+      padding-bottom: 2px;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .doc-photo-box {
+      width: 130px;
+      height: 155px;
+      border: 2px dashed #94a3b8;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      background: #f8fafc;
+      margin: 0 auto;
+    }
+    .doc-checklist {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.75rem;
+    }
+    .doc-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #f8fafc;
+      padding: 0.6rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 0.92rem;
+    }
+    .doc-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-top: 0.85rem;
+    }
+    .doc-actions-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .doc-actions-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    @media print {
+      .navbar, .footer, .doc-actions-bar, .no-print {
+        display: none !important;
+      }
+      .doc-container {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+      }
+      body {
+        background: #fff !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container nav-wrapper">
+      <a href="index.html" class="brand">
+        <img src="assets/logo.svg" alt="Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="school-name-text">Techlearners Digital Portfolio</h1>
+          <p class="school-motto-text">Verified Student Digital Portfolio • <span class="school-year-text">2026–2027</span></p>
+        </div>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">🏫 Directory</a></li>
+          <li><a href="builder.html" class="nav-link">📝 Form & 1-Page Print</a></li>
+          <li><a href="template.html" class="nav-link active">📄 Document Template</a></li>
+          <li><a href="teams.html" class="nav-link">⚡ Teams</a></li>
+          <li><a href="admin.html" class="btn btn-primary btn-sm">🛠️ Teacher Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sticky Actions Bar -->
+  <aside class="doc-actions-bar no-print" aria-label="Template tools and actions">
+    <div class="doc-actions-content">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="font-size: 1.4rem;">📄</span>
+        <div>
+          <strong style="font-size: 1rem; color: #0f172a;">Official Document Content (from portfolio.docx)</strong>
+          <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy Student Portfolio Structure & Format</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <a href="builder.html" class="btn btn-primary btn-sm" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+          <span>📝</span> Open Form & Print 1-Page
+        </a>
+        <button onclick="window.print()" class="btn btn-secondary btn-sm" style="display: inline-flex; align-items: center; gap: 0.4rem;">
+          <span>🖨️</span> Print Full Document
+        </button>
+        <a href="../pages/admin/admin-dashboard.html" class="btn btn-secondary btn-sm">
+          ← Admin Panel
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Document Container -->
+  <main class="container">
+    <div class="doc-container">
+
+      <!-- Document Header -->
+      <div class="doc-header">
+        <span class="doc-badge">Official Student Document</span>
+        <h1 class="doc-school-title">SHM ACADEMY</h1>
+        <p class="doc-school-motto">“Infinite Knowledge Through Education”</p>
+        <div style="font-size: 1.4rem; font-weight: 800; color: #1e1b4b; margin: 0.75rem 0;">STUDENT PORTFOLIO</div>
+        <p class="doc-session">Academic Session: 2026–2027</p>
+      </div>
+
+      <!-- 1. STUDENT PROFILE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">1. Student Profile</h2>
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start;">
+          <table class="doc-table" style="margin: 0;">
+            <thead>
+              <tr>
+                <th style="width: 35%;">Particular</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Student’s Name</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Class & Section</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Roll Number</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Admission Number</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Date of Birth</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Father’s Name</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Mother’s Name</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Contact Number</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>House</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+              <tr><td>Class Teacher</td><td><span class="doc-blank-line" style="width: 80%;"></span></td></tr>
+            </tbody>
+          </table>
+          <div class="doc-photo-box">
+            <span style="font-size: 2rem; margin-bottom: 0.35rem;">📷</span>
+            <strong>Student’s Photograph</strong>
+            <span>Paste photograph here</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. ABOUT ME -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">2. About Me</h2>
+        <div class="doc-box">
+          <p style="font-size: 1.05rem; line-height: 2;">
+            My name is <span class="doc-blank-line" style="min-width: 250px;"></span>.
+            I study in Class <span class="doc-blank-line" style="min-width: 90px;"></span> at <strong>SHM Academy</strong>.
+            I consider myself a <span class="doc-blank-line" style="min-width: 150px;"></span> student.
+            My favourite subjects are <span class="doc-blank-line" style="min-width: 250px;"></span>.
+          </p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div class="doc-box">
+            <strong>🎯 My Interests</strong>
+            <p style="margin-top: 0.5rem; color: #64748b;">(e.g., Coding, Robotics, Public Speaking, Creative Arts)</p>
+            <div style="border-bottom: 1px dotted #94a3b8; height: 28px;"></div>
+          </div>
+          <div class="doc-box">
+            <strong>🎨 My Hobbies</strong>
+            <p style="margin-top: 0.5rem; color: #64748b;">(e.g., Reading, Chess, Playing instruments, Sports)</p>
+            <div style="border-bottom: 1px dotted #94a3b8; height: 28px;"></div>
+          </div>
+        </div>
+        <div class="doc-box" style="margin-top: 1rem;">
+          <strong>💪 My Strengths</strong>
+          <ul style="margin: 0.5rem 0 0 1.25rem; line-height: 1.8;">
+            <li>1. <span class="doc-blank-line" style="min-width: 80%;"></span></li>
+            <li>2. <span class="doc-blank-line" style="min-width: 80%;"></span></li>
+            <li>3. <span class="doc-blank-line" style="min-width: 80%;"></span></li>
+          </ul>
+          <div style="margin-top: 1rem;">
+            <strong>🌱 One thing I want to improve:</strong>
+            <div style="border-bottom: 1px dotted #94a3b8; height: 28px; margin-top: 0.25rem;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. MY GOALS -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">3. My Goals</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div class="doc-box">
+            <strong>⏱️ Short-Term Goal</strong>
+            <div style="border-bottom: 1px dotted #94a3b8; height: 32px; margin-top: 0.35rem;"></div>
+          </div>
+          <div class="doc-box">
+            <strong>🔭 Long-Term Goal</strong>
+            <div style="border-bottom: 1px dotted #94a3b8; height: 32px; margin-top: 0.35rem;"></div>
+          </div>
+        </div>
+        <strong>📌 This Year I Want To:</strong>
+        <ul class="doc-checklist" style="margin-top: 0.75rem;">
+          <li><input type="checkbox" disabled> Improve my academic performance</li>
+          <li><input type="checkbox" disabled> Become more confident</li>
+          <li><input type="checkbox" disabled> Improve my communication skills</li>
+          <li><input type="checkbox" disabled> Participate in more activities</li>
+          <li><input type="checkbox" disabled> Develop better time-management skills</li>
+          <li><input type="checkbox" disabled> Improve my reading/writing skills</li>
+        </ul>
+      </section>
+
+      <!-- 4. ACADEMIC PROGRESS -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">4. Academic Progress</h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th style="width: 15%;">Term 1</th>
+              <th style="width: 15%;">Mid Term</th>
+              <th style="width: 15%;">Term 2</th>
+              <th style="width: 30%;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>English</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Hindi</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Mathematics</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Science</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Social Science</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Computer / IT</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>Other</td><td></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <div class="doc-box">
+          <strong>🏆 My Academic Achievement:</strong>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 28px; margin-top: 0.25rem;"></div>
+        </div>
+      </section>
+
+      <!-- 5. MY SKILLS -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>5. My Skills</span>
+          <span style="font-size: 0.85rem; font-weight: normal; color: #64748b;">Rate yourself from 1–5</span>
+        </h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th style="width: 25%; text-align: center;">Rating (/5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Communication</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Reading</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Writing</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Creativity</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Problem Solving</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Teamwork</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Leadership</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Time Management</td><td style="text-align: center;">/5</td></tr>
+            <tr><td>Digital Skills</td><td style="text-align: center;">/5</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">6. Co-Curricular Activities</h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Activity / Event</th>
+              <th style="width: 20%;">Date</th>
+              <th style="width: 25%;">My Participation</th>
+              <th style="width: 25%;">Teacher’s Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">7. Achievements & Certificates</h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Achievement</th>
+              <th>Event / Competition</th>
+              <th style="width: 20%;">Date</th>
+              <th style="width: 25%;">Position / Award</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.85rem; color: #64748b; font-style: italic;">* Certificates / Awards may be attached here.</p>
+      </section>
+
+      <!-- 8. PROJECTS & CREATIVE WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">8. Projects & Creative Work</h2>
+        <div class="doc-box" style="margin-bottom: 1rem;">
+          <h4 style="margin: 0 0 0.5rem; color: #4338ca;">Project 1</h4>
+          <p><strong>Title:</strong> <span class="doc-blank-line" style="min-width: 80%;"></span></p>
+          <p style="margin-top: 0.5rem;"><strong>What I did:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+          <p style="margin-top: 0.5rem;"><strong>What I learned:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+        </div>
+        <div class="doc-box">
+          <h4 style="margin: 0 0 0.5rem; color: #4338ca;">Project 2</h4>
+          <p><strong>Title:</strong> <span class="doc-blank-line" style="min-width: 80%;"></span></p>
+          <p style="margin-top: 0.5rem;"><strong>What I did:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+          <p style="margin-top: 0.5rem;"><strong>What I learned:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+        </div>
+        <p style="font-size: 0.85rem; color: #64748b; font-style: italic; margin-top: 0.75rem;">Photographs / Drawings / Project Evidence may be attached.</p>
+      </section>
+
+      <!-- 9. MY SCHOOL PARTICIPATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">9. My School Participation</h2>
+        <p><strong>I participated in:</strong></p>
+        <ul class="doc-checklist" style="margin-top: 0.75rem;">
+          <li><input type="checkbox" disabled> Sports</li>
+          <li><input type="checkbox" disabled> Cultural Activities</li>
+          <li><input type="checkbox" disabled> Art & Craft</li>
+          <li><input type="checkbox" disabled> Debate / Speech</li>
+          <li><input type="checkbox" disabled> Quiz</li>
+          <li><input type="checkbox" disabled> Science / Maths Activities</li>
+          <li><input type="checkbox" disabled> Literary Activities</li>
+          <li><input type="checkbox" disabled> School Assembly</li>
+          <li><input type="checkbox" disabled> Community Service</li>
+          <li><input type="checkbox" disabled> Other: ______________________</li>
+        </ul>
+        <div class="doc-box" style="margin-top: 1rem;">
+          <strong>🌟 My most memorable school activity:</strong>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 28px; margin-top: 0.25rem;"></div>
+        </div>
+      </section>
+
+      <!-- 10. MY REFLECTION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">10. My Reflection</h2>
+        <div class="doc-box">
+          <p><strong>What did I learn this year?</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>What was my biggest achievement?</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>What challenge did I face?</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>How did I overcome it?</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>What will I do better next year?</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+        </div>
+      </section>
+
+      <!-- 11. MY BEST WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">11. My Best Work</h2>
+        <div class="doc-box">
+          <p><em>Paste or attach your best work here.</em></p>
+          <p style="color: #64748b; font-size: 0.9rem; margin-top: 0.35rem;">Examples: Best written work, Artwork, Project, Certificate, Creative writing, Photograph of participation</p>
+          <div style="min-height: 120px; border: 2px dashed #cbd5e1; border-radius: 8px; margin-top: 0.75rem; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
+            [ Work Attachment / Paste Zone ]
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. TEACHER'S ASSESSMENT -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">12. Teacher’s Assessment</h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th style="width: 15%; text-align: center;">Excellent</th>
+              <th style="width: 15%; text-align: center;">Very Good</th>
+              <th style="width: 15%; text-align: center;">Good</th>
+              <th style="width: 20%; text-align: center;">Needs Improvement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Academic Performance</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Discipline</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Regularity</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Communication</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Participation</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Teamwork</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Leadership</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+            <tr><td>Creativity</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td><td style="text-align: center;">☐</td></tr>
+          </tbody>
+        </table>
+        <div class="doc-box">
+          <strong>Teacher’s Remarks:</strong>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 32px; margin-top: 0.25rem;"></div>
+          <div style="display: flex; justify-content: space-between; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>Class Teacher’s Signature: <span class="doc-blank-line" style="min-width: 180px;"></span></div>
+            <div>Date: <span class="doc-blank-line" style="min-width: 120px;"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. PARENT'S FEEDBACK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">13. Parent’s Feedback</h2>
+        <div class="doc-box">
+          <p><strong>My child’s strengths:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>Areas where my child can improve:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-bottom: 0.75rem;"></div>
+
+          <p><strong>Parent’s Suggestions:</strong></p>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px;"></div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>Parent’s Signature: <span class="doc-blank-line" style="min-width: 180px;"></span></div>
+            <div>Date: <span class="doc-blank-line" style="min-width: 120px;"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">14. Personal Improvement Plan</h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Area to Improve</th>
+              <th>My Action Plan</th>
+              <th style="width: 20%;">Target Date</th>
+              <th style="width: 20%;">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+            <tr><td style="height: 32px;"></td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 15. MY YEAR IN ONE PAGE -->
+      <section class="doc-section" style="background: #fdfbf7; border: 2px solid #fde68a; border-radius: 12px; padding: 1.5rem;">
+        <h2 class="doc-section-title" style="background: #fef3c7; border-color: #f59e0b; color: #92400e;">
+          15. My Year in One Page
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+          <div class="doc-box">⭐ <strong>My Best Achievement:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+          <div class="doc-box">📚 <strong>My Favourite Subject:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+          <div class="doc-box">🎨 <strong>My Favourite Activity:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+          <div class="doc-box">🏆 <strong>An Award I Received:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+          <div class="doc-box">💡 <strong>Something New I Learned:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+          <div class="doc-box">❤️ <strong>Something I Am Proud Of:</strong> <div style="border-bottom: 1px dotted #94a3b8; height: 24px; margin-top: 4px;"></div></div>
+        </div>
+        <div class="doc-box" style="margin-top: 1rem;">
+          🚀 <strong>My Goal for Next Year:</strong>
+          <div style="border-bottom: 1px dotted #94a3b8; height: 26px; margin-top: 4px;"></div>
+        </div>
+      </section>
+
+      <!-- 16. STUDENT'S DECLARATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">16. Student’s Declaration</h2>
+        <p style="font-style: italic; font-size: 1.05rem; background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #10b981;">
+          “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
+        </p>
+        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>Student’s Name: <span class="doc-blank-line" style="min-width: 200px;"></span></div>
+          <div>Signature: <span class="doc-blank-line" style="min-width: 150px;"></span></div>
+          <div>Date: <span class="doc-blank-line" style="min-width: 120px;"></span></div>
+        </div>
+      </section>
+
+      <!-- 17. TEACHER'S FINAL REMARK -->
+      <section class="doc-section" style="border-bottom: none;">
+        <h2 class="doc-section-title">17. Teacher’s & Principal’s Final Remark</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
+          <div class="doc-box" style="text-align: center; padding-top: 2rem;">
+            <div style="border-bottom: 1px solid #0f172a; height: 40px; margin-bottom: 0.5rem;"></div>
+            <strong>Class Teacher</strong>
+          </div>
+          <div class="doc-box" style="text-align: center; padding-top: 2rem;">
+            <div style="border-bottom: 1px solid #0f172a; height: 40px; margin-bottom: 0.5rem;"></div>
+            <strong>Principal</strong>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer no-print">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <h4 class="school-name-text">Techlearners Digital Portfolio</h4>
+        <p>SHM Academy Student Portfolio Format • Academic Year 2026–2027</p>
+      </div>
+      <div>
+        <a href="builder.html" class="btn btn-primary btn-sm">📝 Open Form & Print Single Page →</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

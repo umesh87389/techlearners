@@ -76,6 +76,143 @@ const DEFAULT_TEAMS_CONFIG = {
 
 const DEFAULT_STUDENTS = [
   {
+    id: "tl-2026-shm-aarav",
+    name: "Aarav Gupta",
+    gender: "Male",
+    class: "Class VIII",
+    section: "A",
+    rollNo: "14",
+    dob: "2012-08-15",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
+    coverImage: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200&auto=format&fit=crop&q=80",
+    team: "robotics",
+    teamRole: "SHM Academy STEM & Robotics Scholar",
+    tagline: "Robotics Builder • Microcontroller & AI Explorer • SHM Academy",
+    bio: "Class VIII student at SHM Academy. Highly dedicated to circuit prototyping, sensor automation, and algorithmic problem solving. Winner of Inter-School STEM Hackathon.",
+    motto: "“Infinite Knowledge Through Education.”",
+    attendance: "98.2%",
+    academicScore: "96.5%",
+
+    activityCycle: {
+      team: "robotics",
+      projectName: "Smart Sensor Irrigation & Plant Monitoring System",
+      learn: {
+        title: "Learn Sensor & Microcontroller Logic",
+        desc: "Studied capacitive moisture probe calibration, analog-to-digital conversion, and Arduino embedded C++ programming."
+      },
+      make: {
+        title: "Build Working Hardware Prototype",
+        desc: "Assembled Arduino Uno with moisture sensors, 5V relay module, DC mini pump, status LEDs, and custom acrylic housing."
+      },
+      show: {
+        title: "Live Exhibition Demo",
+        desc: "Presented live automated plant watering to 200+ students, teachers, and judges at the Annual Science Fair."
+      },
+      record: {
+        title: "Record 1-Minute Demonstration Video",
+        desc: "Filmed a crisp 60-second video demonstrating real-time threshold detection and automatic pump activation."
+      }
+    },
+
+    outputDeliverables: {
+      target: "1–3 working projects + photos + demonstration video",
+      status: "Completed (2 Projects, 4 Media Items, 1 Demo Video)",
+      items: [
+        { label: "Working Arduino Irrigation Bot Prototype", done: true },
+        { label: "Circuit Schematic & Logic Code", done: true },
+        { label: "1-Minute Live Demo & Reflection Video", done: true },
+        { label: "Exhibition Display Board & Poster", done: true }
+      ]
+    },
+
+    videoDemo: {
+      title: "1-Minute Video Demo: Automated Soil Irrigation Bot",
+      embedUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+      desc: "A concise demonstration showing dry soil detection, indicator LED trigger, and instant pump activation with relay control."
+    },
+
+    projects: [
+      {
+        title: "Automated Soil Moisture & Plant Irrigation Bot",
+        type: "Robotics & Embedded Systems",
+        desc: "Microcontroller circuit using soil probes to automate agricultural watering and conserve water.",
+        skills: ["Arduino", "C++", "Sensors", "Relay Modules"],
+        evidenceUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800",
+        verified: true
+      },
+      {
+        title: "AI Classroom Notes & Quiz Portal",
+        type: "Web Development & AI",
+        desc: "Responsive web application for CBSE students featuring interactive flashcard quizzes and chapter summaries.",
+        skills: ["HTML5", "CSS Grid", "JavaScript", "JSON"],
+        evidenceUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800",
+        verified: true
+      }
+    ],
+
+    growthRecords: [
+      {
+        phase: "Term 1 (August 2026)",
+        before: "Basic breadboard wiring with simple LED circuits.",
+        after: "Full autonomous sensor integration with relays and pump logic."
+      },
+      {
+        phase: "Term 2 (February 2027)",
+        before: "Reluctance in public stage presentation.",
+        after: "Confidently demonstrated project to judges and won 1st prize at Inter-School STEM Expo."
+      }
+    ],
+
+    scorecard: [
+      { skill: "Communication", score: 4.5, max: 5 },
+      { skill: "Reading & Inquiry", score: 5.0, max: 5 },
+      { skill: "Writing & Documentation", score: 4.5, max: 5 },
+      { skill: "Creativity & Innovation", score: 5.0, max: 5 },
+      { skill: "Problem Solving", score: 5.0, max: 5 },
+      { skill: "Teamwork & Collaboration", score: 4.8, max: 5 },
+      { skill: "Leadership", score: 4.6, max: 5 },
+      { skill: "Time Management", score: 4.3, max: 5 },
+      { skill: "Digital & Coding Skills", score: 5.0, max: 5 }
+    ],
+
+    achievements: [
+      { title: "1st Prize in Junior Hackathon", date: "October 2026", issuer: "TechFest 2026" },
+      { title: "National Science Olympiad Distinction (Gold Medal)", date: "November 2026", issuer: "SOF NSO" },
+      { title: "Best Innovation Award", date: "January 2027", issuer: "SHM Academy STEM Fair" }
+    ],
+
+    gallery: [
+      {
+        url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600",
+        caption: "Testing sensor probe calibration in lab soil sample."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600",
+        caption: "Coding microcontroller logic in the computer laboratory."
+      }
+    ],
+
+    teacherObservation: {
+      teacherName: "Mrs. Sunita Roy",
+      role: "Class Teacher & STEM Mentor, SHM Academy",
+      rating: "Outstanding (A+)",
+      remark: "Aarav is an exceptionally bright, sincere, and proactive learner who consistently pushes beyond the syllabus to build meaningful real-world projects.",
+      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150"
+    },
+
+    parentNote: {
+      parentsName: "Mr. Rajesh & Mrs. Akansha Gupta",
+      note: "We are proud of Aarav's dedication to his studies and hands-on robotics projects. He has shown great character and learning independence.",
+      date: "March 2027"
+    },
+
+    futureGoals: [
+      "Publish an open-source AI study tool for CBSE students.",
+      "Represent SHM Academy in the National STEM Innovation Fair."
+    ]
+  },
+
+  {
     id: "tl-2026-8a-12",
     name: "Rahul Kumar",
     gender: "Male",
