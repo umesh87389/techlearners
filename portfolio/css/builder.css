@@ -678,7 +678,7 @@
 }
 
 .sp-techlearners-label {
-  font-size: 6.2pt;
+  font-size: 7.5pt;
   font-weight: 800;
   color: #1e1b4b;
   letter-spacing: 0.04em;
@@ -694,7 +694,7 @@
 }
 
 .sp-school-title {
-  font-size: 17pt;
+  font-size: 19pt;
   font-weight: 900;
   color: #0f172a;
   letter-spacing: 0.04em;
@@ -704,7 +704,7 @@
 }
 
 .sp-school-motto {
-  font-size: 8.5pt;
+  font-size: 9.5pt;
   font-style: italic;
   color: #475569;
   margin: 1px 0 2px;
@@ -719,16 +719,16 @@
 .sp-doc-title-badge {
   background: #1e1b4b;
   color: #ffffff;
-  font-size: 8.5pt;
+  font-size: 9.5pt;
   font-weight: 800;
-  padding: 2px 7px;
+  padding: 2.5px 8px;
   border-radius: 3px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .sp-doc-session-text {
-  font-size: 8pt;
+  font-size: 9pt;
   font-weight: 700;
   color: #334155;
 }
@@ -763,7 +763,8 @@
   border-radius: 4px;
   padding: 3px 6px;
   margin-bottom: 4px;
-  font-size: 7.2pt;
+  font-size: 8.8pt;
+  line-height: 1.35;
 }
 
 .sp-meta-item strong {
@@ -785,7 +786,7 @@
 }
 
 .sp-ribbon-title {
-  font-size: 7.5pt;
+  font-size: 9.2pt;
   font-weight: 800;
   color: #92400e;
   text-transform: uppercase;
@@ -800,7 +801,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2px 6px;
-  font-size: 6.8pt;
+  font-size: 8.2pt;
 }
 
 .sp-ribbon-pill {
@@ -843,7 +844,7 @@
 }
 
 .sp-card-title {
-  font-size: 7.5pt;
+  font-size: 9pt;
   font-weight: 800;
   color: #1e1b4b;
   text-transform: uppercase;
@@ -859,13 +860,13 @@
 .sp-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 6.8pt;
-  line-height: 1.15;
+  font-size: 8.2pt;
+  line-height: 1.25;
 }
 
 .sp-table th, .sp-table td {
   border: 0.5px solid #cbd5e1;
-  padding: 1.5px 3px;
+  padding: 2.5px 4px;
   text-align: left;
 }
 
@@ -884,7 +885,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px 4px;
-  font-size: 6.8pt;
+  font-size: 8.2pt;
 }
 
 .sp-skill-badge {
@@ -893,12 +894,13 @@
   background: #f8fafc;
   border: 0.5px solid #e2e8f0;
   border-radius: 3px;
-  padding: 1px 3px;
+  padding: 2px 4px;
 }
 
 .sp-skill-badge .score {
   font-weight: 800;
   color: #4338ca;
+  font-size: 8.5pt;
 }
 
 /* Compact Checklists */
@@ -906,7 +908,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1px 4px;
-  font-size: 6.5pt;
+  font-size: 8pt;
 }
 
 .sp-mini-check-list span {
@@ -919,7 +921,7 @@
 .sp-footer {
   border-top: 1.2px solid #0f172a;
   padding-top: 3px;
-  font-size: 6.8pt;
+  font-size: 8pt;
 }
 
 .sp-declaration-quote {
@@ -927,7 +929,7 @@
   color: #475569;
   text-align: center;
   margin-bottom: 3px;
-  font-size: 6.5pt;
+  font-size: 8.2pt;
 }
 
 .sp-signatures-grid {
@@ -947,12 +949,12 @@
 }
 
 .sp-sig-col strong {
-  font-size: 7pt;
+  font-size: 9pt;
   color: #0f172a;
 }
 
 .sp-sig-col p {
-  font-size: 6.2pt;
+  font-size: 7.8pt;
   color: #64748b;
   margin: 0;
 }
@@ -965,7 +967,7 @@
   margin-top: 2px;
   padding-top: 1.5px;
   border-top: 0.5px dashed #cbd5e1;
-  font-size: 5.8pt;
+  font-size: 7.2pt;
   color: #64748b;
 }
 
@@ -1507,9 +1509,9 @@ textarea.field-locked {
   gap: 5px;
   background: #1e1b4b;
   color: #ffffff;
-  font-size: 8.5pt;
+  font-size: 9.8pt;
   font-weight: 900;
-  padding: 2.5px 8px;
+  padding: 3px 9px;
   border-radius: 3px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1518,19 +1520,19 @@ textarea.field-locked {
 .sp-subject-code-tag {
   background: #f59e0b;
   color: #0f172a;
-  font-size: 6.8pt;
+  font-size: 8.2pt;
   font-weight: 800;
-  padding: 1px 4px;
+  padding: 1.5px 5px;
   border-radius: 2px;
   margin-left: 4px;
 }
 
 .sp-teacher-badge {
-  font-size: 6.8pt;
+  font-size: 8.2pt;
   background: #ecfdf5;
   border: 0.5px solid #a7f3d0;
   color: #065f46;
-  padding: 1px 4px;
+  padding: 1.5px 6px;
   border-radius: 2px;
   font-weight: 700;
 }
@@ -1609,7 +1611,8 @@ textarea.field-locked {
   }
 
   /* Perfect Single-Page Sheet: Centered, symmetrical margins, zero page-break spill */
-  #singlePageSheet {
+  #singlePageSheet,
+  .single-page-sheet-print {
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
@@ -1633,9 +1636,12 @@ textarea.field-locked {
     break-inside: avoid !important;
     transform: none !important;
     background: #ffffff !important;
+    font-size: 8.5pt !important;
+    line-height: 1.3 !important;
   }
 
-  #singlePageSheet::before {
+  #singlePageSheet::before,
+  .single-page-sheet-print::before {
     content: "" !important;
     position: absolute !important;
     top: 2mm !important;

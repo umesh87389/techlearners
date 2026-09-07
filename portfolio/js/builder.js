@@ -400,10 +400,10 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
 
     barsSvg += `
       <g class="bar-group ${isActive ? "active-bar" : ""}">
-        ${isActive ? `<text x="${bx + barWidth/2}" y="${by - 12}" text-anchor="middle" font-size="7pt" fill="#4338ca">★</text>` : ""}
-        <text x="${bx + barWidth/2}" y="${by - 3}" text-anchor="middle" font-size="${isActive ? '6.8pt' : '5.8pt'}" font-weight="${textWeight}" fill="${textColor}">${scoreVal}%</text>
+        ${isActive ? `<text x="${bx + barWidth/2}" y="${by - 12}" text-anchor="middle" font-size="8pt" fill="#4338ca">★</text>` : ""}
+        <text x="${bx + barWidth/2}" y="${by - 3}" text-anchor="middle" font-size="${isActive ? '8pt' : '7.2pt'}" font-weight="${textWeight}" fill="${textColor}">${scoreVal}%</text>
         <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${fill}" stroke="${stroke}" stroke-width="${isActive ? '1.5' : '0.8'}"/>
-        <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6pt" font-weight="${isActive ? '800' : '600'}" fill="${isActive ? '#1e1b4b' : '#64748b'}">${escapeHtml(s.short || s.name)}</text>
+        <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="7pt" font-weight="${isActive ? '800' : '600'}" fill="${isActive ? '#1e1b4b' : '#64748b'}">${escapeHtml(s.short || s.name)}</text>
       </g>
     `;
   });
@@ -427,30 +427,30 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
       <!-- Header Strip -->
       <path d="M 1,1 L 457,1 L 457,25 L 1,25 Z" fill="#f8fafc"/>
       <line x1="1" y1="25" x2="457" y2="25" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="10" y="16.5" font-size="7.5pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
+      <text x="10" y="16.5" font-size="8.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
 
       <!-- Header KPI Badges -->
       <rect x="235" y="5" width="70" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.8"/>
-      <text x="270" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#166534">Avg: ${cum}%</text>
+      <text x="270" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Avg: ${cum}%</text>
 
       <rect x="310" y="5" width="68" height="15" rx="3" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="0.8"/>
-      <text x="344" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#3730a3">Rank: ${escapeHtml(avg.rank || "1st")}</text>
+      <text x="344" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#3730a3">Rank: ${escapeHtml(avg.rank || "1st")}</text>
 
       <rect x="383" y="5" width="68" height="15" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.8"/>
-      <text x="417" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#92400e">Trend: ↗ +4.4%</text>
+      <text x="417" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Trend: ↗ +4.4%</text>
 
       <!-- Left Chart: Term Progression -->
-      <text x="10" y="38" font-size="6pt" font-weight="700" fill="#475569">TERM PROGRESSION</text>
+      <text x="10" y="38" font-size="7.2pt" font-weight="700" fill="#475569">TERM PROGRESSION</text>
       
       <!-- Gridlines -->
       <line x1="36" y1="${getY(80)}" x2="200" y2="${getY(80)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="32" y="${getY(80) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">80%</text>
+      <text x="32" y="${getY(80) + 2}" text-anchor="end" font-size="6.2pt" fill="#94a3b8">80%</text>
 
       <line x1="36" y1="${getY(90)}" x2="200" y2="${getY(90)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="32" y="${getY(90) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">90%</text>
+      <text x="32" y="${getY(90) + 2}" text-anchor="end" font-size="6.2pt" fill="#94a3b8">90%</text>
 
       <line x1="36" y1="${getY(100)}" x2="200" y2="${getY(100)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="32" y="${getY(100) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">100%</text>
+      <text x="32" y="${getY(100) + 2}" text-anchor="end" font-size="6.2pt" fill="#94a3b8">100%</text>
 
       <!-- Area fill & lines -->
       <path d="${areaPath}" fill="url(#termAreaGrad)"/>
@@ -459,33 +459,33 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
 
       <!-- P1: Term 1 -->
       <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-      <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
-      <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 1</text>
+      <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
+      <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 1</text>
 
       <!-- P2: Mid Term -->
       <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-      <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
-      <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Mid Term</text>
+      <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
+      <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Mid Term</text>
 
       <!-- P3: Term 2 -->
       <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-      <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
-      <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 2</text>
+      <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
+      <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 2</text>
 
       <!-- P4: Target -->
       <circle cx="${p4.x}" cy="${p4.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-      <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#059669">${tgt}%</text>
-      <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#059669">Target</text>
+      <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
+      <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
 
       <!-- Divider -->
       <line x1="218" y1="30" x2="218" y2="152" stroke="#e2e8f0" stroke-width="1"/>
 
       <!-- Right Chart: Subject Benchmarks -->
-      <text x="228" y="38" font-size="6pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
+      <text x="228" y="38" font-size="7.2pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
 
       <!-- Average line across bars -->
       <line x1="234" y1="${avgLineY}" x2="445" y2="${avgLineY}" stroke="#b45309" stroke-width="1" stroke-dasharray="2,2"/>
-      <text x="448" y="${avgLineY + 2}" text-anchor="start" font-size="4.8pt" font-weight="700" fill="#b45309">Avg</text>
+      <text x="448" y="${avgLineY + 2}" text-anchor="start" font-size="6.2pt" font-weight="700" fill="#b45309">Avg</text>
 
       <!-- Rendered Bars -->
       ${barsSvg}
@@ -2094,7 +2094,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
     <div class="sp-year-ribbon">
       <div class="sp-ribbon-title">
         <span>⭐ MY ${escapeHtml(subjectName.toUpperCase())} PORTFOLIO IN ONE PAGE</span>
-        <span style="font-size: 6.2pt; color: #b45309; text-transform: none; font-weight: 700;">Official Individual Subject Record • Evaluated by ${escapeHtml(subjectTeacher)}</span>
+        <span style="font-size: 7.8pt; color: #b45309; text-transform: none; font-weight: 700;">Official Individual Subject Record • Evaluated by ${escapeHtml(subjectTeacher)}</span>
       </div>
       <div class="sp-ribbon-grid">
         <div class="sp-ribbon-pill"><strong>📚 Subject Target:</strong> ${escapeHtml(sub.subjectGoal || "Academic Excellence & Distinction")}</div>
@@ -2114,7 +2114,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <div class="sp-card">
           <div class="sp-card-title">
             <span>📊 1-1 Subject Evaluation: ${escapeHtml(subjectName)}</span>
-            <span style="font-size: 6pt; color: #16a34a; font-weight: 800;">Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</span>
+            <span style="font-size: 7.8pt; color: #16a34a; font-weight: 800;">Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</span>
           </div>
           <table class="sp-table">
             <thead>
@@ -2130,7 +2130,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
               ${evalRowsHtml}
             </tbody>
           </table>
-          <div style="font-size: 6.2pt; color: #334155; margin-top: 2px; padding: 1.5px 3px; background: #f8fafc; border-radius: 3px; display: flex; justify-content: space-between;">
+          <div style="font-size: 7.8pt; color: #334155; margin-top: 2px; padding: 2px 4px; background: #f8fafc; border-radius: 3px; display: flex; justify-content: space-between;">
             <span><strong>Final Subject Score:</strong> ${escapeHtml(sub.totalScore || "98")}% (Grade ${escapeHtml(sub.grade || "A1")})</span>
             <span><strong>Certified By:</strong> ${escapeHtml(subjectTeacher)}</span>
           </div>
@@ -2140,7 +2140,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <div class="sp-card sp-perf-graph-card">
           <div class="sp-card-title">
             <span>📈 Child Overall Academic Performance Graph</span>
-            <span style="font-size: 5.8pt; color: #4338ca; font-weight: 700;">Trajectory & Benchmark</span>
+            <span style="font-size: 7.5pt; color: #4338ca; font-weight: 700;">Trajectory & Benchmark</span>
           </div>
           <div class="sp-perf-graph-wrapper">
             ${perfSvg}
@@ -2163,7 +2163,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <!-- Subject Improvement Roadmap -->
         <div class="sp-card">
           <div class="sp-card-title"><span>🌱 ${escapeHtml(subjectName)} Target & Action Plan</span></div>
-          <div style="font-size: 6.3pt; line-height: 1.25;">
+          <div style="font-size: 8pt; line-height: 1.35;">
             <strong>Focus Area:</strong> ${escapeHtml(sub.improvementPlan?.area || "Advanced problem speed and proofs")}<br>
             <strong>Action Plan:</strong> ${escapeHtml(sub.improvementPlan?.plan || "Daily exemplar practice under timer")}<br>
             <div style="display: flex; justify-content: space-between; margin-top: 1px;">
@@ -2181,11 +2181,11 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <!-- Subject Projects & Practical Work -->
         <div class="sp-card">
           <div class="sp-card-title"><span>💡 ${escapeHtml(subjectName)} Projects & Practical Work</span></div>
-          <div style="font-size: 6.5pt; line-height: 1.25; margin-bottom: 2.5px;">
+          <div style="font-size: 8.2pt; line-height: 1.35; margin-bottom: 2.5px;">
             <strong>1. ${escapeHtml(sub.proj1Title || "Subject Practical Project 1")}:</strong>
             ${escapeHtml(sub.proj1Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj1Learned || "")}
           </div>
-          <div style="font-size: 6.5pt; line-height: 1.25;">
+          <div style="font-size: 8.2pt; line-height: 1.35;">
             <strong>2. ${escapeHtml(sub.proj2Title || "Lab Experiment / Project 2")}:</strong>
             ${escapeHtml(sub.proj2Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj2Learned || "")}
           </div>
@@ -2194,7 +2194,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <!-- Subject Achievements & Honors -->
         <div class="sp-card">
           <div class="sp-card-title"><span>🏆 ${escapeHtml(subjectName)} Honors & Achievements</span></div>
-          <div style="font-size: 6.4pt; line-height: 1.25;">
+          <div style="font-size: 8.2pt; line-height: 1.35;">
             <strong>Olympiad / Competition:</strong> ${escapeHtml(d.achievements && d.achievements[0] ? d.achievements[0].title : "Subject Olympiad Distinction")}<br>
             <strong>Award / Distinction:</strong> ${escapeHtml(d.academicAchievement || "Ranked 1st in Annual Honors & STEM Distinction")}
           </div>
@@ -2203,7 +2203,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <!-- Student Subject Self-Reflection -->
         <div class="sp-card">
           <div class="sp-card-title"><span>✍️ Student Reflection on ${escapeHtml(subjectName)}</span></div>
-          <div style="font-size: 6.3pt; line-height: 1.25; color: #334155;">
+          <div style="font-size: 8.2pt; line-height: 1.35; color: #334155;">
             <strong>Learning:</strong> ${escapeHtml(sub.subjectReflection || "Mastered curriculum concepts and applied logical principles.")}<br>
             <strong>Challenge Overcome:</strong> ${escapeHtml(d.refChallenge || "Balanced examination revision alongside practical project work.")}
           </div>
@@ -2213,18 +2213,18 @@ function generateSinglePageSheetHtml(d, subjectId) {
         <div class="sp-card">
           <div class="sp-card-title">
             <span>👩‍🏫 Subject Teacher's Assessment (${escapeHtml(subjectName)})</span>
-            <span style="font-size: 6pt; color: #16a34a; font-weight: 800;">Official Certified ✓</span>
+            <span style="font-size: 7.8pt; color: #16a34a; font-weight: 800;">Official Certified ✓</span>
           </div>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px 3px; font-size: 6.2pt; background: #f8fafc; padding: 2px 4px; border-radius: 3px; margin-bottom: 2px;">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 4px; font-size: 7.8pt; background: #f8fafc; padding: 2.5px 4px; border-radius: 3px; margin-bottom: 2px;">
             <div>Concept: <strong>Excellent</strong></div>
             <div>Practical: <strong>Excellent</strong></div>
             <div>Regularity: <strong>Excellent</strong></div>
             <div>Portfolio: <strong>Excellent</strong></div>
           </div>
-          <div style="font-size: 6.4pt; font-style: italic; color: #1e293b; line-height: 1.2; margin-bottom: 2px;">
+          <div style="font-size: 8.2pt; font-style: italic; color: #1e293b; line-height: 1.3; margin-bottom: 2px;">
             “${escapeHtml(sub.teacherRemarks || "Demonstrates remarkable conceptual clarity, diligence, and intellectual curiosity.")}”
           </div>
-          <div style="font-size: 6.2pt; color: #475569; display: flex; justify-content: space-between;">
+          <div style="font-size: 7.8pt; color: #475569; display: flex; justify-content: space-between;">
             <span><strong>Evaluator:</strong> ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span>
             <span><strong>Date:</strong> ${escapeHtml(sub.teacherSignDate || "15 March 2027")}</span>
           </div>

@@ -262,10 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         barsSvg += `
           <g class="bar-group ${isActive ? "active-bar" : ""}">
-            ${isActive ? `<text x="${bx + barWidth/2}" y="${by - 12}" text-anchor="middle" font-size="7pt" fill="#4338ca">★</text>` : ""}
-            <text x="${bx + barWidth/2}" y="${by - 3}" text-anchor="middle" font-size="${isActive ? '6.8pt' : '5.8pt'}" font-weight="${textWeight}" fill="${textColor}">${scoreVal}%</text>
+            ${isActive ? `<text x="${bx + barWidth/2}" y="${by - 12}" text-anchor="middle" font-size="8pt" fill="#4338ca">★</text>` : ""}
+            <text x="${bx + barWidth/2}" y="${by - 3}" text-anchor="middle" font-size="${isActive ? '8pt' : '7.2pt'}" font-weight="${textWeight}" fill="${textColor}">${scoreVal}%</text>
             <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${fill}" stroke="${stroke}" stroke-width="${isActive ? '1.5' : '0.8'}"/>
-            <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6pt" font-weight="${isActive ? '800' : '600'}" fill="${isActive ? '#1e1b4b' : '#64748b'}">${s.short}</text>
+            <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="7pt" font-weight="${isActive ? '800' : '600'}" fill="${isActive ? '#1e1b4b' : '#64748b'}">${s.short}</text>
           </g>
         `;
       });
@@ -285,16 +285,16 @@ document.addEventListener("DOMContentLoaded", () => {
           <rect x="1" y="1" width="456" height="163" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/>
           <path d="M 1,1 L 457,1 L 457,25 L 1,25 Z" fill="#f8fafc"/>
           <line x1="1" y1="25" x2="457" y2="25" stroke="#e2e8f0" stroke-width="1"/>
-          <text x="10" y="16.5" font-size="7.5pt" font-weight="800" fill="#0f172a">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
+          <text x="10" y="16.5" font-size="8.8pt" font-weight="800" fill="#0f172a">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
 
           <rect x="235" y="5" width="70" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.8"/>
-          <text x="270" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#166534">Avg: ${cum}%</text>
+          <text x="270" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Avg: ${cum}%</text>
           <rect x="310" y="5" width="68" height="15" rx="3" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="0.8"/>
-          <text x="344" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#3730a3">Rank: 1st</text>
+          <text x="344" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#3730a3">Rank: 1st</text>
           <rect x="383" y="5" width="68" height="15" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.8"/>
-          <text x="417" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#92400e">Trend: ↗ +4.4%</text>
+          <text x="417" y="15.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Trend: ↗ +4.4%</text>
 
-          <text x="10" y="38" font-size="6pt" font-weight="700" fill="#475569">TERM PROGRESSION</text>
+          <text x="10" y="38" font-size="7.2pt" font-weight="700" fill="#475569">TERM PROGRESSION</text>
           <line x1="36" y1="${getY(80)}" x2="200" y2="${getY(80)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
           <line x1="36" y1="${getY(90)}" x2="200" y2="${getY(90)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
           <line x1="36" y1="${getY(100)}" x2="200" y2="${getY(100)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
@@ -304,25 +304,25 @@ document.addEventListener("DOMContentLoaded", () => {
           <path d="M ${p3.x},${p3.y} L ${p4.x},${p4.y}" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="3,3"/>
 
           <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-          <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
-          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 1</text>
+          <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
+          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 1</text>
 
           <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
-          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Mid Term</text>
+          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
+          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Mid Term</text>
 
           <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
-          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 2</text>
+          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
+          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 2</text>
 
           <circle cx="${p4.x}" cy="${p4.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-          <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#059669">${tgt}%</text>
-          <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#059669">Target</text>
+          <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
+          <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
 
           <line x1="218" y1="30" x2="218" y2="152" stroke="#e2e8f0" stroke-width="1"/>
-          <text x="228" y="38" font-size="6pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
+          <text x="228" y="38" font-size="7.2pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
           <line x1="234" y1="${avgLineY}" x2="445" y2="${avgLineY}" stroke="#b45309" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="448" y="${avgLineY + 2}" text-anchor="start" font-size="4.8pt" font-weight="700" fill="#b45309">Avg</text>
+          <text x="448" y="${avgLineY + 2}" text-anchor="start" font-size="6.2pt" font-weight="700" fill="#b45309">Avg</text>
 
           ${barsSvg}
         </svg>
