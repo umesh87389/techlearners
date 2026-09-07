@@ -3,19 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Portfolio | SHM Academy</title>
-  <link rel="icon" type="image/jpeg" href="/assets/school-logo.jpg">
-  <link rel="stylesheet" href="/static/css/portfolio.css">
+  <title>Student Portfolio &amp; Teacher Portal | SHM Academy</title>
+  <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
+  <link rel="stylesheet" href="static/css/portfolio.css">
 </head>
 <body>
 
-  <div class="page-wrapper">
+  <!-- TOP TAB NAVIGATION (STUDENT & TEACHER TABS ON SAME PAGE) -->
+  <nav class="main-tabs-header no-print">
+    <div class="tab-buttons-wrap">
+      <button type="button" id="tabBtnStudent" class="main-tab-btn active" onclick="switchMainTab('student')">
+        <span>🎓</span> Student Portfolio
+      </button>
+      <button type="button" id="tabBtnTeacher" class="main-tab-btn" onclick="switchMainTab('teacher')">
+        <span>👨‍🏫</span> Teacher’s Dashboard
+        <span id="teacherTabLockBadge" class="teacher-lock-status-pill status-pill-locked">🔒 Locked</span>
+      </button>
+    </div>
+    <div id="teacherQuickLockContainer" style="display: none;">
+      <button type="button" onclick="lockTeacherTab()" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #be123c; border-color: #fecdd3; font-weight: 700;">
+        🔒 Lock Teacher Tab
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================= -->
+  <!-- TAB 1: STUDENT PORTFOLIO VIEW CONTAINER                   -->
+  <!-- ========================================================= -->
+  <div id="studentViewContainer" class="page-wrapper">
     <form id="portfolioForm" class="portfolio-document" onsubmit="return false;">
 
       <!-- DOCUMENT HEADER -->
       <header class="doc-header">
         <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
-          <img src="/assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
+          <img src="assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
         </div>
         <div class="doc-title-main">STUDENT PORTFOLIO</div>
         <div class="doc-school-name">SHM ACADEMY</div>
@@ -29,7 +50,7 @@
       <!-- 1. STUDENT PROFILE -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Student Profile</span>
+          <span>1. Student Profile</span>
         </h2>
         <div class="profile-grid">
           <table class="doc-table">
@@ -109,7 +130,7 @@
       <!-- 2. ABOUT ME -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>About Me</span>
+          <span>2. About Me</span>
         </h2>
         <div class="about-me-paragraph">
           My name is <input type="text" id="about_name" class="inline-input" style="width: 240px;" placeholder="Full Name">.
@@ -156,7 +177,7 @@
       <!-- 3. MY GOALS -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My Goals</span>
+          <span>3. My Goals</span>
         </h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
           <div class="form-field-group">
@@ -200,17 +221,26 @@
         </div>
       </section>
 
+      <!-- DYNAMIC VISUAL PERFORMANCE GRAPH CARD -->
+      <section class="perf-graph-card">
+        <h3>
+          <span>📈 Child Overall Performance Graph</span>
+          <span style="font-size: 0.78rem; font-weight: normal; color: #64748b; margin-left: auto;">(All Subjects Compiled)</span>
+        </h3>
+        <div id="perfGraphSvgContainer"></div>
+      </section>
+
       <!-- 4. ACADEMIC PROGRESS (LOCKED FOR STUDENTS) -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Academic Progress</span>
+          <span>4. Academic Progress</span>
           <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
         </h2>
         
         <div class="locked-section-container">
           <div class="locked-notice-banner">
             <span>🔒</span>
-            <span>This section is locked for students. Academic evaluation and marks will be filled and verified by your Teacher in the Teacher’s Dashboard.</span>
+            <span>Academic evaluation and marks are locked for students. Verified marks and subject teacher remarks will be entered exclusively by your teacher in the Teacher’s Dashboard.</span>
           </div>
 
           <table class="doc-table">
@@ -246,14 +276,14 @@
       <!-- 5. MY SKILLS (LOCKED FOR STUDENTS) -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My Skills</span>
+          <span>5. My Skills</span>
           <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
         </h2>
 
         <div class="locked-section-container">
           <div class="locked-notice-banner">
             <span>🔒</span>
-            <span>Rate yourself from 1–5. This section is locked for student entry and evaluated by the Teacher separately.</span>
+            <span>Rate yourself from 1–5. Evaluated and verified by the teacher separately.</span>
           </div>
 
           <table class="doc-table">
@@ -280,7 +310,7 @@
       <!-- 6. CO-CURRICULAR ACTIVITIES -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Co-Curricular Activities</span>
+          <span>6. Co-Curricular Activities</span>
         </h2>
         <table class="doc-table">
           <thead>
@@ -307,7 +337,7 @@
       <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Achievements &amp; Certificates</span>
+          <span>7. Achievements &amp; Certificates</span>
         </h2>
         <table class="doc-table">
           <thead>
@@ -338,7 +368,7 @@
       <!-- 8. PROJECTS & CREATIVE WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Projects &amp; Creative Work</span>
+          <span>8. Projects &amp; Creative Work</span>
         </h2>
         
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
@@ -378,7 +408,7 @@
       <!-- 9. MY SCHOOL PARTICIPATION -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My School Participation</span>
+          <span>9. My School Participation</span>
         </h2>
         <label class="form-field-label">I participated in:</label>
         <div class="checkbox-grid">
@@ -402,7 +432,7 @@
       <!-- 10. MY REFLECTION -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My Reflection</span>
+          <span>10. My Reflection</span>
         </h2>
         <div class="form-field-group">
           <label class="form-field-label">What did I learn this year?</label>
@@ -429,7 +459,7 @@
       <!-- 11. MY BEST WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My Best Work</span>
+          <span>11. My Best Work</span>
         </h2>
         <p style="font-size: 0.95rem; color: #475569; margin-bottom: 0.75rem;">
           Paste or attach your best work here.<br>
@@ -443,14 +473,14 @@
       <!-- 12. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Teacher’s Assessment</span>
+          <span>12. Teacher’s Assessment</span>
           <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
         </h2>
         
         <div class="locked-section-container">
           <div class="locked-notice-banner">
             <span>🔒</span>
-            <span>This section is locked for students and will be assessed exclusively by the Class Teacher.</span>
+            <span>Assessed and signed exclusively by the Class Teacher.</span>
           </div>
 
           <table class="doc-table">
@@ -497,7 +527,7 @@
       <!-- 13. PARENT’S FEEDBACK -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Parent’s Feedback</span>
+          <span>13. Parent’s Feedback</span>
         </h2>
         <div class="form-field-group">
           <label class="form-field-label">My child’s strengths:</label>
@@ -526,7 +556,7 @@
       <!-- 14. PERSONAL IMPROVEMENT PLAN -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Personal Improvement Plan</span>
+          <span>14. Personal Improvement Plan</span>
         </h2>
         <table class="doc-table">
           <thead>
@@ -553,7 +583,7 @@
       <!-- 15. MY YEAR IN ONE PAGE -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>My Year in One Page</span>
+          <span>15. My Year in One Page</span>
         </h2>
         <div class="year-one-page-grid">
           <div class="year-card">
@@ -590,7 +620,7 @@
       <!-- 16. STUDENT’S DECLARATION -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Student’s Declaration</span>
+          <span>16. Student’s Declaration</span>
         </h2>
         <div class="declaration-box">
           “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
@@ -614,13 +644,13 @@
       <!-- 17. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
       <section class="doc-section">
         <h2 class="doc-section-title">
-          <span>Teacher’s Final Remark</span>
+          <span>17. Teacher’s Final Remark</span>
           <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
         </h2>
         <div class="locked-section-container">
           <div class="locked-notice-banner">
             <span>🔒</span>
-            <span>This section will be signed and completed by the Class Teacher and Principal.</span>
+            <span>Signed and verified by the Class Teacher and Principal.</span>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
             <div>
@@ -645,8 +675,8 @@
       <span id="bottomStatusText" class="bottom-bar-status">Ready • All changes automatically draft saved</span>
     </div>
     <div class="bottom-bar-actions">
-      <button type="button" id="btnPrintPortfolio" class="btn btn-print" title="Automatically save to Teacher Dashboard and open Print view">
-        <span>🖨️</span> Print Portfolio
+      <button type="button" id="btnPrintPortfolio" class="btn btn-print" title="Auto-save to Teacher Dashboard and open Print view with Performance Graph">
+        <span>🖨️</span> Print Portfolio (All Subjects)
       </button>
       <button type="button" id="btnSendPortfolio" class="btn btn-send" title="Send completed portfolio to Teacher Dashboard">
         <span>🚀</span> Send Portfolio
@@ -654,6 +684,316 @@
     </div>
   </aside>
 
-  <script src="/static/js/portfolio.js"></script>
+  <!-- ========================================================= -->
+  <!-- TAB 2: TEACHER DASHBOARD CONTAINER (ON SAME PAGE)         -->
+  <!-- ========================================================= -->
+  <div id="teacherViewContainer" style="display: none;">
+    
+    <!-- A. Teacher PIN Gate (When not unlocked) -->
+    <div id="teacherAuthGate" class="teacher-auth-gate" style="display: none;">
+      <div class="auth-card">
+        <img src="assets/school-logo.jpg" alt="Logo" style="height: 52px; border-radius: 6px; margin-bottom: 0.75rem;">
+        <span style="font-size: 0.8rem; background: #eff6ff; color: #1e3a8a; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase;">
+          Confidential Faculty Portal
+        </span>
+        <h2 style="font-size: 1.5rem; color: #0f172a; margin: 0.5rem 0 0.25rem;">Teacher Dashboard Access</h2>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem;">SHM Academy • Authorized Faculty Access Only</p>
+
+        <form onsubmit="handleTeacherLogin(event); return false;" style="text-align: left;">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">
+              Teacher Access Passcode
+            </label>
+            <input type="password" id="teacherPasscodeInput" class="form-input-text" placeholder="Enter teacher passcode" required autocomplete="off">
+          </div>
+          <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem;"></div>
+          <button type="submit" class="btn btn-send" style="width: 100%; justify-content: center; background: #1e3a8a; padding: 0.75rem;">
+            🔒 Verify &amp; Unlock Dashboard
+          </button>
+        </form>
+        <div style="margin-top: 1.5rem;">
+          <button type="button" onclick="switchMainTab('student')" class="btn btn-secondary" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+            ← Return to Student Portfolio Tab
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- B. Unlocked Teacher Dashboard -->
+    <div id="teacherDashboardContent" style="display: none;">
+      <div class="dashboard-wrapper">
+        
+        <!-- Header -->
+        <header class="dash-nav">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
+            <div>
+              <h1 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
+              <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700;">
+              👨‍🏫 Authorized Faculty
+            </span>
+            <button type="button" onclick="lockTeacherTab()" class="btn btn-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.85rem; color: #be123c; border-color: #fecdd3;">
+              🔒 Lock &amp; Logout
+            </button>
+          </div>
+        </header>
+
+        <!-- Stats Overview -->
+        <section class="dash-stats-row">
+          <div class="stat-card">
+            <div class="stat-lbl">Total Student Portfolios</div>
+            <div class="stat-val" id="statTotalSubmissions">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Pending Teacher Evaluation</div>
+            <div class="stat-val" id="statPendingEvaluation" style="color: #b45309;">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Evaluated &amp; Completed</div>
+            <div class="stat-val" id="statEvaluated" style="color: #15803d;">0</div>
+          </div>
+        </section>
+
+        <!-- Filter Card -->
+        <section class="dash-filter-card">
+          <div class="filter-item">
+            <label>Filter by Class &amp; Section</label>
+            <select id="filterClassSelect" class="form-input-text">
+              <option value="all">All Classes (Class 6 - 12)</option>
+              {% for cs in classes_sections %}
+              <option value="{{ cs }}">{{ cs }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <label>Filter by Status</label>
+            <select id="filterStatusSelect" class="form-input-text">
+              <option value="all">All Statuses</option>
+              <option value="pending_evaluation">Pending Evaluation</option>
+              <option value="evaluated">Evaluated</option>
+            </select>
+          </div>
+
+          <div class="filter-item" style="flex: 1.5;">
+            <label>Search Student</label>
+            <input type="text" id="searchStudentInput" class="form-input-text" placeholder="Search by name, roll no, or admission no...">
+          </div>
+        </section>
+
+        <!-- Roster Table -->
+        <main class="roster-card">
+          <table class="roster-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">Photo</th>
+                <th>Student Name</th>
+                <th>Class &amp; Section</th>
+                <th>Roll No</th>
+                <th>Submitted At</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th style="text-align: right;">Teacher Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rosterTableBody"></tbody>
+          </table>
+          <div id="emptyRosterState" style="display: none; padding: 4rem 2rem; text-align: center; color: #64748b;">
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
+            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Submissions Found</h3>
+            <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
+              When a student fills their portfolio and clicks <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong>, their submission will appear here automatically.
+            </p>
+          </div>
+        </main>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TEACHER EVALUATION MODAL (POPUPS OVER THE PAGE FOR MARK ENTRY) -->
+  <div id="evalModal" class="eval-modal-overlay">
+    <div class="eval-modal-container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #cbd5e1; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h2 id="modalStudentTitle" style="font-size: 1.3rem; color: #1e3a8a; margin: 0;">Faculty Evaluation</h2>
+          <p id="modalStudentSubtitle" style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;"></p>
+        </div>
+        <button type="button" onclick="closeEvaluationModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+
+      <!-- Academic Progress Evaluation -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">4. Academic Progress (Marks &amp; Remarks)</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Subject</th>
+              <th style="width: 18%; text-align: center;">Term 1</th>
+              <th style="width: 18%; text-align: center;">Mid Term</th>
+              <th style="width: 18%; text-align: center;">Term 2</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalSubjects = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
+              modalSubjects.forEach((sub, i) => {
+                document.write(`
+                  <tr>
+                    <td><strong>${sub}</strong></td>
+                    <td><input type="text" id="modal_sub_${i}_term1" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_midterm" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_term2" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_remarks" placeholder="Remarks"></td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+        <div style="margin-top: 0.75rem;">
+          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">My Academic Achievement</label>
+          <textarea id="modal_academic_achievement" class="form-textarea" rows="2" placeholder="Highlights, distinctions, or awards..."></textarea>
+        </div>
+      </div>
+
+      <!-- Skills Evaluation -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">5. My Skills (Rating 1–5)</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th style="width: 180px; text-align: center;">Rating (/5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalSkills = [
+                ['Communication', 'communication'], ['Reading', 'reading'], ['Writing', 'writing'],
+                ['Creativity', 'creativity'], ['Problem Solving', 'problem_solving'], ['Teamwork', 'teamwork'],
+                ['Leadership', 'leadership'], ['Time Management', 'time_management'], ['Digital Skills', 'digital_skills']
+              ];
+              modalSkills.forEach(item => {
+                document.write(`
+                  <tr>
+                    <td><strong>${item[0]}</strong></td>
+                    <td style="text-align: center;">
+                      <select id="modal_skill_${item[1]}" class="form-input-text" style="width: 100px; font-weight: 700;">
+                        <option value="">—</option>
+                        <option value="5">5 / 5</option>
+                        <option value="4">4 / 5</option>
+                        <option value="3">3 / 5</option>
+                        <option value="2">2 / 5</option>
+                        <option value="1">1 / 5</option>
+                      </select>
+                    </td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Co-Curricular Remarks -->
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">6. Co-Curricular Activities: Teacher’s Remarks</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 1 Remark</label><input type="text" id="modal_co_rem_1" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 2 Remark</label><input type="text" id="modal_co_rem_2" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 3 Remark</label><input type="text" id="modal_co_rem_3" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 4 Remark</label><input type="text" id="modal_co_rem_4" class="form-input-text"></div>
+        </div>
+      </div>
+
+      <!-- Teacher's Assessment -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">12. Teacher’s Assessment</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th style="width: 18%; text-align: center;">Excellent</th>
+              <th style="width: 18%; text-align: center;">Very Good</th>
+              <th style="width: 18%; text-align: center;">Good</th>
+              <th style="width: 18%; text-align: center;">Needs Imp.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalAreas = [
+                ['Academic Performance', 'academic_performance'],
+                ['Discipline', 'discipline'],
+                ['Regularity', 'regularity'],
+                ['Communication', 'communication'],
+                ['Participation', 'participation'],
+                ['Teamwork', 'teamwork'],
+                ['Leadership', 'leadership'],
+                ['Creativity', 'creativity']
+              ];
+              modalAreas.forEach(a => {
+                document.write(`
+                  <tr>
+                    <td><strong>${a[0]}</strong></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Excellent"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Very Good"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Good"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Needs Improvement"></td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 1rem;">
+          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">Teacher’s Remarks</label>
+          <textarea id="modal_teacher_remarks" class="form-textarea" rows="2" placeholder="Overall faculty feedback..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+          <div>
+            <label style="font-weight: 700; font-size: 0.85rem;">Class Teacher’s Signature</label>
+            <input type="text" id="modal_teacher_sig" class="form-input-text" placeholder="Teacher Name / Signature">
+          </div>
+          <div>
+            <label style="font-weight: 700; font-size: 0.85rem;">Date</label>
+            <input type="date" id="modal_teacher_date" class="form-input-text">
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher's Final Remark -->
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">17. Teacher’s Final Remark</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700;">Class Teacher</label>
+            <input type="text" id="modal_final_class_teacher" class="form-input-text" placeholder="Class Teacher Remark">
+          </div>
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700;">Principal</label>
+            <input type="text" id="modal_final_principal" class="form-input-text" placeholder="Principal Sign-off">
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; border-top: 1px solid #cbd5e1; padding-top: 1rem;">
+        <button type="button" onclick="closeEvaluationModal()" class="btn btn-secondary">Cancel</button>
+        <button type="button" onclick="saveModalEvaluation()" class="btn btn-send" style="background: #16a34a; font-size: 1rem; padding: 0.65rem 1.75rem;">
+          💾 Save Teacher Evaluation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="static/js/portfolio.js"></script>
 </body>
 </html>
