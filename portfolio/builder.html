@@ -24,6 +24,7 @@
         <ul class="nav-links">
           <li><a href="../index.html" class="nav-link">← Return to Home</a></li>
           <li><a href="builder.html" class="nav-link active">🎓 Portfolio</a></li>
+          <li><a href="teachers.html" class="nav-link" title="Teachers Portal: View saved students, edit details & print">👨‍🏫 Teachers</a></li>
           <li><a href="template.html" class="nav-link">📄 Document Template</a></li>
         </ul>
       </nav>
@@ -56,6 +57,10 @@
         </button>
         <button type="button" class="mode-btn d-desktop-only" id="btnModeSplit" onclick="setViewMode('split')" title="Side-by-side editing and live preview">
           <span class="mode-icon">📑</span> <span class="mode-text">Side-by-Side</span>
+        </button>
+        <button type="button" class="mode-btn" id="btnModeTeachers" onclick="setViewMode('teachers')" title="Teachers Tab: View saved students roster, edit marks & details, and print">
+          <span class="mode-icon">👨‍🏫</span> <span class="mode-text">Teachers Tab</span>
+          <span class="badge" id="teachersRosterCountBadge" style="background: #e0e7ff; color: #3730a3; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">0</span>
         </button>
       </div>
 
@@ -107,6 +112,12 @@
   <!-- Main Workspace -->
   <main class="container" style="max-width: 1440px;">
     <div class="builder-layout mode-form" id="builderLayout">
+
+      <!-- DEDICATED TEACHERS PORTAL & SAVED STUDENTS ROSTER (Teachers Tab) -->
+      <section class="teachers-portal-view no-print" id="teachersPortalView" aria-label="Teachers Portal & Student Roster" style="display: none;">
+        <!-- Populated dynamically by builder.js renderTeachersPortal() -->
+      </section>
+
 
       <!-- LEFT COLUMN: INTERACTIVE FORM -->
       <section class="builder-form-card no-print" id="builderFormCard" aria-label="Student Portfolio Form">

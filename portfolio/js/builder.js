@@ -652,7 +652,21 @@ document.addEventListener("DOMContentLoaded", function() {
   if (subParam) {
     switchPrintSubject(subParam);
   }
-  if (urlParams.get("print") === "true") {
+  // Check for teacher mode or view parameter
+  const viewParam = urlParams.get("view") || urlParams.get("tab");
+  if (urlParams.get("auth") === "teacher") {
+    isTeacherMode = true;
+    sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+    sessionStorage.setItem("portfolio_teacher_role", "Teacher");
+    updateTeacherLockUI();
+  }
+  if (urlParams.get("new") === "true") {
+    createNewStudent(true);
+  }
+
+  if (viewParam === "teachers") {
+    setViewMode("teachers");
+  } else if (urlParams.get("print") === "true") {
     setViewMode("preview");
     setTimeout(() => printSinglePage(), 600);
   } else if (urlParams.get("mode") === "preview") {
@@ -665,6 +679,7 @@ document.addEventListener("DOMContentLoaded", function() {
       setViewMode("form");
     }
   }
+  updateTeachersBadge();
 
   // Initial scale calibration
   requestAnimationFrame(applySheetScale);
@@ -1101,19 +1116,23 @@ function jumpToSection(targetId) {
   }
 }
 
-// View mode switcher: 'form', 'preview', or 'split'
+// View mode switcher: 'form', 'preview', 'split', or 'teachers'
 function setViewMode(mode) {
-  if (!["form", "preview", "split"].includes(mode)) mode = "form";
+  if (!["form", "preview", "split", "teachers"].includes(mode)) mode = "form";
   currentViewMode = mode;
 
   const layout = document.getElementById("builderLayout");
+  const formCard = document.getElementById("builderFormCard");
+  const previewWrapper = document.getElementById("previewWrapper");
+  const teachersView = document.getElementById("teachersPortalView");
+
   if (layout) {
-    layout.classList.remove("mode-form", "mode-preview", "mode-split");
+    layout.classList.remove("mode-form", "mode-preview", "mode-split", "mode-teachers");
     layout.classList.add(`mode-${mode}`);
   }
 
   // Update mode buttons in topbar
-  ["form", "preview", "split"].forEach(m => {
+  ["form", "preview", "split", "teachers"].forEach(m => {
     const btn = document.getElementById("btnMode" + m.charAt(0).toUpperCase() + m.slice(1));
     if (btn) {
       if (m === mode) btn.classList.add("active");
@@ -1121,21 +1140,43 @@ function setViewMode(mode) {
     }
   });
 
+  // Toggle visibility of panels based on mode
+  if (mode === "teachers") {
+    if (formCard) formCard.style.display = "none";
+    if (previewWrapper) previewWrapper.style.display = "none";
+    if (teachersView) {
+      teachersView.style.display = "block";
+      renderTeachersPortal();
+    }
+  } else if (mode === "form") {
+    if (formCard) formCard.style.display = "block";
+    if (previewWrapper) previewWrapper.style.display = "none";
+    if (teachersView) teachersView.style.display = "none";
+  } else if (mode === "preview") {
+    if (formCard) formCard.style.display = "none";
+    if (previewWrapper) previewWrapper.style.display = "block";
+    if (teachersView) teachersView.style.display = "none";
+    requestAnimationFrame(applySheetScale);
+  } else if (mode === "split") {
+    if (formCard) formCard.style.display = "block";
+    if (previewWrapper) previewWrapper.style.display = "block";
+    if (teachersView) teachersView.style.display = "none";
+    requestAnimationFrame(applySheetScale);
+  }
+
   // Update mobile FAB
   const fab = document.getElementById("mobilePreviewFab");
   if (fab) {
     if (mode === "preview") {
       fab.innerHTML = "<span>📝</span> <span>Back to Form</span>";
+    } else if (mode === "teachers") {
+      fab.innerHTML = "<span>📝</span> <span>Back to Form</span>";
     } else {
-      fab.innerHTML = "<span>👁️</span> <span>View A4 Sheet</span>";
+      fab.innerHTML = "<span>👁️</span> <span>View 2-Page Sheet</span>";
     }
   }
 
-  if (mode === "preview" || mode === "split") {
-    requestAnimationFrame(applySheetScale);
-    setTimeout(applySheetScale, 60);
-    setTimeout(applySheetScale, 200);
-  }
+  updateTeachersBadge();
 }
 
 function toggleMobilePreview() {
@@ -3586,4 +3627,537 @@ window.handleAddSubjectSubmit = handleAddSubjectSubmit;
 window.printAllSubjectPortfolios = printAllSubjectPortfolios;
 window.generateOverallPerformanceSvg = generateOverallPerformanceSvg;
 
+
+
+
+// =============================================================
+// TEACHERS TAB: SAVED STUDENTS ROSTER & MANAGEMENT
+// Allows teachers to view, search, filter, edit & print portfolios
+// =============================================================
+
+let teacherRosterState = {
+  searchQuery: "",
+  classFilter: "all",
+  statusFilter: "all",
+  selectedPrintSubject: "mathematics",
+  viewStyle: "cards" // 'cards' or 'table'
+};
+
+function updateTeachersBadge() {
+  const badge = document.getElementById("teachersRosterCountBadge");
+  if (!badge) return;
+  const students = (window.DataStore && typeof window.DataStore.getStudents === "function") 
+    ? window.DataStore.getStudents() 
+    : (window.DEFAULT_STUDENTS || []);
+  badge.textContent = students.length;
+}
+
+function renderTeachersPortal() {
+  const container = document.getElementById("teachersPortalView");
+  if (!container) return;
+
+  const students = (window.DataStore && typeof window.DataStore.getStudents === "function") 
+    ? window.DataStore.getStudents() 
+    : (window.DEFAULT_STUDENTS || []);
+
+  updateTeachersBadge();
+
+  // Extract unique classes for filter dropdown
+  const classesSet = new Set();
+  students.forEach(s => {
+    const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`.trim();
+    if (cls) classesSet.add(cls);
+  });
+  const classesList = Array.from(classesSet).sort();
+
+  // Filter students based on teacherRosterState
+  const q = (teacherRosterState.searchQuery || "").trim().toLowerCase();
+  const filtered = students.filter(s => {
+    const sName = (s.name || "").toLowerCase();
+    const sRoll = String(s.rollNo || "").toLowerCase();
+    const sAdm = (s.admissionNo || s.id || "").toLowerCase();
+    const sFather = (s.parentNote && s.parentNote.parentsName ? s.parentNote.parentsName : "").toLowerCase();
+    const sCls = `${s.class || ""}${s.section ? " - " + s.section : ""}`.trim().toLowerCase();
+
+    const matchesSearch = !q || sName.includes(q) || sRoll.includes(q) || sAdm.includes(q) || sFather.includes(q) || sCls.includes(q);
+
+    const fullCls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`.trim();
+    const matchesClass = (teacherRosterState.classFilter === "all") || (fullCls === teacherRosterState.classFilter) || (s.class === teacherRosterState.classFilter);
+
+    let status = "draft";
+    if (s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)) {
+      status = "verified";
+    } else if (s.reviewStatus === "pending") {
+      status = "pending";
+    }
+    const matchesStatus = (teacherRosterState.statusFilter === "all") || (status === teacherRosterState.statusFilter);
+
+    return matchesSearch && matchesClass && matchesStatus;
+  });
+
+  // Calculate Metrics
+  const totalStudents = students.length;
+  const verifiedCount = students.filter(s => s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)).length;
+  const pendingCount = students.filter(s => s.reviewStatus === "pending").length;
+
+  let totalScoreSum = 0;
+  let scoreCount = 0;
+  students.forEach(s => {
+    const scoreNum = parseFloat(s.academicScore);
+    if (!isNaN(scoreNum)) {
+      totalScoreSum += scoreNum;
+      scoreCount++;
+    }
+  });
+  const avgScore = scoreCount > 0 ? (totalScoreSum / scoreCount).toFixed(1) : "95.2";
+
+  // Build Classes Filter Options
+  const classOptionsHtml = classesList.map(c => `
+    <option value="${escapeHtml(c)}" ${teacherRosterState.classFilter === c ? "selected" : ""}>${escapeHtml(c)}</option>
+  `).join("");
+
+  // Build Student Cards or Table
+  let rosterContentHtml = "";
+  if (filtered.length === 0) {
+    rosterContentHtml = `
+      <div class="teachers-empty-state">
+        <h3>🔍 No Students Found</h3>
+        <p>No student records match the search filter "${escapeHtml(teacherRosterState.searchQuery)}" or class "${escapeHtml(teacherRosterState.classFilter)}".</p>
+        <button type="button" onclick="clearTeacherFilters()" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">Reset Filters</button>
+      </div>
+    `;
+  } else if (teacherRosterState.viewStyle === "table") {
+    // Detailed Table View
+    const rowsHtml = filtered.map((s, idx) => {
+      const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`;
+      const score = s.academicScore || "95.0%";
+      const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
+      const isPending = s.reviewStatus === "pending";
+      const statusPill = isVerified 
+        ? `<span class="badge badge-success">✓ Verified</span>` 
+        : (isPending ? `<span class="badge badge-warning">⏳ Needs Review</span>` : `<span class="badge badge-secondary">📝 Draft</span>`);
+
+      return `
+        <tr>
+          <td>
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" style="width: 38px; height: 38px; border-radius: 6px; object-fit: cover; border: 1px solid #0f172a;" onerror="this.src='assets/school-logo.jpg'">
+              <div>
+                <strong>${escapeHtml(s.name)}</strong>
+                <div style="font-size: 0.75rem; color: #64748b;">Adm: ${escapeHtml(s.admissionNo || s.id)}</div>
+              </div>
+            </div>
+          </td>
+          <td><strong>${escapeHtml(cls)}</strong></td>
+          <td class="center"><strong>${escapeHtml(s.rollNo || "--")}</strong></td>
+          <td class="center"><strong style="color: #166534;">${escapeHtml(score)}</strong></td>
+          <td>${statusPill}</td>
+          <td>
+            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+              <button type="button" onclick="loadStudentToTeacherEdit('${s.id}')" class="btn btn-primary btn-xs btn-card-edit" title="Edit student details & marks in Teacher Mode">✏️ Edit Details</button>
+              <button type="button" onclick="printStudentFromTeacherRoster('${s.id}')" class="btn btn-xs btn-card-print" title="Print official 2-page portfolio">🖨️ Print 2 Pages</button>
+              <button type="button" onclick="previewStudentFromTeacherRoster('${s.id}')" class="btn btn-secondary btn-xs" title="Preview 2-page sheet">👁️ Sheet</button>
+              <a href="portfolio.html?id=${encodeURIComponent(s.id)}" target="_blank" class="btn btn-secondary btn-xs" title="Open student web portfolio">🌐 Portfolio</a>
+              <button type="button" onclick="deleteStudentFromTeacherRoster('${s.id}')" class="btn btn-secondary btn-xs" style="color: #dc2626;" title="Delete student record">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    rosterContentHtml = `
+      <div class="teachers-table-container">
+        <table class="teachers-roster-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Class & Section</th>
+              <th class="center">Roll No</th>
+              <th class="center">Score %</th>
+              <th>Status</th>
+              <th>Teacher Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else {
+    // Grid Cards View
+    const cardsHtml = filtered.map(s => {
+      const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`;
+      const score = s.academicScore || "95.0%";
+      const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
+      const isPending = s.reviewStatus === "pending";
+      const statusPill = isVerified 
+        ? `<span class="badge badge-success" style="font-size: 0.72rem;">✓ Evaluated & Verified</span>` 
+        : (isPending ? `<span class="badge badge-warning" style="font-size: 0.72rem;">⏳ Needs Teacher Review</span>` : `<span class="badge badge-secondary" style="font-size: 0.72rem;">📝 Draft Portfolio</span>`);
+
+      const teacherName = (s.teacherObservation && s.teacherObservation.teacherName) || "Mrs. Sunita Roy (Subject Faculty)";
+
+      return `
+        <div class="teacher-student-card">
+          <div>
+            <div class="teacher-card-top">
+              <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" class="teacher-card-avatar" onerror="this.src='assets/school-logo.jpg'">
+              <div class="teacher-card-meta">
+                <h3 class="teacher-card-name">${escapeHtml(s.name)}</h3>
+                <div class="teacher-card-class">🏫 ${escapeHtml(cls)}</div>
+                <div class="teacher-card-ids">Roll: <strong>${escapeHtml(s.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(s.admissionNo || s.id)}</strong></div>
+              </div>
+            </div>
+
+            <div class="teacher-card-academic-row">
+              <div><strong>Cumulative:</strong> <span class="teacher-card-score">${escapeHtml(score)}</span> (Grade A1)</div>
+              <div>${statusPill}</div>
+            </div>
+
+            <div class="teacher-card-chips">
+              <span class="teacher-card-chip">📐 Math: 98%</span>
+              <span class="teacher-card-chip">🔬 Science: 97%</span>
+              <span class="teacher-card-chip">💻 IT: 99%</span>
+              <span class="teacher-card-chip">📖 English: 95%</span>
+            </div>
+
+            <div style="font-size: 0.78rem; color: #475569; margin-bottom: 0.5rem;">
+              <strong>Evaluator:</strong> ${escapeHtml(teacherName)}
+            </div>
+          </div>
+
+          <div class="teacher-card-actions">
+            <button type="button" onclick="loadStudentToTeacherEdit('${s.id}')" class="btn btn-sm btn-card-edit" title="Load student details and marks into builder in Teacher Mode">
+              ✏️ Edit Details
+            </button>
+            <button type="button" onclick="printStudentFromTeacherRoster('${s.id}')" class="btn btn-sm btn-card-print" title="Print official 2-page subject portfolio">
+              🖨️ Print 2 Pages
+            </button>
+            <button type="button" onclick="previewStudentFromTeacherRoster('${s.id}')" class="btn btn-secondary btn-sm" title="Preview 2-page sheet in canvas">
+              👁️ Sheet
+            </button>
+            <a href="portfolio.html?id=${encodeURIComponent(s.id)}" target="_blank" class="btn btn-secondary btn-sm" title="View digital student portfolio">
+              🌐 Portfolio
+            </a>
+            <button type="button" onclick="deleteStudentFromTeacherRoster('${s.id}')" class="btn btn-secondary btn-sm" style="color: #dc2626;" title="Delete student">
+              🗑️
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    rosterContentHtml = `<div class="teachers-cards-grid">${cardsHtml}</div>`;
+  }
+
+  container.innerHTML = `
+    <div class="teachers-portal-container">
+      
+      <!-- Top Portal Header -->
+      <div class="teachers-portal-header">
+        <div class="teachers-portal-titles">
+          <h2><span>👨‍🏫</span> <span>Teachers Portal &amp; Saved Students Roster</span></h2>
+          <p>Official SHM Academy Student Roster • Edit student particulars &amp; marks in Teacher Mode, or generate verified 2-page prints.</p>
+        </div>
+        <div class="teachers-portal-actions">
+          <button type="button" onclick="addNewStudentFromRoster()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
+            ➕ Add New Student
+          </button>
+          <button type="button" onclick="printAllSubjectPortfolios()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            🖨️ Batch Print Class (2 Pages)
+          </button>
+          <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            📊 Export Marks (CSV)
+          </button>
+          <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            ${isTeacherMode ? "🔑 Teacher PIN Unlocked ✓" : "🔒 Teacher PIN Unlock"}
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="teachers-kpi-grid">
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon">👥</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val">${totalStudents}</div>
+            <div class="teachers-kpi-label">Registered Students</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon" style="background: #ecfdf5; border-color: #a7f3d0; color: #065f46;">✅</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #15803d;">${verifiedCount}</div>
+            <div class="teachers-kpi-label">Evaluated &amp; Verified</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #b45309;">${pendingCount}</div>
+            <div class="teachers-kpi-label">Pending Teacher Review</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon" style="background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;">📈</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #1d4ed8;">${avgScore}%</div>
+            <div class="teachers-kpi-label">Cohort Academic Average</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toolbar & Filters -->
+      <div class="teachers-toolbar">
+        <div class="teachers-filters-group">
+          <input type="text" class="teachers-search-input" placeholder="🔍 Search student name, roll no, admission no..." value="${escapeHtml(teacherRosterState.searchQuery)}" oninput="onTeacherSearch(this.value)">
+          <select class="teachers-select" onchange="onTeacherClassFilter(this.value)">
+            <option value="all" ${teacherRosterState.classFilter === "all" ? "selected" : ""}>🏫 All Classes</option>
+            ${classOptionsHtml}
+          </select>
+          <select class="teachers-select" onchange="onTeacherStatusFilter(this.value)">
+            <option value="all" ${teacherRosterState.statusFilter === "all" ? "selected" : ""}>All Evaluation Status</option>
+            <option value="verified" ${teacherRosterState.statusFilter === "verified" ? "selected" : ""}>✓ Evaluated &amp; Certified</option>
+            <option value="pending" ${teacherRosterState.statusFilter === "pending" ? "selected" : ""}>⏳ Pending Review</option>
+            <option value="draft" ${teacherRosterState.statusFilter === "draft" ? "selected" : ""}>📝 Drafts</option>
+          </select>
+          <select class="teachers-select" onchange="onTeacherSubjectSelect(this.value)" title="Choose default subject for printing">
+            <option value="mathematics" ${teacherRosterState.selectedPrintSubject === "mathematics" ? "selected" : ""}>📐 Math Print</option>
+            <option value="science" ${teacherRosterState.selectedPrintSubject === "science" ? "selected" : ""}>🔬 Science Print</option>
+            <option value="computer_it" ${teacherRosterState.selectedPrintSubject === "computer_it" ? "selected" : ""}>💻 IT Print</option>
+            <option value="english" ${teacherRosterState.selectedPrintSubject === "english" ? "selected" : ""}>📖 English Print</option>
+            <option value="social_science" ${teacherRosterState.selectedPrintSubject === "social_science" ? "selected" : ""}>🌍 Social Science Print</option>
+            <option value="hindi" ${teacherRosterState.selectedPrintSubject === "hindi" ? "selected" : ""}>🇮🇳 Hindi Print</option>
+            <option value="ai" ${teacherRosterState.selectedPrintSubject === "ai" ? "selected" : ""}>🤖 AI Print</option>
+          </select>
+        </div>
+        <div class="teachers-view-toggle-btns">
+          <button type="button" class="${teacherRosterState.viewStyle === 'cards' ? 'active' : ''}" onclick="setTeacherViewStyle('cards')">🎴 Cards</button>
+          <button type="button" class="${teacherRosterState.viewStyle === 'table' ? 'active' : ''}" onclick="setTeacherViewStyle('table')">📋 Table</button>
+        </div>
+      </div>
+
+      <!-- Rendered Student Roster -->
+      ${rosterContentHtml}
+
+    </div>
+  `;
+}
+
+// Teacher Roster Event Handlers
+function onTeacherSearch(val) {
+  teacherRosterState.searchQuery = val;
+  renderTeachersPortal();
+}
+
+function onTeacherClassFilter(val) {
+  teacherRosterState.classFilter = val;
+  renderTeachersPortal();
+}
+
+function onTeacherStatusFilter(val) {
+  teacherRosterState.statusFilter = val;
+  renderTeachersPortal();
+}
+
+function onTeacherSubjectSelect(val) {
+  teacherRosterState.selectedPrintSubject = val;
+  switchPrintSubject(val);
+}
+
+function setTeacherViewStyle(style) {
+  teacherRosterState.viewStyle = style;
+  renderTeachersPortal();
+}
+
+function clearTeacherFilters() {
+  teacherRosterState.searchQuery = "";
+  teacherRosterState.classFilter = "all";
+  teacherRosterState.statusFilter = "all";
+  renderTeachersPortal();
+}
+
+// Load a student into builder form in Teacher Mode
+function loadStudentToTeacherEdit(studentId) {
+  // Activate Teacher Mode
+  isTeacherMode = true;
+  sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+  sessionStorage.setItem("portfolio_teacher_role", "Teacher");
+  updateTeacherLockUI();
+
+  if (window.DataStore) {
+    const dbStudent = window.DataStore.getStudentById(studentId);
+    if (dbStudent) {
+      if (dbStudent.portfolioBuilderData) {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, dbStudent.portfolioBuilderData);
+      } else {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+          id: dbStudent.id,
+          studentName: dbStudent.name || "",
+          classSection: `${dbStudent.class || "Class VIII"}${dbStudent.section ? " - " + dbStudent.section : ""}`,
+          rollNo: dbStudent.rollNo || "",
+          admissionNo: dbStudent.admissionNo || dbStudent.id || "",
+          dob: dbStudent.dob || "",
+          fatherName: (dbStudent.parentNote && dbStudent.parentNote.parentsName) || "",
+          photoUrl: dbStudent.avatar || SAMPLE_SHM_STUDENT.photoUrl,
+          aboutSentence: dbStudent.bio || "",
+          interests: dbStudent.tagline || "",
+          classTeacher: (dbStudent.teacherObservation && dbStudent.teacherObservation.teacherName) || "",
+          teacherRemarks: (dbStudent.teacherObservation && dbStudent.teacherObservation.remark) || "",
+          reviewStatus: dbStudent.reviewStatus || "pending"
+        });
+      }
+      currentData.schoolMotto = "Knowledge Infinite";
+      syncDataToForm(currentData);
+      renderPreview(currentData);
+      saveToLocalStorage();
+
+      setViewMode("form");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      showSaveToast(`👩‍🏫 Loaded "${currentData.studentName}" in Teacher Edit Mode. All evaluations and marks are unlocked.`);
+    }
+  }
+}
+
+// Print student's 2-page portfolio directly from roster
+function printStudentFromTeacherRoster(studentId) {
+  if (window.DataStore) {
+    const dbStudent = window.DataStore.getStudentById(studentId);
+    if (dbStudent) {
+      if (dbStudent.portfolioBuilderData) {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, dbStudent.portfolioBuilderData);
+      } else {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+          id: dbStudent.id,
+          studentName: dbStudent.name || "",
+          classSection: `${dbStudent.class || "Class VIII"}${dbStudent.section ? " - " + dbStudent.section : ""}`,
+          rollNo: dbStudent.rollNo || "",
+          admissionNo: dbStudent.admissionNo || dbStudent.id || "",
+          dob: dbStudent.dob || "",
+          photoUrl: dbStudent.avatar || SAMPLE_SHM_STUDENT.photoUrl
+        });
+      }
+      currentData.schoolMotto = "Knowledge Infinite";
+      if (teacherRosterState.selectedPrintSubject) {
+        currentData.selectedSubjectId = teacherRosterState.selectedPrintSubject;
+      }
+      syncDataToForm(currentData);
+      renderPreview(currentData);
+      saveToLocalStorage();
+
+      showSaveToast(`🖨️ Opening 2-page portfolio print for "${currentData.studentName}"...`);
+      setTimeout(() => {
+        printSinglePage();
+      }, 350);
+    }
+  }
+}
+
+// Preview student's 2-page sheet from roster
+function previewStudentFromTeacherRoster(studentId) {
+  if (window.DataStore) {
+    const dbStudent = window.DataStore.getStudentById(studentId);
+    if (dbStudent) {
+      if (dbStudent.portfolioBuilderData) {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, dbStudent.portfolioBuilderData);
+      } else {
+        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+          id: dbStudent.id,
+          studentName: dbStudent.name || "",
+          classSection: `${dbStudent.class || "Class VIII"}${dbStudent.section ? " - " + dbStudent.section : ""}`,
+          rollNo: dbStudent.rollNo || "",
+          admissionNo: dbStudent.admissionNo || dbStudent.id || "",
+          dob: dbStudent.dob || "",
+          photoUrl: dbStudent.avatar || SAMPLE_SHM_STUDENT.photoUrl
+        });
+      }
+      currentData.schoolMotto = "Knowledge Infinite";
+      if (teacherRosterState.selectedPrintSubject) {
+        currentData.selectedSubjectId = teacherRosterState.selectedPrintSubject;
+      }
+      syncDataToForm(currentData);
+      renderPreview(currentData);
+      saveToLocalStorage();
+      setViewMode("preview");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      showSaveToast(`👁️ Previewing 2-page sheet for "${currentData.studentName}"`);
+    }
+  }
+}
+
+// Create new student directly from Teachers Tab
+function addNewStudentFromRoster() {
+  isTeacherMode = true;
+  sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+  sessionStorage.setItem("portfolio_teacher_role", "Teacher");
+  updateTeacherLockUI();
+
+  createNewStudent(true);
+  setViewMode("form");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  showSaveToast(`➕ New student template created in Teacher Mode. Enter particulars & evaluations.`);
+}
+
+// Delete student with confirmation
+function deleteStudentFromTeacherRoster(studentId) {
+  if (!window.DataStore) return;
+  const s = window.DataStore.getStudentById(studentId);
+  const name = s ? s.name : "this student";
+  if (confirm(`Are you sure you want to delete "${name}" from the saved students database? This action cannot be undone.`)) {
+    window.DataStore.deleteStudent(studentId);
+    renderTeachersPortal();
+    showSaveToast(`🗑️ Student "${name}" deleted from database.`);
+  }
+}
+
+// Export student marks & evaluation roster to CSV
+function exportTeacherRosterCsv() {
+  const students = (window.DataStore && typeof window.DataStore.getStudents === "function") 
+    ? window.DataStore.getStudents() 
+    : (window.DEFAULT_STUDENTS || []);
+
+  if (students.length === 0) {
+    alert("No student records available to export.");
+    return;
+  }
+
+  const headers = ["Admission No", "Roll No", "Student Name", "Class", "Section", "Academic Score", "Review Status", "Class Teacher"];
+  const rows = students.map(s => [
+    `"${(s.admissionNo || s.id || '').replace(/"/g, '""')}"`,
+    `"${(s.rollNo || '').replace(/"/g, '""')}"`,
+    `"${(s.name || '').replace(/"/g, '""')}"`,
+    `"${(s.class || '').replace(/"/g, '""')}"`,
+    `"${(s.section || '').replace(/"/g, '""')}"`,
+    `"${(s.academicScore || '').replace(/"/g, '""')}"`,
+    `"${(s.reviewStatus || 'pending').replace(/"/g, '""')}"`,
+    `"${((s.teacherObservation && s.teacherObservation.teacherName) || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `SHM_Academy_Student_Roster_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showSaveToast("📊 Student roster exported to CSV.");
+}
+
+// Expose functions to global window object
+window.renderTeachersPortal = renderTeachersPortal;
+window.loadStudentToTeacherEdit = loadStudentToTeacherEdit;
+window.printStudentFromTeacherRoster = printStudentFromTeacherRoster;
+window.previewStudentFromTeacherRoster = previewStudentFromTeacherRoster;
+window.addNewStudentFromRoster = addNewStudentFromRoster;
+window.deleteStudentFromTeacherRoster = deleteStudentFromTeacherRoster;
+window.exportTeacherRosterCsv = exportTeacherRosterCsv;
+window.onTeacherSearch = onTeacherSearch;
+window.onTeacherClassFilter = onTeacherClassFilter;
+window.onTeacherStatusFilter = onTeacherStatusFilter;
+window.onTeacherSubjectSelect = onTeacherSubjectSelect;
+window.setTeacherViewStyle = setTeacherViewStyle;
+window.clearTeacherFilters = clearTeacherFilters;
 
