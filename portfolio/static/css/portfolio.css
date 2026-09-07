@@ -450,6 +450,13 @@ body {
   padding: 0.85rem 1.5rem;
 }
 
+/* Ensure student bar NEVER appears on teacher section page */
+body.teacher-mode .student-floating-bar,
+#teacherViewContainer .student-floating-bar,
+#teacherDashboardContent .student-floating-bar {
+  display: none !important;
+}
+
 .floating-bar-inner {
   max-width: 1000px;
   margin: 0 auto;
@@ -524,7 +531,7 @@ body {
 .teacher-dashboard-view {
   max-width: 1200px;
   margin: 1.5rem auto;
-  padding: 0 1rem 4rem;
+  padding: 0 1rem 8rem; /* Generous clearance so pending evaluation is never hidden */
 }
 
 .kpi-stat-grid {
@@ -606,6 +613,8 @@ body {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   overflow: hidden;
+  margin-bottom: 5rem;
+  min-height: 280px;
 }
 
 .roster-data-table {
@@ -740,9 +749,17 @@ body {
 }
 
 .eval-modal-body {
-  padding: 1.5rem 1.75rem;
+  padding: 1.5rem 1.75rem 4.5rem; /* Generous clearance above sticky footer */
   max-height: calc(88vh - 140px);
   overflow-y: auto;
+}
+
+.print-modal-box {
+  max-width: 520px !important;
+  width: 92% !important;
+  text-align: left !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25) !important;
 }
 
 /* Teacher PIN Gate */

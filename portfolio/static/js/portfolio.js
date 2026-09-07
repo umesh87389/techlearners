@@ -45,7 +45,10 @@
     populateSinglePagePrintSheet();
 
     window.addEventListener('beforeprint', () => {
-      populateSinglePagePrintSheet();
+      const sel = document.getElementById('printSubjectSelect');
+      const selectedSubject = sel ? sel.value : 'all';
+      const studentData = pendingPrintPayload ? pendingPrintPayload.data : null;
+      populateSinglePagePrintSheet(studentData, selectedSubject);
     });
   });
 
@@ -67,22 +70,27 @@
     const studentView = document.getElementById('studentViewContainer');
     const teacherView = document.getElementById('teacherViewContainer');
     const quickLockBtn = document.getElementById('teacherQuickLockContainer');
+    const floatingBar = document.querySelector('.student-floating-bar');
 
     sessionStorage.setItem(CURRENT_TAB_KEY, tabName);
 
     if (tabName === 'teacher') {
+      document.body.classList.add('teacher-mode');
       if (studentBtn) studentBtn.classList.remove('active');
       if (teacherBtn) teacherBtn.classList.add('active');
       if (studentView) studentView.style.display = 'none';
       if (teacherView) teacherView.style.display = 'block';
+      if (floatingBar) floatingBar.style.display = 'none';
 
       checkTeacherAuthState();
     } else {
+      document.body.classList.remove('teacher-mode');
       if (studentBtn) studentBtn.classList.add('active');
       if (teacherBtn) teacherBtn.classList.remove('active');
       if (studentView) studentView.style.display = 'block';
       if (teacherView) teacherView.style.display = 'none';
       if (quickLockBtn) quickLockBtn.style.display = 'none';
+      if (floatingBar) floatingBar.style.display = 'block';
       updatePerformanceGraph();
     }
   };
@@ -835,19 +843,22 @@
     }
   }
 
+  let pendingPrintPayload = null;
+
   async function handleStudentPrint() {
     // Automatically save & record before printing
     updateStatusBadge('Auto-saving record to Teacher Dashboard before printing...');
     await submitAndSyncRecord('print');
 
-    // Make sure graph and master single-page sheet are updated
+    // Make sure graph is updated on screen
     updatePerformanceGraph();
-    populateSinglePagePrintSheet();
 
-    // Trigger Print
-    setTimeout(() => {
-      window.print();
-    }, 300);
+    // Prepare print payload from current student form
+    const currentData = getFormData('print');
+    pendingPrintPayload = { type: 'student', data: currentData };
+
+    // Prompt teacher and student for specific subject scope
+    openPrintSubjectModal(currentData);
   }
 
   // =========================================================
@@ -1178,8 +1189,69 @@
       return;
     }
 
-    // Populate the master single-page sheet with this student's data
-    populateSinglePagePrintSheet(student);
+    pendingPrintPayload = { type: 'teacher', data: student };
+    openPrintSubjectModal(student);
+  };
+
+  // Modal handlers for subject-specific print selection
+  window.openPrintSubjectModal = function (studentData) {
+    const modal = document.getElementById('printSubjectModal');
+    if (!modal) {
+      populateSinglePagePrintSheet(studentData, 'all');
+      setTimeout(() => window.print(), 300);
+      return;
+    }
+
+    const s = studentData || {};
+    const p = s.profile || (s.data && s.data.profile) || s;
+    const nameEl = document.getElementById('printModalStudentName');
+    const classEl = document.getElementById('printModalStudentClass');
+    if (nameEl) nameEl.textContent = `Student: ${p.student_name || 'Portfolio Record'}`;
+    if (classEl) classEl.textContent = `${p.class_section || 'Class 6 - 12'}${p.roll_no ? ` • Roll: ${p.roll_no}` : ''}`;
+
+    const sel = document.getElementById('printSubjectSelect');
+    if (sel) sel.value = 'all';
+    updatePrintSubjectModalPreview();
+
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('active'), 20);
+  };
+
+  window.closePrintSubjectModal = function () {
+    const modal = document.getElementById('printSubjectModal');
+    if (modal) {
+      modal.classList.remove('active');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+  };
+
+  window.updatePrintSubjectModalPreview = function () {
+    const sel = document.getElementById('printSubjectSelect');
+    const info = document.getElementById('printSubjectInfoBox');
+    if (!sel || !info) return;
+
+    const val = sel.value;
+    if (val === 'all') {
+      info.style.background = '#f0fdf4';
+      info.style.borderColor = '#86efac';
+      info.style.color = '#166534';
+      info.innerHTML = `<strong>🌟 All Subjects Scope:</strong> Prints the complete 1-page official portfolio with all 7 curriculum subjects compiled together and the comprehensive comparative performance graph.`;
+    } else {
+      const cfg = SUBJECTS_CONFIG.find(c => c.id === val) || { name: val, icon: '📚' };
+      info.style.background = '#eff6ff';
+      info.style.borderColor = '#93c5fd';
+      info.style.color = '#1e3a8a';
+      info.innerHTML = `<strong>${cfg.icon || '📚'} Individual Subject: ${escapeHtml(cfg.name)}:</strong> Prints the official portfolio featuring <strong>${escapeHtml(cfg.name)}</strong> with its Term 1, Mid Term, and Term 2 evaluations, faculty remarks, and a dedicated <strong>${escapeHtml(cfg.name)} Performance Graph</strong> showing term progression and benchmark analysis.`;
+    }
+  };
+
+  window.executeSubjectPrint = function () {
+    const sel = document.getElementById('printSubjectSelect');
+    const selectedSubject = sel ? sel.value : 'all';
+    closePrintSubjectModal();
+
+    const studentData = pendingPrintPayload ? pendingPrintPayload.data : null;
+    populateSinglePagePrintSheet(studentData, selectedSubject);
 
     setTimeout(() => {
       window.print();
@@ -1210,9 +1282,9 @@
   }
 
   // =========================================================
-  // 9. MASTER SINGLE-PAGE A4 PRINT POPULATOR & GRAPH
+  // 9. MASTER SINGLE-PAGE A4 PRINT POPULATOR & DYNAMIC GRAPH
   // =========================================================
-  function populateSinglePagePrintSheet(studentData) {
+  function populateSinglePagePrintSheet(studentData, selectedSubject = 'all') {
     const sheet = document.getElementById('singlePageSheet');
     if (!sheet) return;
 
@@ -1295,7 +1367,19 @@
     const goalsList = Array.isArray(goals.this_year_goals) ? goals.this_year_goals : [];
     setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');
 
-    // Academic Progress (All 7 Subjects Together)
+    // Academic Section Title & Badge
+    const titleEl = document.getElementById('printAcademicSectionTitle');
+    const badgeEl = document.getElementById('printAcademicBadge');
+    if (selectedSubject === 'all') {
+      if (titleEl) titleEl.textContent = '4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED';
+      if (badgeEl) badgeEl.textContent = 'Verified Faculty Evaluation';
+    } else {
+      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
+      if (titleEl) titleEl.textContent = `4. ACADEMIC PROGRESS — ${targetConfig.name.toUpperCase()} (INDIVIDUAL SUBJECT)`;
+      if (badgeEl) badgeEl.textContent = `Focus Subject: ${targetConfig.name}`;
+    }
+
+    // Academic Progress (All 7 Subjects with Focus Highlight if selected)
     const scoresMap = {};
     let totalScore = 0;
 
@@ -1305,7 +1389,7 @@
       const mid = (m.midterm !== undefined && m.midterm !== '') ? parseFloat(m.midterm) : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
       const t2 = (m.term2 !== undefined && m.term2 !== '') ? parseFloat(m.term2) : (cfg.id === 'mathematics' ? 98 : (cfg.id === 'science' ? 96 : (cfg.id === 'computer_it' ? 99 : 94)));
       const avg = Math.round(((t1 + mid + t2) / 3) * 10) / 10;
-      const remarks = m.remarks || 'Consistent academic performance and regular submissions.';
+      const remarks = m.remarks || 'Consistent academic commitment, regular submissions, and positive conceptual understanding.';
 
       scoresMap[cfg.name] = {
         name: cfg.name,
@@ -1314,12 +1398,20 @@
       };
       totalScore += avg;
 
+      const isFocus = (selectedSubject !== 'all' && cfg.id === selectedSubject);
+      const rowStyle = isFocus
+        ? 'background: #eff6ff; font-weight: 800; border: 1.5px solid #1e3a8a;'
+        : '';
+      const nameDisplay = isFocus
+        ? `<span style="color: #1e3a8a;">★ ${escapeHtml(cfg.name)} (Focus Subject)</span>`
+        : escapeHtml(cfg.name);
+
       return `
-        <tr>
-          <td style="font-weight: 700; color: #0f172a;">${escapeHtml(cfg.name)}</td>
-          <td style="text-align: center; font-weight: 600;">${(m.term1 !== undefined && m.term1 !== '') ? m.term1 : t1} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: 600;">${(m.midterm !== undefined && m.midterm !== '') ? m.midterm : mid} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: 600;">${(m.term2 !== undefined && m.term2 !== '') ? m.term2 : t2} / ${cfg.maxMarks}</td>
+        <tr style="${rowStyle}">
+          <td style="font-weight: 700; color: #0f172a;">${nameDisplay}</td>
+          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.term1 !== undefined && m.term1 !== '') ? m.term1 : t1} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.midterm !== undefined && m.midterm !== '') ? m.midterm : mid} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.term2 !== undefined && m.term2 !== '') ? m.term2 : t2} / ${cfg.maxMarks}</td>
           <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${avg}%</td>
           <td style="font-size: 6.8pt; color: #334155;">${escapeHtml(remarks)}</td>
         </tr>
@@ -1336,11 +1428,24 @@
     else if (overallAvg < 80) grade = 'B1';
     else if (overallAvg < 90) grade = 'A2';
 
-    setElText('print_overall_avg', `${overallAvg}% (Grade ${grade})`);
-    setElText('print_academic_achievement', acad.academic_achievement || 'Exemplary academic effort and proactive participation across subjects.');
+    if (selectedSubject === 'all') {
+      setElText('print_overall_avg', `${overallAvg}% (Grade ${grade})`);
+      setElText('print_academic_achievement', acad.academic_achievement || 'Exemplary academic effort and proactive participation across subjects.');
+    } else {
+      const targetCfg = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || SUBJECTS_CONFIG[0];
+      const targetData = scoresMap[targetCfg.name] || {};
+      let subGrade = 'A1';
+      if (targetData.avg < 60) subGrade = 'C';
+      else if (targetData.avg < 70) subGrade = 'B2';
+      else if (targetData.avg < 80) subGrade = 'B1';
+      else if (targetData.avg < 90) subGrade = 'A2';
 
-    // Performance Graph SVG
-    renderPrintGraph(scoresMap, overallAvg, grade);
+      setElText('print_overall_avg', `${targetCfg.name} Avg: ${targetData.avg}% (${subGrade})`);
+      setElText('print_academic_achievement', `Focus Subject (${targetCfg.name}): ${targetData.remarks || 'Consistent academic dedication and mastery.'}`);
+    }
+
+    // Performance Graph SVG (as per selected subject!)
+    renderPrintGraph(scoresMap, overallAvg, grade, selectedSubject);
 
     // Skills Table (9 Skills formatted into 3-column rows)
     const skillList = [
@@ -1403,10 +1508,126 @@
     setElText('print_sig_principal', tfr.principal || 'SHM Academy Office');
   }
 
-  function renderPrintGraph(scoresMap, cumulative, grade) {
+  function renderPrintGraph(scoresMap, cumulative, grade, selectedSubject = 'all') {
     const container = document.getElementById('printGraphSvgContainer');
     if (!container) return;
 
+    if (selectedSubject !== 'all') {
+      // RENDER INDIVIDUAL SUBJECT PERFORMANCE GRAPH
+      const subCfg = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || SUBJECTS_CONFIG[0];
+      const s = scoresMap[subCfg.name] || {
+        name: subCfg.name,
+        short: subCfg.short,
+        avg: 96,
+        t1: 94,
+        mid: 96,
+        t2: 98,
+        remarks: ''
+      };
+
+      const growth = Math.round((s.t2 - s.t1) * 10) / 10;
+      const growthSign = growth >= 0 ? `+${growth}%` : `${growth}%`;
+
+      let subGrade = 'A1';
+      if (s.avg < 60) subGrade = 'C';
+      else if (s.avg < 70) subGrade = 'B2';
+      else if (s.avg < 80) subGrade = 'B1';
+      else if (s.avg < 90) subGrade = 'A2';
+
+      const minVal = 60;
+      const maxVal = 100;
+      const chartBottom = 135;
+      const chartTop = 45;
+      const chartHeight = chartBottom - chartTop;
+
+      function getY(val) {
+        const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
+        return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
+      }
+
+      const p1 = { x: 50, y: getY(s.t1) };
+      const p2 = { x: 110, y: getY(s.mid) };
+      const p3 = { x: 170, y: getY(s.t2) };
+
+      const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
+      const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
+
+      // 5 comparative bars on the right side
+      const termBars = [
+        { label: 'Term-1', val: s.t1, fill: '#3b82f6', stroke: '#1d4ed8' },
+        { label: 'Mid-Term', val: s.mid, fill: '#2563eb', stroke: '#1e40af' },
+        { label: 'Term-2', val: s.t2, fill: '#10b981', stroke: '#047857' },
+        { label: 'Aggregate', val: s.avg, fill: '#1e3a8a', stroke: '#0f172a' },
+        { label: 'Benchmark', val: 90, fill: '#f59e0b', stroke: '#b45309' }
+      ];
+
+      const barChartBottom = 135;
+      const barMaxHeight = 85;
+      const barStartX = 210;
+      const barWidth = 34;
+      const barGap = 13;
+
+      let barsSvg = '';
+      termBars.forEach((item, idx) => {
+        const bx = barStartX + idx * (barWidth + barGap);
+        const bHeight = Math.max(8, (item.val / 100) * barMaxHeight);
+        const by = barChartBottom - bHeight;
+
+        barsSvg += `
+          <g class="bar-group">
+            <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="${item.stroke}">${item.val}%</text>
+            <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${item.fill}" stroke="${item.stroke}" stroke-width="0.8"/>
+            <text x="${bx + barWidth/2}" y="${barChartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#334155">${item.label}</text>
+          </g>
+        `;
+      });
+
+      const svgHtml = `
+        <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
+          <!-- Header Strip -->
+          <rect x="0" y="0" width="450" height="26" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
+          <text x="12" y="17" font-size="8.8pt" font-weight="900" fill="#1e3a8a" letter-spacing="0.02em">📈 ${subCfg.name.toUpperCase()} PERFORMANCE GRAPH (INDIVIDUAL SUBJECT)</text>
+
+          <!-- Badges -->
+          <text x="265" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Subject Avg: ${s.avg}%</text>
+          <text x="345" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e3a8a">Grade: ${subGrade}</text>
+          <text x="415" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Growth: ↗ ${growthSign}</text>
+
+          <!-- Left Chart: Term Progression -->
+          <text x="12" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM PROGRESSION (${subCfg.short.toUpperCase()})</text>
+          <line x1="32" y1="${getY(70)}" x2="190" y2="${getY(70)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="28" y="${getY(70) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">70%</text>
+          <line x1="32" y1="${getY(85)}" x2="190" y2="${getY(85)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="28" y="${getY(85) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">85%</text>
+          <line x1="32" y1="${getY(100)}" x2="190" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="28" y="${getY(100) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">100%</text>
+
+          <path d="${areaPath}" fill="#dbeafe" opacity="0.75"/>
+          <path d="${linePathSolid}" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${s.t1}%</text>
+          <text x="${p1.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-1</text>
+
+          <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${s.mid}%</text>
+          <text x="${p2.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Mid-Term</text>
+
+          <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#15803d">${s.t2}%</text>
+          <text x="${p3.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-2</text>
+
+          <!-- Right Chart: Term Comparison & Benchmark Bars -->
+          <text x="210" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM EVALUATION &amp; BENCHMARK COMPARISON</text>
+          ${barsSvg}
+        </svg>
+      `;
+
+      container.innerHTML = svgHtml;
+      return;
+    }
+
+    // MULTI-SUBJECT COMPLETE GRAPH (STANDARD)
     const scoresList = Object.values(scoresMap);
     const t1Avg = Math.round((scoresList.reduce((a, s) => a + s.t1, 0) / scoresList.length) * 10) / 10;
     const midAvg = Math.round((scoresList.reduce((a, s) => a + s.mid, 0) / scoresList.length) * 10) / 10;
