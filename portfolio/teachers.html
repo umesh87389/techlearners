@@ -3,702 +3,496 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faculty Portal | Saved Students &amp; Review Queue</title>
+  <title>Faculty Portal &amp; Teacher Dashboard | SHM Academy</title>
   <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/builder.css">
-  <script defer src="js/data.js"></script>
-  <script defer src="js/portfolio-review.js"></script>
-  <script defer src="js/teacher-pins.js"></script>
+  <link rel="stylesheet" href="static/css/portfolio.css">
+  <style>
+    .teacher-auth-gate {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    }
+    .auth-card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 440px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .dashboard-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+    .dash-nav {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .dash-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .stat-val {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #1e3a8a;
+      line-height: 1;
+      margin-top: 0.35rem;
+    }
+    .stat-lbl {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .dash-filter-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      min-width: 180px;
+    }
+    .filter-item label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+    }
+    .roster-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    .roster-table th {
+      background: #f8fafc;
+      border-bottom: 1px solid #cbd5e1;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .roster-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+    .roster-table tr:hover td {
+      background: #f8fafc;
+    }
+    .student-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      display: inline-block;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .status-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .status-evaluated { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .action-btn-group { display: flex; gap: 0.4rem; align-items: center; }
+    .btn-action {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .btn-eval { background: #1e3a8a; color: #ffffff; }
+    .btn-print-sm { background: #f1f5f9; border-color: #cbd5e1; color: #0f172a; }
+    .btn-del { background: #fff1f2; border-color: #fecdd3; color: #be123c; }
+
+    /* Evaluation Modal */
+    .eval-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 5000;
+      display: none;
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+    .eval-modal-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+  </style>
 </head>
-<body style="background: #f8fafc; min-height: 100vh;">
+<body style="background: #f1f5f9;">
 
-  <!-- Navigation Bar -->
-  <header class="navbar no-print">
-    <div class="container nav-wrapper">
-      <a href="index.html" class="brand">
-        <img src="assets/school-logo.jpg" alt="Logo" class="brand-logo" style="border-radius: 6px; object-fit: cover;">
-        <div class="brand-text">
-          <h1 class="school-name-text">Techlearners Portfolio</h1>
-          <p class="school-motto-text">Knowledge Infinite • <span class="school-year-text">2026–2027</span></p>
+  <!-- 1. TEACHER AUTHENTICATION GATE (Shown when not logged in) -->
+  <div id="teacherAuthGate" class="teacher-auth-gate" style="display: none;">
+    <div class="auth-card">
+      <img src="assets/school-logo.jpg" alt="Logo" style="height: 52px; border-radius: 6px; margin-bottom: 0.75rem;">
+      <span style="font-size: 0.8rem; background: #eff6ff; color: #1e3a8a; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase;">
+        Confidential Faculty Portal
+      </span>
+      <h2 style="font-size: 1.5rem; color: #0f172a; margin: 0.5rem 0 0.25rem;">Teacher Dashboard Login</h2>
+      <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem;">SHM Academy • Authorized Faculty Access Only</p>
+
+      <form onsubmit="handleTeacherLogin(event); return false;" style="text-align: left;">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">
+            Teacher Access Passcode
+          </label>
+          <input type="password" id="teacherPasscodeInput" class="form-input-text" placeholder="Enter teacher passcode" required autofocus autocomplete="off">
         </div>
-      </a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html" class="nav-link">🏫 Directory</a></li>
-          <li><a href="builder.html" class="nav-link">🎓 Portfolio</a></li>
-          <li><a href="teachers.html" class="nav-link active">👨‍🏫 Faculty Portal</a></li>
-          <li><a href="template.html" class="nav-link">📄 Document Template</a></li>
-          <li><a href="teams.html" class="nav-link">⚡ Teams</a></li>
-          <li><a href="id-card.html" class="nav-link">🪪 QR Cards</a></li>
-          <li><a href="admin.html" class="btn btn-primary btn-sm">🛠️ Admin</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Main Container -->
-  <main class="container" style="max-width: 1400px; padding-top: 1.5rem; padding-bottom: 3rem;">
-
-    <!-- PIN Authentication Gate (Shown if not authenticated) -->
-    <div class="teachers-auth-lock-card" id="teachersLockGate" style="display: none;">
-      <div class="teachers-lock-icon">🔒</div>
-      <span class="teachers-lock-badge">Faculty Authorization Required</span>
-      <h2 class="teachers-lock-title">Faculty Portal is Locked</h2>
-      <p class="teachers-lock-desc">This portal contains confidential student records, continuous marks evaluation, and review requests. Enter your authorized faculty PIN to access.</p>
-      <form class="teachers-pin-form" onsubmit="handleTeachersPagePinSubmit(event); return false;">
-        <input type="password" id="pageTeacherPinInput" class="teachers-pin-input" placeholder="Enter Faculty PIN" autofocus autocomplete="off">
-        <button type="submit" class="teachers-pin-submit-btn">
-          🔑 Unlock Faculty Portal
+        <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem;"></div>
+        <button type="submit" class="btn btn-send" style="width: 100%; justify-content: center; background: #1e3a8a; padding: 0.75rem;">
+          🔒 Verify &amp; Open Dashboard
         </button>
-        <div id="pageTeacherPinFeedback" class="teachers-pin-feedback"></div>
       </form>
+      <div style="margin-top: 1.5rem;">
+        <a href="index.html" style="font-size: 0.85rem; color: #64748b; text-decoration: none; font-weight: 600;">← Go to Student Portfolio Page</a>
+      </div>
     </div>
+  </div>
 
-    <!-- Authenticated Teachers Portal Content -->
-    <div class="teachers-portal-container" id="teachersPortalContent" style="display: none;">
+  <!-- 2. AUTHENTICATED TEACHER DASHBOARD -->
+  <div id="teacherDashboardContent" style="display: none;">
+    <div class="dashboard-wrapper">
       
-      <!-- Top Portal Header -->
-      <div class="teachers-portal-header">
-        <div class="teachers-portal-titles">
-          <h2><span>👨‍🏫</span> <span>Faculty Portal &amp; Student Roster</span></h2>
-          <p>Official SHM Academy Student Roster • View saved students, evaluate pending review requests, edit particulars &amp; marks, or print 2-page portfolios.</p>
+      <!-- Top Nav -->
+      <header class="dash-nav">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <img src="assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
+          <div>
+            <h1 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
+            <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
+          </div>
         </div>
-        <div class="teachers-portal-actions">
-          <a href="builder.html?mode=form&new=true&auth=teacher" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
-            ➕ Add New Student
-          </a>
-          <a href="builder.html?view=teachers" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            🎓 Open in Builder
-          </a>
-          <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            📊 Export Marks (CSV)
-          </button>
-          <button type="button" id="btnPinAuth" onclick="lockTeacherSession()" class="btn btn-sm" style="background: #991b1b; color: #ffffff; border-color: #991b1b; font-weight: 800;" title="Lock the Faculty Portal and return to secure mode">
-            🔒 Lock Faculty Portal
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700;">
+            👨‍🏫 Authorized Faculty
+          </span>
+          <button type="button" onclick="handleTeacherLogout()" class="btn btn-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.85rem;">
+            🚪 Lock &amp; Logout
           </button>
         </div>
-      </div>
+      </header>
 
-      <!-- KPI Summary Cards -->
-      <div class="teachers-kpi-grid">
-        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="switchPageTab('roster')">
-          <div class="teachers-kpi-icon">👥</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" id="kpiTotalStudents">0</div>
-            <div class="teachers-kpi-label">Saved Students</div>
-          </div>
+      <!-- Stats Overview -->
+      <section class="dash-stats-row">
+        <div class="stat-card">
+          <div class="stat-lbl">Total Student Portfolios</div>
+          <div class="stat-val" id="statTotalSubmissions">0</div>
         </div>
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon" style="background: #ecfdf5; border-color: #a7f3d0; color: #065f46;">✅</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" id="kpiVerifiedCount" style="color: #15803d;">0</div>
-            <div class="teachers-kpi-label">Evaluated &amp; Certified</div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-lbl">Pending Teacher Evaluation</div>
+          <div class="stat-val" id="statPendingEvaluation" style="color: #b45309;">0</div>
         </div>
-        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="switchPageTab('reviews')">
-          <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" id="kpiPendingCount" style="color: #b45309;">0</div>
-            <div class="teachers-kpi-label">Pending Teacher Review</div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-lbl">Evaluated &amp; Completed</div>
+          <div class="stat-val" id="statEvaluated" style="color: #15803d;">0</div>
         </div>
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon" style="background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;">📈</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" id="kpiAvgScore" style="color: #1d4ed8;">95.2%</div>
-            <div class="teachers-kpi-label">Cohort Academic Average</div>
-          </div>
-        </div>
-      </div>
+      </section>
 
-      <!-- Dual Sub-Navigation: All Saved Students vs Pending Review Requests -->
-      <div class="teachers-subnav">
-        <button type="button" id="tabBtnRoster" class="teachers-subnav-btn active" onclick="switchPageTab('roster')">
-          👥 All Saved Students <span class="teachers-subnav-badge" id="badgeSavedStudents">0</span>
-        </button>
-        <button type="button" id="tabBtnReviews" class="teachers-subnav-btn" onclick="switchPageTab('reviews')">
-          📨 Pending Review Requests <span class="teachers-subnav-badge" id="badgePendingReviews">0</span>
-        </button>
-      </div>
-
-      <!-- VIEW 1: All Saved Students Roster -->
-      <div id="viewRosterSection">
-        <!-- Toolbar & Filters -->
-        <div class="teachers-toolbar">
-          <div class="teachers-filters-group">
-            <input type="text" id="teacherSearchInput" class="teachers-search-input" placeholder="🔍 Search student name, roll no, admission no..." oninput="onFilterChange()">
-            <select id="teacherClassSelect" class="teachers-select" onchange="onFilterChange()">
-              <option value="all">🏫 All Classes</option>
-            </select>
-            <select id="teacherStatusSelect" class="teachers-select" onchange="onFilterChange()">
-              <option value="all">All Evaluation Status</option>
-              <option value="verified">✓ Evaluated &amp; Certified</option>
-              <option value="pending">⏳ Pending Review</option>
-              <option value="draft">📝 Drafts</option>
-            </select>
-            <select id="teacherSubjectSelect" class="teachers-select" title="Choose default subject for printing" onchange="onFilterChange()">
-              <option value="mathematics">📐 Mathematics Print</option>
-              <option value="science">🔬 Science Print</option>
-              <option value="computer_it">💻 Computer / IT Print</option>
-              <option value="english">📖 English Print</option>
-              <option value="social_science">🌍 Social Science Print</option>
-              <option value="hindi">🇮🇳 Hindi Print</option>
-              <option value="ai">🤖 Artificial Intelligence Print</option>
-            </select>
-          </div>
-          <div class="teachers-view-toggle-btns">
-            <button type="button" id="btnViewCards" class="active" onclick="setViewModeCards(true)">🎴 Cards</button>
-            <button type="button" id="btnViewTable" onclick="setViewModeCards(false)">📋 Table</button>
-          </div>
+      <!-- Filter Card -->
+      <section class="dash-filter-card">
+        <div class="filter-item">
+          <label>Filter by Class &amp; Section</label>
+          <select id="filterClassSelect" class="form-input-text">
+            <option value="all">All Classes (Class 6 - 12)</option>
+            <option value="Class 6 - Section A">Class 6 - Section A</option>
+            <option value="Class 6 - Section B">Class 6 - Section B</option>
+            <option value="Class 7 - Section A">Class 7 - Section A</option>
+            <option value="Class 7 - Section B">Class 7 - Section B</option>
+            <option value="Class 8 - Section A">Class 8 - Section A</option>
+            <option value="Class 8 - Section B">Class 8 - Section B</option>
+            <option value="Class 9 - Section A">Class 9 - Section A</option>
+            <option value="Class 9 - Section B">Class 9 - Section B</option>
+            <option value="Class 10 - Section A">Class 10 - Section A</option>
+            <option value="Class 10 - Section B">Class 10 - Section B</option>
+            <option value="Class 11 - Section A">Class 11 - Section A</option>
+            <option value="Class 11 - Section B">Class 11 - Section B</option>
+            <option value="Class 12 - Section A">Class 12 - Section A</option>
+            <option value="Class 12 - Section B">Class 12 - Section B</option>
+          </select>
         </div>
 
-        <!-- Student Roster Container -->
-        <div id="rosterContainer">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-
-      <!-- VIEW 2: Pending Review Requests -->
-      <div id="viewReviewsSection" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-          <div>
-            <h3 style="margin: 0 0 4px 0; font-size: 1.15rem; color: #0f172a;">📨 Student Submissions Pending Faculty Review</h3>
-            <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Review student practical work and portfolio records, enter certified marks, and approve submissions.</p>
-          </div>
-          <div>
-            <button type="button" onclick="approveAllPendingFromPage()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-              ✅ Approve All Pending
-            </button>
-          </div>
+        <div class="filter-item">
+          <label>Filter by Status</label>
+          <select id="filterStatusSelect" class="form-input-text">
+            <option value="all">All Statuses</option>
+            <option value="pending_evaluation">Pending Evaluation</option>
+            <option value="evaluated">Evaluated</option>
+          </select>
         </div>
 
-        <div id="reviewsContainer">
-          <!-- Rendered dynamically -->
+        <div class="filter-item" style="flex: 1.5;">
+          <label>Search Student</label>
+          <input type="text" id="searchStudentInput" class="form-input-text" placeholder="Search by name, roll no, or admission no...">
         </div>
-      </div>
+      </section>
+
+      <!-- Roster Card -->
+      <main class="roster-card">
+        <table class="roster-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">Photo</th>
+              <th>Student Name</th>
+              <th>Class &amp; Section</th>
+              <th>Roll No</th>
+              <th>Submitted At</th>
+              <th>Source</th>
+              <th>Status</th>
+              <th style="text-align: right;">Teacher Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody"></tbody>
+        </table>
+        <div id="emptyRosterState" style="display: none; padding: 4rem 2rem; text-align: center; color: #64748b;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Submissions Found</h3>
+          <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
+            When a student fills their portfolio and clicks <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong>, their submission will appear here automatically.
+          </p>
+        </div>
+      </main>
 
     </div>
+  </div>
 
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer no-print">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <h4 class="school-name-text">Techlearners Digital Portfolio</h4>
-        <p>SHM Academy Student Portfolio Builder • Faculty Evaluation &amp; Printing Engine</p>
+  <!-- 3. TEACHER EVALUATION MODAL DIALOG -->
+  <div id="evalModal" class="eval-modal-overlay">
+    <div class="eval-modal-container">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #cbd5e1; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h2 id="modalStudentTitle" style="font-size: 1.3rem; color: #1e3a8a; margin: 0;">Faculty Evaluation</h2>
+          <p id="modalStudentSubtitle" style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;"></p>
+        </div>
+        <button type="button" onclick="closeEvaluationModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
       </div>
-      <div>
-        <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform</p>
+
+      <!-- Academic Progress Evaluation -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">4. Academic Progress (Marks &amp; Remarks)</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Subject</th>
+              <th style="width: 18%; text-align: center;">Term 1</th>
+              <th style="width: 18%; text-align: center;">Mid Term</th>
+              <th style="width: 18%; text-align: center;">Term 2</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalSubjects = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
+              modalSubjects.forEach((sub, i) => {
+                document.write(`
+                  <tr>
+                    <td><strong>${sub}</strong></td>
+                    <td><input type="text" id="modal_sub_${i}_term1" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_midterm" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_term2" placeholder="Marks / Grade"></td>
+                    <td><input type="text" id="modal_sub_${i}_remarks" placeholder="Remarks"></td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+        <div style="margin-top: 0.75rem;">
+          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">My Academic Achievement</label>
+          <textarea id="modal_academic_achievement" class="form-textarea" rows="2" placeholder="Highlights, distinctions, or awards..."></textarea>
+        </div>
+      </div>
+
+      <!-- Skills Evaluation -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">5. My Skills (Rating 1–5)</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th style="width: 180px; text-align: center;">Rating (/5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalSkills = [
+                ['Communication', 'communication'], ['Reading', 'reading'], ['Writing', 'writing'],
+                ['Creativity', 'creativity'], ['Problem Solving', 'problem_solving'], ['Teamwork', 'teamwork'],
+                ['Leadership', 'leadership'], ['Time Management', 'time_management'], ['Digital Skills', 'digital_skills']
+              ];
+              modalSkills.forEach(item => {
+                document.write(`
+                  <tr>
+                    <td><strong>${item[0]}</strong></td>
+                    <td style="text-align: center;">
+                      <select id="modal_skill_${item[1]}" class="form-input-text" style="width: 100px; font-weight: 700;">
+                        <option value="">—</option>
+                        <option value="5">5 / 5</option>
+                        <option value="4">4 / 5</option>
+                        <option value="3">3 / 5</option>
+                        <option value="2">2 / 5</option>
+                        <option value="1">1 / 5</option>
+                      </select>
+                    </td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Co-Curricular Remarks -->
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">6. Co-Curricular Activities: Teacher’s Remarks</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 1 Remark</label><input type="text" id="modal_co_rem_1" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 2 Remark</label><input type="text" id="modal_co_rem_2" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 3 Remark</label><input type="text" id="modal_co_rem_3" class="form-input-text"></div>
+          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 4 Remark</label><input type="text" id="modal_co_rem_4" class="form-input-text"></div>
+        </div>
+      </div>
+
+      <!-- Teacher's Assessment -->
+      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">12. Teacher’s Assessment</h3>
+        <table class="doc-table" style="background: #ffffff;">
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th style="width: 18%; text-align: center;">Excellent</th>
+              <th style="width: 18%; text-align: center;">Very Good</th>
+              <th style="width: 18%; text-align: center;">Good</th>
+              <th style="width: 18%; text-align: center;">Needs Imp.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <script>
+              const modalAreas = [
+                ['Academic Performance', 'academic_performance'],
+                ['Discipline', 'discipline'],
+                ['Regularity', 'regularity'],
+                ['Communication', 'communication'],
+                ['Participation', 'participation'],
+                ['Teamwork', 'teamwork'],
+                ['Leadership', 'leadership'],
+                ['Creativity', 'creativity']
+              ];
+              modalAreas.forEach(a => {
+                document.write(`
+                  <tr>
+                    <td><strong>${a[0]}</strong></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Excellent"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Very Good"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Good"></td>
+                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Needs Improvement"></td>
+                  </tr>
+                `);
+              });
+            </script>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 1rem;">
+          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">Teacher’s Remarks</label>
+          <textarea id="modal_teacher_remarks" class="form-textarea" rows="2" placeholder="Overall faculty feedback..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+          <div>
+            <label style="font-weight: 700; font-size: 0.85rem;">Class Teacher’s Signature</label>
+            <input type="text" id="modal_teacher_sig" class="form-input-text" placeholder="Teacher Name / Signature">
+          </div>
+          <div>
+            <label style="font-weight: 700; font-size: 0.85rem;">Date</label>
+            <input type="date" id="modal_teacher_date" class="form-input-text">
+          </div>
+        </div>
+      </div>
+
+      <!-- Teacher's Final Remark -->
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">17. Teacher’s Final Remark</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700;">Class Teacher</label>
+            <input type="text" id="modal_final_class_teacher" class="form-input-text" placeholder="Class Teacher Remark">
+          </div>
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700;">Principal</label>
+            <input type="text" id="modal_final_principal" class="form-input-text" placeholder="Principal Sign-off">
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; border-top: 1px solid #cbd5e1; padding-top: 1rem;">
+        <button type="button" onclick="closeEvaluationModal()" class="btn btn-secondary">Cancel</button>
+        <button type="button" onclick="saveModalEvaluation()" class="btn btn-send" style="background: #16a34a; font-size: 1rem; padding: 0.65rem 1.75rem;">
+          💾 Save Teacher Evaluation
+        </button>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <script>
-    let isCardsView = true;
-    let activeSubTab = "roster";
-
-    document.addEventListener("DOMContentLoaded", () => {
-      checkAuthAndRender();
-    });
-
-    function checkAuthAndRender() {
-      const isUnlocked = sessionStorage.getItem("portfolio_teacher_unlocked") === "true";
-      const gate = document.getElementById("teachersLockGate");
-      const content = document.getElementById("teachersPortalContent");
-
-      if (!isUnlocked) {
-        gate.style.display = "block";
-        content.style.display = "none";
-        const pinInp = document.getElementById("pageTeacherPinInput");
-        if (pinInp) pinInp.focus();
-      } else {
-        gate.style.display = "none";
-        content.style.display = "block";
-        renderPage();
-      }
-    }
-
-    function handleTeachersPagePinSubmit(e) {
-      if (e) {
-        if (e.preventDefault) e.preventDefault();
-        if (e.stopPropagation) e.stopPropagation();
-      }
-      const input = document.getElementById("pageTeacherPinInput");
-      const feedback = document.getElementById("pageTeacherPinFeedback");
-      const code = (input && input.value ? input.value : "").trim();
-
-      let verification = null;
-      if (window.TeacherPINStore && typeof window.TeacherPINStore.verify === "function") {
-        verification = window.TeacherPINStore.verify(code, "");
-      } else {
-        const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026", "faculty", "faculty2026"];
-        if (validCodes.includes(code.toLowerCase())) {
-          verification = { valid: true, role: "Faculty / Teacher", isMaster: true, message: "Verified as School Faculty" };
-        } else {
-          verification = { valid: false, message: "Incorrect faculty PIN. Please check with administration." };
-        }
-      }
-
-      if (verification && verification.valid) {
-        sessionStorage.setItem("portfolio_teacher_unlocked", "true");
-        if (verification.isMaster) {
-          sessionStorage.setItem("portfolio_is_master_admin", "true");
-        }
-        sessionStorage.setItem("portfolio_teacher_role", verification.role || "Faculty");
-
-        if (feedback) {
-          feedback.style.color = "#16a34a";
-          feedback.textContent = "✅ Verification successful! Opening portal...";
-        }
-        checkAuthAndRender();
-      } else {
-        if (feedback) {
-          feedback.style.color = "#dc2626";
-          feedback.textContent = "❌ Incorrect faculty PIN. Please check with administration.";
-        }
-        if (input) {
-          input.focus();
-          input.select();
-        }
-      }
-      return false;
-    }
-
-    function lockTeacherSession() {
-      sessionStorage.removeItem("portfolio_teacher_unlocked");
-      checkAuthAndRender();
-    }
-
-    function switchPageTab(tab) {
-      activeSubTab = tab;
-      const btnRoster = document.getElementById("tabBtnRoster");
-      const btnReviews = document.getElementById("tabBtnReviews");
-      const secRoster = document.getElementById("viewRosterSection");
-      const secReviews = document.getElementById("viewReviewsSection");
-
-      if (tab === "reviews") {
-        btnRoster.className = "teachers-subnav-btn";
-        btnReviews.className = "teachers-subnav-btn active";
-        secRoster.style.display = "none";
-        secReviews.style.display = "block";
-        renderReviewsList();
-      } else {
-        btnRoster.className = "teachers-subnav-btn active";
-        btnReviews.className = "teachers-subnav-btn";
-        secRoster.style.display = "block";
-        secReviews.style.display = "none";
-        renderRosterList();
-      }
-    }
-
-    function escapeHtml(str) {
-      if (str === null || str === undefined) return "";
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function renderPage() {
-      const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
-        ? window.DataStore.getStudents()
-        : (window.DEFAULT_STUDENTS || []);
-
-      const allReviews = (window.PortfolioReviewStore && typeof window.PortfolioReviewStore.getAll === "function")
-        ? window.PortfolioReviewStore.getAll()
-        : [];
-      const pendingReviews = allReviews.filter(r => r.status === "pending");
-
-      // Badges
-      document.getElementById("badgeSavedStudents").textContent = students.length;
-      const badgeReviews = document.getElementById("badgePendingReviews");
-      badgeReviews.textContent = pendingReviews.length;
-      if (pendingReviews.length > 0) {
-        badgeReviews.style.background = "#f59e0b";
-        badgeReviews.style.color = "#0f172a";
-      }
-
-      // Populate unique classes
-      const classSelect = document.getElementById("teacherClassSelect");
-      const currentClassVal = classSelect.value;
-      const classesSet = new Set();
-      students.forEach(s => {
-        const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`.trim();
-        if (cls) classesSet.add(cls);
-      });
-      const classesList = Array.from(classesSet).sort();
-
-      classSelect.innerHTML = `<option value="all">🏫 All Classes</option>` + classesList.map(c => `
-        <option value="${escapeHtml(c)}" ${c === currentClassVal ? "selected" : ""}>${escapeHtml(c)}</option>
-      `).join("");
-
-      // KPIs
-      document.getElementById("kpiTotalStudents").textContent = students.length;
-      const verified = students.filter(s => s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)).length;
-      document.getElementById("kpiVerifiedCount").textContent = verified;
-      document.getElementById("kpiPendingCount").textContent = pendingReviews.length;
-
-      let scoreSum = 0, scoreCount = 0;
-      students.forEach(s => {
-        const val = parseFloat(s.academicScore);
-        if (!isNaN(val)) { scoreSum += val; scoreCount++; }
-      });
-      document.getElementById("kpiAvgScore").textContent = (scoreCount > 0 ? (scoreSum / scoreCount).toFixed(1) : "95.2") + "%";
-
-      if (activeSubTab === "reviews") {
-        renderReviewsList();
-      } else {
-        renderRosterList();
-      }
-    }
-
-    function onFilterChange() {
-      renderRosterList();
-    }
-
-    function setViewModeCards(cards) {
-      isCardsView = cards;
-      document.getElementById("btnViewCards").className = cards ? "active" : "";
-      document.getElementById("btnViewTable").className = !cards ? "active" : "";
-      renderRosterList();
-    }
-
-    function renderRosterList() {
-      const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
-        ? window.DataStore.getStudents()
-        : (window.DEFAULT_STUDENTS || []);
-
-      const q = (document.getElementById("teacherSearchInput").value || "").trim().toLowerCase();
-      const classFilter = document.getElementById("teacherClassSelect").value;
-      const statusFilter = document.getElementById("teacherStatusSelect").value;
-      const subjectFilter = document.getElementById("teacherSubjectSelect").value || "mathematics";
-
-      const filtered = students.filter(s => {
-        const sName = (s.name || "").toLowerCase();
-        const sRoll = String(s.rollNo || "").toLowerCase();
-        const sAdm = (s.admissionNo || s.id || "").toLowerCase();
-        const sFather = (s.parentNote && s.parentNote.parentsName ? s.parentNote.parentsName : "").toLowerCase();
-        const sCls = `${s.class || ""}${s.section ? " - " + s.section : ""}`.trim().toLowerCase();
-
-        const matchesSearch = !q || sName.includes(q) || sRoll.includes(q) || sAdm.includes(q) || sFather.includes(q) || sCls.includes(q);
-        const fullCls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`.trim();
-        const matchesClass = (classFilter === "all") || (fullCls === classFilter) || (s.class === classFilter);
-
-        let status = "draft";
-        if (s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)) {
-          status = "verified";
-        } else if (s.reviewStatus === "pending") {
-          status = "pending";
-        }
-        const matchesStatus = (statusFilter === "all") || (status === statusFilter);
-
-        return matchesSearch && matchesClass && matchesStatus;
-      });
-
-      const container = document.getElementById("rosterContainer");
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="teachers-empty-state">
-            <h3>🔍 No Students Found</h3>
-            <p>No student records match your active search filters.</p>
-          </div>
-        `;
-        return;
-      }
-
-      if (isCardsView) {
-        container.innerHTML = `<div class="teachers-cards-grid">` + filtered.map(s => {
-          const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`;
-          const score = s.academicScore || "95.0%";
-          const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
-          const isPending = s.reviewStatus === "pending";
-          const statusPill = isVerified 
-            ? `<span class="badge badge-success" style="font-size: 0.72rem;">✓ Evaluated &amp; Certified</span>` 
-            : (isPending ? `<span class="badge badge-warning" style="font-size: 0.72rem;">⏳ Needs Teacher Review</span>` : `<span class="badge badge-secondary" style="font-size: 0.72rem;">📝 Draft Record</span>`);
-
-          const teacherName = (s.teacherObservation && s.teacherObservation.teacherName) || "Mrs. Sunita Roy (Subject Faculty)";
-
-          return `
-            <div class="teacher-student-card">
-              <div>
-                <div class="teacher-card-top">
-                  <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" class="teacher-card-avatar" onerror="this.src='assets/school-logo.jpg'">
-                  <div class="teacher-card-meta">
-                    <h3 class="teacher-card-name">${escapeHtml(s.name)}</h3>
-                    <div class="teacher-card-class">🏫 ${escapeHtml(cls)}</div>
-                    <div class="teacher-card-ids">Roll: <strong>${escapeHtml(s.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(s.admissionNo || s.id)}</strong></div>
-                  </div>
-                </div>
-
-                <div class="teacher-card-academic-row">
-                  <div><strong>Cumulative:</strong> <span class="teacher-card-score">${escapeHtml(score)}</span> (Grade A1)</div>
-                  <div>${statusPill}</div>
-                </div>
-
-                <div class="teacher-card-chips">
-                  <span class="teacher-card-chip">📐 Math: 98%</span>
-                  <span class="teacher-card-chip">🔬 Science: 97%</span>
-                  <span class="teacher-card-chip">💻 IT: 99%</span>
-                  <span class="teacher-card-chip">📖 English: 95%</span>
-                </div>
-
-                <div style="font-size: 0.78rem; color: #475569; margin-bottom: 0.5rem;">
-                  <strong>Evaluator:</strong> ${escapeHtml(teacherName)}
-                </div>
-              </div>
-
-              <div class="teacher-card-actions">
-                <a href="builder.html?id=${encodeURIComponent(s.id)}&mode=form&auth=teacher" class="btn btn-sm btn-card-edit" title="Edit student details & marks in Teacher Mode">
-                  ✏️ Edit Details
-                </a>
-                <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview&print=true" class="btn btn-sm btn-card-print" title="Print official 2-page subject portfolio">
-                  🖨️ Print 2 Pages
-                </a>
-                <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview" class="btn btn-secondary btn-sm" title="Preview 2-page sheet in builder">
-                  👁️ Sheet
-                </a>
-                <a href="portfolio.html?id=${encodeURIComponent(s.id)}" target="_blank" class="btn btn-secondary btn-sm" title="Open digital student portfolio">
-                  🌐 Portfolio
-                </a>
-                <button type="button" onclick="deleteStudent('${s.id}')" class="btn btn-secondary btn-sm" style="color: #dc2626;" title="Delete student">
-                  🗑️
-                </button>
-              </div>
-            </div>
-          `;
-        }).join("") + `</div>`;
-      } else {
-        // Table view
-        container.innerHTML = `
-          <div class="teachers-table-container">
-            <table class="teachers-roster-table">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Class &amp; Section</th>
-                  <th class="center">Roll No</th>
-                  <th class="center">Score %</th>
-                  <th>Status</th>
-                  <th>Teacher Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${filtered.map(s => {
-                  const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`;
-                  const score = s.academicScore || "95.0%";
-                  const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
-                  const isPending = s.reviewStatus === "pending";
-                  const statusPill = isVerified 
-                    ? `<span class="badge badge-success">✓ Verified</span>` 
-                    : (isPending ? `<span class="badge badge-warning">⏳ Needs Review</span>` : `<span class="badge badge-secondary">📝 Draft</span>`);
-
-                  return `
-                    <tr>
-                      <td>
-                        <div style="display: flex; align-items: center; gap: 0.65rem;">
-                          <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" style="width: 38px; height: 38px; border-radius: 6px; object-fit: cover; border: 1px solid #0f172a;" onerror="this.src='assets/school-logo.jpg'">
-                          <div>
-                            <strong>${escapeHtml(s.name)}</strong>
-                            <div style="font-size: 0.75rem; color: #64748b;">Adm: ${escapeHtml(s.admissionNo || s.id)}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td><strong>${escapeHtml(cls)}</strong></td>
-                      <td class="center"><strong>${escapeHtml(s.rollNo || "--")}</strong></td>
-                      <td class="center"><strong style="color: #166534;">${escapeHtml(score)}</strong></td>
-                      <td>${statusPill}</td>
-                      <td>
-                        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
-                          <a href="builder.html?id=${encodeURIComponent(s.id)}&mode=form&auth=teacher" class="btn btn-primary btn-xs btn-card-edit" title="Edit student details & marks in Teacher Mode">✏️ Edit Details</a>
-                          <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview&print=true" class="btn btn-xs btn-card-print" title="Print official 2-page portfolio">🖨️ Print 2 Pages</a>
-                          <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview" class="btn btn-secondary btn-xs" title="Preview 2-page sheet">👁️ Sheet</a>
-                          <a href="portfolio.html?id=${encodeURIComponent(s.id)}" target="_blank" class="btn btn-secondary btn-xs" title="Open student web portfolio">🌐 Portfolio</a>
-                          <button type="button" onclick="deleteStudent('${s.id}')" class="btn btn-secondary btn-xs" style="color: #dc2626;" title="Delete student record">🗑️</button>
-                        </div>
-                      </td>
-                    </tr>
-                  `;
-                }).join("")}
-              </tbody>
-            </table>
-          </div>
-        `;
-      }
-    }
-
-    function renderReviewsList() {
-      const container = document.getElementById("reviewsContainer");
-      if (!container) return;
-
-      const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
-        ? window.DataStore.getStudents()
-        : (window.DEFAULT_STUDENTS || []);
-
-      const allReviews = (window.PortfolioReviewStore && typeof window.PortfolioReviewStore.getAll === "function")
-        ? window.PortfolioReviewStore.getAll()
-        : [];
-      const pendingReviews = allReviews.filter(r => r.status === "pending");
-
-      if (pendingReviews.length === 0) {
-        container.innerHTML = `
-          <div class="teachers-empty-state">
-            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
-            <h3>All Caught Up! No Pending Review Requests</h3>
-            <p>All student submissions have been reviewed, graded, and certified. New student portfolio submissions will appear here automatically.</p>
-            <button type="button" onclick="switchPageTab('roster')" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">View All Saved Students</button>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = `<div class="pending-reviews-grid">` + pendingReviews.map(r => {
-        const matched = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
-        const avatar = (matched && matched.avatar) || "assets/school-logo.jpg";
-        const studentId = matched ? matched.id : "";
-        const subject = r.targetTeacher || "Subject Faculty";
-        const dateStr = r.submittedAtFormatted || (r.submittedAt ? new Date(r.submittedAt).toLocaleString() : "Recently");
-
-        return `
-          <div class="pending-review-card">
-            <div>
-              <div class="pending-review-header">
-                <div class="pending-student-info">
-                  <img src="${avatar}" alt="${escapeHtml(r.studentName)}" class="pending-student-avatar" onerror="this.src='assets/school-logo.jpg'">
-                  <div>
-                    <h4 style="margin: 0 0 2px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">${escapeHtml(r.studentName)}</h4>
-                    <div style="font-size: 0.82rem; font-weight: 700; color: #4338ca;">🏫 ${escapeHtml(r.classSection || "Class VIII - A")}</div>
-                    <div style="font-size: 0.78rem; color: #64748b;">Roll: <strong>${escapeHtml(r.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(r.admissionNo || "--")}</strong></div>
-                  </div>
-                </div>
-                <span class="badge badge-warning" style="font-size: 0.72rem; white-space: nowrap;">⏳ Pending Review</span>
-              </div>
-
-              <div style="font-size: 0.82rem; color: #334155; margin-bottom: 0.5rem;">
-                <strong>Assigned Faculty:</strong> ${escapeHtml(subject)}<br>
-                <span style="font-size: 0.76rem; color: #64748b;">Submitted: ${escapeHtml(dateStr)}</span>
-              </div>
-
-              <div class="pending-note-box">
-                <strong style="display: block; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: #92400e; margin-bottom: 2px;">Student Note:</strong>
-                ${escapeHtml(r.studentNote || "Student submitted portfolio for continuous evaluation and marks certification.")}
-              </div>
-            </div>
-
-            <div class="pending-actions-row">
-              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=form&auth=teacher" class="btn btn-sm btn-primary btn-card-edit" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;" title="Load student into builder to grade marks and verify rubrics">
-                📝 Review &amp; Grade
-              </a>
-              <button type="button" onclick="approveReviewDirectly('${r.id}')" class="btn btn-sm" style="background: #059669; color: #ffffff; border-color: #059669; font-weight: 800;" title="Approve and certify this portfolio record">
-                ✅ Quick Approve
-              </button>
-              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=preview&print=true" class="btn btn-sm btn-secondary" title="Print official 2-page subject portfolio">
-                🖨️ Print 2 Pages
-              </a>
-              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=preview" class="btn btn-sm btn-secondary" title="Preview 2-page sheet in builder">
-                👁️ Sheet
-              </a>
-            </div>
-          </div>
-        `;
-      }).join("") + `</div>`;
-    }
-
-    function approveReviewDirectly(subId) {
-      if (!window.PortfolioReviewStore) return;
-      const sub = window.PortfolioReviewStore.getById(subId);
-      const name = sub ? sub.studentName : "this submission";
-      const remarks = prompt(`Approve & Certify portfolio for "${name}".\n\nEnter teacher remarks (optional):`, "Verified by Subject Teacher - Exemplary Work");
-      if (remarks === null) return;
-
-      window.PortfolioReviewStore.approveReview(subId, remarks);
-
-      if (window.DataStore && sub) {
-        const students = window.DataStore.getStudents();
-        const st = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
-        if (st) {
-          st.reviewStatus = "approved";
-          if (!st.portfolioBuilderData) st.portfolioBuilderData = {};
-          st.portfolioBuilderData.teacherRemarks = remarks;
-          st.portfolioBuilderData.reviewStatus = "approved";
-          window.DataStore.saveStudent(st);
-        }
-      }
-
-      alert(`✅ Portfolio submission for "${name}" approved!`);
-      renderPage();
-    }
-
-    function approveAllPendingFromPage() {
-      if (!window.PortfolioReviewStore) return;
-      const pending = window.PortfolioReviewStore.getAll().filter(r => r.status === "pending");
-      if (pending.length === 0) {
-        alert("No pending reviews to approve.");
-        return;
-      }
-      if (confirm(`Approve all ${pending.length} pending student portfolio reviews?`)) {
-        pending.forEach(r => {
-          window.PortfolioReviewStore.approveReview(r.id, "Verified by Teacher - Approved");
-          if (window.DataStore) {
-            const students = window.DataStore.getStudents();
-            const st = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
-            if (st) {
-              st.reviewStatus = "approved";
-              window.DataStore.saveStudent(st);
-            }
-          }
-        });
-        alert(`✅ All ${pending.length} pending reviews have been approved.`);
-        renderPage();
-      }
-    }
-
-    function deleteStudent(id) {
-      if (!window.DataStore) return;
-      const s = window.DataStore.getStudentById(id);
-      const name = s ? s.name : "this student";
-      if (confirm(`Are you sure you want to delete "${name}" from the saved students database?`)) {
-        window.DataStore.deleteStudent(id);
-        renderPage();
-      }
-    }
-
-    function exportTeacherRosterCsv() {
-      const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
-        ? window.DataStore.getStudents()
-        : (window.DEFAULT_STUDENTS || []);
-
-      if (students.length === 0) {
-        alert("No student records available to export.");
-        return;
-      }
-
-      const headers = ["Admission No", "Roll No", "Student Name", "Class", "Section", "Academic Score", "Review Status", "Class Teacher"];
-      const rows = students.map(s => [
-        `"${(s.admissionNo || s.id || '').replace(/"/g, '""')}"`,
-        `"${(s.rollNo || '').replace(/"/g, '""')}"`,
-        `"${(s.name || '').replace(/"/g, '""')}"`,
-        `"${(s.class || '').replace(/"/g, '""')}"`,
-        `"${(s.section || '').replace(/"/g, '""')}"`,
-        `"${(s.academicScore || '').replace(/"/g, '""')}"`,
-        `"${(s.reviewStatus || 'pending').replace(/"/g, '""')}"`,
-        `"${((s.teacherObservation && s.teacherObservation.teacherName) || '').replace(/"/g, '""')}"`
-      ]);
-
-      const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `SHM_Academy_Student_Roster_${new Date().toISOString().slice(0, 10)}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  </script>
+  <script src="static/js/teachers.js"></script>
 </body>
 </html>

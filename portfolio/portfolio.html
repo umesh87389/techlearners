@@ -3,277 +3,932 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Digital Portfolio | TechLearners</title>
+  <title>Student Portfolio | SHM Academy</title>
   <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/builder.css">
-  <!-- Firebase & TechLearners Services -->
-  <script defer src="../assets/js/firebase-config.js"></script>
-  <script defer src="../assets/js/firebase-client.js"></script>
-  <script defer src="../assets/js/content-store.js"></script>
-  <script defer src="js/portfolio-review.js"></script>
+  <link rel="stylesheet" href="static/css/portfolio.css">
 </head>
 <body>
 
-  <!-- Top Navbar -->
-  <header class="navbar">
-    <div class="container nav-wrapper">
-      <a href="index.html" class="brand">
-        <img src="assets/school-logo.jpg" alt="Logo" class="brand-logo" style="border-radius: 6px; object-fit: cover;">
-        <div class="brand-text">
-          <h1 class="school-name-text">Techlearners Digital Portfolio</h1>
-          <p class="school-motto-text">Knowledge Infinite • <span class="school-year-text">2026–2027</span></p>
-        </div>
-      </a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html" class="nav-link">← School Directory</a></li>
-          <li><a href="builder.html" class="nav-link">🎓 Portfolio</a></li>
-          <li><a href="teachers.html" class="nav-link">👨‍🏫 Faculty Portal</a></li>
-          <li><a href="template.html" class="nav-link">📄 Template</a></li>
-          <li><a href="teams.html" class="nav-link">⚡ Teams</a></li>
-          <li><button id="shareBtn" class="btn btn-secondary btn-sm">🔗 Share</button></li>
-          <li><a href="admin.html" class="btn btn-primary btn-sm">✏️ Edit in Admin</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
- 
-  <!-- Print Only School Brand Header -->
-  <div class="print-only-brand-header container">
-    <img src="assets/school-logo.jpg" alt="School Logo" class="print-header-logo" style="border-radius: 6px; object-fit: cover;">
-    <div>
-      <h2 style="margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 800;">SHM Academy Digital Portfolio</h2>
-      <p style="margin: 0; font-size: 0.8rem; color: #475569;">Knowledge Infinite • Verified Student Portfolio Record</p>
-    </div>
-  </div>
+  <div class="page-wrapper">
+    <form id="portfolioForm" class="portfolio-document" onsubmit="return false;">
 
-  <!-- Hero Profile Section -->
-  <header class="portfolio-hero">
-    <div class="container hero-content">
-      <div class="hero-left">
-        <div class="hero-avatar-wrapper">
-          <img id="studentAvatar" src="assets/school-logo.jpg" alt="Student Profile Photo" class="hero-avatar">
-          <div class="verified-badge-pill" title="CBSE & Teacher Verified Record">✓ Verified Record</div>
+      <!-- DOCUMENT HEADER -->
+      <header class="doc-header">
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+          <img src="assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
         </div>
-        <div class="hero-actions-col">
-          <a id="heroPrintSummaryBtn" href="builder.html?mode=preview&print=true" class="btn btn-primary btn-sm heroPrintBtn" style="margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #1e1b4b; border-color: #1e1b4b;" title="Print 2-page subject portfolio">
-            <span>🖨️</span> <span>Print 2-Page Portfolio</span>
-          </a>
+        <div class="doc-title-main">STUDENT PORTFOLIO</div>
+        <div class="doc-school-name">SHM ACADEMY</div>
+        <div class="doc-motto">“Infinite Knowledge Through Education”</div>
+        <div class="doc-session-row">
+          <span>Academic Session:</span>
+          <input type="text" id="academic_session_input" class="doc-session-input" value="2026–2027" placeholder="e.g. 2026–2027">
         </div>
-      </div>
-      <div class="hero-profile-box">
-        <div class="hero-info">
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
-            <h1 id="studentName">Student Name</h1>
-            <div id="teamBadgeHero"></div>
+      </header>
+
+      <!-- 1. STUDENT PROFILE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Student Profile</span>
+        </h2>
+        <div class="profile-grid">
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width: 38%;">Particular</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Student’s Name</strong></td>
+                <td><input type="text" id="profile_student_name" placeholder="Enter Full Name" required></td>
+              </tr>
+              <tr>
+                <td><strong>Class &amp; Section</strong></td>
+                <td>
+                  <select id="profile_class_section" required>
+                    <option value="" disabled selected>-- Select Class &amp; Section --</option>
+                    
+                    <option value="Class 6 - Section A">Class 6 - Section A</option>
+                    
+                    <option value="Class 6 - Section B">Class 6 - Section B</option>
+                    
+                    <option value="Class 7 - Section A">Class 7 - Section A</option>
+                    
+                    <option value="Class 7 - Section B">Class 7 - Section B</option>
+                    
+                    <option value="Class 8 - Section A">Class 8 - Section A</option>
+                    
+                    <option value="Class 8 - Section B">Class 8 - Section B</option>
+                    
+                    <option value="Class 9 - Section A">Class 9 - Section A</option>
+                    
+                    <option value="Class 9 - Section B">Class 9 - Section B</option>
+                    
+                    <option value="Class 10 - Section A">Class 10 - Section A</option>
+                    
+                    <option value="Class 10 - Section B">Class 10 - Section B</option>
+                    
+                    <option value="Class 11 - Section A">Class 11 - Section A</option>
+                    
+                    <option value="Class 11 - Section B">Class 11 - Section B</option>
+                    
+                    <option value="Class 12 - Section A">Class 12 - Section A</option>
+                    
+                    <option value="Class 12 - Section B">Class 12 - Section B</option>
+                    
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Roll Number</strong></td>
+                <td><input type="text" id="profile_roll_no" placeholder="e.g. 14"></td>
+              </tr>
+              <tr>
+                <td><strong>Admission Number</strong></td>
+                <td><input type="text" id="profile_admission_no" placeholder="e.g. SHM-2026-089"></td>
+              </tr>
+              <tr>
+                <td><strong>Date of Birth</strong></td>
+                <td><input type="date" id="profile_dob"></td>
+              </tr>
+              <tr>
+                <td><strong>Father’s Name</strong></td>
+                <td><input type="text" id="profile_father_name" placeholder="Father's Name"></td>
+              </tr>
+              <tr>
+                <td><strong>Mother’s Name</strong></td>
+                <td><input type="text" id="profile_mother_name" placeholder="Mother's Name"></td>
+              </tr>
+              <tr>
+                <td><strong>Contact Number</strong></td>
+                <td><input type="text" id="profile_contact_no" placeholder="Phone Number"></td>
+              </tr>
+              <tr>
+                <td><strong>House</strong></td>
+                <td><input type="text" id="profile_house" placeholder="House Name"></td>
+              </tr>
+              <tr>
+                <td><strong>Class Teacher</strong></td>
+                <td><input type="text" id="profile_class_teacher" placeholder="Class Teacher Name"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Photograph Box -->
+          <div style="text-align: center;">
+            <div class="photo-upload-box" id="photoUploadBox" title="Click to upload photograph">
+              <input type="file" id="photoFileInput" accept="image/*" style="display: none;">
+              <img id="photoPreviewImg" class="photo-preview-img" alt="Student Photo">
+              <button type="button" id="photoRemoveBtn" class="photo-remove-btn" title="Remove photograph">✕</button>
+              <div id="photoPromptText" class="photo-prompt-text">
+                <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">📷</div>
+                <strong>Student’s Photograph</strong>
+                <p style="font-size: 0.75rem; margin-top: 4px; color: #64748b;">Paste photograph here</p>
+              </div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <!-- 2. ABOUT ME -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>About Me</span>
+        </h2>
+        <div class="about-me-paragraph">
+          My name is <input type="text" id="about_name" class="inline-input" style="width: 240px;" placeholder="Full Name">.
+          I study in <span id="about_study_class" style="font-weight: 700; color: #1e3a8a; border-bottom: 1.5px dashed #475569; padding: 0 4px;">Class __________</span> at <strong>SHM Academy</strong>.
+          I consider myself a <input type="text" id="about_student_type" class="inline-input" style="width: 170px;" placeholder="e.g. dedicated / curious"> student.
+          My favourite subjects are <input type="text" id="about_favourite_subjects" class="inline-input" style="width: 250px;" placeholder="e.g. Science, Mathematics">.
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-field-group">
+            <label class="form-field-label">My Interests</label>
+            <textarea id="about_interests" class="form-textarea" rows="2" placeholder="Write about your interests..."></textarea>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">My Hobbies</label>
+            <textarea id="about_hobbies" class="form-textarea" rows="2" placeholder="Write about your hobbies..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-field-group">
+          <label class="form-field-label">My Strengths</label>
+          <ul class="strength-list">
+            <li class="strength-item">
+              <span class="strength-bullet">•</span>
+              <input type="text" id="strength_1" class="form-input-text" placeholder="Strength 1">
+            </li>
+            <li class="strength-item">
+              <span class="strength-bullet">•</span>
+              <input type="text" id="strength_2" class="form-input-text" placeholder="Strength 2">
+            </li>
+            <li class="strength-item">
+              <span class="strength-bullet">•</span>
+              <input type="text" id="strength_3" class="form-input-text" placeholder="Strength 3">
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">One thing I want to improve</label>
+          <textarea id="about_improvement" class="form-textarea" rows="2" placeholder="Describe one area or skill you want to improve..."></textarea>
+        </div>
+      </section>
+
+      <!-- 3. MY GOALS -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My Goals</span>
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div class="form-field-group">
+            <label class="form-field-label">Short-Term Goal</label>
+            <textarea id="goal_short_term" class="form-textarea" rows="2" placeholder="Your short-term goal..."></textarea>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Long-Term Goal</label>
+            <textarea id="goal_long_term" class="form-textarea" rows="2" placeholder="Your long-term goal..."></textarea>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-field-label">This Year I Want To</label>
+          <div class="checkbox-grid">
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Improve my academic performance">
+              <span>Improve my academic performance</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Become more confident">
+              <span>Become more confident</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Improve my communication skills">
+              <span>Improve my communication skills</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Participate in more activities">
+              <span>Participate in more activities</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Develop better time-management skills">
+              <span>Develop better time-management skills</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="goal_checkbox" value="Improve my reading/writing skills">
+              <span>Improve my reading/writing skills</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ACADEMIC PROGRESS (LOCKED FOR STUDENTS) -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Academic Progress</span>
+          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
+        </h2>
+        
+        <div class="locked-section-container">
+          <div class="locked-notice-banner">
+            <span>🔒</span>
+            <span>This section is locked for students. Academic evaluation and marks will be filled and verified by your Teacher in the Teacher’s Dashboard.</span>
+          </div>
+
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">Subject</th>
+                <th class="center" style="width: 18%;">Term 1</th>
+                <th class="center" style="width: 18%;">Mid Term</th>
+                <th class="center" style="width: 18%;">Term 2</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td><strong>English</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Hindi</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Mathematics</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Science</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Social Science</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Computer/IT</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Other</strong></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              
+            </tbody>
+          </table>
+
+          <div class="form-field-group" style="margin-top: 1rem;">
+            <label class="form-field-label">My Academic Achievement</label>
+            <textarea class="locked-field form-textarea" disabled rows="2" placeholder="Recorded by Teacher"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. MY SKILLS (LOCKED FOR STUDENTS) -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My Skills</span>
+          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
+        </h2>
+
+        <div class="locked-section-container">
+          <div class="locked-notice-banner">
+            <span>🔒</span>
+            <span>Rate yourself from 1–5. This section is locked for student entry and evaluated by the Teacher separately.</span>
+          </div>
+
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th class="center" style="width: 180px;">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td><strong>Communication</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Reading</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Writing</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Creativity</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Problem Solving</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Teamwork</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Leadership</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Time Management</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><strong>Digital Skills</strong></td>
+                <td class="center">
+                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Co-Curricular Activities</span>
+        </h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 32%;">Activity/Event</th>
+              <th style="width: 18%;">Date</th>
+              <th style="width: 25%;">My Participation</th>
+              <th style="width: 25%;">Teacher’s Remark</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><input type="text" id="co_act_1" placeholder="Activity name"></td>
+              <td><input type="date" id="co_date_1"></td>
+              <td><input type="text" id="co_part_1" placeholder="e.g. Participant / Solo"></td>
+              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="co_act_2" placeholder="Activity name"></td>
+              <td><input type="date" id="co_date_2"></td>
+              <td><input type="text" id="co_part_2" placeholder="e.g. Participant / Solo"></td>
+              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="co_act_3" placeholder="Activity name"></td>
+              <td><input type="date" id="co_date_3"></td>
+              <td><input type="text" id="co_part_3" placeholder="e.g. Participant / Solo"></td>
+              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="co_act_4" placeholder="Activity name"></td>
+              <td><input type="date" id="co_date_4"></td>
+              <td><input type="text" id="co_part_4" placeholder="e.g. Participant / Solo"></td>
+              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Achievements &amp; Certificates</span>
+        </h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Achievement</th>
+              <th style="width: 30%;">Event/Competition</th>
+              <th style="width: 18%;">Date</th>
+              <th style="width: 22%;">Position/Award</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><input type="text" id="ach_item_1" placeholder="e.g. 1st Prize"></td>
+              <td><input type="text" id="ach_event_1" placeholder="Event title"></td>
+              <td><input type="date" id="ach_date_1"></td>
+              <td><input type="text" id="ach_award_1" placeholder="Award / Certificate"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="ach_item_2" placeholder="e.g. 1st Prize"></td>
+              <td><input type="text" id="ach_event_2" placeholder="Event title"></td>
+              <td><input type="date" id="ach_date_2"></td>
+              <td><input type="text" id="ach_award_2" placeholder="Award / Certificate"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="ach_item_3" placeholder="e.g. 1st Prize"></td>
+              <td><input type="text" id="ach_event_3" placeholder="Event title"></td>
+              <td><input type="date" id="ach_date_3"></td>
+              <td><input type="text" id="ach_award_3" placeholder="Award / Certificate"></td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="form-field-group">
+          <label class="form-field-label">Certificates / Awards may be attached here.</label>
+          <textarea id="certificates_evidence" class="form-textarea" rows="2" placeholder="List or paste certificate details, links, or attachment notes..."></textarea>
+        </div>
+      </section>
+
+      <!-- 8. PROJECTS & CREATIVE WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Projects &amp; Creative Work</span>
+        </h2>
+        
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 1</h3>
+          <div class="form-field-group">
+            <label class="form-field-label">Title: ______________________________________________</label>
+            <input type="text" id="proj1_title" class="form-input-text" placeholder="Project 1 Title">
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I did:</label>
+            <textarea id="proj1_did" class="form-textarea" rows="2" placeholder="Describe what you built or created..."></textarea>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I learned:</label>
+            <textarea id="proj1_learned" class="form-textarea" rows="2" placeholder="Describe key concepts or lessons learned..."></textarea>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 2</h3>
+          <div class="form-field-group">
+            <label class="form-field-label">Title: ______________________________________________</label>
+            <input type="text" id="proj2_title" class="form-input-text" placeholder="Project 2 Title">
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I learned:</label>
+            <textarea id="proj2_learned" class="form-textarea" rows="2" placeholder="Describe key concepts or lessons learned..."></textarea>
+          </div>
+        </div>
+
+        <div class="form-field-group">
+          <label class="form-field-label">Photographs / Drawings / Project Evidence</label>
+          <textarea id="project_evidence" class="form-textarea" rows="2" placeholder="Notes, descriptions, or evidence of your project work..."></textarea>
+        </div>
+      </section>
+
+      <!-- 9. MY SCHOOL PARTICIPATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My School Participation</span>
+        </h2>
+        <label class="form-field-label">I participated in:</label>
+        <div class="checkbox-grid">
           
-          <div id="studentTeamRole" style="font-weight: 700; font-size: 1.05rem; color: var(--primary); margin-bottom: 0.25rem;">Team Lead</div>
-          <div id="studentClassTag" class="hero-class-tag">Class VIII-A • Roll No. 12</div>
-          <p id="studentTagline" class="hero-tagline">Aspiring Tech Innovator & Coder</p>
-          <p id="studentMotto" class="hero-motto">“Learn by building, improve by sharing.”</p>
-          <p id="studentBio" style="margin-top: 0.65rem; font-size: 0.9rem; color: #475569;"></p>
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Sports">
+            <span>Sports</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Cultural Activities">
+            <span>Cultural Activities</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Art & Craft">
+            <span>Art & Craft</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Debate / Speech">
+            <span>Debate / Speech</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Quiz">
+            <span>Quiz</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Science / Maths Activities">
+            <span>Science / Maths Activities</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Literary Activities">
+            <span>Literary Activities</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="School Assembly">
+            <span>School Assembly</span>
+          </label>
+          
+          <label class="checkbox-item">
+            <input type="checkbox" name="part_checkbox" value="Community Service">
+            <span>Community Service</span>
+          </label>
+          
         </div>
-
-        <div class="hero-badges-side">
-          <button id="btnSendPortfolioReview" class="btn btn-primary btn-sm" onclick="sendActivePortfolioForReview()" style="margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #15803d; border-color: #15803d; font-weight: 700;" title="Save and send this portfolio profile for teacher review">
-            <span>📨</span> <span>Send for Teacher Review</span>
-          </button>
-          <a id="heroPrintSummaryBtn2" href="builder.html?mode=preview&print=true" class="btn btn-primary btn-sm heroPrintBtn" style="margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #1e1b4b; border-color: #1e1b4b;" title="Print single-page A4 subject portfolio">
-            <span>🖨️</span> <span>Print 2-Page Portfolio</span>
-          </a>
-          <button id="qrModalBtn" class="qr-trigger-btn">
-            <span>📱</span> <span>Scan Portfolio QR</span>
-          </button>
-          <a id="idCardLink" href="id-card.html" class="btn btn-secondary btn-sm" target="_blank">
-            🪪 View ID Card
-          </a>
-          <span id="reviewStatusHeroBadge" class="badge" style="display: none; font-weight: 700;"></span>
-          <span id="attendanceBadge" class="badge badge-success">Attendance: 96.4%</span>
-          <span id="academicScoreBadge" class="badge badge-info">Academic: 92.8%</span>
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">Other: ______________________</label>
+          <input type="text" id="part_other_text" class="form-input-text" placeholder="Specify any other school participation...">
         </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Sticky In-Page Navigation (4 Clear Sections) -->
-  <nav class="portfolio-nav-bar">
-    <div class="container portfolio-nav-links">
-      <a href="#performance-graph" class="p-nav-btn active">📈 Performance Graph</a>
-      <a href="#subject-portfolio" class="p-nav-btn">📚 Subject Portfolios</a>
-      <a href="#projects-showcase" class="p-nav-btn">🚀 Projects & Skills</a>
-      <a href="#observations" class="p-nav-btn">👩‍🏫 Remarks & Feedback</a>
-    </div>
-  </nav>
-
-  <!-- Main Content Sections -->
-  <main class="container" style="margin-top: 1.5rem;">
-
-    <!-- 0. CHILD OVERALL PERFORMANCE GRAPH -->
-    <section id="performance-graph" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Academic Analytics</span>
-        <h2>Child Overall Performance Graph & Benchmarks</h2>
-        <p>Holistic academic journey showing term-wise progression (Term-1 → Term-2) and comparative performance across all core subjects.</p>
-      </div>
-
-      <div class="card" style="padding: clamp(0.85rem, 3vw, 1.25rem); border-radius: 12px; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden;">
-        <div id="portfolioPerfGraphContainer" style="margin-bottom: 1.25rem; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;">
-          <!-- Rendered dynamically by portfolio.js -->
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">My most memorable school activity:</label>
+          <textarea id="part_memorable" class="form-textarea" rows="2" placeholder="Write about your most memorable school activity..."></textarea>
         </div>
+      </section>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 0.75rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
-            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Overall Cumulative</small>
-            <strong id="kpiCumulativeAvg" style="font-size: 1.35rem; color: #166534;">94.8%</strong>
-            <span class="badge badge-success" style="font-size: 0.7rem; margin-top: 2px;">Grade A1</span>
-          </div>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
-            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Class Rank & Honors</small>
-            <strong id="kpiClassRank" style="font-size: 1.35rem; color: #4338ca;">1st in Class</strong>
-            <span class="badge badge-primary" style="font-size: 0.7rem; margin-top: 2px;">Scholar Badge</span>
-          </div>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
-            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Term Progression</small>
-            <strong id="kpiTermTrend" style="font-size: 1.35rem; color: #b45309;">↗ +4.4%</strong>
-            <span class="badge badge-warning" style="font-size: 0.7rem; margin-top: 2px; color: #78350f;">Upward Trajectory</span>
-          </div>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
-            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Annual Attendance</small>
-            <strong id="kpiAttendance" style="font-size: 1.35rem; color: #0f172a;">98.2%</strong>
-            <span class="badge badge-info" style="font-size: 0.7rem; margin-top: 2px;">Regular & Punctual</span>
-          </div>
+      <!-- 10. MY REFLECTION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My Reflection</span>
+        </h2>
+        <div class="form-field-group">
+          <label class="form-field-label">What did I learn this year?</label>
+          <textarea id="ref_learned" class="form-textarea" rows="2"></textarea>
         </div>
-      </div>
-    </section>
+        <div class="form-field-group">
+          <label class="form-field-label">What was my biggest achievement?</label>
+          <textarea id="ref_achievement" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">What challenge did I face?</label>
+          <textarea id="ref_challenge" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">How did I overcome it?</label>
+          <textarea id="ref_overcome" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">What will I do better next year?</label>
+          <textarea id="ref_next_year" class="form-textarea" rows="2"></textarea>
+        </div>
+      </section>
 
-    <!-- 0.5 INDIVIDUAL SUBJECT PORTFOLIO SHOWCASE (1-1 Subject Focus) -->
-    <section id="subject-portfolio" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">1-1 Subject Portfolios</span>
-        <h2>Individual Subject Portfolios</h2>
-        <p>Dedicated portfolios for each individual subject as evaluated by respective subject teachers. Select a subject below to view its specific curriculum projects, lab records, and teacher remarks.</p>
-      </div>
+      <!-- 11. MY BEST WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My Best Work</span>
+        </h2>
+        <p style="font-size: 0.95rem; color: #475569; margin-bottom: 0.75rem;">
+          Paste or attach your best work here.<br>
+          <span style="font-size: 0.85rem; color: #64748b;">Examples: Best written work • Artwork • Project • Certificate • Creative writing • Photograph of participation</span>
+        </p>
+        <div class="form-field-group">
+          <textarea id="best_work_content" class="form-textarea" rows="3" placeholder="Describe your best work, title, achievements, or paste text/details..."></textarea>
+        </div>
+      </section>
 
-      <!-- Subject Tabs Switcher -->
-      <div class="subject-tabs-scroll" id="portfolioSubjectTabs" style="margin-bottom: 1.25rem;">
-        <!-- Populated dynamically: Math, Science, IT, English, SST, Hindi, AI -->
-      </div>
+      <!-- 12. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Teacher’s Assessment</span>
+          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
+        </h2>
+        
+        <div class="locked-section-container">
+          <div class="locked-notice-banner">
+            <span>🔒</span>
+            <span>This section is locked for students and will be assessed exclusively by the Class Teacher.</span>
+          </div>
 
-      <!-- Active Subject Details Card -->
-      <div class="card" id="portfolioSubjectDetailsCard" style="padding: clamp(0.85rem, 3vw, 1.5rem); border-radius: 12px; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden;">
-        <!-- Rendered dynamically by portfolio.js -->
-      </div>
-    </section>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th class="center" style="width: 18%;">Excellent</th>
+                <th class="center" style="width: 18%;">Very Good</th>
+                <th class="center" style="width: 18%;">Good</th>
+                <th class="center" style="width: 18%;">Needs Improvement</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <td><strong>Academic Performance</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Discipline</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Regularity</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Communication</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Participation</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Teamwork</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Leadership</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+              <tr>
+                <td><strong>Creativity</strong></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+                <td class="center"><input type="radio" disabled></td>
+              </tr>
+              
+            </tbody>
+          </table>
 
-    <!-- 3. FEATURED PROJECTS, 360° SKILLS & HONORS -->
-    <section id="projects-showcase" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Hands-On Works & Honors</span>
-        <h2>Featured Projects, Skills & Awards</h2>
-        <p>Interactive student projects, core competency evaluations, achievements, and practical demonstrations.</p>
-      </div>
+          <div class="form-field-group" style="margin-top: 1rem;">
+            <label class="form-field-label">Teacher’s Remarks</label>
+            <textarea class="locked-field form-textarea" disabled rows="2" placeholder="Teacher's remarks will appear here once evaluated..."></textarea>
+          </div>
 
-      <!-- Projects Grid -->
-      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">🚀 Practical Projects & Digital Deliverables</h3>
-      <div id="projectsContainer" class="projects-grid" style="margin-bottom: 2rem;"></div>
-
-      <!-- 360 Competency Scorecard -->
-      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">⭐ 360° Skills & Competency Matrix</h3>
-      <div id="scorecardContainer" class="scorecard-grid" style="margin-bottom: 2rem;"></div>
-
-      <!-- Achievements -->
-      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">🏆 Honors, Certifications & Milestones</h3>
-      <div id="achievementsContainer" class="achievements-grid" style="margin-bottom: 2rem;"></div>
-
-      <!-- Gallery -->
-      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">📸 Demonstration & Activity Gallery</h3>
-      <div id="galleryContainer" class="gallery-grid"></div>
-    </section>
-
-    <!-- 9. TEACHER OBSERVATIONS & PARENT NOTES -->
-    <section id="observations" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Holistic Feedback</span>
-        <h2>Teacher Observation & Parent's Note</h2>
-        <p>Continuous mentoring notes from faculty mentors and family perspective.</p>
-      </div>
-
-      <div class="observations-grid">
-        <!-- Teacher Box -->
-        <div class="observation-box">
-          <div class="quote-icon">“</div>
-          <span class="badge badge-primary" style="margin-bottom: 1rem;">👩‍🏫 Teacher Observation</span>
-          <p id="teacherRemarkText" class="observation-text">“Rahul actively participates in practical activities and has shown considerable improvement in problem-solving skills.”</p>
-          <div class="person-meta">
-            <img id="teacherAvatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150" class="person-avatar" alt="Teacher">
-            <div class="person-details">
-              <h5 id="teacherName">Mrs. Sunita Roy</h5>
-              <p id="teacherRole">Class Teacher & Faculty Mentor</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+            <div>
+              <label class="form-field-label">Class Teacher’s Signature: ___________________</label>
+              <input type="text" class="locked-field form-input-text" disabled placeholder="Teacher Signature">
             </div>
-            <span id="teacherRatingBadge" class="badge badge-success" style="margin-left: auto;">Grade: A+</span>
-          </div>
-        </div>
-
-        <!-- Parent Box -->
-        <div class="observation-box">
-          <div class="quote-icon">“</div>
-          <span class="badge badge-warning" style="margin-bottom: 1rem; color:#78350f;">👨‍👩‍👦 Parent's Perspective</span>
-          <p id="parentNoteText" class="observation-text">“We are happy to see our child’s confidence and interest in learning grow during this academic year.”</p>
-          <div class="person-meta">
-            <div style="font-size: 2rem;">🏡</div>
-            <div class="person-details">
-              <h5 id="parentName">Mr. Ramesh & Mrs. Priya Kumar</h5>
-              <p id="parentDate">Parent Note • Academic Session</p>
+            <div>
+              <label class="form-field-label">Date: ___________________</label>
+              <input type="text" class="locked-field form-input-text" disabled placeholder="Evaluation Date">
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </main>
+      <!-- 13. PARENT’S FEEDBACK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Parent’s Feedback</span>
+        </h2>
+        <div class="form-field-group">
+          <label class="form-field-label">My child’s strengths:</label>
+          <textarea id="parent_strengths" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">Areas where my child can improve:</label>
+          <textarea id="parent_improve" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div class="form-field-group">
+          <label class="form-field-label">Parent’s Suggestions:</label>
+          <textarea id="parent_suggestions" class="form-textarea" rows="2"></textarea>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+          <div>
+            <label class="form-field-label">Parent’s Signature: ___________________</label>
+            <input type="text" id="parent_signature" class="form-input-text" placeholder="Parent / Guardian Name">
+          </div>
+          <div>
+            <label class="form-field-label">Date: ___________________</label>
+            <input type="date" id="parent_date" class="form-input-text">
+          </div>
+        </div>
+      </section>
 
-  <!-- QR Code Modal -->
-  <div id="qrModal" class="modal-backdrop">
-    <div class="modal-card">
-      <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">📱 Student Portfolio QR Code</h3>
-      <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem;">Scan this QR code with any smartphone camera to view this portfolio instantly.</p>
-      
-      <div id="qrCodeBox" style="display: flex; justify-content: center; margin-bottom: 1.5rem;"></div>
+      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Personal Improvement Plan</span>
+        </h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Area to Improve</th>
+              <th style="width: 35%;">My Action Plan</th>
+              <th style="width: 20%;">Target Date</th>
+              <th style="width: 20%;">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><input type="text" id="pip_area_1" placeholder="e.g. Handwriting"></td>
+              <td><input type="text" id="pip_plan_1" placeholder="Action steps..."></td>
+              <td><input type="date" id="pip_target_1"></td>
+              <td><input type="text" id="pip_prog_1" placeholder="e.g. In Progress"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="pip_area_2" placeholder="e.g. Handwriting"></td>
+              <td><input type="text" id="pip_plan_2" placeholder="Action steps..."></td>
+              <td><input type="date" id="pip_target_2"></td>
+              <td><input type="text" id="pip_prog_2" placeholder="e.g. In Progress"></td>
+            </tr>
+            
+            <tr>
+              <td><input type="text" id="pip_area_3" placeholder="e.g. Handwriting"></td>
+              <td><input type="text" id="pip_plan_3" placeholder="Action steps..."></td>
+              <td><input type="date" id="pip_target_3"></td>
+              <td><input type="text" id="pip_prog_3" placeholder="e.g. In Progress"></td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </section>
 
-      <div style="display: flex; gap: 0.75rem; justify-content: center;">
-        <button id="closeQrModal" class="btn btn-secondary">Close</button>
-        <a id="downloadIdCardBtn" href="id-card.html" class="btn btn-primary">Print QR Card</a>
-      </div>
-    </div>
+      <!-- 15. MY YEAR IN ONE PAGE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>My Year in One Page</span>
+        </h2>
+        <div class="year-one-page-grid">
+          <div class="year-card">
+            <div class="year-card-title">⭐ My Best Achievement</div>
+            <textarea id="year_achievement" class="form-textarea" rows="2"></textarea>
+          </div>
+          <div class="year-card">
+            <div class="year-card-title">📚 My Favourite Subject</div>
+            <input type="text" id="year_subject" class="form-input-text">
+          </div>
+          <div class="year-card">
+            <div class="year-card-title">🎨 My Favourite Activity</div>
+            <input type="text" id="year_activity" class="form-input-text">
+          </div>
+          <div class="year-card">
+            <div class="year-card-title">🏆 An Award I Received</div>
+            <input type="text" id="year_award" class="form-input-text">
+          </div>
+          <div class="year-card">
+            <div class="year-card-title">💡 Something New I Learned</div>
+            <textarea id="year_learned" class="form-textarea" rows="2"></textarea>
+          </div>
+          <div class="year-card">
+            <div class="year-card-title">❤️ Something I Am Proud Of</div>
+            <textarea id="year_proud" class="form-textarea" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="year-card" style="margin-top: 1rem;">
+          <div class="year-card-title">🚀 My Goal for Next Year</div>
+          <textarea id="year_goal" class="form-textarea" rows="2"></textarea>
+        </div>
+      </section>
+
+      <!-- 16. STUDENT’S DECLARATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Student’s Declaration</span>
+        </h2>
+        <div class="declaration-box">
+          “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
+        </div>
+        <div class="signatures-grid">
+          <div>
+            <label class="form-field-label">Student’s Name: ______________________________</label>
+            <input type="text" id="decl_student_name" class="form-input-text" placeholder="Student Name">
+          </div>
+          <div>
+            <label class="form-field-label">Signature: ___________________</label>
+            <input type="text" id="decl_signature" class="form-input-text" placeholder="Digital Signature / Initial">
+          </div>
+          <div>
+            <label class="form-field-label">Date: ___________________</label>
+            <input type="date" id="decl_date" class="form-input-text">
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Teacher’s Final Remark</span>
+          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
+        </h2>
+        <div class="locked-section-container">
+          <div class="locked-notice-banner">
+            <span>🔒</span>
+            <span>This section will be signed and completed by the Class Teacher and Principal.</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+              <label class="form-field-label">Class Teacher: ___________________</label>
+              <input type="text" class="locked-field form-input-text" disabled placeholder="Class Teacher Final Remark">
+            </div>
+            <div>
+              <label class="form-field-label">Principal: ___________________</label>
+              <input type="text" class="locked-field form-input-text" disabled placeholder="Principal Remark &amp; Stamp">
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </form>
   </div>
 
-  <!-- Image Lightbox Modal -->
-  <div id="imageLightboxModal" class="modal-backdrop">
-    <div class="modal-card" style="max-width: 700px; padding: 1.25rem;">
-      <img id="lightboxImage" src="" alt="Enlarged view" style="width: 100%; border-radius: 12px; max-height: 70vh; object-fit: contain;">
-      <p id="lightboxCaption" style="margin-top: 0.75rem; font-weight: 700; color: #0f172a;"></p>
-      <button id="closeLightbox" class="btn btn-secondary btn-sm" style="margin-top: 0.75rem;">Close</button>
+  <!-- FIXED STUDENT BOTTOM ACTION BAR -->
+  <aside class="student-bottom-bar no-print">
+    <div class="bottom-bar-info">
+      <span style="font-size: 1.25rem;">📄</span>
+      <span id="bottomStatusText" class="bottom-bar-status">Ready • All changes automatically draft saved</span>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <div class="footer-brand">
-        <h4 class="school-name-text">Techlearners Digital Portfolio</h4>
-        <p>Official Digital Student Portfolio System • Academic Year <span class="school-year-text">2026–2027</span></p>
-      </div>
-      <div>
-        <a href="index.html" class="btn btn-secondary btn-sm">← Back to School Directory</a>
-      </div>
+    <div class="bottom-bar-actions">
+      <button type="button" id="btnPrintPortfolio" class="btn btn-print" title="Automatically save to Teacher Dashboard and open Print view">
+        <span>🖨️</span> Print Portfolio
+      </button>
+      <button type="button" id="btnSendPortfolio" class="btn btn-send" title="Send completed portfolio to Teacher Dashboard">
+        <span>🚀</span> Send Portfolio
+      </button>
     </div>
-  </footer>
+  </aside>
 
-  <!-- Scripts -->
-  <script src="js/qrcode.min.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/portfolio.js"></script>
+  <script src="static/js/portfolio.js"></script>
 </body>
 </html>

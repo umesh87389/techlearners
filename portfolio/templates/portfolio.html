@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Portfolio | SHM Academy</title>
-  <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
-  <link rel="stylesheet" href="static/css/portfolio.css">
+  <link rel="icon" type="image/jpeg" href="/assets/school-logo.jpg">
+  <link rel="stylesheet" href="/static/css/portfolio.css">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       <!-- DOCUMENT HEADER -->
       <header class="doc-header">
         <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
-          <img src="assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
+          <img src="/assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
         </div>
         <div class="doc-title-main">STUDENT PORTFOLIO</div>
         <div class="doc-school-name">SHM ACADEMY</div>
@@ -49,35 +49,9 @@
                 <td>
                   <select id="profile_class_section" required>
                     <option value="" disabled selected>-- Select Class &amp; Section --</option>
-                    
-                    <option value="Class 6 - Section A">Class 6 - Section A</option>
-                    
-                    <option value="Class 6 - Section B">Class 6 - Section B</option>
-                    
-                    <option value="Class 7 - Section A">Class 7 - Section A</option>
-                    
-                    <option value="Class 7 - Section B">Class 7 - Section B</option>
-                    
-                    <option value="Class 8 - Section A">Class 8 - Section A</option>
-                    
-                    <option value="Class 8 - Section B">Class 8 - Section B</option>
-                    
-                    <option value="Class 9 - Section A">Class 9 - Section A</option>
-                    
-                    <option value="Class 9 - Section B">Class 9 - Section B</option>
-                    
-                    <option value="Class 10 - Section A">Class 10 - Section A</option>
-                    
-                    <option value="Class 10 - Section B">Class 10 - Section B</option>
-                    
-                    <option value="Class 11 - Section A">Class 11 - Section A</option>
-                    
-                    <option value="Class 11 - Section B">Class 11 - Section B</option>
-                    
-                    <option value="Class 12 - Section A">Class 12 - Section A</option>
-                    
-                    <option value="Class 12 - Section B">Class 12 - Section B</option>
-                    
+                    {% for cs in classes_sections %}
+                    <option value="{{ cs }}">{{ cs }}</option>
+                    {% endfor %}
                   </select>
                 </td>
               </tr>
@@ -250,63 +224,15 @@
               </tr>
             </thead>
             <tbody>
-              
+              {% for sub in ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'] %}
               <tr>
-                <td><strong>English</strong></td>
+                <td><strong>{{ sub }}</strong></td>
                 <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
                 <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
                 <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
                 <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
               </tr>
-              
-              <tr>
-                <td><strong>Hindi</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Mathematics</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Science</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Social Science</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Computer/IT</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Other</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
+              {% endfor %}
             </tbody>
           </table>
 
@@ -338,70 +264,14 @@
               </tr>
             </thead>
             <tbody>
-              
+              {% for sk in ['Communication', 'Reading', 'Writing', 'Creativity', 'Problem Solving', 'Teamwork', 'Leadership', 'Time Management', 'Digital Skills'] %}
               <tr>
-                <td><strong>Communication</strong></td>
+                <td><strong>{{ sk }}</strong></td>
                 <td class="center">
                   <span style="font-weight: 700; color: #64748b;">— / 5</span>
                 </td>
               </tr>
-              
-              <tr>
-                <td><strong>Reading</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Writing</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Creativity</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Problem Solving</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Teamwork</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Leadership</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Time Management</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Digital Skills</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -422,35 +292,14 @@
             </tr>
           </thead>
           <tbody>
-            
+            {% for i in range(1, 5) %}
             <tr>
-              <td><input type="text" id="co_act_1" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_1"></td>
-              <td><input type="text" id="co_part_1" placeholder="e.g. Participant / Solo"></td>
+              <td><input type="text" id="co_act_{{ i }}" placeholder="Activity name"></td>
+              <td><input type="date" id="co_date_{{ i }}"></td>
+              <td><input type="text" id="co_part_{{ i }}" placeholder="e.g. Participant / Solo"></td>
               <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
             </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_2" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_2"></td>
-              <td><input type="text" id="co_part_2" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_3" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_3"></td>
-              <td><input type="text" id="co_part_3" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_4" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_4"></td>
-              <td><input type="text" id="co_part_4" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
+            {% endfor %}
           </tbody>
         </table>
       </section>
@@ -470,28 +319,14 @@
             </tr>
           </thead>
           <tbody>
-            
+            {% for i in range(1, 4) %}
             <tr>
-              <td><input type="text" id="ach_item_1" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_1" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_1"></td>
-              <td><input type="text" id="ach_award_1" placeholder="Award / Certificate"></td>
+              <td><input type="text" id="ach_item_{{ i }}" placeholder="e.g. 1st Prize"></td>
+              <td><input type="text" id="ach_event_{{ i }}" placeholder="Event title"></td>
+              <td><input type="date" id="ach_date_{{ i }}"></td>
+              <td><input type="text" id="ach_award_{{ i }}" placeholder="Award / Certificate"></td>
             </tr>
-            
-            <tr>
-              <td><input type="text" id="ach_item_2" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_2" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_2"></td>
-              <td><input type="text" id="ach_award_2" placeholder="Award / Certificate"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="ach_item_3" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_3" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_3"></td>
-              <td><input type="text" id="ach_award_3" placeholder="Award / Certificate"></td>
-            </tr>
-            
+            {% endfor %}
           </tbody>
         </table>
         <div class="form-field-group">
@@ -547,52 +382,12 @@
         </h2>
         <label class="form-field-label">I participated in:</label>
         <div class="checkbox-grid">
-          
+          {% for p in ['Sports', 'Cultural Activities', 'Art & Craft', 'Debate / Speech', 'Quiz', 'Science / Maths Activities', 'Literary Activities', 'School Assembly', 'Community Service'] %}
           <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Sports">
-            <span>Sports</span>
+            <input type="checkbox" name="part_checkbox" value="{{ p }}">
+            <span>{{ p }}</span>
           </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Cultural Activities">
-            <span>Cultural Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Art & Craft">
-            <span>Art & Craft</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Debate / Speech">
-            <span>Debate / Speech</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Quiz">
-            <span>Quiz</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Science / Maths Activities">
-            <span>Science / Maths Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Literary Activities">
-            <span>Literary Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="School Assembly">
-            <span>School Assembly</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Community Service">
-            <span>Community Service</span>
-          </label>
-          
+          {% endfor %}
         </div>
         <div class="form-field-group" style="margin-top: 1rem;">
           <label class="form-field-label">Other: ______________________</label>
@@ -669,71 +464,15 @@
               </tr>
             </thead>
             <tbody>
-              
+              {% for area in ['Academic Performance', 'Discipline', 'Regularity', 'Communication', 'Participation', 'Teamwork', 'Leadership', 'Creativity'] %}
               <tr>
-                <td><strong>Academic Performance</strong></td>
+                <td><strong>{{ area }}</strong></td>
                 <td class="center"><input type="radio" disabled></td>
                 <td class="center"><input type="radio" disabled></td>
                 <td class="center"><input type="radio" disabled></td>
                 <td class="center"><input type="radio" disabled></td>
               </tr>
-              
-              <tr>
-                <td><strong>Discipline</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Regularity</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Communication</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Participation</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Teamwork</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Leadership</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Creativity</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
+              {% endfor %}
             </tbody>
           </table>
 
@@ -799,28 +538,14 @@
             </tr>
           </thead>
           <tbody>
-            
+            {% for i in range(1, 4) %}
             <tr>
-              <td><input type="text" id="pip_area_1" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_1" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_1"></td>
-              <td><input type="text" id="pip_prog_1" placeholder="e.g. In Progress"></td>
+              <td><input type="text" id="pip_area_{{ i }}" placeholder="e.g. Handwriting"></td>
+              <td><input type="text" id="pip_plan_{{ i }}" placeholder="Action steps..."></td>
+              <td><input type="date" id="pip_target_{{ i }}"></td>
+              <td><input type="text" id="pip_prog_{{ i }}" placeholder="e.g. In Progress"></td>
             </tr>
-            
-            <tr>
-              <td><input type="text" id="pip_area_2" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_2" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_2"></td>
-              <td><input type="text" id="pip_prog_2" placeholder="e.g. In Progress"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="pip_area_3" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_3" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_3"></td>
-              <td><input type="text" id="pip_prog_3" placeholder="e.g. In Progress"></td>
-            </tr>
-            
+            {% endfor %}
           </tbody>
         </table>
       </section>
@@ -929,6 +654,6 @@
     </div>
   </aside>
 
-  <script src="static/js/portfolio.js"></script>
+  <script src="/static/js/portfolio.js"></script>
 </body>
 </html>

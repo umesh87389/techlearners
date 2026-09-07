@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard | SHM Academy</title>
+  <link rel="icon" type="image/jpeg" href="/assets/school-logo.jpg">
+  <link rel="stylesheet" href="/static/css/portfolio.css">
+  <style>
+    .dashboard-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+    .dash-nav {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .dash-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .stat-val {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #1e3a8a;
+      line-height: 1;
+      margin-top: 0.35rem;
+    }
+    .stat-lbl {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .dash-filter-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      min-width: 180px;
+    }
+    .filter-item label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+    }
+    .filter-select, .filter-input {
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .filter-select:focus, .filter-input:focus {
+      border-color: #1e3a8a;
+      box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+    }
+    .roster-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+    .roster-table th {
+      background: #f8fafc;
+      border-bottom: 1px solid #cbd5e1;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .roster-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
+    }
+    .roster-table tr:last-child td {
+      border-bottom: none;
+    }
+    .roster-table tr:hover td {
+      background: #f8fafc;
+    }
+    .student-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #cbd5e1;
+      background: #f1f5f9;
+      display: inline-block;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .status-evaluated {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .action-btn-group {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    .btn-action {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border-radius: 6px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .btn-eval {
+      background: #1e3a8a;
+      color: #ffffff;
+    }
+    .btn-eval:hover {
+      background: #172554;
+    }
+    .btn-print-sm {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+    .btn-print-sm:hover {
+      background: #e2e8f0;
+    }
+    .btn-del {
+      background: #fff1f2;
+      border-color: #fecdd3;
+      color: #be123c;
+    }
+    .btn-del:hover {
+      background: #ffe4e6;
+    }
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: #64748b;
+    }
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- Navbar -->
+    <header class="dash-nav">
+      <div class="dash-brand">
+        <img src="/assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
+        <div>
+          <h1 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
+          <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700;">
+          👨‍🏫 Authorized Faculty
+        </span>
+        <a href="/teacher/logout" class="btn btn-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.85rem;">
+          🚪 Logout
+        </a>
+      </div>
+    </header>
+
+    <!-- Stats Overview -->
+    <section class="dash-stats-row">
+      <div class="stat-card">
+        <div class="stat-lbl">Total Student Portfolios</div>
+        <div class="stat-val">{{ total_count }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">Pending Teacher Evaluation</div>
+        <div class="stat-val" style="color: #b45309;">{{ pending_count }}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-lbl">Evaluated &amp; Completed</div>
+        <div class="stat-val" style="color: #15803d;">{{ evaluated_count }}</div>
+      </div>
+    </section>
+
+    <!-- Filters & Search -->
+    <section class="dash-filter-card">
+      <form method="GET" action="/teacher" style="display: flex; gap: 1rem; width: 100%; flex-wrap: wrap; align-items: flex-end;">
+        <div class="filter-item">
+          <label for="filterClass">Filter by Class &amp; Section</label>
+          <select id="filterClass" name="class" class="filter-select" onchange="this.form.submit()">
+            <option value="all">All Classes (Class 6 - 12)</option>
+            {% for cs in classes_sections %}
+            <option value="{{ cs }}" {% if selected_class == cs %}selected{% endif %}>{{ cs }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="filterStatus">Filter by Status</label>
+          <select id="filterStatus" name="status" class="filter-select" onchange="this.form.submit()">
+            <option value="all">All Statuses</option>
+            <option value="pending_evaluation" {% if selected_status == 'pending_evaluation' %}selected{% endif %}>Pending Evaluation</option>
+            <option value="evaluated" {% if selected_status == 'evaluated' %}selected{% endif %}>Evaluated</option>
+          </select>
+        </div>
+
+        <div class="filter-item" style="flex: 1.5;">
+          <label for="filterSearch">Search Student</label>
+          <input type="text" id="filterSearch" name="q" class="filter-input" placeholder="Search by name, roll no, or admission no..." value="{{ search_query }}">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="submit" class="btn btn-print" style="padding: 0.55rem 1rem; font-size: 0.9rem;">
+            🔍 Search
+          </button>
+          {% if selected_class != 'all' or selected_status != 'all' or search_query %}
+          <a href="/teacher" class="btn btn-secondary" style="padding: 0.55rem 1rem; font-size: 0.9rem;">
+            Reset
+          </a>
+          {% endif %}
+        </div>
+      </form>
+    </section>
+
+    <!-- Student Roster Table -->
+    <main class="roster-card">
+      {% if students %}
+      <table class="roster-table">
+        <thead>
+          <tr>
+            <th style="width: 50px;">Photo</th>
+            <th>Student Name</th>
+            <th>Class &amp; Section</th>
+            <th>Roll No</th>
+            <th>Submitted At</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th style="text-align: right;">Teacher Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in students %}
+          <tr>
+            <td>
+              {% if s.photo_url %}
+              <img src="{{ s.photo_url }}" class="student-thumb" alt="Photo">
+              {% else %}
+              <div class="student-thumb" style="display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #94a3b8;">
+                👤
+              </div>
+              {% endif %}
+            </td>
+            <td>
+              <strong style="color: #0f172a; font-size: 0.95rem;">{{ s.student_name }}</strong>
+              {% if s.admission_no %}
+              <div style="font-size: 0.78rem; color: #64748b;">Adm: {{ s.admission_no }}</div>
+              {% endif %}
+            </td>
+            <td>
+              <span style="font-weight: 600; color: #1e3a8a;">{{ s.class_section or '—' }}</span>
+            </td>
+            <td>
+              <span style="font-weight: 600;">{{ s.roll_no or '—' }}</span>
+            </td>
+            <td style="font-size: 0.85rem; color: #64748b;">
+              {{ s.updated_at }}
+            </td>
+            <td>
+              {% if s.submission_source == 'print' %}
+              <span style="font-size: 0.75rem; background: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+                🖨️ Auto-Saved via Print
+              </span>
+              {% else %}
+              <span style="font-size: 0.75rem; background: #f0fdf4; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+                🚀 Sent via Send Button
+              </span>
+              {% endif %}
+            </td>
+            <td>
+              {% if s.status == 'evaluated' %}
+              <span class="status-badge status-evaluated">
+                <span>✓</span> Evaluated
+              </span>
+              {% else %}
+              <span class="status-badge status-pending">
+                <span>⏳</span> Pending Evaluation
+              </span>
+              {% endif %}
+            </td>
+            <td style="text-align: right;">
+              <div class="action-btn-group" style="justify-content: flex-end;">
+                <a href="/teacher/evaluate/{{ s.id }}" class="btn-action btn-eval" title="Open student portfolio to fill academic evaluation & skills">
+                  <span>✏️</span> Evaluate / Fill Marks
+                </a>
+                <a href="/teacher/print/{{ s.id }}" class="btn-action btn-print-sm" target="_blank" title="Print full evaluated portfolio">
+                  <span>🖨️</span> Print
+                </a>
+                <button type="button" class="btn-action btn-del" onclick="deleteStudentRecord('{{ s.id }}', '{{ s.student_name|escape }}')">
+                  <span>🗑️</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Submissions Found</h3>
+        <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
+          When a student fills their portfolio and clicks the <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong> button, their record will appear here automatically for teacher review.
+        </p>
+      </div>
+      {% endif %}
+    </main>
+  </div>
+
+  <script>
+    async function deleteStudentRecord(id, name) {
+      if (!confirm(`Are you sure you want to delete the submission for "${name}"?`)) {
+        return;
+      }
+      try {
+        const resp = await fetch(`/api/teacher/delete/${id}`, { method: 'POST' });
+        const res = await resp.json();
+        if (res.success) {
+          window.location.reload();
+        } else {
+          alert('Delete failed: ' + (res.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Server error: ' + err.message);
+      }
+    }
+  </script>
+
+</body>
+</html>

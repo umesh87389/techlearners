@@ -1,87 +1,86 @@
-# 🎓 School Digital Student Portfolio System
+# 🎓 SHM Academy - Student Portfolio Platform
 
-A complete, production-ready **Digital Student Portfolio Platform** built for schools, coding academies (such as TechLearners), and educational institutions.
+An official digital recreation of the **SHM Academy Student Portfolio** based directly on `portfolio.docx` from WhatsApp.
 
-Designed around a **simple, practical 3-Team Framework** and the universal **Learn → Make → Show → Record** Activity Cycle.
-
----
-
-## ⚡ Core Philosophy & 3 Technology Teams
-
-Each team has **one clear job** and students produce tangible deliverables verified in their digital portfolio:
-
-| Team Track | Primary Work | Student Activities / Deliverables | Target Portfolio Output |
-| :--- | :--- | :--- | :--- |
-| 💻 **IT Team** | Create digital content | Posters, Presentations, Documents, Spreadsheets, School/Event notices | **Best 3–5 digital works + photos + short team video** |
-| 🤖 **Robotics Team** | Build and demonstrate robots/models | Simple circuits, Sensors, Small robots, Robot programming, Working models | **1–3 working projects + photos + demonstration video** |
-| 🧠 **AI Team** | Explore and create simple AI projects | Learn about AI, Use AI tools, Simple AI projects, Image/Text recognition, AI demos | **1–3 AI projects + screenshots/photos + short team video** |
+> **Motto**: “Infinite Knowledge Through Education”
 
 ---
 
-## ⭐ The Simple Team Activity Cycle
+## 🌟 Key Features
 
-For **every team and every project**:
+1. **Exact Document Fidelity**:
+   - Recreated strictly according to `portfolio.docx`.
+   - No extra subjects, tracks, or unrelated content added.
+   - All 17 sections, tables, prompts, and declarations reproduced verbatim.
 
+2. **Class & Section Dropdown**:
+   - Single standardized dropdown covering **Class 6 to 12** along with **Sections A and B** (14 options: Class 6 - Section A through Class 12 - Section B).
+   - Automatically reflects in the "About Me" statement ("I study in Class ... at SHM Academy").
+
+3. **Separate, Locked Teacher Sections**:
+   - **Academic Progress** (marks/grades for English, Hindi, Mathematics, Science, Social Science, Computer/IT, Other, and Academic Achievement) is locked for students.
+   - **My Skills** (1–5 ratings for Communication, Reading, Writing, Creativity, Problem Solving, Teamwork, Leadership, Time Management, Digital Skills) is locked for students.
+   - **Teacher's Assessment**, **Remarks**, and **Signatures** are locked for students.
+   - Only accessible and editable by the teacher through the secure Teacher Dashboard.
+
+4. **Student Isolation & Zero PIN Leakage**:
+   - Students have **NO access** to the Teacher Dashboard or any PIN.
+   - No teacher dashboard links, buttons, or PINs appear in the student UI or client-side JavaScript.
+   - The Teacher Dashboard is protected by server-side session authentication.
+
+5. **Automated Save on "Send" and "Print"**:
+   - Clicking **🚀 Send Portfolio**: Automatically validates, saves to the database, and sends the record to the Teacher's Dashboard.
+   - Clicking **🖨️ Print Portfolio**: **Automatically saves and sends the record to the Teacher's Dashboard first**, and then opens the clean A4 print preview.
+
+6. **Teacher Evaluation & Reporting**:
+   - Dedicated Faculty Portal (`/teacher`) protected by server-verified passcode.
+   - Search & filter by Class & Section or Evaluation Status.
+   - Faculty can review student inputs, enter academic marks, rate skills (1–5), complete the 8-area assessment, and sign off.
+   - Print full evaluated portfolio with both student and teacher remarks.
+
+---
+
+## 🚀 Running the System
+
+To start the server:
+
+```bash
+cd /data/data/com.termux/files/home/school-portfolio
+./start.sh
 ```
-[ 1️⃣ LEARN ]  ➔  [ 2️⃣ MAKE ]  ➔  [ 3️⃣ SHOW ]  ➔  [ 4️⃣ RECORD ]
-(Study Concepts)    (Build Project)    (Demonstrate Live)    (1-Min Video Demo)
+
+Or directly with Python:
+
+```bash
+python3 app.py
 ```
 
-1. **Learn**: Students explore key concepts, learn design rules, study circuit logic, or understand how AI models train.
-2. **Make**: Students build hands-on digital works, assemble working circuits, or train real AI vision/NLP models.
-3. **Show**: Students demonstrate their work live in front of the class, teacher, assembly, or science expo.
-4. **Record**: Students record a concise 1-minute video demo and capture photos/screenshots for their digital portfolio.
+### Access URLs:
+* **Student Portfolio**: `http://localhost:8080/`
+* **Teacher Dashboard**: `http://localhost:8080/teacher`
+* **Default Teacher Passcode**: `shm@teacher2026` (configurable via `TEACHER_PASSWORD` environment variable)
 
 ---
 
-## 🌟 Platform Components
+## 📁 Architecture
 
 ```
 school-portfolio/
-├── index.html          # 🏫 School Directory & Portal (Search, Team Tabs & Grade Filters)
-├── teams.html          # ⚡ 3 Technology Teams & Activity Cycle Guide + Roster
-├── portfolio.html      # 🎓 Interactive Student Portfolio (Timeline, 1-Min Video, Deliverables)
-├── admin.html          # 🛠️ Teacher & Admin Assessment & Activity Cycle Dashboard
-├── id-card.html        # 🪪 Printable Physical QR Portfolio Badges (Team Color-Coded)
-├── css/
-│   └── styles.css      # Modern responsive styling, team themes & print media queries
-├── js/
-│   ├── qrcode.min.js   # Embedded offline client-side QR Code Engine
-│   ├── data.js         # Master data model with LocalStorage synchronization
-│   ├── app.js          # Hub search, team filtering & directory logic
-│   ├── portfolio.js    # Dynamic portfolio renderer, activity cycle timeline & lightbox
-│   ├── admin.js        # Form validation, team assignment, dynamic row builders & JSON export
-│   └── id-card.js      # Printable ID & QR card generator with team badges
-└── data/
-    └── students.json   # Seed JSON dataset for backend integration
+├── app.py                      # Flask backend (routes, auth, API)
+├── database.py                 # SQLite database storage & CRUD operations
+├── portfolio.db                # SQLite database file
+├── start.sh                    # Startup helper script
+├── templates/
+│   ├── portfolio.html          # Official Student Portfolio form
+│   ├── teacher_login.html      # Secure Faculty Login page
+│   ├── teacher_dashboard.html  # Faculty Roster & Review Dashboard
+│   ├── teacher_evaluate.html   # Teacher Marks & Skills Evaluation screen
+│   └── teacher_print.html      # Full evaluated portfolio print view
+├── static/
+│   ├── css/
+│   │   └── portfolio.css       # Clean document typography & A4 print CSS
+│   └── js/
+│       └── portfolio.js        # Autosave, photo upload, send/print sync
+└── assets/
+    └── school-logo.jpg         # Official SHM Academy emblem
 ```
-
----
-
-## 💻 Quick Start & Running Locally
-
-You can run the portfolio system locally using Python's built-in HTTP server:
-
-```bash
-cd school-portfolio
-python3 -m http.server 8080
-```
-
-Then open your browser and navigate to:
-* **School Directory**: `http://localhost:8080/index.html`
-* **Teams & Activity Cycle Guide**: `http://localhost:8080/teams.html`
-* **Sample Portfolio (Robotics Lead - Rahul Kumar)**: `http://localhost:8080/portfolio.html?id=tl-2026-8a-12`
-* **Sample Portfolio (IT Lead - Priya Sharma)**: `http://localhost:8080/portfolio.html?id=tl-2026-7b-07`
-* **Sample Portfolio (AI Lead - Arjun Patel)**: `http://localhost:8080/portfolio.html?id=tl-2026-9a-04`
-* **Teacher Admin Panel**: `http://localhost:8080/admin.html`
-* **Printable QR Badges**: `http://localhost:8080/id-card.html`
-
----
-
-## 🌐 Zero-Dependency Deployment
-
-Because this system uses standard HTML5, CSS3, and modern JavaScript with zero build dependencies, you can deploy it in seconds:
-
-1. **GitHub Pages**: Push the repository to GitHub and enable Pages in repository settings.
-2. **Vercel / Netlify**: Drag and drop the `school-portfolio` folder into the Netlify / Vercel dashboard.
-3. **School Website**: Upload the `school-portfolio` folder into your school's web host.

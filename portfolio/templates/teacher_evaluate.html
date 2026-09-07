@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Evaluation: {{ student.student_name }} | SHM Academy</title>
+  <link rel="icon" type="image/jpeg" href="/assets/school-logo.jpg">
+  <link rel="stylesheet" href="/static/css/portfolio.css">
+  <style>
+    .teacher-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #1e3a8a;
+      color: #ffffff;
+      padding: 0.85rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .teacher-topbar h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .teacher-topbar p {
+      font-size: 0.82rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+    .teacher-topbar-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .teacher-active-section {
+      border: 2px solid #2563eb !important;
+      background: #eff6ff !important;
+      border-radius: 8px;
+      padding: 1.25rem !important;
+    }
+    .teacher-active-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #1e3a8a;
+      color: #ffffff;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-transform: uppercase;
+    }
+    .rating-select {
+      width: 90px !important;
+      font-weight: 700 !important;
+      text-align: center;
+      border: 1px solid #93c5fd !important;
+      background: #ffffff !important;
+      color: #1e3a8a !important;
+    }
+    .radio-cell {
+      text-align: center;
+      cursor: pointer;
+    }
+    .radio-cell input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .student-view-field {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: #1e293b;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body style="background: #f1f5f9; padding-bottom: 5rem;">
+
+  <!-- Teacher Sticky Action Bar -->
+  <aside class="teacher-topbar no-print">
+    <div>
+      <h2>👨‍🏫 Faculty Evaluation: {{ student.student_name }}</h2>
+      <p>{{ student.class_section }} • Roll No: {{ student.roll_no }} • Submission Status: <strong>{{ student.status|upper }}</strong></p>
+    </div>
+    <div class="teacher-topbar-actions">
+      <a href="/teacher" class="btn btn-secondary" style="background: #ffffff; color: #1e3a8a; padding: 0.55rem 1rem; font-size: 0.9rem;">
+        ← Back to Dashboard
+      </a>
+      <a href="/teacher/print/{{ student.id }}" target="_blank" class="btn btn-print" style="background: #0f172a; padding: 0.55rem 1rem; font-size: 0.9rem;">
+        🖨️ Print Portfolio
+      </a>
+      <button type="button" onclick="saveTeacherEvaluationForm()" class="btn btn-send" style="background: #16a34a; padding: 0.55rem 1.25rem; font-size: 0.95rem;">
+        💾 Save Teacher Evaluation
+      </button>
+    </div>
+  </aside>
+
+  <div class="page-wrapper" style="padding-top: 1.5rem;">
+    <div class="portfolio-document">
+
+      <!-- HEADER -->
+      <header class="doc-header">
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+          <img src="/assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
+        </div>
+        <div class="doc-title-main">STUDENT PORTFOLIO</div>
+        <div class="doc-school-name">SHM ACADEMY</div>
+        <div class="doc-motto">“Infinite Knowledge Through Education”</div>
+        <div class="doc-session-row">
+          <span>Academic Session:</span>
+          <strong>{{ student.data.header.academic_session if student.data.header else '2026–2027' }}</strong>
+        </div>
+      </header>
+
+      <!-- 1. STUDENT PROFILE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title">
+          <span>Student Profile</span>
+        </h2>
+        <div class="profile-grid">
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width: 38%;">Particular</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Student’s Name</strong></td><td><strong>{{ student.student_name }}</strong></td></tr>
+              <tr><td><strong>Class &amp; Section</strong></td><td><strong style="color: #1e3a8a;">{{ student.class_section }}</strong></td></tr>
+              <tr><td><strong>Roll Number</strong></td><td>{{ student.roll_no or '—' }}</td></tr>
+              <tr><td><strong>Admission Number</strong></td><td>{{ student.admission_no or '—' }}</td></tr>
+              <tr><td><strong>Date of Birth</strong></td><td>{{ student.data.profile.dob if student.data.profile else '—' }}</td></tr>
+              <tr><td><strong>Father’s Name</strong></td><td>{{ student.data.profile.father_name if student.data.profile else '—' }}</td></tr>
+              <tr><td><strong>Mother’s Name</strong></td><td>{{ student.data.profile.mother_name if student.data.profile else '—' }}</td></tr>
+              <tr><td><strong>Contact Number</strong></td><td>{{ student.data.profile.contact_no if student.data.profile else '—' }}</td></tr>
+              <tr><td><strong>House</strong></td><td>{{ student.data.profile.house if student.data.profile else '—' }}</td></tr>
+              <tr><td><strong>Class Teacher</strong></td><td>{{ student.data.profile.class_teacher if student.data.profile else '—' }}</td></tr>
+            </tbody>
+          </table>
+
+          <div style="text-align: center;">
+            <div class="photo-upload-box" style="cursor: default;">
+              {% if student.data.profile and student.data.profile.photo_data %}
+              <img src="{{ student.data.profile.photo_data }}" class="photo-preview-img" style="display: block;" alt="Student Photo">
+              {% else %}
+              <div class="photo-prompt-text">
+                <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">📷</div>
+                <strong>Student’s Photograph</strong>
+                <p style="font-size: 0.75rem; margin-top: 4px; color: #64748b;">No photo uploaded</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. ABOUT ME -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>About Me</span></h2>
+        <div class="about-me-paragraph">
+          My name is <strong>{{ student.data.about_me.name if student.data.about_me and student.data.about_me.name else student.student_name }}</strong>.
+          I study in <strong style="color: #1e3a8a;">{{ student.class_section }}</strong> at <strong>SHM Academy</strong>.
+          I consider myself a <strong>{{ student.data.about_me.student_type if student.data.about_me and student.data.about_me.student_type else '—' }}</strong> student.
+          My favourite subjects are <strong>{{ student.data.about_me.favourite_subjects if student.data.about_me and student.data.about_me.favourite_subjects else '—' }}</strong>.
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-field-group">
+            <label class="form-field-label">My Interests</label>
+            <div class="student-view-field">{{ student.data.about_me.interests if student.data.about_me and student.data.about_me.interests else '—' }}</div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">My Hobbies</label>
+            <div class="student-view-field">{{ student.data.about_me.hobbies if student.data.about_me and student.data.about_me.hobbies else '—' }}</div>
+          </div>
+        </div>
+
+        <div class="form-field-group">
+          <label class="form-field-label">My Strengths</label>
+          <ul class="strength-list">
+            {% for st in (student.data.about_me.strengths if student.data.about_me and student.data.about_me.strengths else ['—', '—', '—']) %}
+            <li class="strength-item">
+              <span class="strength-bullet">•</span>
+              <div class="student-view-field" style="flex: 1;">{{ st or '—' }}</div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">One thing I want to improve</label>
+          <div class="student-view-field">{{ student.data.about_me.one_improvement if student.data.about_me and student.data.about_me.one_improvement else '—' }}</div>
+        </div>
+      </section>
+
+      <!-- 3. MY GOALS -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>My Goals</span></h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+          <div class="form-field-group">
+            <label class="form-field-label">Short-Term Goal</label>
+            <div class="student-view-field">{{ student.data.goals.short_term_goal if student.data.goals and student.data.goals.short_term_goal else '—' }}</div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">Long-Term Goal</label>
+            <div class="student-view-field">{{ student.data.goals.long_term_goal if student.data.goals and student.data.goals.long_term_goal else '—' }}</div>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-field-label">This Year I Want To</label>
+          <div class="checkbox-grid">
+            {% set checked_goals = student.data.goals.this_year_goals if student.data.goals and student.data.goals.this_year_goals else [] %}
+            {% for g in ['Improve my academic performance', 'Become more confident', 'Improve my communication skills', 'Participate in more activities', 'Develop better time-management skills', 'Improve my reading/writing skills'] %}
+            <label class="checkbox-item" style="cursor: default;">
+              <input type="checkbox" disabled {% if g in checked_goals %}checked{% endif %}>
+              <span>{{ g }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ACADEMIC PROGRESS (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <section class="doc-section teacher-active-section">
+        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
+          <span style="color: #1e3a8a;">4. Academic Progress</span>
+          <span class="teacher-active-badge">✏️ Faculty Marks Evaluation</span>
+        </h2>
+        
+        <p style="font-size: 0.85rem; color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 600;">
+          Enter marks / grades and remarks for Term 1, Mid Term, and Term 2 for each subject:
+        </p>
+
+        {% set existing_acad = student.data.academic_progress if student.data.academic_progress else {} %}
+        {% set existing_subjects = existing_acad.subjects if existing_acad and existing_acad.subjects else [] %}
+
+        <table class="doc-table" id="academicTable" style="border-color: #93c5fd;">
+          <thead>
+            <tr>
+              <th style="width: 25%; background: #dbeafe;">Subject</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Term 1</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Mid Term</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Term 2</th>
+              <th style="background: #dbeafe;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sub_name in ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'] %}
+            {% set matched_sub = {'term1': '', 'midterm': '', 'term2': '', 'remarks': ''} %}
+            {% for s in existing_subjects %}
+              {% if s.subject == sub_name %}
+                {% set _ = matched_sub.update({'term1': s.term1, 'midterm': s.midterm, 'term2': s.term2, 'remarks': s.remarks}) %}
+              {% endif %}
+            {% endfor %}
+            <tr data-subject="{{ sub_name }}">
+              <td><strong>{{ sub_name }}</strong></td>
+              <td><input type="text" class="eval-term1" value="{{ matched_sub.term1 }}" placeholder="Marks / Grade"></td>
+              <td><input type="text" class="eval-midterm" value="{{ matched_sub.midterm }}" placeholder="Marks / Grade"></td>
+              <td><input type="text" class="eval-term2" value="{{ matched_sub.term2 }}" placeholder="Marks / Grade"></td>
+              <td><input type="text" class="eval-remarks" value="{{ matched_sub.remarks }}" placeholder="Subject Teacher Remarks"></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">My Academic Achievement</label>
+          <textarea id="eval_academic_achievement" class="form-textarea" rows="2" placeholder="Record the student's academic highlights, awards, or distinctions...">{{ existing_acad.academic_achievement if existing_acad.academic_achievement else '' }}</textarea>
+        </div>
+      </section>
+
+      <!-- 5. MY SKILLS (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <section class="doc-section teacher-active-section" style="margin-top: 1.5rem;">
+        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
+          <span style="color: #1e3a8a;">5. My Skills Evaluation</span>
+          <span class="teacher-active-badge">✏️ Faculty Skill Assessment (1–5)</span>
+        </h2>
+        <p style="font-size: 0.85rem; color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 600;">
+          Rate the student’s skills from 1 to 5:
+        </p>
+
+        {% set existing_skills = student.data.skills if student.data.skills else {} %}
+
+        <table class="doc-table" id="skillsTable" style="border-color: #93c5fd;">
+          <thead>
+            <tr>
+              <th style="background: #dbeafe;">Skill</th>
+              <th class="center" style="width: 180px; background: #dbeafe;">Faculty Rating (/5)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sk in [('Communication', 'communication'), ('Reading', 'reading'), ('Writing', 'writing'), ('Creativity', 'creativity'), ('Problem Solving', 'problem_solving'), ('Teamwork', 'teamwork'), ('Leadership', 'leadership'), ('Time Management', 'time_management'), ('Digital Skills', 'digital_skills')] %}
+            {% set current_val = existing_skills[sk[1]] if existing_skills[sk[1]] is defined else '' %}
+            <tr>
+              <td><strong>{{ sk[0] }}</strong></td>
+              <td class="center">
+                <select id="skill_{{ sk[1] }}" class="rating-select">
+                  <option value="">—</option>
+                  <option value="5" {% if current_val == '5' or current_val == 5 %}selected{% endif %}>5 / 5 (Outstanding)</option>
+                  <option value="4" {% if current_val == '4' or current_val == 4 %}selected{% endif %}>4 / 5 (Very Good)</option>
+                  <option value="3" {% if current_val == '3' or current_val == 3 %}selected{% endif %}>3 / 5 (Good)</option>
+                  <option value="2" {% if current_val == '2' or current_val == 2 %}selected{% endif %}>2 / 5 (Developing)</option>
+                  <option value="1" {% if current_val == '1' or current_val == 1 %}selected{% endif %}>1 / 5 (Needs Attention)</option>
+                </select>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Co-Curricular Activities</span></h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Activity/Event</th>
+              <th style="width: 18%;">Date</th>
+              <th style="width: 24%;">My Participation</th>
+              <th style="width: 28%; background: #eff6ff; color: #1e3a8a;">Teacher’s Remark ✏️</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set co_rows = student.data.co_curricular if student.data.co_curricular else [] %}
+            {% for i in range(1, 5) %}
+            {% set r = co_rows[i-1] if i-1 < co_rows|length else {} %}
+            <tr>
+              <td>{{ r.activity or '—' }}</td>
+              <td>{{ r.date or '—' }}</td>
+              <td>{{ r.participation or '—' }}</td>
+              <td style="background: #eff6ff;">
+                <input type="text" id="eval_co_remark_{{ i }}" value="{{ r.teacher_remark or '' }}" placeholder="Enter teacher remark...">
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Achievements &amp; Certificates</span></h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Achievement</th>
+              <th style="width: 30%;">Event/Competition</th>
+              <th style="width: 18%;">Date</th>
+              <th style="width: 22%;">Position/Award</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set ach_rows = student.data.achievements if student.data.achievements else [] %}
+            {% for i in range(1, 4) %}
+            {% set r = ach_rows[i-1] if i-1 < ach_rows|length else {} %}
+            <tr>
+              <td>{{ r.achievement or '—' }}</td>
+              <td>{{ r.event or '—' }}</td>
+              <td>{{ r.date or '—' }}</td>
+              <td>{{ r.award or '—' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="form-field-group">
+          <label class="form-field-label">Certificates / Awards Evidence</label>
+          <div class="student-view-field">{{ student.data.certificates_evidence if student.data.certificates_evidence else '—' }}</div>
+        </div>
+      </section>
+
+      <!-- 8. PROJECTS & CREATIVE WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Projects &amp; Creative Work</span></h2>
+        
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 1</h3>
+          <div class="form-field-group">
+            <label class="form-field-label">Title</label>
+            <div class="student-view-field">{{ student.data.projects.proj1_title if student.data.projects and student.data.projects.proj1_title else '—' }}</div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I did</label>
+            <div class="student-view-field">{{ student.data.projects.proj1_did if student.data.projects and student.data.projects.proj1_did else '—' }}</div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I learned</label>
+            <div class="student-view-field">{{ student.data.projects.proj1_learned if student.data.projects and student.data.projects.proj1_learned else '—' }}</div>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 2</h3>
+          <div class="form-field-group">
+            <label class="form-field-label">Title</label>
+            <div class="student-view-field">{{ student.data.projects.proj2_title if student.data.projects and student.data.projects.proj2_title else '—' }}</div>
+          </div>
+          <div class="form-field-group">
+            <label class="form-field-label">What I learned</label>
+            <div class="student-view-field">{{ student.data.projects.proj2_learned if student.data.projects and student.data.projects.proj2_learned else '—' }}</div>
+          </div>
+        </div>
+
+        <div class="form-field-group">
+          <label class="form-field-label">Photographs / Drawings / Project Evidence</label>
+          <div class="student-view-field">{{ student.data.projects.evidence if student.data.projects and student.data.projects.evidence else '—' }}</div>
+        </div>
+      </section>
+
+      <!-- 9. MY SCHOOL PARTICIPATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>My School Participation</span></h2>
+        <div class="checkbox-grid">
+          {% set part_checked = student.data.participation.activities if student.data.participation and student.data.participation.activities else [] %}
+          {% for p in ['Sports', 'Cultural Activities', 'Art & Craft', 'Debate / Speech', 'Quiz', 'Science / Maths Activities', 'Literary Activities', 'School Assembly', 'Community Service'] %}
+          <label class="checkbox-item" style="cursor: default;">
+            <input type="checkbox" disabled {% if p in part_checked %}checked{% endif %}>
+            <span>{{ p }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">Other: ______________________</label>
+          <div class="student-view-field">{{ student.data.participation.other if student.data.participation and student.data.participation.other else '—' }}</div>
+        </div>
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">My most memorable school activity:</label>
+          <div class="student-view-field">{{ student.data.participation.memorable_activity if student.data.participation and student.data.participation.memorable_activity else '—' }}</div>
+        </div>
+      </section>
+
+      <!-- 10. MY REFLECTION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>My Reflection</span></h2>
+        <div class="form-field-group"><label class="form-field-label">What did I learn this year?</label><div class="student-view-field">{{ student.data.reflection.learned if student.data.reflection and student.data.reflection.learned else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What was my biggest achievement?</label><div class="student-view-field">{{ student.data.reflection.achievement if student.data.reflection and student.data.reflection.achievement else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What challenge did I face?</label><div class="student-view-field">{{ student.data.reflection.challenge if student.data.reflection and student.data.reflection.challenge else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">How did I overcome it?</label><div class="student-view-field">{{ student.data.reflection.overcome if student.data.reflection and student.data.reflection.overcome else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What will I do better next year?</label><div class="student-view-field">{{ student.data.reflection.next_year if student.data.reflection and student.data.reflection.next_year else '—' }}</div></div>
+      </section>
+
+      <!-- 11. MY BEST WORK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>My Best Work</span></h2>
+        <div class="student-view-field" style="min-height: 70px;">{{ student.data.best_work.description if student.data.best_work and student.data.best_work.description else '—' }}</div>
+      </section>
+
+      <!-- 12. TEACHER’S ASSESSMENT (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <section class="doc-section teacher-active-section">
+        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
+          <span style="color: #1e3a8a;">12. Teacher’s Assessment</span>
+          <span class="teacher-active-badge">✏️ Faculty Grading</span>
+        </h2>
+
+        {% set existing_ta = student.data.teacher_assessment if student.data.teacher_assessment else {} %}
+
+        <table class="doc-table" id="assessmentTable" style="border-color: #93c5fd;">
+          <thead>
+            <tr>
+              <th style="background: #dbeafe;">Area</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Excellent</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Very Good</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Good</th>
+              <th class="center" style="width: 18%; background: #dbeafe;">Needs Improvement</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in [('Academic Performance', 'academic_performance'), ('Discipline', 'discipline'), ('Regularity', 'regularity'), ('Communication', 'communication'), ('Participation', 'participation'), ('Teamwork', 'teamwork'), ('Leadership', 'leadership'), ('Creativity', 'creativity')] %}
+            {% set val = existing_ta[item[1]] if existing_ta[item[1]] is defined else '' %}
+            <tr>
+              <td><strong>{{ item[0] }}</strong></td>
+              <td class="radio-cell"><input type="radio" name="ta_{{ item[1] }}" value="Excellent" {% if val == 'Excellent' %}checked{% endif %}></td>
+              <td class="radio-cell"><input type="radio" name="ta_{{ item[1] }}" value="Very Good" {% if val == 'Very Good' %}checked{% endif %}></td>
+              <td class="radio-cell"><input type="radio" name="ta_{{ item[1] }}" value="Good" {% if val == 'Good' %}checked{% endif %}></td>
+              <td class="radio-cell"><input type="radio" name="ta_{{ item[1] }}" value="Needs Improvement" {% if val == 'Needs Improvement' %}checked{% endif %}></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="form-field-group" style="margin-top: 1rem;">
+          <label class="form-field-label">Teacher’s Remarks</label>
+          <textarea id="eval_teacher_remarks" class="form-textarea" rows="3" placeholder="Enter formal teacher assessment and feedback...">{{ existing_ta.teacher_remarks if existing_ta.teacher_remarks else '' }}</textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+          <div>
+            <label class="form-field-label">Class Teacher’s Signature: ___________________</label>
+            <input type="text" id="eval_teacher_sig" class="form-input-text" value="{{ existing_ta.teacher_signature if existing_ta.teacher_signature else '' }}" placeholder="Teacher Name / Signature">
+          </div>
+          <div>
+            <label class="form-field-label">Date: ___________________</label>
+            <input type="date" id="eval_teacher_date" class="form-input-text" value="{{ existing_ta.teacher_date if existing_ta.teacher_date else '' }}">
+          </div>
+        </div>
+      </section>
+
+      <!-- 13. PARENT’S FEEDBACK -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Parent’s Feedback</span></h2>
+        <div class="form-field-group"><label class="form-field-label">My child’s strengths:</label><div class="student-view-field">{{ student.data.parent_feedback.child_strengths if student.data.parent_feedback and student.data.parent_feedback.child_strengths else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">Areas where my child can improve:</label><div class="student-view-field">{{ student.data.parent_feedback.child_improve if student.data.parent_feedback and student.data.parent_feedback.child_improve else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">Parent’s Suggestions:</label><div class="student-view-field">{{ student.data.parent_feedback.parent_suggestions if student.data.parent_feedback and student.data.parent_feedback.parent_suggestions else '—' }}</div></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
+          <div><label class="form-field-label">Parent’s Signature</label><div class="student-view-field">{{ student.data.parent_feedback.parent_signature if student.data.parent_feedback and student.data.parent_feedback.parent_signature else '—' }}</div></div>
+          <div><label class="form-field-label">Date</label><div class="student-view-field">{{ student.data.parent_feedback.parent_date if student.data.parent_feedback and student.data.parent_feedback.parent_date else '—' }}</div></div>
+        </div>
+      </section>
+
+      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Personal Improvement Plan</span></h2>
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Area to Improve</th>
+              <th style="width: 35%;">My Action Plan</th>
+              <th style="width: 20%;">Target Date</th>
+              <th style="width: 20%;">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set pip_rows = student.data.personal_improvement_plan if student.data.personal_improvement_plan else [] %}
+            {% for i in range(1, 4) %}
+            {% set r = pip_rows[i-1] if i-1 < pip_rows|length else {} %}
+            <tr>
+              <td>{{ r.area or '—' }}</td>
+              <td>{{ r.action_plan or '—' }}</td>
+              <td>{{ r.target_date or '—' }}</td>
+              <td>{{ r.progress or '—' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 15. MY YEAR IN ONE PAGE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>My Year in One Page</span></h2>
+        <div class="year-one-page-grid">
+          <div class="year-card"><div class="year-card-title">⭐ My Best Achievement</div><div class="student-view-field">{{ student.data.year_in_one_page.best_achievement if student.data.year_in_one_page and student.data.year_in_one_page.best_achievement else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">📚 My Favourite Subject</div><div class="student-view-field">{{ student.data.year_in_one_page.favourite_subject if student.data.year_in_one_page and student.data.year_in_one_page.favourite_subject else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">🎨 My Favourite Activity</div><div class="student-view-field">{{ student.data.year_in_one_page.favourite_activity if student.data.year_in_one_page and student.data.year_in_one_page.favourite_activity else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">🏆 An Award I Received</div><div class="student-view-field">{{ student.data.year_in_one_page.award_received if student.data.year_in_one_page and student.data.year_in_one_page.award_received else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">💡 Something New I Learned</div><div class="student-view-field">{{ student.data.year_in_one_page.new_learned if student.data.year_in_one_page and student.data.year_in_one_page.new_learned else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">❤️ Something I Am Proud Of</div><div class="student-view-field">{{ student.data.year_in_one_page.proud_of if student.data.year_in_one_page and student.data.year_in_one_page.proud_of else '—' }}</div></div>
+        </div>
+        <div class="year-card" style="margin-top: 1rem;"><div class="year-card-title">🚀 My Goal for Next Year</div><div class="student-view-field">{{ student.data.year_in_one_page.goal_next_year if student.data.year_in_one_page and student.data.year_in_one_page.goal_next_year else '—' }}</div></div>
+      </section>
+
+      <!-- 16. STUDENT’S DECLARATION -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Student’s Declaration</span></h2>
+        <div class="declaration-box">
+          “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
+        </div>
+        <div class="signatures-grid">
+          <div><label class="form-field-label">Student’s Name</label><div class="student-view-field">{{ student.data.student_declaration.student_name if student.data.student_declaration and student.data.student_declaration.student_name else student.student_name }}</div></div>
+          <div><label class="form-field-label">Signature</label><div class="student-view-field">{{ student.data.student_declaration.signature if student.data.student_declaration and student.data.student_declaration.signature else '—' }}</div></div>
+          <div><label class="form-field-label">Date</label><div class="student-view-field">{{ student.data.student_declaration.date if student.data.student_declaration and student.data.student_declaration.date else '—' }}</div></div>
+        </div>
+      </section>
+
+      <!-- 17. TEACHER’S FINAL REMARK (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <section class="doc-section teacher-active-section">
+        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
+          <span style="color: #1e3a8a;">17. Teacher’s Final Remark</span>
+          <span class="teacher-active-badge">✏️ Faculty &amp; Principal Sign-off</span>
+        </h2>
+
+        {% set existing_tfr = student.data.teacher_final_remark if student.data.teacher_final_remark else {} %}
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
+          <div>
+            <label class="form-field-label">Class Teacher: ___________________</label>
+            <input type="text" id="eval_final_class_teacher" class="form-input-text" value="{{ existing_tfr.class_teacher if existing_tfr.class_teacher else '' }}" placeholder="Class Teacher Remarks / Signature">
+          </div>
+          <div>
+            <label class="form-field-label">Principal: ___________________</label>
+            <input type="text" id="eval_final_principal" class="form-input-text" value="{{ existing_tfr.principal if existing_tfr.principal else '' }}" placeholder="Principal Remarks / Signature">
+          </div>
+        </div>
+      </section>
+
+      <!-- Save Button Container at Bottom -->
+      <div style="margin-top: 2rem; text-align: center;" class="no-print">
+        <button type="button" onclick="saveTeacherEvaluationForm()" class="btn btn-send" style="padding: 0.85rem 2.5rem; font-size: 1.1rem; background: #16a34a;">
+          💾 Save &amp; Complete Teacher Evaluation
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    async function saveTeacherEvaluationForm() {
+      // 1. Gather Academic Progress
+      const subjectsData = [];
+      document.querySelectorAll('#academicTable tbody tr').forEach(tr => {
+        const subName = tr.getAttribute('data-subject');
+        const term1 = tr.querySelector('.eval-term1')?.value || '';
+        const midterm = tr.querySelector('.eval-midterm')?.value || '';
+        const term2 = tr.querySelector('.eval-term2')?.value || '';
+        const remarks = tr.querySelector('.eval-remarks')?.value || '';
+        subjectsData.push({ subject: subName, term1, midterm, term2, remarks });
+      });
+
+      const academicAchievement = document.getElementById('eval_academic_achievement')?.value || '';
+
+      // 2. Gather Skills
+      const skillsData = {
+        communication: document.getElementById('skill_communication')?.value || '',
+        reading: document.getElementById('skill_reading')?.value || '',
+        writing: document.getElementById('skill_writing')?.value || '',
+        creativity: document.getElementById('skill_creativity')?.value || '',
+        problem_solving: document.getElementById('skill_problem_solving')?.value || '',
+        teamwork: document.getElementById('skill_teamwork')?.value || '',
+        leadership: document.getElementById('skill_leadership')?.value || '',
+        time_management: document.getElementById('skill_time_management')?.value || '',
+        digital_skills: document.getElementById('skill_digital_skills')?.value || ''
+      };
+
+      // 3. Gather Co-Curricular Remarks
+      const coRemarks = [
+        document.getElementById('eval_co_remark_1')?.value || '',
+        document.getElementById('eval_co_remark_2')?.value || '',
+        document.getElementById('eval_co_remark_3')?.value || '',
+        document.getElementById('eval_co_remark_4')?.value || ''
+      ];
+
+      // 4. Gather Teacher's Assessment
+      function getRadioVal(name) {
+        const checked = document.querySelector(`input[name="${name}"]:checked`);
+        return checked ? checked.value : '';
+      }
+
+      const assessmentData = {
+        academic_performance: getRadioVal('ta_academic_performance'),
+        discipline: getRadioVal('ta_discipline'),
+        regularity: getRadioVal('ta_regularity'),
+        communication: getRadioVal('ta_communication'),
+        participation: getRadioVal('ta_participation'),
+        teamwork: getRadioVal('ta_teamwork'),
+        leadership: getRadioVal('ta_leadership'),
+        creativity: getRadioVal('ta_creativity'),
+        teacher_remarks: document.getElementById('eval_teacher_remarks')?.value || '',
+        teacher_signature: document.getElementById('eval_teacher_sig')?.value || '',
+        teacher_date: document.getElementById('eval_teacher_date')?.value || ''
+      };
+
+      // 5. Gather Final Remark
+      const finalRemarkData = {
+        class_teacher: document.getElementById('eval_final_class_teacher')?.value || '',
+        principal: document.getElementById('eval_final_principal')?.value || ''
+      };
+
+      const payload = {
+        academic_progress: {
+          subjects: subjectsData,
+          academic_achievement: academicAchievement
+        },
+        skills: skillsData,
+        co_curricular_remarks: coRemarks,
+        teacher_assessment: assessmentData,
+        teacher_final_remark: finalRemarkData
+      };
+
+      try {
+        const resp = await fetch('/api/teacher/evaluate/{{ student.id }}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const res = await resp.json();
+        if (res.success) {
+          alert('✓ Teacher Evaluation successfully saved! Status updated to Evaluated.');
+          window.location.href = '/teacher';
+        } else {
+          alert('Save failed: ' + (res.error || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Server error: ' + err.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
