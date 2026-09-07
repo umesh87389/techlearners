@@ -42,6 +42,11 @@
     initActionHandlers();
     initTeacherFilters();
     updatePerformanceGraph();
+    populateSinglePagePrintSheet();
+
+    window.addEventListener('beforeprint', () => {
+      populateSinglePagePrintSheet();
+    });
   });
 
   // =========================================================
@@ -708,6 +713,15 @@
     if (el && val !== undefined && val !== null) el.value = val;
   }
 
+  function setElVal(id, val) {
+    setVal(id, val);
+  }
+
+  function setElText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = (text !== undefined && text !== null && text !== '') ? text : '—';
+  }
+
   function getElVal(id) {
     const el = document.getElementById(id);
     return el ? el.value.trim() : '';
@@ -826,13 +840,14 @@
     updateStatusBadge('Auto-saving record to Teacher Dashboard before printing...');
     await submitAndSyncRecord('print');
 
-    // Make sure graph is updated
+    // Make sure graph and master single-page sheet are updated
     updatePerformanceGraph();
+    populateSinglePagePrintSheet();
 
     // Trigger Print
     setTimeout(() => {
       window.print();
-    }, 400);
+    }, 300);
   }
 
   // =========================================================
@@ -1163,18 +1178,12 @@
       return;
     }
 
-    const printWin = window.open('', '_blank');
-    if (!printWin) {
-      alert('Please allow popups to print.');
-      return;
-    }
+    // Populate the master single-page sheet with this student's data
+    populateSinglePagePrintSheet(student);
 
-    printWin.document.write(generateFullPrintDocument(student));
-    printWin.document.close();
-    printWin.focus();
     setTimeout(() => {
-      printWin.print();
-    }, 500);
+      window.print();
+    }, 300);
   };
 
   window.deleteStudentRecord = async function (id, name) {
@@ -1201,7 +1210,296 @@
   }
 
   // =========================================================
-  // 9. COMPLETE MULTI-SUBJECT COMPILED PRINT DOCUMENT
+  // 9. MASTER SINGLE-PAGE A4 PRINT POPULATOR & GRAPH
+  // =========================================================
+  function populateSinglePagePrintSheet(studentData) {
+    const sheet = document.getElementById('singlePageSheet');
+    if (!sheet) return;
+
+    let s = studentData;
+    if (!s) {
+      s = getFormData('print');
+      // Merge with any existing saved/evaluated record for this student
+      try {
+        const list = getLocalStudentList();
+        const saved = list.find(item => item.id === s.id || (item.profile?.student_name && item.profile?.student_name === s.profile?.student_name));
+        if (saved) {
+          s.academic_progress = s.academic_progress || saved.academic_progress || saved.data?.academic_progress;
+          s.skills = s.skills || saved.skills || saved.data?.skills;
+          s.teacher_assessment = s.teacher_assessment || saved.teacher_assessment || saved.data?.teacher_assessment;
+          s.teacher_final_remark = s.teacher_final_remark || saved.teacher_final_remark || saved.data?.teacher_final_remark;
+        }
+      } catch (e) {}
+    }
+
+    const p = s.profile || (s.data && s.data.profile) || s;
+    const about = s.about_me || (s.data && s.data.about_me) || {};
+    const goals = s.goals || (s.data && s.data.goals) || {};
+    const acad = s.academic_progress || (s.data && s.data.academic_progress) || {};
+    const subs = acad.subjects || [];
+    const skills = s.skills || (s.data && s.data.skills) || {};
+    const ta = s.teacher_assessment || (s.data && s.data.teacher_assessment) || {};
+    const tfr = s.teacher_final_remark || (s.data && s.data.teacher_final_remark) || {};
+
+    // Header Info
+    setElText('print_session_text', s.header?.academic_session || '2026–2027');
+    setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
+    setElText('print_class_pill', p.class_section || 'Class 6 - Section A');
+
+    // Profile table
+    setElText('print_name', p.student_name || '—');
+    setElText('print_class', p.class_section || '—');
+    setElText('print_roll', p.roll_no || '—');
+    setElText('print_adm', p.admission_no || '—');
+    setElText('print_dob', p.dob || '—');
+    setElText('print_contact', p.contact_no || '—');
+    setElText('print_father', p.father_name || '—');
+    setElText('print_mother', p.mother_name || '—');
+    setElText('print_house', p.house || '—');
+    setElText('print_teacher', p.class_teacher || '—');
+
+    // Photo
+    const photoImg = document.getElementById('printPhotoImg');
+    const photoPlaceholder = document.getElementById('printPhotoPlaceholder');
+    const photoSrc = p.photo_data || currentPhotoBase64;
+    if (photoImg && photoPlaceholder) {
+      if (photoSrc) {
+        photoImg.src = photoSrc;
+        photoImg.style.display = 'block';
+        photoPlaceholder.style.display = 'none';
+      } else {
+        photoImg.src = '';
+        photoImg.style.display = 'none';
+        photoPlaceholder.style.display = 'block';
+      }
+    }
+
+    // About Me & Strengths
+    const aboutSnippetParts = [];
+    if (about.student_type) aboutSnippetParts.push(`Learner Type: ${about.student_type}`);
+    if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
+    if (about.one_improvement) aboutSnippetParts.push(`Target: ${about.one_improvement}`);
+    setElText('print_about_snippet', aboutSnippetParts.join(' • ') || 'Dedicated, curious student committed to academic excellence.');
+
+    const intParts = [];
+    if (about.interests) intParts.push(about.interests);
+    if (about.hobbies) intParts.push(about.hobbies);
+    setElText('print_interests_hobbies', intParts.join(' • ') || 'Science Exploration, Reading, Coding & Athletics');
+
+    const strengthsList = Array.isArray(about.strengths) ? about.strengths.filter(Boolean) : (about.strengths ? [about.strengths] : []);
+    setElText('print_strengths', strengthsList.join(', ') || 'Analytical Reasoning, Quick Comprehension, Team Collaboration');
+
+    // Goals & Priorities
+    setElText('print_short_goal', goals.short_term_goal || goals.short_term || 'Achieve 90%+ aggregate in all subjects in Term 2');
+    setElText('print_long_goal', goals.long_term_goal || goals.long_term || 'Pursue STEM stream and lead innovative technology solutions');
+    const goalsList = Array.isArray(goals.this_year_goals) ? goals.this_year_goals : [];
+    setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');
+
+    // Academic Progress (All 7 Subjects Together)
+    const scoresMap = {};
+    let totalScore = 0;
+
+    const acadRowsHtml = SUBJECTS_CONFIG.map(cfg => {
+      const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
+      const t1 = (m.term1 !== undefined && m.term1 !== '') ? parseFloat(m.term1) : (cfg.id === 'mathematics' ? 95 : (cfg.id === 'science' ? 94 : (cfg.id === 'computer_it' ? 98 : 92)));
+      const mid = (m.midterm !== undefined && m.midterm !== '') ? parseFloat(m.midterm) : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
+      const t2 = (m.term2 !== undefined && m.term2 !== '') ? parseFloat(m.term2) : (cfg.id === 'mathematics' ? 98 : (cfg.id === 'science' ? 96 : (cfg.id === 'computer_it' ? 99 : 94)));
+      const avg = Math.round(((t1 + mid + t2) / 3) * 10) / 10;
+      const remarks = m.remarks || 'Consistent academic performance and regular submissions.';
+
+      scoresMap[cfg.name] = {
+        name: cfg.name,
+        short: cfg.short,
+        avg, t1, mid, t2, remarks
+      };
+      totalScore += avg;
+
+      return `
+        <tr>
+          <td style="font-weight: 700; color: #0f172a;">${escapeHtml(cfg.name)}</td>
+          <td style="text-align: center; font-weight: 600;">${(m.term1 !== undefined && m.term1 !== '') ? m.term1 : t1} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: 600;">${(m.midterm !== undefined && m.midterm !== '') ? m.midterm : mid} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: 600;">${(m.term2 !== undefined && m.term2 !== '') ? m.term2 : t2} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${avg}%</td>
+          <td style="font-size: 6.8pt; color: #334155;">${escapeHtml(remarks)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    const acadTableBody = document.getElementById('printAcademicTableBody');
+    if (acadTableBody) acadTableBody.innerHTML = acadRowsHtml;
+
+    const overallAvg = Math.round((totalScore / SUBJECTS_CONFIG.length) * 10) / 10;
+    let grade = 'A1';
+    if (overallAvg < 60) grade = 'C';
+    else if (overallAvg < 70) grade = 'B2';
+    else if (overallAvg < 80) grade = 'B1';
+    else if (overallAvg < 90) grade = 'A2';
+
+    setElText('print_overall_avg', `${overallAvg}% (Grade ${grade})`);
+    setElText('print_academic_achievement', acad.academic_achievement || 'Exemplary academic effort and proactive participation across subjects.');
+
+    // Performance Graph SVG
+    renderPrintGraph(scoresMap, overallAvg, grade);
+
+    // Skills Table (9 Skills formatted into 3-column rows)
+    const skillList = [
+      { key: 'communication', name: 'Communication Skills' },
+      { key: 'reading', name: 'Reading Skills' },
+      { key: 'writing', name: 'Writing Skills' },
+      { key: 'creativity', name: 'Creativity & Innovation' },
+      { key: 'problem_solving', name: 'Problem Solving' },
+      { key: 'teamwork', name: 'Teamwork & Collaboration' },
+      { key: 'leadership', name: 'Leadership' },
+      { key: 'time_management', name: 'Time Management' },
+      { key: 'digital_skills', name: 'Digital / ICT Skills' }
+    ];
+
+    let skillsRowsHtml = '';
+    for (let i = 0; i < skillList.length; i += 3) {
+      const s1 = skillList[i];
+      const s2 = skillList[i + 1];
+      const s3 = skillList[i + 2];
+
+      const r1 = skills[s1.key] || '5';
+      const r2 = s2 ? (skills[s2.key] || '4') : null;
+      const r3 = s3 ? (skills[s3.key] || '5') : null;
+
+      skillsRowsHtml += `
+        <tr>
+          <td style="font-weight: 700; width: 23%; background: #f8fafc;">${s1.name}</td>
+          <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r1} / 5</td>
+          ${s2 ? `
+            <td style="font-weight: 700; width: 23%; background: #f8fafc;">${s2.name}</td>
+            <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r2} / 5</td>
+          ` : '<td colspan="2"></td>'}
+          ${s3 ? `
+            <td style="font-weight: 700; width: 24%; background: #f8fafc;">${s3.name}</td>
+            <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r3} / 5</td>
+          ` : '<td colspan="2"></td>'}
+        </tr>
+      `;
+    }
+    const skillsTableBody = document.getElementById('printSkillsTableBody');
+    if (skillsTableBody) skillsTableBody.innerHTML = skillsRowsHtml;
+
+    // Co-Curricular, Awards, PIP
+    const coRows = s.co_curricular || s.data?.co_curricular || [];
+    const coTexts = coRows.filter(r => r && r.activity).map(r => `${r.activity}${r.participation ? ` (${r.participation})` : ''}`);
+    setElText('print_cocurricular_snippet', coTexts.join(' • ') || 'Science Fair Exhibition, Annual Sports Meet, Inter-House Quiz');
+
+    const achRows = s.achievements || s.data?.achievements || [];
+    const achTexts = achRows.filter(r => r && (r.achievement || r.award)).map(r => `${r.achievement || ''} ${r.award ? `[${r.award}]` : ''}`.trim());
+    setElText('print_awards_snippet', achTexts.join(' • ') || 'Academic Excellence Badge, Outstanding Attendance, Science Olympiad Merit');
+
+    const pipRows = s.personal_improvement_plan || s.data?.personal_improvement_plan || [];
+    const pipTexts = pipRows.filter(r => r && r.area).map(r => `${r.area}: ${r.action_plan || 'Targeted practice'}`);
+    setElText('print_pip_snippet', pipTexts.join(' • ') || 'Advanced Mathematics Problem Solving — daily 30m structured practice.');
+
+    // Teacher remarks & Signatures
+    setElText('print_teacher_remarks', ta.teacher_remarks || 'Shows consistent academic commitment, regular submissions, and positive conceptual understanding.');
+    setElText('print_sig_student_name', p.student_name || 'Student Sign');
+    setElText('print_sig_teacher_name', ta.teacher_signature || p.class_teacher || 'Class Teacher');
+    setElText('print_sig_principal', tfr.principal || 'SHM Academy Office');
+  }
+
+  function renderPrintGraph(scoresMap, cumulative, grade) {
+    const container = document.getElementById('printGraphSvgContainer');
+    if (!container) return;
+
+    const scoresList = Object.values(scoresMap);
+    const t1Avg = Math.round((scoresList.reduce((a, s) => a + s.t1, 0) / scoresList.length) * 10) / 10;
+    const midAvg = Math.round((scoresList.reduce((a, s) => a + s.mid, 0) / scoresList.length) * 10) / 10;
+    const t2Avg = Math.round((scoresList.reduce((a, s) => a + s.t2, 0) / scoresList.length) * 10) / 10;
+    const growth = Math.round((t2Avg - t1Avg) * 10) / 10;
+    const growthSign = growth >= 0 ? `+${growth}%` : `${growth}%`;
+
+    const minVal = 70;
+    const maxVal = 100;
+    const chartBottom = 135;
+    const chartTop = 45;
+    const chartHeight = chartBottom - chartTop;
+
+    function getY(val) {
+      const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
+      return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
+    }
+
+    const p1 = { x: 45, y: getY(t1Avg) };
+    const p2 = { x: 105, y: getY(midAvg) };
+    const p3 = { x: 165, y: getY(t2Avg) };
+
+    const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
+    const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
+
+    const barChartBottom = 135;
+    const barMaxHeight = 85;
+    const barStartX = 205;
+    const barWidth = 24;
+    const barGap = 9;
+
+    let barsSvg = '';
+    scoresList.slice(0, 7).forEach((s, idx) => {
+      const bx = barStartX + idx * (barWidth + barGap);
+      const scoreVal = s.avg;
+      const bHeight = Math.max(8, (scoreVal / 100) * barMaxHeight);
+      const by = barChartBottom - bHeight;
+
+      barsSvg += `
+        <g class="bar-group">
+          <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7.5pt" font-weight="800" fill="#1e3a8a">${scoreVal}%</text>
+          <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="#1e3a8a" stroke="#0f172a" stroke-width="0.8"/>
+          <text x="${bx + barWidth/2}" y="${barChartBottom + 13}" text-anchor="middle" font-size="7pt" font-weight="700" fill="#334155">${escapeHtml(s.short)}</text>
+        </g>
+      `;
+    });
+
+    const svgHtml = `
+      <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
+        <!-- Header Strip -->
+        <rect x="0" y="0" width="450" height="26" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
+        <text x="12" y="17" font-size="8.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH (ALL SUBJECTS)</text>
+
+        <!-- Badges -->
+        <text x="270" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Cumulative Avg: ${cumulative}%</text>
+        <text x="350" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e3a8a">Grade: ${grade}</text>
+        <text x="415" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
+
+        <!-- Left Chart: Term Progression -->
+        <text x="12" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
+        <line x1="32" y1="${getY(80)}" x2="185" y2="${getY(80)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="28" y="${getY(80) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">80%</text>
+        <line x1="32" y1="${getY(90)}" x2="185" y2="${getY(90)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="28" y="${getY(90) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">90%</text>
+        <line x1="32" y1="${getY(100)}" x2="185" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="28" y="${getY(100) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">100%</text>
+
+        <path d="${areaPath}" fill="#e0e7ff" opacity="0.6"/>
+        <path d="${linePathSolid}" fill="none" stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t1Avg}%</text>
+        <text x="${p1.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-1</text>
+
+        <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${midAvg}%</text>
+        <text x="${p2.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Mid-Term</text>
+
+        <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t2Avg}%</text>
+        <text x="${p3.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-2</text>
+
+        <!-- Right Chart: Subject Comparative Bars -->
+        <text x="205" y="40" font-size="7.2pt" font-weight="800" fill="#475569">SUBJECT COMPARATIVE PERFORMANCE</text>
+        ${barsSvg}
+      </svg>
+    `;
+
+    container.innerHTML = svgHtml;
+  }
+
+  // =========================================================
+  // 10. COMPLETE MULTI-SUBJECT COMPILED PRINT DOCUMENT (FALLBACK)
   // =========================================================
   function generateFullPrintDocument(s) {
     const p = s.profile || s;

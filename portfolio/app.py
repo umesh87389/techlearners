@@ -59,6 +59,31 @@ def api_submit():
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/api/students', methods=['GET'])
+def api_students():
+    class_filter = request.args.get('class', 'all')
+    status_filter = request.args.get('status', 'all')
+    search_q = request.args.get('q', '').strip()
+    students = database.get_all_students(
+        class_filter=class_filter if class_filter != 'all' else None,
+        status_filter=status_filter if status_filter != 'all' else None,
+        search_query=search_q if search_q else None
+    )
+    return jsonify(students)
+
+@app.route('/api/teacher/verify', methods=['POST'])
+def api_teacher_verify():
+    try:
+        data = request.get_json(force=True) or {}
+        passcode = (data.get('passcode') or data.get('pin') or data.get('password') or '').strip()
+        if passcode == TEACHER_PASSWORD:
+            session['teacher_auth'] = True
+            session['teacher_name'] = 'Class / Subject Teacher'
+            return jsonify({'success': True, 'message': 'Teacher authenticated'})
+        return jsonify({'success': False, 'error': 'Invalid passcode'}), 401
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 @app.route('/teacher/login', methods=['GET', 'POST'])
 def teacher_login():
     error = None

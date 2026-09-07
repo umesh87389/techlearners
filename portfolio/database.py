@@ -171,7 +171,8 @@ def get_all_students(class_filter=None, status_filter=None, search_query=None):
             'updated_at': r['updated_at'],
             'submission_source': r['submission_source'],
             'status': r['status'],
-            'photo_url': data.get('profile', {}).get('photo_data', '')
+            'photo_url': data.get('profile', {}).get('photo_data', ''),
+            'data': data
         })
     conn.close()
     return results

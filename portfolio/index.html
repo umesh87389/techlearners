@@ -9,953 +9,838 @@
 </head>
 <body>
 
-  <!-- TOP TAB NAVIGATION (STUDENT & TEACHER TABS ON SAME PAGE) -->
-  <nav class="main-tabs-header no-print">
-    <div class="tab-buttons-wrap">
-      <button type="button" id="tabBtnStudent" class="main-tab-btn active" onclick="switchMainTab('student')">
-        <span>🎓</span> Student Portfolio
-      </button>
-      <button type="button" id="tabBtnTeacher" class="main-tab-btn" onclick="switchMainTab('teacher')">
-        <span>👨‍🏫</span> Teacher’s Dashboard
-        <span id="teacherTabLockBadge" class="teacher-lock-status-pill status-pill-locked">🔒 Locked</span>
-      </button>
+  <!-- ========================================================= -->
+  <!-- 1. TOP NAVBAR (DUAL TABS ON SAME PAGE: STUDENT & TEACHER)  -->
+  <!-- ========================================================= -->
+  <nav class="top-navbar no-print">
+    <div class="top-nav-inner">
+      <div class="brand-section">
+        <img src="assets/school-logo.jpg" alt="SHM Academy" class="brand-logo">
+        <div>
+          <div class="brand-title">SHM ACADEMY</div>
+          <div class="brand-subtitle">Student Portfolio &amp; Faculty Assessment Portal</div>
+        </div>
+      </div>
+
+      <!-- Segmented Tab Controls on Same Page -->
+      <div class="segmented-tab-control">
+        <button type="button" id="tabBtnStudent" class="seg-tab-btn active-student" onclick="switchMainTab('student')">
+          <span>🎓</span> Student Portfolio
+        </button>
+        <button type="button" id="tabBtnTeacher" class="seg-tab-btn" onclick="switchMainTab('teacher')">
+          <span>👨‍🏫</span> Teacher’s Dashboard
+          <span id="teacherTabLockBadge" class="status-pill pill-pending" style="font-size:0.7rem; padding: 2px 6px;">🔒 Locked</span>
+        </button>
+      </div>
+
+      <div id="teacherQuickLockContainer" style="display: none;">
+        <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.82rem;">
+          🔒 Lock Tab
+        </button>
+      </div>
     </div>
-    <div id="teacherQuickLockContainer" style="display: none;">
-      <button type="button" onclick="lockTeacherTab()" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; color: #be123c; border-color: #fecdd3; font-weight: 700;">
-        🔒 Lock Teacher Tab
-      </button>
-    </div>
+  </nav>
+
+  <!-- ========================================================= -->
+  <!-- 2. SECTION JUMP BAR (FAST NAVIGATION CHIPS)               -->
+  <!-- ========================================================= -->
+  <nav class="section-jump-bar no-print" id="studentJumpBar">
+    <a href="#sec-profile" class="jump-chip">1. Profile</a>
+    <a href="#sec-about" class="jump-chip">2. About Me</a>
+    <a href="#sec-goals" class="jump-chip">3. Goals</a>
+    <a href="#sec-graph" class="jump-chip" style="color: #1e3a8a; border-color: #93c5fd; background: #eff6ff;">📈 Performance Graph</a>
+    <a href="#sec-academic" class="jump-chip">4. Academic (Locked)</a>
+    <a href="#sec-skills" class="jump-chip">5. Skills (Locked)</a>
+    <a href="#sec-cocurricular" class="jump-chip">6. Co-Curricular</a>
+    <a href="#sec-awards" class="jump-chip">7. Awards</a>
+    <a href="#sec-projects" class="jump-chip">8. Projects</a>
+    <a href="#sec-pip" class="jump-chip">9. PIP Plan</a>
+    <a href="#sec-reading" class="jump-chip">10. Reading Log</a>
+    <a href="#sec-bestwork" class="jump-chip">11. Best Work</a>
+    <a href="#sec-assessment" class="jump-chip">12. Teacher Assessment</a>
+    <a href="#sec-parent" class="jump-chip">13. Parent Feedback</a>
+    <a href="#sec-reflection" class="jump-chip">14. Self-Reflection</a>
+    <a href="#sec-year-review" class="jump-chip">15. Year Review</a>
+    <a href="#sec-declaration" class="jump-chip">16. Declaration</a>
+    <a href="#sec-final-remark" class="jump-chip">17. Final Remark</a>
   </nav>
 
   <!-- ========================================================= -->
   <!-- TAB 1: STUDENT PORTFOLIO VIEW CONTAINER                   -->
   <!-- ========================================================= -->
-  <div id="studentViewContainer" class="page-wrapper">
-    <form id="portfolioForm" class="portfolio-document" onsubmit="return false;">
+  <main id="studentViewContainer" class="student-document-container">
+    <form id="portfolioForm" onsubmit="return false;">
 
-      <!-- DOCUMENT HEADER -->
-      <header class="doc-header">
-        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
-          <img src="assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
+      <!-- DOCUMENT HERO HEADER CARD -->
+      <header class="doc-card" style="text-align: center; padding: 2rem 1.5rem; margin-top: 1rem; border-top: 5px solid #1e3a8a;">
+        <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.75rem;">
+          <img src="assets/school-logo.jpg" alt="SHM Academy" style="height: 68px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
         </div>
-        <div class="doc-title-main">STUDENT PORTFOLIO</div>
-        <div class="doc-school-name">SHM ACADEMY</div>
-        <div class="doc-motto">“Infinite Knowledge Through Education”</div>
-        <div class="doc-session-row">
-          <span>Academic Session:</span>
-          <input type="text" id="academic_session_input" class="doc-session-input" value="2026–2027" placeholder="e.g. 2026–2027">
+        <h1 style="font-size: 1.5rem; font-weight: 900; letter-spacing: 0.08em; color: #0f172a; margin-bottom: 0.25rem;">STUDENT PORTFOLIO</h1>
+        <div style="font-size: 1.85rem; font-weight: 900; color: #1e3a8a; letter-spacing: 0.04em;">SHM ACADEMY</div>
+        <p style="font-style: italic; color: #475569; font-size: 0.95rem; margin: 0.35rem 0 0.85rem;">“Infinite Knowledge Through Education”</p>
+        <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 9999px; padding: 0.35rem 1rem;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: #1e3a8a;">Academic Session:</span>
+          <input type="text" id="academic_session_input" value="2026–2027" style="border: none; background: transparent; font-weight: 800; color: #1e3a8a; width: 100px; outline: none; font-size: 0.85rem;" placeholder="e.g. 2026–2027">
         </div>
       </header>
 
-      <!-- 1. STUDENT PROFILE -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>1. Student Profile</span>
-        </h2>
-        <div class="profile-grid">
-          <table class="doc-table">
-            <thead>
-              <tr>
-                <th style="width: 38%;">Particular</th>
-                <th>Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Student’s Name</strong></td>
-                <td><input type="text" id="profile_student_name" placeholder="Enter Full Name" required></td>
-              </tr>
-              <tr>
-                <td><strong>Class &amp; Section</strong></td>
-                <td>
-                  <select id="profile_class_section" required>
-                    <option value="" disabled selected>-- Select Class &amp; Section --</option>
-                    
-                    <option value="Class 6 - Section A">Class 6 - Section A</option>
-                    
-                    <option value="Class 6 - Section B">Class 6 - Section B</option>
-                    
-                    <option value="Class 7 - Section A">Class 7 - Section A</option>
-                    
-                    <option value="Class 7 - Section B">Class 7 - Section B</option>
-                    
-                    <option value="Class 8 - Section A">Class 8 - Section A</option>
-                    
-                    <option value="Class 8 - Section B">Class 8 - Section B</option>
-                    
-                    <option value="Class 9 - Section A">Class 9 - Section A</option>
-                    
-                    <option value="Class 9 - Section B">Class 9 - Section B</option>
-                    
-                    <option value="Class 10 - Section A">Class 10 - Section A</option>
-                    
-                    <option value="Class 10 - Section B">Class 10 - Section B</option>
-                    
-                    <option value="Class 11 - Section A">Class 11 - Section A</option>
-                    
-                    <option value="Class 11 - Section B">Class 11 - Section B</option>
-                    
-                    <option value="Class 12 - Section A">Class 12 - Section A</option>
-                    
-                    <option value="Class 12 - Section B">Class 12 - Section B</option>
-                    
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Roll Number</strong></td>
-                <td><input type="text" id="profile_roll_no" placeholder="e.g. 14"></td>
-              </tr>
-              <tr>
-                <td><strong>Admission Number</strong></td>
-                <td><input type="text" id="profile_admission_no" placeholder="e.g. SHM-2026-089"></td>
-              </tr>
-              <tr>
-                <td><strong>Date of Birth</strong></td>
-                <td><input type="date" id="profile_dob"></td>
-              </tr>
-              <tr>
-                <td><strong>Father’s Name</strong></td>
-                <td><input type="text" id="profile_father_name" placeholder="Father's Name"></td>
-              </tr>
-              <tr>
-                <td><strong>Mother’s Name</strong></td>
-                <td><input type="text" id="profile_mother_name" placeholder="Mother's Name"></td>
-              </tr>
-              <tr>
-                <td><strong>Contact Number</strong></td>
-                <td><input type="text" id="profile_contact_no" placeholder="Phone Number"></td>
-              </tr>
-              <tr>
-                <td><strong>House</strong></td>
-                <td><input type="text" id="profile_house" placeholder="House Name"></td>
-              </tr>
-              <tr>
-                <td><strong>Class Teacher</strong></td>
-                <td><input type="text" id="profile_class_teacher" placeholder="Class Teacher Name"></td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- 1. STUDENT PROFILE CARD -->
+      <section class="doc-card" id="sec-profile">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>👤</span> 1. Student Profile
+          </div>
+          <span class="status-pill" style="background:#eff6ff; color:#1e3a8a; border: 1px solid #bfdbfe;">Student Information</span>
+        </div>
+        <div class="doc-card-body">
+          <div class="profile-grid-layout">
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th style="width: 35%;">Particular</th>
+                  <th>Student Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Student’s Name *</strong></td>
+                  <td><input type="text" id="profile_student_name" class="form-control" placeholder="Enter Full Legal Name" required></td>
+                </tr>
+                <tr>
+                  <td><strong>Class &amp; Section *</strong></td>
+                  <td>
+                    <select id="profile_class_section" class="form-control" required style="font-weight: 700; color: #1e3a8a;">
+                      <option value="" disabled selected>-- Select Class &amp; Section --</option>
+                    <option value="Class 6 - Section A">Class 6 - Section A</option>\n                    <option value="Class 6 - Section B">Class 6 - Section B</option>\n                    <option value="Class 7 - Section A">Class 7 - Section A</option>\n                    <option value="Class 7 - Section B">Class 7 - Section B</option>\n                    <option value="Class 8 - Section A">Class 8 - Section A</option>\n                    <option value="Class 8 - Section B">Class 8 - Section B</option>\n                    <option value="Class 9 - Section A">Class 9 - Section A</option>\n                    <option value="Class 9 - Section B">Class 9 - Section B</option>\n                    <option value="Class 10 - Section A">Class 10 - Section A</option>\n                    <option value="Class 10 - Section B">Class 10 - Section B</option>\n                    <option value="Class 11 - Section A">Class 11 - Section A</option>\n                    <option value="Class 11 - Section B">Class 11 - Section B</option>\n                    <option value="Class 12 - Section A">Class 12 - Section A</option>\n                    <option value="Class 12 - Section B">Class 12 - Section B</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Roll Number</strong></td>
+                  <td><input type="text" id="profile_roll_no" class="form-control" placeholder="e.g. 14"></td>
+                </tr>
+                <tr>
+                  <td><strong>Admission Number</strong></td>
+                  <td><input type="text" id="profile_admission_no" class="form-control" placeholder="e.g. SHM-2026-089"></td>
+                </tr>
+                <tr>
+                  <td><strong>Date of Birth</strong></td>
+                  <td><input type="date" id="profile_dob" class="form-control"></td>
+                </tr>
+                <tr>
+                  <td><strong>Father’s Name</strong></td>
+                  <td><input type="text" id="profile_father_name" class="form-control" placeholder="Father\'s Full Name"></td>
+                </tr>
+                <tr>
+                  <td><strong>Mother’s Name</strong></td>
+                  <td><input type="text" id="profile_mother_name" class="form-control" placeholder="Mother\'s Full Name"></td>
+                </tr>
+                <tr>
+                  <td><strong>Contact Number</strong></td>
+                  <td><input type="tel" id="profile_contact_no" class="form-control" placeholder="Primary Contact Phone"></td>
+                </tr>
+                <tr>
+                  <td><strong>House</strong></td>
+                  <td><input type="text" id="profile_house" class="form-control" placeholder="e.g. Red House / Blue House"></td>
+                </tr>
+                <tr>
+                  <td><strong>Class Teacher</strong></td>
+                  <td><input type="text" id="profile_class_teacher" class="form-control" placeholder="Class Teacher\'s Name"></td>
+                </tr>
+              </tbody>
+            </table>
 
-          <!-- Photograph Box -->
-          <div style="text-align: center;">
-            <div class="photo-upload-box" id="photoUploadBox" title="Click to upload photograph">
-              <input type="file" id="photoFileInput" accept="image/*" style="display: none;">
-              <img id="photoPreviewImg" class="photo-preview-img" alt="Student Photo">
-              <button type="button" id="photoRemoveBtn" class="photo-remove-btn" title="Remove photograph">✕</button>
-              <div id="photoPromptText" class="photo-prompt-text">
-                <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">📷</div>
-                <strong>Student’s Photograph</strong>
-                <p style="font-size: 0.75rem; margin-top: 4px; color: #64748b;">Paste photograph here</p>
+            <!-- Photograph Box -->
+            <div style="text-align: center;">
+              <div class="photo-upload-frame" id="photoUploadBox" title="Click or tap to upload student photo">
+                <input type="file" id="photoFileInput" accept="image/*" style="display: none;">
+                <img id="photoPreviewImg" class="photo-preview-image" alt="Student Photo">
+                <button type="button" id="photoRemoveBtn" class="photo-btn-delete" title="Remove photo">✕</button>
+                <div id="photoPromptText" class="photo-placeholder-box">
+                  <div class="photo-icon-glyph">📷</div>
+                  <strong style="font-size: 0.85rem; color: #1e3a8a; display: block;">Student Photo</strong>
+                  <span style="font-size: 0.72rem; color: #64748b;">Click to upload passport photo</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 2. ABOUT ME -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>2. About Me</span>
-        </h2>
-        <div class="about-me-paragraph">
-          My name is <input type="text" id="about_name" class="inline-input" style="width: 240px;" placeholder="Full Name">.
-          I study in <span id="about_study_class" style="font-weight: 700; color: #1e3a8a; border-bottom: 1.5px dashed #475569; padding: 0 4px;">Class __________</span> at <strong>SHM Academy</strong>.
-          I consider myself a <input type="text" id="about_student_type" class="inline-input" style="width: 170px;" placeholder="e.g. dedicated / curious"> student.
-          My favourite subjects are <input type="text" id="about_favourite_subjects" class="inline-input" style="width: 250px;" placeholder="e.g. Science, Mathematics">.
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-          <div class="form-field-group">
-            <label class="form-field-label">My Interests</label>
-            <textarea id="about_interests" class="form-textarea" rows="2" placeholder="Write about your interests..."></textarea>
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">My Hobbies</label>
-            <textarea id="about_hobbies" class="form-textarea" rows="2" placeholder="Write about your hobbies..."></textarea>
+      <!-- 2. ABOUT ME CARD -->
+      <section class="doc-card" id="sec-about">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🌟</span> 2. About Me
           </div>
         </div>
+        <div class="doc-card-body">
+          <div class="about-me-banner">
+            My name is <input type="text" id="about_name" class="inline-form-input" style="width: 220px;" placeholder="Full Name">.
+            I study in <span id="about_study_class" style="font-weight: 800; color: #1e3a8a; border-bottom: 2px dashed #0284c7; padding: 0 4px;">Class __________</span> at <strong>SHM Academy</strong>.
+            I consider myself a <input type="text" id="about_student_type" class="inline-form-input" style="width: 170px;" placeholder="e.g. dedicated / curious"> student.
+            My favourite subjects are <input type="text" id="about_favourite_subjects" class="inline-form-input" style="width: 240px;" placeholder="e.g. Mathematics, Science">.
+          </div>
 
-        <div class="form-field-group">
-          <label class="form-field-label">My Strengths</label>
-          <ul class="strength-list">
-            <li class="strength-item">
-              <span class="strength-bullet">•</span>
-              <input type="text" id="strength_1" class="form-input-text" placeholder="Strength 1">
-            </li>
-            <li class="strength-item">
-              <span class="strength-bullet">•</span>
-              <input type="text" id="strength_2" class="form-input-text" placeholder="Strength 2">
-            </li>
-            <li class="strength-item">
-              <span class="strength-bullet">•</span>
-              <input type="text" id="strength_3" class="form-input-text" placeholder="Strength 3">
-            </li>
-          </ul>
-        </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My Interests</label>
+              <textarea id="about_interests" class="form-control" rows="2" placeholder="Write about your interests (e.g. Robotics, Astronomy, Literature)..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My Hobbies</label>
+              <textarea id="about_hobbies" class="form-control" rows="2" placeholder="Write about your hobbies (e.g. Reading, Painting, Sports)..."></textarea>
+            </div>
+          </div>
 
-        <div class="form-field-group" style="margin-top: 1rem;">
-          <label class="form-field-label">One thing I want to improve</label>
-          <textarea id="about_improvement" class="form-textarea" rows="2" placeholder="Describe one area or skill you want to improve..."></textarea>
+          <div style="margin-bottom: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My Strengths (List 3)</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+              <input type="text" id="strength_1" class="form-control" placeholder="1. Strength (e.g. Quick Learner)">
+              <input type="text" id="strength_2" class="form-control" placeholder="2. Strength (e.g. Team Player)">
+              <input type="text" id="strength_3" class="form-control" placeholder="3. Strength (e.g. Problem Solver)">
+            </div>
+          </div>
+
+          <div>
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">One Thing I Want to Improve</label>
+            <textarea id="about_improvement" class="form-control" rows="2" placeholder="Describe one skill or habit you are working to improve..."></textarea>
+          </div>
         </div>
       </section>
 
-      <!-- 3. MY GOALS -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>3. My Goals</span>
-        </h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
-          <div class="form-field-group">
-            <label class="form-field-label">Short-Term Goal</label>
-            <textarea id="goal_short_term" class="form-textarea" rows="2" placeholder="Your short-term goal..."></textarea>
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">Long-Term Goal</label>
-            <textarea id="goal_long_term" class="form-textarea" rows="2" placeholder="Your long-term goal..."></textarea>
+      <!-- 3. MY GOALS CARD -->
+      <section class="doc-card" id="sec-goals">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🎯</span> 3. My Goals
           </div>
         </div>
+        <div class="doc-card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Short-Term Goal</label>
+              <textarea id="goal_short_term" class="form-control" rows="2" placeholder="Your immediate academic or personal goal..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Long-Term Goal</label>
+              <textarea id="goal_long_term" class="form-control" rows="2" placeholder="Your future aspirational goal..."></textarea>
+            </div>
+          </div>
 
-        <div>
-          <label class="form-field-label">This Year I Want To</label>
-          <div class="checkbox-grid">
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Improve my academic performance">
-              <span>Improve my academic performance</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Become more confident">
-              <span>Become more confident</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Improve my communication skills">
-              <span>Improve my communication skills</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Participate in more activities">
-              <span>Participate in more activities</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Develop better time-management skills">
-              <span>Develop better time-management skills</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="goal_checkbox" value="Improve my reading/writing skills">
-              <span>Improve my reading/writing skills</span>
-            </label>
+          <div>
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.75rem; display: block;">This Year I Want To (Check all that apply):</label>
+            <div class="checklist-grid">
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Improve my academic performance">
+                <span>Improve my academic performance</span>
+              </label>
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Become more confident">
+                <span>Become more confident</span>
+              </label>
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Improve my communication skills">
+                <span>Improve my communication skills</span>
+              </label>
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Participate in more activities">
+                <span>Participate in more activities</span>
+              </label>
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Develop better time-management skills">
+                <span>Develop better time-management skills</span>
+              </label>
+              <label class="checklist-label">
+                <input type="checkbox" name="goal_checkbox" value="Improve my reading/writing skills">
+                <span>Improve my reading/writing skills</span>
+              </label>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- DYNAMIC VISUAL PERFORMANCE GRAPH CARD -->
-      <section class="perf-graph-card">
-        <h3>
-          <span>📈 Child Overall Performance Graph</span>
-          <span style="font-size: 0.78rem; font-weight: normal; color: #64748b; margin-left: auto;">(All Subjects Compiled)</span>
-        </h3>
-        <div id="perfGraphSvgContainer"></div>
+      <section class="doc-card" id="sec-graph" style="border-left: 5px solid #3b82f6;">
+        <div class="doc-card-header" style="background: #eff6ff;">
+          <div class="doc-card-title" style="color: #1e3a8a;">
+            <span>📈</span> Child Overall Performance Graph
+          </div>
+          <span class="status-pill" style="background:#dbeafe; color:#1e3a8a; border: 1px solid #bfdbfe;">All Subjects Compiled &amp; Progression</span>
+        </div>
+        <div class="doc-card-body" style="background: #ffffff; padding: 1.25rem;">
+          <div id="perfGraphSvgContainer">
+            <!-- Dynamic vector SVG graph generated via portfolio.js -->
+          </div>
+        </div>
       </section>
 
       <!-- 4. ACADEMIC PROGRESS (LOCKED FOR STUDENTS) -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>4. Academic Progress</span>
-          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
-        </h2>
-        
-        <div class="locked-section-container">
-          <div class="locked-notice-banner">
-            <span>🔒</span>
-            <span>Academic evaluation and marks are locked for students. Verified marks and subject teacher remarks will be entered exclusively by your teacher in the Teacher’s Dashboard.</span>
+      <section class="doc-card" id="sec-academic">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>📚</span> 4. Academic Progress
           </div>
+          <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
+        </div>
+        <div class="doc-card-body">
+          <div class="faculty-locked-vault">
+            <div class="faculty-vault-banner">
+              <span style="font-size: 1.25rem;">🔒</span>
+              <div>
+                <strong>Academic marks and faculty remarks are locked for students.</strong>
+                <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 500;">
+                  Verified term scores and individual subject remarks will be entered and certified exclusively by your teacher in the Teacher’s Dashboard.
+                </p>
+              </div>
+            </div>
 
-          <table class="doc-table">
-            <thead>
-              <tr>
-                <th style="width: 25%;">Subject</th>
-                <th class="center" style="width: 18%;">Term 1</th>
-                <th class="center" style="width: 18%;">Mid Term</th>
-                <th class="center" style="width: 18%;">Term 2</th>
-                <th>Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-              <tr>
-                <td><strong>English</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Hindi</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Mathematics</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Science</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Social Science</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Computer/IT</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Other</strong></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-                <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-              </tr>
-              
-            </tbody>
-          </table>
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Subject</th>
+                  <th style="width: 18%; text-align: center;">Term 1</th>
+                  <th style="width: 18%; text-align: center;">Mid Term</th>
+                  <th style="width: 18%; text-align: center;">Term 2</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>English</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Hindi</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Mathematics</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Science</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Social Science</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Computer/IT</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+                <tr><td><strong>Other</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
+              </tbody>
+            </table>
 
-          <div class="form-field-group" style="margin-top: 1rem;">
-            <label class="form-field-label">My Academic Achievement</label>
-            <textarea class="locked-field form-textarea" disabled rows="2" placeholder="Recorded by Teacher"></textarea>
+            <div style="margin-top: 1rem;">
+              <label style="font-weight: 700; font-size: 0.88rem; color: #92400e; display: block; margin-bottom: 0.35rem;">My Academic Achievement</label>
+              <textarea class="form-control locked-input-pill" disabled rows="2" placeholder="Recorded and verified by Teacher"></textarea>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- 5. MY SKILLS (LOCKED FOR STUDENTS) -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>5. My Skills</span>
-          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
-        </h2>
-
-        <div class="locked-section-container">
-          <div class="locked-notice-banner">
-            <span>🔒</span>
-            <span>Rate yourself from 1–5. Evaluated and verified by the teacher separately.</span>
+      <section class="doc-card" id="sec-skills">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>✨</span> 5. My Skills
           </div>
+          <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
+        </div>
+        <div class="doc-card-body">
+          <div class="faculty-locked-vault">
+            <div class="faculty-vault-banner">
+              <span style="font-size: 1.25rem;">🔒</span>
+              <div>
+                <strong>Skills rating (1–5) is evaluated by faculty.</strong>
+                <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 500;">
+                  Teacher evaluates communication, leadership, problem solving, teamwork, and digital capabilities.
+                </p>
+              </div>
+            </div>
 
-          <table class="doc-table">
-            <thead>
-              <tr>
-                <th>Skill</th>
-                <th class="center" style="width: 180px;">Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-              <tr>
-                <td><strong>Communication</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Reading</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Writing</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Creativity</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Problem Solving</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Teamwork</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Leadership</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Time Management</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-              <tr>
-                <td><strong>Digital Skills</strong></td>
-                <td class="center">
-                  <span style="font-weight: 700; color: #64748b;">— / 5</span>
-                </td>
-              </tr>
-              
-            </tbody>
-          </table>
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Skill Domain</th>
+                  <th style="width: 180px; text-align: center;">Rating (/5)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Communication</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Reading</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Writing</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Creativity</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Problem Solving</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Teamwork</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Leadership</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Time Management</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+                <tr><td><strong>Digital Skills</strong></td><td style="text-align: center;"><input type="text" class="form-control locked-input-pill" style="text-align: center;" disabled placeholder="🔒 Locked"></td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
       <!-- 6. CO-CURRICULAR ACTIVITIES -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>6. Co-Curricular Activities</span>
-        </h2>
-        <table class="doc-table">
-          <thead>
-            <tr>
-              <th style="width: 32%;">Activity/Event</th>
-              <th style="width: 18%;">Date</th>
-              <th style="width: 25%;">My Participation</th>
-              <th style="width: 25%;">Teacher’s Remark</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr>
-              <td><input type="text" id="co_act_1" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_1"></td>
-              <td><input type="text" id="co_part_1" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_2" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_2"></td>
-              <td><input type="text" id="co_part_2" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_3" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_3"></td>
-              <td><input type="text" id="co_part_3" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="co_act_4" placeholder="Activity name"></td>
-              <td><input type="date" id="co_date_4"></td>
-              <td><input type="text" id="co_part_4" placeholder="e.g. Participant / Solo"></td>
-              <td><input type="text" class="locked-field" disabled placeholder="Teacher Entry"></td>
-            </tr>
-            
-          </tbody>
-        </table>
-      </section>
-
-      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>7. Achievements &amp; Certificates</span>
-        </h2>
-        <table class="doc-table">
-          <thead>
-            <tr>
-              <th style="width: 30%;">Achievement</th>
-              <th style="width: 30%;">Event/Competition</th>
-              <th style="width: 18%;">Date</th>
-              <th style="width: 22%;">Position/Award</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr>
-              <td><input type="text" id="ach_item_1" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_1" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_1"></td>
-              <td><input type="text" id="ach_award_1" placeholder="Award / Certificate"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="ach_item_2" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_2" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_2"></td>
-              <td><input type="text" id="ach_award_2" placeholder="Award / Certificate"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="ach_item_3" placeholder="e.g. 1st Prize"></td>
-              <td><input type="text" id="ach_event_3" placeholder="Event title"></td>
-              <td><input type="date" id="ach_date_3"></td>
-              <td><input type="text" id="ach_award_3" placeholder="Award / Certificate"></td>
-            </tr>
-            
-          </tbody>
-        </table>
-        <div class="form-field-group">
-          <label class="form-field-label">Certificates / Awards may be attached here.</label>
-          <textarea id="certificates_evidence" class="form-textarea" rows="2" placeholder="List or paste certificate details, links, or attachment notes..."></textarea>
+      <section class="doc-card" id="sec-cocurricular">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🎭</span> 6. Co-Curricular Activities
+          </div>
+        </div>
+        <div class="doc-card-body">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 32%;">Activity</th>
+                <th style="width: 20%;">Date</th>
+                <th style="width: 24%;">Level of Participation</th>
+                <th>Teacher’s Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="co_act_1" class="form-control" placeholder="Activity 1"></td>
+                <td><input type="date" id="co_date_1" class="form-control"></td>
+                <td><input type="text" id="co_part_1" class="form-control" placeholder="e.g. School / Inter-school"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="co_act_2" class="form-control" placeholder="Activity 2"></td>
+                <td><input type="date" id="co_date_2" class="form-control"></td>
+                <td><input type="text" id="co_part_2" class="form-control" placeholder="e.g. School / Inter-school"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="co_act_3" class="form-control" placeholder="Activity 3"></td>
+                <td><input type="date" id="co_date_3" class="form-control"></td>
+                <td><input type="text" id="co_part_3" class="form-control" placeholder="e.g. School / Inter-school"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="co_act_4" class="form-control" placeholder="Activity 4"></td>
+                <td><input type="date" id="co_date_4" class="form-control"></td>
+                <td><input type="text" id="co_part_4" class="form-control" placeholder="e.g. School / Inter-school"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- 8. PROJECTS & CREATIVE WORK -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>8. Projects &amp; Creative Work</span>
-        </h2>
-        
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
-          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 1</h3>
-          <div class="form-field-group">
-            <label class="form-field-label">Title: ______________________________________________</label>
-            <input type="text" id="proj1_title" class="form-input-text" placeholder="Project 1 Title">
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">What I did:</label>
-            <textarea id="proj1_did" class="form-textarea" rows="2" placeholder="Describe what you built or created..."></textarea>
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">What I learned:</label>
-            <textarea id="proj1_learned" class="form-textarea" rows="2" placeholder="Describe key concepts or lessons learned..."></textarea>
+      <!-- 7. ACHIEVEMENTS & AWARDS -->
+      <section class="doc-card" id="sec-awards">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🏆</span> 7. Achievements &amp; Awards
           </div>
         </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
-          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 2</h3>
-          <div class="form-field-group">
-            <label class="form-field-label">Title: ______________________________________________</label>
-            <input type="text" id="proj2_title" class="form-input-text" placeholder="Project 2 Title">
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">What I learned:</label>
-            <textarea id="proj2_learned" class="form-textarea" rows="2" placeholder="Describe key concepts or lessons learned..."></textarea>
-          </div>
-        </div>
-
-        <div class="form-field-group">
-          <label class="form-field-label">Photographs / Drawings / Project Evidence</label>
-          <textarea id="project_evidence" class="form-textarea" rows="2" placeholder="Notes, descriptions, or evidence of your project work..."></textarea>
+        <div class="doc-card-body">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 30%;">Achievement / Award</th>
+                <th style="width: 28%;">Event / Activity</th>
+                <th style="width: 20%;">Date</th>
+                <th>Position / Recognition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="ach_item_1" class="form-control" placeholder="Award 1"></td>
+                <td><input type="text" id="ach_event_1" class="form-control" placeholder="Event 1"></td>
+                <td><input type="date" id="ach_date_1" class="form-control"></td>
+                <td><input type="text" id="ach_award_1" class="form-control" placeholder="Position / Recognition"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="ach_item_2" class="form-control" placeholder="Award 2"></td>
+                <td><input type="text" id="ach_event_2" class="form-control" placeholder="Event 2"></td>
+                <td><input type="date" id="ach_date_2" class="form-control"></td>
+                <td><input type="text" id="ach_award_2" class="form-control" placeholder="Position / Recognition"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="ach_item_3" class="form-control" placeholder="Award 3"></td>
+                <td><input type="text" id="ach_event_3" class="form-control" placeholder="Event 3"></td>
+                <td><input type="date" id="ach_date_3" class="form-control"></td>
+                <td><input type="text" id="ach_award_3" class="form-control" placeholder="Position / Recognition"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="ach_item_4" class="form-control" placeholder="Award 4"></td>
+                <td><input type="text" id="ach_event_4" class="form-control" placeholder="Event 4"></td>
+                <td><input type="date" id="ach_date_4" class="form-control"></td>
+                <td><input type="text" id="ach_award_4" class="form-control" placeholder="Position / Recognition"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- 9. MY SCHOOL PARTICIPATION -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>9. My School Participation</span>
-        </h2>
-        <label class="form-field-label">I participated in:</label>
-        <div class="checkbox-grid">
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Sports">
-            <span>Sports</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Cultural Activities">
-            <span>Cultural Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Art & Craft">
-            <span>Art & Craft</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Debate / Speech">
-            <span>Debate / Speech</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Quiz">
-            <span>Quiz</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Science / Maths Activities">
-            <span>Science / Maths Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Literary Activities">
-            <span>Literary Activities</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="School Assembly">
-            <span>School Assembly</span>
-          </label>
-          
-          <label class="checkbox-item">
-            <input type="checkbox" name="part_checkbox" value="Community Service">
-            <span>Community Service</span>
-          </label>
-          
+      <!-- 8. PROJECTS & PRACTICAL WORK -->
+      <section class="doc-card" id="sec-projects">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🔬</span> 8. Projects &amp; Practical Work
+          </div>
         </div>
-        <div class="form-field-group" style="margin-top: 1rem;">
-          <label class="form-field-label">Other: ______________________</label>
-          <input type="text" id="part_other_text" class="form-input-text" placeholder="Specify any other school participation...">
-        </div>
-        <div class="form-field-group" style="margin-top: 1rem;">
-          <label class="form-field-label">My most memorable school activity:</label>
-          <textarea id="part_memorable" class="form-textarea" rows="2" placeholder="Write about your most memorable school activity..."></textarea>
+        <div class="doc-card-body">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 22%;">Subject</th>
+                <th style="width: 28%;">Project Title / Topic</th>
+                <th style="width: 28%;">Key Learning</th>
+                <th>Teacher’s Remark</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="proj_sub_1" class="form-control" placeholder="Subject 1"></td>
+                <td><input type="text" id="proj_title_1" class="form-control" placeholder="Title / Topic"></td>
+                <td><input type="text" id="proj_learn_1" class="form-control" placeholder="Key Learning"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="proj_sub_2" class="form-control" placeholder="Subject 2"></td>
+                <td><input type="text" id="proj_title_2" class="form-control" placeholder="Title / Topic"></td>
+                <td><input type="text" id="proj_learn_2" class="form-control" placeholder="Key Learning"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="proj_sub_3" class="form-control" placeholder="Subject 3"></td>
+                <td><input type="text" id="proj_title_3" class="form-control" placeholder="Title / Topic"></td>
+                <td><input type="text" id="proj_learn_3" class="form-control" placeholder="Key Learning"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="proj_sub_4" class="form-control" placeholder="Subject 4"></td>
+                <td><input type="text" id="proj_title_4" class="form-control" placeholder="Title / Topic"></td>
+                <td><input type="text" id="proj_learn_4" class="form-control" placeholder="Key Learning"></td>
+                <td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- 10. MY REFLECTION -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>10. My Reflection</span>
-        </h2>
-        <div class="form-field-group">
-          <label class="form-field-label">What did I learn this year?</label>
-          <textarea id="ref_learned" class="form-textarea" rows="2"></textarea>
+      <!-- 9. PERSONAL IMPROVEMENT PLAN (PIP) -->
+      <section class="doc-card" id="sec-pip">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>📈</span> 9. Personal Improvement Plan (PIP)
+          </div>
         </div>
-        <div class="form-field-group">
-          <label class="form-field-label">What was my biggest achievement?</label>
-          <textarea id="ref_achievement" class="form-textarea" rows="2"></textarea>
+        <div class="doc-card-body">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 28%;">Area for Improvement</th>
+                <th style="width: 32%;">Action Plan</th>
+                <th style="width: 18%;">Target Date</th>
+                <th>Progress / Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="pip_area_1" class="form-control" placeholder="Area 1"></td>
+                <td><input type="text" id="pip_plan_1" class="form-control" placeholder="Action Plan"></td>
+                <td><input type="date" id="pip_target_1" class="form-control"></td>
+                <td><input type="text" id="pip_prog_1" class="form-control" placeholder="Progress / Outcome"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="pip_area_2" class="form-control" placeholder="Area 2"></td>
+                <td><input type="text" id="pip_plan_2" class="form-control" placeholder="Action Plan"></td>
+                <td><input type="date" id="pip_target_2" class="form-control"></td>
+                <td><input type="text" id="pip_prog_2" class="form-control" placeholder="Progress / Outcome"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="pip_area_3" class="form-control" placeholder="Area 3"></td>
+                <td><input type="text" id="pip_plan_3" class="form-control" placeholder="Action Plan"></td>
+                <td><input type="date" id="pip_target_3" class="form-control"></td>
+                <td><input type="text" id="pip_prog_3" class="form-control" placeholder="Progress / Outcome"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="pip_area_4" class="form-control" placeholder="Area 4"></td>
+                <td><input type="text" id="pip_plan_4" class="form-control" placeholder="Action Plan"></td>
+                <td><input type="date" id="pip_target_4" class="form-control"></td>
+                <td><input type="text" id="pip_prog_4" class="form-control" placeholder="Progress / Outcome"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="form-field-group">
-          <label class="form-field-label">What challenge did I face?</label>
-          <textarea id="ref_challenge" class="form-textarea" rows="2"></textarea>
+      </section>
+
+      <!-- 10. BOOK / READING LOG -->
+      <section class="doc-card" id="sec-reading">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>📖</span> 10. Book / Reading Log
+          </div>
         </div>
-        <div class="form-field-group">
-          <label class="form-field-label">How did I overcome it?</label>
-          <textarea id="ref_overcome" class="form-textarea" rows="2"></textarea>
-        </div>
-        <div class="form-field-group">
-          <label class="form-field-label">What will I do better next year?</label>
-          <textarea id="ref_next_year" class="form-textarea" rows="2"></textarea>
+        <div class="doc-card-body">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 32%;">Title of the Book</th>
+                <th style="width: 24%;">Author</th>
+                <th style="width: 18%;">Date Completed</th>
+                <th>Key Takeaway</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" id="book_title_1" class="form-control" placeholder="Book Title 1"></td>
+                <td><input type="text" id="book_author_1" class="form-control" placeholder="Author"></td>
+                <td><input type="date" id="book_date_1" class="form-control"></td>
+                <td><input type="text" id="book_takeaway_1" class="form-control" placeholder="Key Takeaway"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="book_title_2" class="form-control" placeholder="Book Title 2"></td>
+                <td><input type="text" id="book_author_2" class="form-control" placeholder="Author"></td>
+                <td><input type="date" id="book_date_2" class="form-control"></td>
+                <td><input type="text" id="book_takeaway_2" class="form-control" placeholder="Key Takeaway"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="book_title_3" class="form-control" placeholder="Book Title 3"></td>
+                <td><input type="text" id="book_author_3" class="form-control" placeholder="Author"></td>
+                <td><input type="date" id="book_date_3" class="form-control"></td>
+                <td><input type="text" id="book_takeaway_3" class="form-control" placeholder="Key Takeaway"></td>
+              </tr>
+              <tr>
+                <td><input type="text" id="book_title_4" class="form-control" placeholder="Book Title 4"></td>
+                <td><input type="text" id="book_author_4" class="form-control" placeholder="Author"></td>
+                <td><input type="date" id="book_date_4" class="form-control"></td>
+                <td><input type="text" id="book_takeaway_4" class="form-control" placeholder="Key Takeaway"></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
       <!-- 11. MY BEST WORK -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>11. My Best Work</span>
-        </h2>
-        <p style="font-size: 0.95rem; color: #475569; margin-bottom: 0.75rem;">
-          Paste or attach your best work here.<br>
-          <span style="font-size: 0.85rem; color: #64748b;">Examples: Best written work • Artwork • Project • Certificate • Creative writing • Photograph of participation</span>
-        </p>
-        <div class="form-field-group">
-          <textarea id="best_work_content" class="form-textarea" rows="3" placeholder="Describe your best work, title, achievements, or paste text/details..."></textarea>
+      <section class="doc-card" id="sec-bestwork">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🎨</span> 11. My Best Work
+          </div>
+        </div>
+        <div class="doc-card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Why I chose this piece</label>
+              <textarea id="best_why" class="form-control" rows="3" placeholder="Explain why this represents your best effort..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What I learned from it</label>
+              <textarea id="best_learned" class="form-control" rows="3" placeholder="Describe key insights, skills, or learnings gained..."></textarea>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- 12. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>12. Teacher’s Assessment</span>
-          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
-        </h2>
-        
-        <div class="locked-section-container">
-          <div class="locked-notice-banner">
-            <span>🔒</span>
-            <span>Assessed and signed exclusively by the Class Teacher.</span>
+      <section class="doc-card" id="sec-assessment">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>👨‍🏫</span> 12. Teacher’s Assessment
           </div>
-
-          <table class="doc-table">
-            <thead>
-              <tr>
-                <th>Area</th>
-                <th class="center" style="width: 18%;">Excellent</th>
-                <th class="center" style="width: 18%;">Very Good</th>
-                <th class="center" style="width: 18%;">Good</th>
-                <th class="center" style="width: 18%;">Needs Improvement</th>
-              </tr>
-            </thead>
-            <tbody>
-              
-              <tr>
-                <td><strong>Academic Performance</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Discipline</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Regularity</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Communication</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Participation</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Teamwork</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Leadership</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-              <tr>
-                <td><strong>Creativity</strong></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-                <td class="center"><input type="radio" disabled></td>
-              </tr>
-              
-            </tbody>
-          </table>
-
-          <div class="form-field-group" style="margin-top: 1rem;">
-            <label class="form-field-label">Teacher’s Remarks</label>
-            <textarea class="locked-field form-textarea" disabled rows="2" placeholder="Teacher's remarks will appear here once evaluated..."></textarea>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
-            <div>
-              <label class="form-field-label">Class Teacher’s Signature: ___________________</label>
-              <input type="text" class="locked-field form-input-text" disabled placeholder="Teacher Signature">
+          <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
+        </div>
+        <div class="doc-card-body">
+          <div class="faculty-locked-vault">
+            <div class="faculty-vault-banner">
+              <span style="font-size: 1.25rem;">🔒</span>
+              <div>
+                <strong>Official Faculty Assessment &amp; Conduct Evaluation.</strong>
+                <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 500;">
+                  Discipline, regularity, communication, and leadership evaluations are completed by the Class Teacher.
+                </p>
+              </div>
             </div>
-            <div>
-              <label class="form-field-label">Date: ___________________</label>
-              <input type="text" class="locked-field form-input-text" disabled placeholder="Evaluation Date">
+
+            <table class="modern-table">
+              <thead>
+                <tr>
+                  <th>Evaluation Area</th>
+                  <th style="width: 16%; text-align: center;">Excellent</th>
+                  <th style="width: 16%; text-align: center;">Very Good</th>
+                  <th style="width: 16%; text-align: center;">Good</th>
+                  <th style="width: 16%; text-align: center;">Needs Imp.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Academic Performance</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Discipline</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Regularity</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Communication</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Participation</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Teamwork</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Leadership</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+                <tr><td><strong>Creativity</strong></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td><td style="text-align:center;"><input type="radio" disabled></td></tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top: 1rem;">
+              <label style="font-weight: 700; font-size: 0.88rem; color: #92400e; display: block; margin-bottom: 0.35rem;">Teacher’s Remarks</label>
+              <textarea class="form-control locked-input-pill" disabled rows="2" placeholder="Recorded by Teacher in Faculty Portal"></textarea>
             </div>
           </div>
         </div>
       </section>
 
       <!-- 13. PARENT’S FEEDBACK -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>13. Parent’s Feedback</span>
-        </h2>
-        <div class="form-field-group">
-          <label class="form-field-label">My child’s strengths:</label>
-          <textarea id="parent_strengths" class="form-textarea" rows="2"></textarea>
-        </div>
-        <div class="form-field-group">
-          <label class="form-field-label">Areas where my child can improve:</label>
-          <textarea id="parent_improve" class="form-textarea" rows="2"></textarea>
-        </div>
-        <div class="form-field-group">
-          <label class="form-field-label">Parent’s Suggestions:</label>
-          <textarea id="parent_suggestions" class="form-textarea" rows="2"></textarea>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1rem;">
-          <div>
-            <label class="form-field-label">Parent’s Signature: ___________________</label>
-            <input type="text" id="parent_signature" class="form-input-text" placeholder="Parent / Guardian Name">
+      <section class="doc-card" id="sec-parent">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>👪</span> 13. Parent’s Feedback
           </div>
-          <div>
-            <label class="form-field-label">Date: ___________________</label>
-            <input type="date" id="parent_date" class="form-input-text">
+        </div>
+        <div class="doc-card-body">
+          <div style="margin-bottom: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Parent’s Remarks</label>
+            <textarea id="parent_remarks" class="form-control" rows="3" placeholder="Parent observations, appreciation, and expectations..."></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Parent’s Signature</label>
+              <input type="text" id="parent_signature" class="form-control" placeholder="Parent Name / Signature">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Date</label>
+              <input type="date" id="parent_date" class="form-control">
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>14. Personal Improvement Plan</span>
-        </h2>
-        <table class="doc-table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">Area to Improve</th>
-              <th style="width: 35%;">My Action Plan</th>
-              <th style="width: 20%;">Target Date</th>
-              <th style="width: 20%;">Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr>
-              <td><input type="text" id="pip_area_1" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_1" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_1"></td>
-              <td><input type="text" id="pip_prog_1" placeholder="e.g. In Progress"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="pip_area_2" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_2" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_2"></td>
-              <td><input type="text" id="pip_prog_2" placeholder="e.g. In Progress"></td>
-            </tr>
-            
-            <tr>
-              <td><input type="text" id="pip_area_3" placeholder="e.g. Handwriting"></td>
-              <td><input type="text" id="pip_plan_3" placeholder="Action steps..."></td>
-              <td><input type="date" id="pip_target_3"></td>
-              <td><input type="text" id="pip_prog_3" placeholder="e.g. In Progress"></td>
-            </tr>
-            
-          </tbody>
-        </table>
-      </section>
-
-      <!-- 15. MY YEAR IN ONE PAGE -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>15. My Year in One Page</span>
-        </h2>
-        <div class="year-one-page-grid">
-          <div class="year-card">
-            <div class="year-card-title">⭐ My Best Achievement</div>
-            <textarea id="year_achievement" class="form-textarea" rows="2"></textarea>
-          </div>
-          <div class="year-card">
-            <div class="year-card-title">📚 My Favourite Subject</div>
-            <input type="text" id="year_subject" class="form-input-text">
-          </div>
-          <div class="year-card">
-            <div class="year-card-title">🎨 My Favourite Activity</div>
-            <input type="text" id="year_activity" class="form-input-text">
-          </div>
-          <div class="year-card">
-            <div class="year-card-title">🏆 An Award I Received</div>
-            <input type="text" id="year_award" class="form-input-text">
-          </div>
-          <div class="year-card">
-            <div class="year-card-title">💡 Something New I Learned</div>
-            <textarea id="year_learned" class="form-textarea" rows="2"></textarea>
-          </div>
-          <div class="year-card">
-            <div class="year-card-title">❤️ Something I Am Proud Of</div>
-            <textarea id="year_proud" class="form-textarea" rows="2"></textarea>
+      <!-- 14. STUDENT’S SELF-REFLECTION -->
+      <section class="doc-card" id="sec-reflection">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>💡</span> 14. Student’s Self-Reflection
           </div>
         </div>
-        <div class="year-card" style="margin-top: 1rem;">
-          <div class="year-card-title">🚀 My Goal for Next Year</div>
-          <textarea id="year_goal" class="form-textarea" rows="2"></textarea>
+        <div class="doc-card-body">
+          <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What I enjoyed most this term</label>
+              <textarea id="reflect_enjoyed" class="form-control" rows="2" placeholder="Projects, topics, or school events you loved most..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What was challenging for me</label>
+              <textarea id="reflect_challenging" class="form-control" rows="2" placeholder="Difficult concepts or challenges you encountered..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What I would do differently next time</label>
+              <textarea id="reflect_differently" class="form-control" rows="2" placeholder="Strategies to achieve even better outcomes..."></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. END OF YEAR REVIEW -->
+      <section class="doc-card" id="sec-year-review">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🎉</span> 15. End of Year Review
+          </div>
+        </div>
+        <div class="doc-card-body">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Highlights of the Year</label>
+              <textarea id="year_highlights" class="form-control" rows="2" placeholder="Key memorable moments..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">An Award I Received</label>
+              <input type="text" id="year_award" class="form-control" placeholder="Award title or honor">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Something New I Learned</label>
+              <textarea id="year_learned" class="form-control" rows="2" placeholder="New knowledge or skill..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Something I Am Proud Of</label>
+              <textarea id="year_proud" class="form-control" rows="2" placeholder="Personal or team achievement..."></textarea>
+            </div>
+          </div>
+          <div style="margin-top: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My Goal for Next Year</label>
+            <textarea id="year_goal" class="form-control" rows="2" placeholder="Your major goal for the upcoming academic year..."></textarea>
+          </div>
         </div>
       </section>
 
       <!-- 16. STUDENT’S DECLARATION -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>16. Student’s Declaration</span>
-        </h2>
-        <div class="declaration-box">
-          “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
+      <section class="doc-card" id="sec-declaration">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>✍️</span> 16. Student’s Declaration
+          </div>
         </div>
-        <div class="signatures-grid">
-          <div>
-            <label class="form-field-label">Student’s Name: ______________________________</label>
-            <input type="text" id="decl_student_name" class="form-input-text" placeholder="Student Name">
+        <div class="doc-card-body">
+          <div style="background: #f8fafc; border-left: 4px solid #1e3a8a; padding: 1rem 1.25rem; border-radius: 6px; font-style: italic; color: #1e293b; font-size: 0.98rem; margin-bottom: 1.5rem;">
+            “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
           </div>
-          <div>
-            <label class="form-field-label">Signature: ___________________</label>
-            <input type="text" id="decl_signature" class="form-input-text" placeholder="Digital Signature / Initial">
-          </div>
-          <div>
-            <label class="form-field-label">Date: ___________________</label>
-            <input type="date" id="decl_date" class="form-input-text">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Student’s Full Name</label>
+              <input type="text" id="decl_student_name" class="form-control" placeholder="Full Legal Name">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Signature / Digital Sign-off</label>
+              <input type="text" id="decl_signature" class="form-control" placeholder="Student Signature">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Date</label>
+              <input type="date" id="decl_date" class="form-control">
+            </div>
           </div>
         </div>
       </section>
 
       <!-- 17. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
-      <section class="doc-section">
-        <h2 class="doc-section-title">
-          <span>17. Teacher’s Final Remark</span>
-          <span class="locked-badge">🔒 Locked — Teacher Evaluation Only</span>
-        </h2>
-        <div class="locked-section-container">
-          <div class="locked-notice-banner">
-            <span>🔒</span>
-            <span>Signed and verified by the Class Teacher and Principal.</span>
+      <section class="doc-card" id="sec-final-remark">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>📜</span> 17. Teacher’s Final Remark
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-            <div>
-              <label class="form-field-label">Class Teacher: ___________________</label>
-              <input type="text" class="locked-field form-input-text" disabled placeholder="Class Teacher Final Remark">
+          <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
+        </div>
+        <div class="doc-card-body">
+          <div class="faculty-locked-vault">
+            <div class="faculty-vault-banner">
+              <span style="font-size: 1.25rem;">🔒</span>
+              <div>
+                <strong>Final certification by Class Teacher &amp; Principal.</strong>
+                <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 500;">
+                  Official final remarks and seal will be recorded by authorized school faculty.
+                </p>
+              </div>
             </div>
-            <div>
-              <label class="form-field-label">Principal: ___________________</label>
-              <input type="text" class="locked-field form-input-text" disabled placeholder="Principal Remark &amp; Stamp">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+              <div>
+                <label style="font-weight: 700; font-size: 0.88rem; color: #92400e; display: block; margin-bottom: 0.35rem;">Class Teacher Final Remark</label>
+                <input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry">
+              </div>
+              <div>
+                <label style="font-weight: 700; font-size: 0.88rem; color: #92400e; display: block; margin-bottom: 0.35rem;">Principal Sign-off &amp; Seal</label>
+                <input type="text" class="form-control locked-input-pill" disabled placeholder="Principal Sign-off">
+              </div>
             </div>
           </div>
         </div>
       </section>
 
     </form>
-  </div>
+  </main>
 
-  <!-- FIXED STUDENT BOTTOM ACTION BAR -->
-  <aside class="student-bottom-bar no-print">
-    <div class="bottom-bar-info">
-      <span style="font-size: 1.25rem;">📄</span>
-      <span id="bottomStatusText" class="bottom-bar-status">Ready • All changes automatically draft saved</span>
-    </div>
-    <div class="bottom-bar-actions">
-      <button type="button" id="btnPrintPortfolio" class="btn btn-print" title="Auto-save to Teacher Dashboard and open Print view with Performance Graph">
-        <span>🖨️</span> Print Portfolio (All Subjects)
-      </button>
-      <button type="button" id="btnSendPortfolio" class="btn btn-send" title="Send completed portfolio to Teacher Dashboard">
-        <span>🚀</span> Send Portfolio
-      </button>
+  <!-- ========================================================= -->
+  <!-- FIXED STUDENT BOTTOM ACTION BAR (HIGH VISIBILITY)         -->
+  <!-- ========================================================= -->
+  <aside class="student-floating-bar no-print">
+    <div class="floating-bar-inner">
+      <div style="display: flex; align-items: center;">
+        <span class="status-dot-indicator"></span>
+        <span id="bottomStatusText" style="font-weight: 700; font-size: 0.88rem; color: #334155;">
+          Ready • All changes automatically draft saved
+        </span>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
+          <span>🖨️</span> Print Portfolio (Single A4 Page)
+        </button>
+        <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" title="Transmit completed portfolio to Teacher Dashboard">
+          <span>🚀</span> Send Portfolio
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -963,31 +848,34 @@
   <!-- TAB 2: TEACHER DASHBOARD CONTAINER (ON SAME PAGE)         -->
   <!-- ========================================================= -->
   <div id="teacherViewContainer" style="display: none;">
-    
-    <!-- A. Teacher PIN Gate (When not unlocked) -->
-    <div id="teacherAuthGate" class="teacher-auth-gate" style="display: none;">
+
+    <!-- A. Teacher PIN Gate (When not authenticated) -->
+    <div id="teacherAuthGate" class="teacher-auth-gate">
       <div class="auth-card">
-        <img src="assets/school-logo.jpg" alt="Logo" style="height: 52px; border-radius: 6px; margin-bottom: 0.75rem;">
-        <span style="font-size: 0.8rem; background: #eff6ff; color: #1e3a8a; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 700; text-transform: uppercase;">
-          Confidential Faculty Portal
-        </span>
-        <h2 style="font-size: 1.5rem; color: #0f172a; margin: 0.5rem 0 0.25rem;">Teacher Dashboard Access</h2>
+        <img src="assets/school-logo.jpg" alt="Logo" style="height: 54px; border-radius: 8px; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="margin-bottom: 0.75rem;">
+          <span style="font-size: 0.75rem; background: #eff6ff; color: #1e3a8a; padding: 0.35rem 0.85rem; border-radius: 9999px; font-weight: 800; text-transform: uppercase; border: 1px solid #bfdbfe;">
+            Confidential Faculty Portal
+          </span>
+        </div>
+        <h2 style="font-size: 1.4rem; color: #0f172a; margin-bottom: 0.35rem; font-weight: 900;">Teacher Dashboard Access</h2>
         <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem;">SHM Academy • Authorized Faculty Access Only</p>
 
         <form onsubmit="handleTeacherLogin(event); return false;" style="text-align: left;">
           <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">
+            <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">
               Teacher Access Passcode
             </label>
-            <input type="password" id="teacherPasscodeInput" class="form-input-text" placeholder="Enter teacher passcode" required autocomplete="off">
+            <input type="password" id="teacherPasscodeInput" class="form-control" placeholder="Enter teacher passcode" required autocomplete="off">
           </div>
-          <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.75rem;"></div>
-          <button type="submit" class="btn btn-send" style="width: 100%; justify-content: center; background: #1e3a8a; padding: 0.75rem;">
+          <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem;"></div>
+          <button type="submit" class="btn-vibrant btn-send-gradient" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.95rem;">
             🔒 Verify &amp; Unlock Dashboard
           </button>
         </form>
-        <div style="margin-top: 1.5rem;">
-          <button type="button" onclick="switchMainTab('student')" class="btn btn-secondary" style="font-size: 0.85rem; width: 100%; justify-content: center;">
+
+        <div style="margin-top: 1.25rem;">
+          <button type="button" onclick="switchMainTab('student')" class="btn-vibrant btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
             ← Return to Student Portfolio Tab
           </button>
         </div>
@@ -995,304 +883,472 @@
     </div>
 
     <!-- B. Unlocked Teacher Dashboard -->
-    <div id="teacherDashboardContent" style="display: none;">
-      <div class="dashboard-wrapper">
-        
-        <!-- Header -->
-        <header class="dash-nav">
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <img src="assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
-            <div>
-              <h1 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
-              <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
-            </div>
+    <div id="teacherDashboardContent" style="display: none;" class="teacher-dashboard-view">
+      
+      <!-- Executive Dashboard Header -->
+      <header style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; background: #ffffff; padding: 1.25rem 1.75rem; border-radius: 14px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <img src="assets/school-logo.jpg" alt="Logo" style="height: 48px; border-radius: 8px;">
+          <div>
+            <h1 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
+            <p style="font-size: 0.82rem; color: #64748b; margin: 0.2rem 0 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700;">
-              👨‍🏫 Authorized Faculty
-            </span>
-            <button type="button" onclick="lockTeacherTab()" class="btn btn-secondary" style="padding: 0.45rem 0.85rem; font-size: 0.85rem; color: #be123c; border-color: #fecdd3;">
-              🔒 Lock &amp; Logout
-            </button>
-          </div>
-        </header>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; border: 1px solid #bfdbfe;">
+            👨‍🏫 Authorized Faculty
+          </span>
+          <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+            🔒 Lock &amp; Logout
+          </button>
+        </div>
+      </header>
 
-        <!-- Stats Overview -->
-        <section class="dash-stats-row">
-          <div class="stat-card">
-            <div class="stat-lbl">Total Student Portfolios</div>
-            <div class="stat-val" id="statTotalSubmissions">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-lbl">Pending Teacher Evaluation</div>
-            <div class="stat-val" id="statPendingEvaluation" style="color: #b45309;">0</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-lbl">Evaluated &amp; Completed</div>
-            <div class="stat-val" id="statEvaluated" style="color: #15803d;">0</div>
-          </div>
-        </section>
+      <!-- KPI Stats Row -->
+      <section class="kpi-stat-grid">
+        <div class="kpi-stat-box kpi-blue">
+          <div class="kpi-label">Total Portfolios Submitted</div>
+          <div class="kpi-value" id="statTotalSubmissions">0</div>
+        </div>
+        <div class="kpi-stat-box kpi-amber">
+          <div class="kpi-label">Pending Teacher Evaluation</div>
+          <div class="kpi-value" id="statPendingEvaluation" style="color: #b45309;">0</div>
+        </div>
+        <div class="kpi-stat-box kpi-green">
+          <div class="kpi-label">Evaluated &amp; Certified</div>
+          <div class="kpi-value" id="statEvaluated" style="color: #15803d;">0</div>
+        </div>
+      </section>
 
-        <!-- Filter Card -->
-        <section class="dash-filter-card">
-          <div class="filter-item">
-            <label>Filter by Class &amp; Section</label>
-            <select id="filterClassSelect" class="form-input-text">
-              <option value="all">All Classes (Class 6 - 12)</option>
-              
-              <option value="Class 6 - Section A">Class 6 - Section A</option>
-              
-              <option value="Class 6 - Section B">Class 6 - Section B</option>
-              
-              <option value="Class 7 - Section A">Class 7 - Section A</option>
-              
-              <option value="Class 7 - Section B">Class 7 - Section B</option>
-              
-              <option value="Class 8 - Section A">Class 8 - Section A</option>
-              
-              <option value="Class 8 - Section B">Class 8 - Section B</option>
-              
-              <option value="Class 9 - Section A">Class 9 - Section A</option>
-              
-              <option value="Class 9 - Section B">Class 9 - Section B</option>
-              
-              <option value="Class 10 - Section A">Class 10 - Section A</option>
-              
-              <option value="Class 10 - Section B">Class 10 - Section B</option>
-              
-              <option value="Class 11 - Section A">Class 11 - Section A</option>
-              
-              <option value="Class 11 - Section B">Class 11 - Section B</option>
-              
-              <option value="Class 12 - Section A">Class 12 - Section A</option>
-              
-              <option value="Class 12 - Section B">Class 12 - Section B</option>
-              
-            </select>
-          </div>
+      <!-- Filter Toolbar -->
+      <section class="teacher-filter-bar">
+        <div class="filter-input-group">
+          <label>Filter by Class &amp; Section</label>
+          <select id="filterClassSelect" class="form-control" style="font-weight: 700;">
+            <option value="all">All Classes (Class 6 - 12)</option>
+            <option value="Class 6 - Section A">Class 6 - Section A</option>\n            <option value="Class 6 - Section B">Class 6 - Section B</option>\n            <option value="Class 7 - Section A">Class 7 - Section A</option>\n            <option value="Class 7 - Section B">Class 7 - Section B</option>\n            <option value="Class 8 - Section A">Class 8 - Section A</option>\n            <option value="Class 8 - Section B">Class 8 - Section B</option>\n            <option value="Class 9 - Section A">Class 9 - Section A</option>\n            <option value="Class 9 - Section B">Class 9 - Section B</option>\n            <option value="Class 10 - Section A">Class 10 - Section A</option>\n            <option value="Class 10 - Section B">Class 10 - Section B</option>\n            <option value="Class 11 - Section A">Class 11 - Section A</option>\n            <option value="Class 11 - Section B">Class 11 - Section B</option>\n            <option value="Class 12 - Section A">Class 12 - Section A</option>\n            <option value="Class 12 - Section B">Class 12 - Section B</option>
+          </select>
+        </div>
 
-          <div class="filter-item">
-            <label>Filter by Status</label>
-            <select id="filterStatusSelect" class="form-input-text">
-              <option value="all">All Statuses</option>
-              <option value="pending_evaluation">Pending Evaluation</option>
-              <option value="evaluated">Evaluated</option>
-            </select>
-          </div>
+        <div class="filter-input-group">
+          <label>Filter by Status</label>
+          <select id="filterStatusSelect" class="form-control" style="font-weight: 700;">
+            <option value="all">All Statuses</option>
+            <option value="pending_evaluation">⏳ Pending Evaluation</option>
+            <option value="evaluated">✓ Evaluated</option>
+          </select>
+        </div>
 
-          <div class="filter-item" style="flex: 1.5;">
-            <label>Search Student</label>
-            <input type="text" id="searchStudentInput" class="form-input-text" placeholder="Search by name, roll no, or admission no...">
-          </div>
-        </section>
+        <div class="filter-input-group" style="flex: 1.6;">
+          <label>Search Student</label>
+          <input type="text" id="searchStudentInput" class="form-control" placeholder="Search by name, roll no, or admission no...">
+        </div>
+      </section>
 
-        <!-- Roster Table -->
-        <main class="roster-card">
-          <table class="roster-table">
+      <!-- Roster Table Card -->
+      <main class="roster-card-box">
+        <div style="overflow-x: auto;">
+          <table class="roster-data-table">
             <thead>
               <tr>
-                <th style="width: 50px;">Photo</th>
+                <th style="width: 55px;">Photo</th>
                 <th>Student Name</th>
                 <th>Class &amp; Section</th>
                 <th>Roll No</th>
                 <th>Submitted At</th>
-                <th>Source</th>
+                <th>Submission Source</th>
                 <th>Status</th>
-                <th style="text-align: right;">Teacher Actions</th>
+                <th style="text-align: right; min-width: 220px;">Faculty Actions</th>
               </tr>
             </thead>
-            <tbody id="rosterTableBody"></tbody>
+            <tbody id="rosterTableBody">
+              <!-- Loaded dynamically via portfolio.js -->
+            </tbody>
           </table>
-          <div id="emptyRosterState" style="display: none; padding: 4rem 2rem; text-align: center; color: #64748b;">
-            <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
-            <h3 style="font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Submissions Found</h3>
-            <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
-              When a student fills their portfolio and clicks <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong>, their submission will appear here automatically.
-            </p>
-          </div>
-        </main>
+        </div>
 
-      </div>
+        <div id="emptyRosterState" style="display: none; padding: 4rem 2rem; text-align: center; color: #64748b;">
+          <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">📋</div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Student Submissions Found</h3>
+          <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto; color: #64748b;">
+            When a student fills out their portfolio and clicks <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong>, their complete submission will automatically appear here for your review and evaluation.
+          </p>
+        </div>
+      </main>
+
     </div>
-
   </div>
 
-  <!-- TEACHER EVALUATION MODAL (POPUPS OVER THE PAGE FOR MARK ENTRY) -->
-  <div id="evalModal" class="eval-modal-overlay">
-    <div class="eval-modal-container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #cbd5e1; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+  <!-- ========================================================= -->
+  <!-- TEACHER EVALUATION MODAL (STICKY HEADER & STICKY FOOTER)   -->
+  <!-- ========================================================= -->
+  <div id="evalModal" class="eval-modal-backdrop">
+    <div class="eval-modal-window">
+      <div class="eval-modal-header">
         <div>
-          <h2 id="modalStudentTitle" style="font-size: 1.3rem; color: #1e3a8a; margin: 0;">Faculty Evaluation</h2>
-          <p id="modalStudentSubtitle" style="font-size: 0.85rem; color: #64748b; margin: 0.25rem 0 0;"></p>
+          <h2 id="modalStudentTitle" style="font-size: 1.3rem; font-weight: 900; margin: 0;">Faculty Evaluation</h2>
+          <p id="modalStudentSubtitle" style="font-size: 0.85rem; color: #bfdbfe; margin: 0.25rem 0 0;"></p>
         </div>
-        <button type="button" onclick="closeEvaluationModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+        <button type="button" onclick="closeEvaluationModal()" style="background: none; border: none; font-size: 1.75rem; cursor: pointer; color: #ffffff; line-height: 1;">✕</button>
       </div>
 
-      <!-- Academic Progress Evaluation -->
-      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">4. Academic Progress (Marks &amp; Remarks)</h3>
-        <table class="doc-table" style="background: #ffffff;">
-          <thead>
-            <tr>
-              <th style="width: 25%;">Subject</th>
-              <th style="width: 18%; text-align: center;">Term 1</th>
-              <th style="width: 18%; text-align: center;">Mid Term</th>
-              <th style="width: 18%; text-align: center;">Term 2</th>
-              <th>Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            <script>
-              const modalSubjects = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
-              modalSubjects.forEach((sub, i) => {
-                document.write(`
-                  <tr>
-                    <td><strong>${sub}</strong></td>
-                    <td><input type="text" id="modal_sub_${i}_term1" placeholder="Marks / Grade"></td>
-                    <td><input type="text" id="modal_sub_${i}_midterm" placeholder="Marks / Grade"></td>
-                    <td><input type="text" id="modal_sub_${i}_term2" placeholder="Marks / Grade"></td>
-                    <td><input type="text" id="modal_sub_${i}_remarks" placeholder="Remarks"></td>
-                  </tr>
-                `);
-              });
-            </script>
-          </tbody>
-        </table>
-        <div style="margin-top: 0.75rem;">
-          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">My Academic Achievement</label>
-          <textarea id="modal_academic_achievement" class="form-textarea" rows="2" placeholder="Highlights, distinctions, or awards..."></textarea>
-        </div>
-      </div>
-
-      <!-- Skills Evaluation -->
-      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">5. My Skills (Rating 1–5)</h3>
-        <table class="doc-table" style="background: #ffffff;">
-          <thead>
-            <tr>
-              <th>Skill</th>
-              <th style="width: 180px; text-align: center;">Rating (/5)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <script>
-              const modalSkills = [
-                ['Communication', 'communication'], ['Reading', 'reading'], ['Writing', 'writing'],
-                ['Creativity', 'creativity'], ['Problem Solving', 'problem_solving'], ['Teamwork', 'teamwork'],
-                ['Leadership', 'leadership'], ['Time Management', 'time_management'], ['Digital Skills', 'digital_skills']
-              ];
-              modalSkills.forEach(item => {
-                document.write(`
-                  <tr>
-                    <td><strong>${item[0]}</strong></td>
-                    <td style="text-align: center;">
-                      <select id="modal_skill_${item[1]}" class="form-input-text" style="width: 100px; font-weight: 700;">
-                        <option value="">—</option>
-                        <option value="5">5 / 5</option>
-                        <option value="4">4 / 5</option>
-                        <option value="3">3 / 5</option>
-                        <option value="2">2 / 5</option>
-                        <option value="1">1 / 5</option>
-                      </select>
-                    </td>
-                  </tr>
-                `);
-              });
-            </script>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Co-Curricular Remarks -->
-      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">6. Co-Curricular Activities: Teacher’s Remarks</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 1 Remark</label><input type="text" id="modal_co_rem_1" class="form-input-text"></div>
-          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 2 Remark</label><input type="text" id="modal_co_rem_2" class="form-input-text"></div>
-          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 3 Remark</label><input type="text" id="modal_co_rem_3" class="form-input-text"></div>
-          <div><label style="font-size: 0.8rem; font-weight: 700;">Activity 4 Remark</label><input type="text" id="modal_co_rem_4" class="form-input-text"></div>
-        </div>
-      </div>
-
-      <!-- Teacher's Assessment -->
-      <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.1rem; color: #1e3a8a; margin-bottom: 0.5rem;">12. Teacher’s Assessment</h3>
-        <table class="doc-table" style="background: #ffffff;">
-          <thead>
-            <tr>
-              <th>Area</th>
-              <th style="width: 18%; text-align: center;">Excellent</th>
-              <th style="width: 18%; text-align: center;">Very Good</th>
-              <th style="width: 18%; text-align: center;">Good</th>
-              <th style="width: 18%; text-align: center;">Needs Imp.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <script>
-              const modalAreas = [
-                ['Academic Performance', 'academic_performance'],
-                ['Discipline', 'discipline'],
-                ['Regularity', 'regularity'],
-                ['Communication', 'communication'],
-                ['Participation', 'participation'],
-                ['Teamwork', 'teamwork'],
-                ['Leadership', 'leadership'],
-                ['Creativity', 'creativity']
-              ];
-              modalAreas.forEach(a => {
-                document.write(`
-                  <tr>
-                    <td><strong>${a[0]}</strong></td>
-                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Excellent"></td>
-                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Very Good"></td>
-                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Good"></td>
-                    <td style="text-align:center;"><input type="radio" name="modal_ta_${a[1]}" value="Needs Improvement"></td>
-                  </tr>
-                `);
-              });
-            </script>
-          </tbody>
-        </table>
-
-        <div style="margin-top: 1rem;">
-          <label style="font-weight: 700; font-size: 0.9rem; color: #1e3a8a;">Teacher’s Remarks</label>
-          <textarea id="modal_teacher_remarks" class="form-textarea" rows="2" placeholder="Overall faculty feedback..."></textarea>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-          <div>
-            <label style="font-weight: 700; font-size: 0.85rem;">Class Teacher’s Signature</label>
-            <input type="text" id="modal_teacher_sig" class="form-input-text" placeholder="Teacher Name / Signature">
+      <div class="eval-modal-body">
+        
+        <!-- 4. Academic Progress Evaluation -->
+        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin: 0;">4. Academic Progress (Marks &amp; Remarks)</h3>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; background: #dbeafe; padding: 2px 8px; border-radius: 4px;">Faculty Entry</span>
           </div>
-          <div>
-            <label style="font-weight: 700; font-size: 0.85rem;">Date</label>
-            <input type="date" id="modal_teacher_date" class="form-input-text">
+          
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th style="width: 24%;">Subject</th>
+                <th style="width: 18%; text-align: center;">Term 1</th>
+                <th style="width: 18%; text-align: center;">Mid Term</th>
+                <th style="width: 18%; text-align: center;">Term 2</th>
+                <th>Subject Teacher Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>English</strong></td>
+                <td><input type="text" id="modal_sub_0_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_0_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_0_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_0_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Hindi</strong></td>
+                <td><input type="text" id="modal_sub_1_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_1_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_1_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_1_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Mathematics</strong></td>
+                <td><input type="text" id="modal_sub_2_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_2_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_2_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_2_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Science</strong></td>
+                <td><input type="text" id="modal_sub_3_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_3_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_3_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_3_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Social Science</strong></td>
+                <td><input type="text" id="modal_sub_4_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_4_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_4_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_4_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Computer/IT</strong></td>
+                <td><input type="text" id="modal_sub_5_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_5_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_5_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_5_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+              <tr>
+                <td><strong>Other</strong></td>
+                <td><input type="text" id="modal_sub_6_term1" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_6_midterm" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_6_term2" class="form-control" placeholder="Marks"></td>
+                <td><input type="text" id="modal_sub_6_remarks" class="form-control" placeholder="Remarks"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top: 1rem;">
+            <label style="font-weight: 700; font-size: 0.88rem; color: #1e3a8a; display: block; margin-bottom: 0.35rem;">My Academic Achievement</label>
+            <textarea id="modal_academic_achievement" class="form-control" rows="2" placeholder="Highlights, distinctions, or awards recorded by teacher..."></textarea>
           </div>
         </div>
-      </div>
 
-      <!-- Teacher's Final Remark -->
-      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1rem; color: #0f172a; margin-bottom: 0.5rem;">17. Teacher’s Final Remark</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-          <div>
-            <label style="font-size: 0.85rem; font-weight: 700;">Class Teacher</label>
-            <input type="text" id="modal_final_class_teacher" class="form-input-text" placeholder="Class Teacher Remark">
-          </div>
-          <div>
-            <label style="font-size: 0.85rem; font-weight: 700;">Principal</label>
-            <input type="text" id="modal_final_principal" class="form-input-text" placeholder="Principal Sign-off">
+        <!-- 5. Skills Evaluation -->
+        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">5. My Skills (Rating 1–5)</h3>
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Skill Domain</th>
+                <th style="width: 180px; text-align: center;">Rating (/5)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Communication</strong></td><td style="text-align: center;"><select id="modal_skill_communication" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Reading</strong></td><td style="text-align: center;"><select id="modal_skill_reading" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Writing</strong></td><td style="text-align: center;"><select id="modal_skill_writing" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Creativity</strong></td><td style="text-align: center;"><select id="modal_skill_creativity" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Problem Solving</strong></td><td style="text-align: center;"><select id="modal_skill_problem_solving" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Teamwork</strong></td><td style="text-align: center;"><select id="modal_skill_teamwork" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Leadership</strong></td><td style="text-align: center;"><select id="modal_skill_leadership" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Time Management</strong></td><td style="text-align: center;"><select id="modal_skill_time_management" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+              <tr><td><strong>Digital Skills</strong></td><td style="text-align: center;"><select id="modal_skill_digital_skills" class="form-control" style="width: 110px; margin: 0 auto; font-weight: 800;"><option value="">—</option><option value="5">5 / 5 (Excellent)</option><option value="4">4 / 5 (Very Good)</option><option value="3">3 / 5 (Good)</option><option value="2">2 / 5 (Developing)</option><option value="1">1 / 5 (Needs Work)</option></select></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 6. Co-Curricular Remarks -->
+        <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">6. Co-Curricular Activities: Teacher’s Remarks</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem;">
+            <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 1 Remark</label><input type="text" id="modal_co_rem_1" class="form-control"></div>
+            <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 2 Remark</label><input type="text" id="modal_co_rem_2" class="form-control"></div>
+            <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 3 Remark</label><input type="text" id="modal_co_rem_3" class="form-control"></div>
+            <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 4 Remark</label><input type="text" id="modal_co_rem_4" class="form-control"></div>
           </div>
         </div>
+
+        <!-- 12. Teacher's Assessment -->
+        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">12. Teacher’s Assessment</h3>
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Evaluation Area</th>
+                <th style="width: 18%; text-align: center;">Excellent</th>
+                <th style="width: 18%; text-align: center;">Very Good</th>
+                <th style="width: 18%; text-align: center;">Good</th>
+                <th style="width: 18%; text-align: center;">Needs Imp.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Academic Performance</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_academic_performance" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_academic_performance" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_academic_performance" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_academic_performance" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Discipline</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_discipline" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_discipline" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_discipline" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_discipline" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Regularity</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_regularity" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_regularity" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_regularity" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_regularity" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Communication</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_communication" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_communication" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_communication" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_communication" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Participation</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_participation" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_participation" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_participation" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_participation" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Teamwork</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_teamwork" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_teamwork" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_teamwork" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_teamwork" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Leadership</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_leadership" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_leadership" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_leadership" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_leadership" value="Needs Improvement"></td></tr>
+              <tr><td><strong>Creativity</strong></td><td style="text-align:center;"><input type="radio" name="modal_ta_creativity" value="Excellent"></td><td style="text-align:center;"><input type="radio" name="modal_ta_creativity" value="Very Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_creativity" value="Good"></td><td style="text-align:center;"><input type="radio" name="modal_ta_creativity" value="Needs Improvement"></td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top: 1rem;">
+            <label style="font-weight: 700; font-size: 0.88rem; color: #1e3a8a; display: block; margin-bottom: 0.35rem;">Teacher’s Remarks</label>
+            <textarea id="modal_teacher_remarks" class="form-control" rows="2" placeholder="Overall faculty observations and guidance..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1rem;">
+            <div>
+              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Class Teacher’s Signature</label>
+              <input type="text" id="modal_teacher_sig" class="form-control" placeholder="Teacher Full Name">
+            </div>
+            <div>
+              <label style="font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Date</label>
+              <input type="date" id="modal_teacher_date" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- 17. Teacher's Final Remark -->
+        <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">17. Teacher’s Final Remark</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div>
+              <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 0.25rem;">Class Teacher Final Remark</label>
+              <input type="text" id="modal_final_class_teacher" class="form-control" placeholder="Class Teacher Final Remark">
+            </div>
+            <div>
+              <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 0.25rem;">Principal Sign-off &amp; Seal</label>
+              <input type="text" id="modal_final_principal" class="form-control" placeholder="Principal Sign-off">
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; border-top: 1px solid #cbd5e1; padding-top: 1rem;">
-        <button type="button" onclick="closeEvaluationModal()" class="btn btn-secondary">Cancel</button>
-        <button type="button" onclick="saveModalEvaluation()" class="btn btn-send" style="background: #16a34a; font-size: 1rem; padding: 0.65rem 1.75rem;">
+      <!-- STICKY MODAL FOOTER (GUARANTEED NEVER CUT OFF) -->
+      <div class="eval-modal-footer">
+        <button type="button" onclick="closeEvaluationModal()" class="btn-vibrant btn-outline">
+          Cancel
+        </button>
+        <button type="button" onclick="saveModalEvaluation()" class="btn-vibrant btn-send-gradient" style="font-size: 1rem; padding: 0.75rem 2rem;">
           💾 Save Teacher Evaluation
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 3. DEDICATED 1-PAGE A4 MASTER PRINT SHEET (HIDDEN ON SCREEN)-->
+  <!-- FITS 100% OF ALL STUDENT INFORMATION ON EXACTLY 1 A4 PAGE! -->
+  <!-- ========================================================= -->
+  <div id="singlePageSheet" class="single-page-a4-sheet">
+
+    <!-- A. Certificate Header Block -->
+    <div class="print-header-block">
+      <img src="assets/school-logo.jpg" alt="SHM Academy" class="print-header-logo">
+      <div class="print-header-brand">
+        <div style="font-size: 10.5pt; font-weight: 900; letter-spacing: 0.04em; color: #0f172a; line-height: 1.1;">STUDENT PORTFOLIO &amp; OFFICIAL ASSESSMENT RECORD</div>
+        <div style="font-size: 12.5pt; font-weight: 900; color: #1e3a8a; letter-spacing: 0.02em; line-height: 1.1; margin: 1px 0;">SHM ACADEMY</div>
+        <div style="font-size: 6.8pt; font-style: italic; color: #475569;">“Infinite Knowledge Through Education” • Academic Session: <span id="print_session_text">2026–2027</span></div>
+      </div>
+      <div style="text-align: right; min-width: 90px;">
+        <span style="display: inline-block; background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 6.5pt; font-weight: 800; padding: 2px 5px; border-radius: 3px; text-transform: uppercase;">
+          Official Record
+        </span>
+        <div id="print_record_id" style="font-size: 6pt; color: #64748b; margin-top: 2px;">Verified Record</div>
+      </div>
+    </div>
+
+    <!-- B. Row 1: Profile & Photo -->
+    <div style="display: grid; grid-template-columns: 1fr 28mm; gap: 3mm; margin-bottom: 1.5mm;">
+      <div>
+        <div class="print-section-header">
+          <span>1. STUDENT PROFILE</span>
+          <span id="print_class_pill" style="font-weight: 800; color: #1e3a8a;"></span>
+        </div>
+        <table class="print-table" style="margin-bottom: 0;">
+          <tbody>
+            <tr>
+              <td style="width: 17%; font-weight: 700; background: #f8fafc;">Student Name</td>
+              <td style="width: 33%; font-weight: 800; color: #0f172a;" id="print_name">—</td>
+              <td style="width: 17%; font-weight: 700; background: #f8fafc;">Class &amp; Sec</td>
+              <td style="width: 33%; font-weight: 800; color: #1e3a8a;" id="print_class">—</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; background: #f8fafc;">Roll No</td>
+              <td id="print_roll">—</td>
+              <td style="font-weight: 700; background: #f8fafc;">Admission No</td>
+              <td id="print_adm">—</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; background: #f8fafc;">Date of Birth</td>
+              <td id="print_dob">—</td>
+              <td style="font-weight: 700; background: #f8fafc;">Contact No</td>
+              <td id="print_contact">—</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; background: #f8fafc;">Father’s Name</td>
+              <td id="print_father">—</td>
+              <td style="font-weight: 700; background: #f8fafc;">Mother’s Name</td>
+              <td id="print_mother">—</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 700; background: #f8fafc;">House</td>
+              <td id="print_house">—</td>
+              <td style="font-weight: 700; background: #f8fafc;">Class Teacher</td>
+              <td id="print_teacher">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="print-photo-box" id="printPhotoContainer">
+        <img id="printPhotoImg" src="" alt="Student Photo" class="print-photo-img" style="display: none;">
+        <div id="printPhotoPlaceholder" style="text-align: center; color: #94a3b8; font-size: 6.5pt; padding: 2px;">
+          <div style="font-size: 1.4rem;">👤</div>
+          Photograph
+        </div>
+      </div>
+    </div>
+
+    <!-- C. Row 2: About Me & Goals -->
+    <div class="print-row-2col" style="margin-bottom: 1.5mm;">
+      <div>
+        <div class="print-section-header">2. ABOUT ME &amp; STRENGTHS</div>
+        <div style="font-size: 6.7pt; line-height: 1.25; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
+          <div><strong>Profile:</strong> <span id="print_about_snippet">—</span></div>
+          <div style="margin-top: 1px;"><strong>Interests &amp; Hobbies:</strong> <span id="print_interests_hobbies">—</span></div>
+          <div style="margin-top: 1px;"><strong>Strengths:</strong> <span id="print_strengths">—</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="print-section-header">3. MY GOALS &amp; PRIORITIES</div>
+        <div style="font-size: 6.7pt; line-height: 1.25; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
+          <div><strong>Short-Term Goal:</strong> <span id="print_short_goal">—</span></div>
+          <div style="margin-top: 1px;"><strong>Long-Term Goal:</strong> <span id="print_long_goal">—</span></div>
+          <div style="margin-top: 1px;"><strong>Key Priorities:</strong> <span id="print_goals_checklist">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- D. Row 3: All Subjects Academic Progress -->
+    <div style="margin-bottom: 1.5mm;">
+      <div class="print-section-header">
+        <span>4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED</span>
+        <span style="font-size: 6.5pt; color: #1e3a8a; font-weight: 700;">Verified Faculty Evaluation</span>
+      </div>
+      <table class="print-table" style="margin-bottom: 1mm;">
+        <thead>
+          <tr>
+            <th style="width: 22%; text-align: left;">Subject</th>
+            <th style="width: 12%; text-align: center;">Term 1</th>
+            <th style="width: 12%; text-align: center;">Mid Term</th>
+            <th style="width: 12%; text-align: center;">Term 2</th>
+            <th style="width: 12%; text-align: center;">Aggregate</th>
+            <th style="width: 30%; text-align: left;">Subject Teacher Remarks</th>
+          </tr>
+        </thead>
+        <tbody id="printAcademicTableBody">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+      <div style="font-size: 6.8pt; display: flex; justify-content: space-between; background: #f8fafc; padding: 1.5px 4px; border: 0.8px solid #cbd5e1; border-radius: 2px;">
+        <div><strong>Academic Distinction:</strong> <span id="print_academic_achievement">Consistent performance</span></div>
+        <div><strong>Cumulative Aggregate:</strong> <span id="print_overall_avg" style="font-weight: 900; color: #1e3a8a;">—</span></div>
+      </div>
+    </div>
+
+    <!-- E. Row 4: Performance Graph -->
+    <div class="print-graph-container" style="margin-bottom: 1.5mm;">
+      <div id="printGraphSvgContainer">
+        <!-- SVG graph dynamically rendered -->
+      </div>
+    </div>
+
+    <!-- F. Row 5: Skills Evaluation & Co-Curricular Summary -->
+    <div class="print-row-2col" style="margin-bottom: 1.5mm;">
+      <div>
+        <div class="print-section-header">5. SKILLS EVALUATION (RATED 1–5)</div>
+        <table class="print-table" style="margin-bottom: 0;">
+          <tbody id="printSkillsTableBody">
+            <!-- 9 skills formatted into 2-column or 3-column rows -->
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="print-section-header">6, 7 &amp; 9. ACTIVITIES &amp; PIP PLAN</div>
+        <div style="font-size: 6.6pt; line-height: 1.25; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm; background: #fbfcfe;">
+          <div style="margin-bottom: 1.5px;"><strong>Activities:</strong> <span id="print_cocurricular_snippet">—</span></div>
+          <div style="margin-bottom: 1.5px;"><strong>Awards &amp; Honors:</strong> <span id="print_awards_snippet">—</span></div>
+          <div><strong>Personal Improvement Plan (PIP):</strong> <span id="print_pip_snippet">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- G. Row 6: Assessment, Declaration & Official Signatures -->
+    <div style="border-top: 1px solid #0f172a; padding-top: 1mm;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin-bottom: 1mm; font-size: 6.6pt;">
+        <div>
+          <strong>Teacher’s Assessment:</strong> <span id="print_teacher_remarks">Conscientious, courteous, and positive attitude towards learning.</span>
+        </div>
+        <div>
+          <strong>Student Declaration:</strong> <em>“I have completed this portfolio with honesty and reflection upon my learning.”</em>
+        </div>
+      </div>
+      <div class="print-signatures-row">
+        <div style="text-align: center; width: 30%;">
+          <div id="print_sig_student_name" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Student’s Signature &amp; Date</div>
+        </div>
+        <div style="text-align: center; width: 30%;">
+          <div id="print_sig_teacher_name" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Class Teacher’s Signature &amp; Date</div>
+        </div>
+        <div style="text-align: center; width: 30%;">
+          <div id="print_sig_principal" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;">SHM Academy Office</div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Principal’s Signature &amp; Stamp</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script src="static/js/portfolio.js"></script>
