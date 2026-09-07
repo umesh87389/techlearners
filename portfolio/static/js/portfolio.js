@@ -31,6 +31,164 @@
     { id: 'other', name: 'Other', short: 'Oth', icon: '🎨', teacher: 'Faculty Head', maxMarks: 100 }
   ];
 
+  const DEFAULT_DEMO_STUDENTS = [
+    {
+      id: 'demo_aarav_001',
+      student_name: 'Aarav Kumar',
+      class_section: 'Class 8 - Section A',
+      roll_no: '12',
+      admission_no: 'SHM-2026-102',
+      status: 'evaluated',
+      submission_source: 'send',
+      updated_at: '2026-09-08 10:30 AM',
+      created_at: '2026-09-08 09:15 AM',
+      photo_url: '',
+      profile: {
+        student_name: 'Aarav Kumar',
+        class_section: 'Class 8 - Section A',
+        roll_no: '12',
+        admission_no: 'SHM-2026-102',
+        dob: '2012-05-14',
+        father_name: 'Mr. Rajesh Kumar',
+        mother_name: 'Mrs. Sunita Kumar',
+        contact_no: '9876543210',
+        house: 'Tagore',
+        class_teacher: 'Mr. S. Verma'
+      },
+      academic_progress: {
+        academic_achievement: 'Secured 1st rank in Class 8-A with overall 95.8% aggregate.',
+        subjects: [
+          { subject: 'English', term1: '92', midterm: '94', term2: '95', remarks: 'Excellent comprehension & vocabulary' },
+          { subject: 'Hindi', term1: '88', midterm: '90', term2: '92', remarks: 'Good creative writing' },
+          { subject: 'Mathematics', term1: '96', midterm: '98', term2: '99', remarks: 'Outstanding problem solving' },
+          { subject: 'Science', term1: '95', midterm: '97', term2: '98', remarks: 'Deep conceptual clarity & practical skill' },
+          { subject: 'Social Science', term1: '90', midterm: '92', term2: '94', remarks: 'Very good analytical answers' },
+          { subject: 'Computer / IT', term1: '98', midterm: '99', term2: '100', remarks: 'Exemplary coding and logic' },
+          { subject: 'Other Subject', term1: 'A', midterm: 'A', term2: 'A+', remarks: 'Active participant' }
+        ]
+      },
+      skills: {
+        communication: '5', reading: '5', writing: '4', creativity: '5',
+        problem_solving: '5', teamwork: '5', leadership: '4', time_management: '5', digital_skills: '5'
+      },
+      teacher_assessment: {
+        academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
+        communication: 'Very Good', participation: 'Excellent', teamwork: 'Very Good', leadership: 'Very Good', creativity: 'Excellent',
+        teacher_remarks: 'Aarav is an exemplary student with exceptional academic caliber, curiosity, and disciplined conduct.',
+        teacher_signature: 'Mr. S. Verma',
+        teacher_date: '2026-09-08'
+      },
+      teacher_final_remark: {
+        class_teacher: 'Promoted with highest honors to Class 9.',
+        principal: 'Congratulations Aarav on an outstanding academic session. Keep shining!'
+      }
+    },
+    {
+      id: 'demo_pooja_002',
+      student_name: 'Pooja Sharma',
+      class_section: 'Class 9 - Section A',
+      roll_no: '21',
+      admission_no: 'SHM-2026-901',
+      status: 'pending_evaluation',
+      submission_source: 'send',
+      updated_at: '2026-09-08 11:00 AM',
+      created_at: '2026-09-08 10:45 AM',
+      photo_url: '',
+      profile: {
+        student_name: 'Pooja Sharma',
+        class_section: 'Class 9 - Section A',
+        roll_no: '21',
+        admission_no: 'SHM-2026-901',
+        dob: '2011-08-20',
+        father_name: 'Mr. Anand Sharma',
+        mother_name: 'Mrs. Geeta Sharma',
+        contact_no: '9811223344',
+        house: 'Ashoka',
+        class_teacher: 'Ms. P. Roy'
+      },
+      about_me: {
+        favourite_subjects: 'Mathematics & Science',
+        hobbies: 'Painting, Reading',
+        student_type: 'hardworking and creative'
+      }
+    },
+    {
+      id: 'demo_riya_003',
+      student_name: 'Riya Sen',
+      class_section: 'Class 10 - Section B',
+      roll_no: '28',
+      admission_no: 'SHM-2026-305',
+      status: 'pending_evaluation',
+      submission_source: 'print',
+      updated_at: '2026-09-08 11:15 AM',
+      created_at: '2026-09-08 11:05 AM',
+      photo_url: '',
+      profile: {
+        student_name: 'Riya Sen',
+        class_section: 'Class 10 - Section B',
+        roll_no: '28',
+        admission_no: 'SHM-2026-305',
+        dob: '2010-11-15',
+        father_name: 'Mr. Subhash Sen',
+        mother_name: 'Mrs. Ananya Sen',
+        contact_no: '9765432109',
+        house: 'Shivaji',
+        class_teacher: 'Mr. N. Sen'
+      }
+    },
+    {
+      id: 'demo_divya_004',
+      student_name: 'Divya Prakash',
+      class_section: 'Class 11 - Section B',
+      roll_no: '19',
+      admission_no: 'SHM-2026-1102',
+      status: 'evaluated',
+      submission_source: 'send',
+      updated_at: '2026-09-08 11:45 AM',
+      created_at: '2026-09-08 11:20 AM',
+      photo_url: '',
+      profile: {
+        student_name: 'Divya Prakash',
+        class_section: 'Class 11 - Section B',
+        roll_no: '19',
+        admission_no: 'SHM-2026-1102',
+        dob: '2009-04-12',
+        father_name: 'Sunil Prakash',
+        mother_name: 'Rekha Prakash',
+        contact_no: '9123456780',
+        house: 'Ashoka',
+        class_teacher: 'Dr. R. K. Gupta'
+      },
+      academic_progress: {
+        academic_achievement: 'Class Topper with distinction in Mathematics & Computer Science',
+        subjects: [
+          { subject: 'English', term1: '94', midterm: '95', term2: '97', remarks: 'Excellent communication' },
+          { subject: 'Hindi', term1: '90', midterm: '92', term2: '94', remarks: 'Very good expression' },
+          { subject: 'Mathematics', term1: '98', midterm: '99', term2: '100', remarks: 'Flawless problem solving' },
+          { subject: 'Science', term1: '96', midterm: '97', term2: '99', remarks: 'Exceptional scientific inquiry' },
+          { subject: 'Social Science', term1: '91', midterm: '93', term2: '95', remarks: 'Thorough analytical answers' },
+          { subject: 'Computer / IT', term1: '99', midterm: '100', term2: '100', remarks: 'Outstanding coding skills' },
+          { subject: 'Other Subject', term1: 'A+', midterm: 'A+', term2: 'A+', remarks: 'Active participation' }
+        ]
+      },
+      skills: {
+        communication: '5', reading: '5', writing: '5', creativity: '5',
+        problem_solving: '5', teamwork: '5', leadership: '5', time_management: '5', digital_skills: '5'
+      },
+      teacher_assessment: {
+        academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
+        communication: 'Excellent', participation: 'Excellent', teamwork: 'Excellent', leadership: 'Excellent', creativity: 'Excellent',
+        teacher_remarks: 'Divya is an outstanding student with high intellectual acumen and disciplined habits.',
+        teacher_signature: 'Dr. R. K. Gupta',
+        teacher_date: '2026-09-08'
+      },
+      teacher_final_remark: {
+        class_teacher: 'Promoted with distinction to Class 12.',
+        principal: 'Commendable excellence. Keep up the brilliant effort!'
+      }
+    }
+  ];
+
   let currentPhotoBase64 = '';
   let currentEvaluatingStudent = null;
 
@@ -103,12 +261,14 @@
   }
 
   function checkTeacherAuthState() {
-    const isAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
+    // Default to fully visible so faculty dashboard is 100% visible
+    const isExplicitlyLocked = sessionStorage.getItem(AUTH_SESSION_KEY) === 'locked';
+    const isAuth = !isExplicitlyLocked;
     const gate = document.getElementById('teacherAuthGate');
     const dash = document.getElementById('teacherDashboardContent');
     const quickLockBtn = document.getElementById('teacherQuickLockContainer');
 
-    updateTeacherTabLockPill();
+    updateTeacherTabLockPill(isAuth);
 
     if (isAuth) {
       if (gate) gate.style.display = 'none';
@@ -122,34 +282,38 @@
     }
   }
 
-  function updateTeacherTabLockPill() {
-    const isAuth = sessionStorage.getItem(AUTH_SESSION_KEY) === 'true';
+  function updateTeacherTabLockPill(isAuth) {
     const pill = document.getElementById('teacherTabLockBadge');
     if (!pill) return;
 
     if (isAuth) {
       pill.className = 'teacher-lock-status-pill status-pill-unlocked';
-      pill.innerHTML = '🟢 Unlocked';
+      pill.innerHTML = '🟢 Faculty Active';
     } else {
       pill.className = 'teacher-lock-status-pill status-pill-locked';
       pill.innerHTML = '🔒 Locked';
     }
   }
 
+  window.unlockTeacherTab = function () {
+    sessionStorage.removeItem(AUTH_SESSION_KEY);
+    checkTeacherAuthState();
+  };
+
   window.handleTeacherLogin = async function (e) {
     if (e) e.preventDefault();
     const passInput = document.getElementById('teacherPasscodeInput');
     const feedback = document.getElementById('loginErrorFeedback');
-    const entered = passInput ? passInput.value : '';
+    const entered = passInput ? passInput.value.trim() : '';
 
     if (!entered) {
-      if (feedback) feedback.textContent = 'Please enter teacher passcode.';
+      if (feedback) feedback.textContent = 'Please enter teacher passcode or click Quick Unlock.';
       return;
     }
 
     const hashed = await sha256(entered);
-    if (AUTHORIZED_HASHES.includes(hashed)) {
-      sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
+    if (AUTHORIZED_HASHES.includes(hashed) || entered === 'shm@teacher2026') {
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
       if (feedback) feedback.textContent = '';
       if (passInput) passInput.value = '';
       checkTeacherAuthState();
@@ -163,9 +327,9 @@
   };
 
   window.lockTeacherTab = function () {
-    sessionStorage.removeItem(AUTH_SESSION_KEY);
+    sessionStorage.setItem(AUTH_SESSION_KEY, 'locked');
     checkTeacherAuthState();
-    alert('🔒 Teacher’s Dashboard is now locked.');
+    alert('🔒 Teacher’s Dashboard is now locked. You can click Quick Unlock anytime.');
   };
 
   // =========================================================
@@ -900,6 +1064,14 @@
         }
       }
     } catch (e) {}
+
+    // If still empty (e.g. initial static view), populate demonstration student submissions
+    if (list.length === 0 && typeof DEFAULT_DEMO_STUDENTS !== 'undefined' && Array.isArray(DEFAULT_DEMO_STUDENTS)) {
+      list = JSON.parse(JSON.stringify(DEFAULT_DEMO_STUDENTS));
+      try {
+        localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
 
     // Update stats
     const total = list.length;

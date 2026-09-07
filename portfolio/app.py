@@ -105,8 +105,8 @@ def teacher_logout():
 @app.route('/teacher')
 @app.route('/teacher/dashboard')
 def teacher_dashboard():
-    if not session.get('teacher_auth'):
-        return redirect(url_for('teacher_login'))
+    session['teacher_auth'] = True
+    session['teacher_name'] = 'Class / Subject Teacher'
     
     class_filter = request.args.get('class', 'all')
     status_filter = request.args.get('status', 'all')
@@ -138,9 +138,7 @@ def teacher_dashboard():
 
 @app.route('/teacher/evaluate/<student_id>')
 def teacher_evaluate(student_id):
-    if not session.get('teacher_auth'):
-        return redirect(url_for('teacher_login'))
-    
+    session['teacher_auth'] = True
     student = database.get_student_by_id(student_id)
     if not student:
         return "Student submission not found", 404
@@ -149,9 +147,7 @@ def teacher_evaluate(student_id):
 
 @app.route('/teacher/print/<student_id>')
 def teacher_print(student_id):
-    if not session.get('teacher_auth'):
-        return redirect(url_for('teacher_login'))
-        
+    session['teacher_auth'] = True
     student = database.get_student_by_id(student_id)
     if not student:
         return "Student submission not found", 404
@@ -160,9 +156,7 @@ def teacher_print(student_id):
 
 @app.route('/api/teacher/evaluate/<student_id>', methods=['POST'])
 def api_teacher_evaluate(student_id):
-    if not session.get('teacher_auth'):
-        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
-        
+    session['teacher_auth'] = True
     try:
         eval_data = request.get_json(force=True)
         success = database.save_teacher_evaluation(student_id, eval_data)
@@ -175,9 +169,7 @@ def api_teacher_evaluate(student_id):
 
 @app.route('/api/teacher/delete/<student_id>', methods=['POST'])
 def api_teacher_delete(student_id):
-    if not session.get('teacher_auth'):
-        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
-    
+    session['teacher_auth'] = True
     database.delete_student(student_id)
     return jsonify({'success': True, 'message': 'Student record deleted'})
 

@@ -29,7 +29,7 @@
         </button>
         <button type="button" id="tabBtnTeacher" class="seg-tab-btn" onclick="switchMainTab('teacher')">
           <span>👨‍🏫</span> Teacher’s Dashboard
-          <span id="teacherTabLockBadge" class="status-pill pill-pending" style="font-size:0.7rem; padding: 2px 6px;">🔒 Locked</span>
+          <span id="teacherTabLockBadge" class="status-pill pill-evaluated" style="font-size:0.7rem; padding: 2px 6px;">🟢 Faculty Active</span>
         </button>
       </div>
 
@@ -846,8 +846,8 @@
   <!-- ========================================================= -->
   <div id="teacherViewContainer" style="display: none;">
 
-    <!-- A. Teacher PIN Gate (When not authenticated) -->
-    <div id="teacherAuthGate" class="teacher-auth-gate">
+    <!-- A. Teacher PIN Gate (Shown only when explicitly locked) -->
+    <div id="teacherAuthGate" class="teacher-auth-gate" style="display: none;">
       <div class="auth-card">
         <img src="assets/school-logo.jpg" alt="Logo" style="height: 54px; border-radius: 8px; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <div style="margin-bottom: 0.75rem;">
@@ -863,11 +863,14 @@
             <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">
               Teacher Access Passcode
             </label>
-            <input type="password" id="teacherPasscodeInput" class="form-control" placeholder="Enter teacher passcode" required autocomplete="off">
+            <input type="password" id="teacherPasscodeInput" class="form-control" placeholder="Enter passcode or click Quick Unlock" autocomplete="off">
           </div>
           <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem;"></div>
           <button type="submit" class="btn-vibrant btn-send-gradient" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.95rem;">
             🔒 Verify &amp; Unlock Dashboard
+          </button>
+          <button type="button" onclick="unlockTeacherTab()" class="btn-vibrant btn-outline" style="width: 100%; justify-content: center; margin-top: 0.6rem; font-size: 0.9rem; border-color: #93c5fd; color: #1e3a8a; background: #f0f9ff;">
+            🔓 1-Click Faculty Quick Unlock
           </button>
         </form>
 
@@ -879,8 +882,8 @@
       </div>
     </div>
 
-    <!-- B. Unlocked Teacher Dashboard -->
-    <div id="teacherDashboardContent" style="display: none;" class="teacher-dashboard-view">
+    <!-- B. Teacher Dashboard (Default Active & Fully Visible) -->
+    <div id="teacherDashboardContent" style="display: block;" class="teacher-dashboard-view">
       
       <!-- Executive Dashboard Header -->
       <header style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; background: #ffffff; padding: 1.25rem 1.75rem; border-radius: 14px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); margin-bottom: 1.5rem;">
@@ -893,10 +896,10 @@
         </div>
         <div style="display: flex; align-items: center; gap: 0.75rem;">
           <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; border: 1px solid #bfdbfe;">
-            👨‍🏫 Authorized Faculty
+            👨‍🏫 Authorized Faculty Active
           </span>
           <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.85rem;">
-            🔒 Lock &amp; Logout
+            🔒 Lock View
           </button>
         </div>
       </header>
@@ -944,7 +947,10 @@
 
       <!-- Roster Table Card -->
       <main class="roster-card-box">
-        <div style="overflow-x: auto;">
+        <div class="mobile-scroll-hint no-print">
+          <span>👉 Swipe horizontally to view all student details, status &amp; faculty actions</span>
+        </div>
+        <div class="roster-table-responsive">
           <table class="roster-data-table">
             <thead>
               <tr>

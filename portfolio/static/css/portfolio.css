@@ -528,17 +528,43 @@ body.teacher-mode .student-floating-bar,
 /* =============================================================
    3. TEACHER DASHBOARD VIBRANT STYLING
    ============================================================= */
+#teacherViewContainer {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: visible !important;
+}
+
 .teacher-dashboard-view {
-  max-width: 1200px;
-  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 1240px;
+  margin: 1.25rem auto 4rem;
   padding: 0 1rem 8rem; /* Generous clearance so pending evaluation is never hidden */
+  box-sizing: border-box;
+}
+
+/* Hide student navigation chips when in teacher dashboard */
+body.teacher-mode .section-jump-bar {
+  display: none !important;
+}
+
+body.teacher-mode .student-floating-bar {
+  display: none !important;
 }
 
 .kpi-stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.25rem;
   margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .kpi-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
 }
 
 .kpi-stat-box {
@@ -590,11 +616,13 @@ body.teacher-mode .student-floating-bar,
   gap: 1rem;
   flex-wrap: wrap;
   align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-input-group {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .filter-input-group label {
@@ -606,19 +634,56 @@ body.teacher-mode .student-floating-bar,
   margin-bottom: 0.35rem;
 }
 
-/* Roster Table */
+@media (max-width: 640px) {
+  .teacher-filter-bar {
+    padding: 1rem;
+  }
+  .filter-input-group {
+    min-width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+/* Roster Table Card */
 .roster-card-box {
   background: #ffffff;
   border-radius: 14px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  margin-bottom: 5rem;
+  margin-bottom: 6rem;
   min-height: 280px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.roster-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+}
+
+.mobile-scroll-hint {
+  display: none;
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #bfdbfe;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .mobile-scroll-hint {
+    display: block;
+  }
 }
 
 .roster-data-table {
   width: 100%;
+  min-width: 860px;
   border-collapse: collapse;
   text-align: left;
 }

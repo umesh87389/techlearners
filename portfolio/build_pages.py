@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+import os
+
+CLASSES_SECTIONS = [
+    "Class 6 - Section A",
+    "Class 6 - Section B",
+    "Class 7 - Section A",
+    "Class 7 - Section B",
+    "Class 8 - Section A",
+    "Class 8 - Section B",
+    "Class 9 - Section A",
+    "Class 9 - Section B",
+    "Class 10 - Section A",
+    "Class 10 - Section B",
+    "Class 11 - Section A",
+    "Class 11 - Section B",
+    "Class 12 - Section A",
+    "Class 12 - Section B"
+]
+
+def generate_html(is_jinja=False):
+    if is_jinja:
+        class_options = """{% for cs in classes_sections %}
+                    <option value="{{ cs }}">{{ cs }}</option>
+                    {% endfor %}"""
+        filter_options = """{% for cs in classes_sections %}
+            <option value="{{ cs }}">{{ cs }}</option>
+            {% endfor %}"""
+    else:
+        class_options = "\\n".join([f'                    <option value="{cs}">{cs}</option>' for cs in CLASSES_SECTIONS])
+        filter_options = "\\n".join([f'            <option value="{cs}">{cs}</option>' for cs in CLASSES_SECTIONS])
+
+    return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -112,7 +143,7 @@
                   <td>
                     <select id="profile_class_section" class="form-control" required style="font-weight: 700; color: #1e3a8a;">
                       <option value="" disabled selected>-- Select Class &amp; Section --</option>
-                    <option value="Class 6 - Section A">Class 6 - Section A</option>\n                    <option value="Class 6 - Section B">Class 6 - Section B</option>\n                    <option value="Class 7 - Section A">Class 7 - Section A</option>\n                    <option value="Class 7 - Section B">Class 7 - Section B</option>\n                    <option value="Class 8 - Section A">Class 8 - Section A</option>\n                    <option value="Class 8 - Section B">Class 8 - Section B</option>\n                    <option value="Class 9 - Section A">Class 9 - Section A</option>\n                    <option value="Class 9 - Section B">Class 9 - Section B</option>\n                    <option value="Class 10 - Section A">Class 10 - Section A</option>\n                    <option value="Class 10 - Section B">Class 10 - Section B</option>\n                    <option value="Class 11 - Section A">Class 11 - Section A</option>\n                    <option value="Class 11 - Section B">Class 11 - Section B</option>\n                    <option value="Class 12 - Section A">Class 12 - Section A</option>\n                    <option value="Class 12 - Section B">Class 12 - Section B</option>
+{class_options}
                     </select>
                   </td>
                 </tr>
@@ -130,11 +161,11 @@
                 </tr>
                 <tr>
                   <td><strong>Father’s Name</strong></td>
-                  <td><input type="text" id="profile_father_name" class="form-control" placeholder="Father\'s Full Name"></td>
+                  <td><input type="text" id="profile_father_name" class="form-control" placeholder="Father\\'s Full Name"></td>
                 </tr>
                 <tr>
                   <td><strong>Mother’s Name</strong></td>
-                  <td><input type="text" id="profile_mother_name" class="form-control" placeholder="Mother\'s Full Name"></td>
+                  <td><input type="text" id="profile_mother_name" class="form-control" placeholder="Mother\\'s Full Name"></td>
                 </tr>
                 <tr>
                   <td><strong>Contact Number</strong></td>
@@ -146,7 +177,7 @@
                 </tr>
                 <tr>
                   <td><strong>Class Teacher</strong></td>
-                  <td><input type="text" id="profile_class_teacher" class="form-control" placeholder="Class Teacher\'s Name"></td>
+                  <td><input type="text" id="profile_class_teacher" class="form-control" placeholder="Class Teacher\\'s Name"></td>
                 </tr>
               </tbody>
             </table>
@@ -926,7 +957,7 @@
           <label>Filter by Class &amp; Section</label>
           <select id="filterClassSelect" class="form-control" style="font-weight: 700;">
             <option value="all">All Classes (Class 6 - 12)</option>
-            <option value="Class 6 - Section A">Class 6 - Section A</option>\n            <option value="Class 6 - Section B">Class 6 - Section B</option>\n            <option value="Class 7 - Section A">Class 7 - Section A</option>\n            <option value="Class 7 - Section B">Class 7 - Section B</option>\n            <option value="Class 8 - Section A">Class 8 - Section A</option>\n            <option value="Class 8 - Section B">Class 8 - Section B</option>\n            <option value="Class 9 - Section A">Class 9 - Section A</option>\n            <option value="Class 9 - Section B">Class 9 - Section B</option>\n            <option value="Class 10 - Section A">Class 10 - Section A</option>\n            <option value="Class 10 - Section B">Class 10 - Section B</option>\n            <option value="Class 11 - Section A">Class 11 - Section A</option>\n            <option value="Class 11 - Section B">Class 11 - Section B</option>\n            <option value="Class 12 - Section A">Class 12 - Section A</option>\n            <option value="Class 12 - Section B">Class 12 - Section B</option>
+{filter_options}
           </select>
         </div>
 
@@ -1415,4 +1446,18 @@
 
   <script src="static/js/portfolio.js"></script>
 </body>
-</html>
+</html>'''
+
+# Write templates/portfolio.html
+template_content = generate_html(is_jinja=True)
+with open('/data/data/com.termux/files/home/school-portfolio/templates/portfolio.html', 'w', encoding='utf-8') as f:
+    f.write(template_content)
+
+# Write static index.html and portfolio.html
+static_content = generate_html(is_jinja=False)
+with open('/data/data/com.termux/files/home/school-portfolio/index.html', 'w', encoding='utf-8') as f:
+    f.write(static_content)
+with open('/data/data/com.termux/files/home/school-portfolio/portfolio.html', 'w', encoding='utf-8') as f:
+    f.write(static_content)
+
+print("HTML generation successful!")
