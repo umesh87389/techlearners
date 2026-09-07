@@ -43,13 +43,17 @@
     <!-- PIN Authentication Gate (Shown if not authenticated) -->
     <div class="teachers-auth-lock-card" id="teachersLockGate" style="display: none;">
       <div class="teachers-lock-icon">🔒</div>
-      <h2 class="teachers-lock-title">Teachers Portal Authentication</h2>
-      <p class="teachers-lock-desc">This portal contains confidential student records, marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
+      <span class="teachers-lock-badge">Faculty Authorization Required</span>
+      <h2 class="teachers-lock-title">Teachers Portal is Locked</h2>
+      <p class="teachers-lock-desc">This portal contains confidential student records, continuous marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
       <form class="teachers-pin-form" onsubmit="handleTeachersPagePinSubmit(event)">
         <input type="password" id="pageTeacherPinInput" class="teachers-pin-input" placeholder="Enter Teacher PIN (shm2026)" autofocus autocomplete="off">
-        <button type="submit" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; padding: 0.65rem 1.2rem;">
+        <button type="submit" class="teachers-pin-submit-btn">
           🔑 Unlock Teachers Portal
         </button>
+        <div class="teachers-pin-hint-chip" onclick="document.getElementById('pageTeacherPinInput').value='shm2026'; handleTeachersPagePinSubmit();" title="Click to auto-fill default PIN">
+          💡 Quick Fill Faculty PIN: <strong>shm2026</strong>
+        </div>
         <div id="pageTeacherPinFeedback" class="teachers-pin-feedback"></div>
       </form>
     </div>
@@ -73,8 +77,8 @@
           <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
             📊 Export Marks (CSV)
           </button>
-          <button type="button" id="btnPinAuth" onclick="lockTeacherSession()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            🔒 Lock Portal
+          <button type="button" id="btnPinAuth" onclick="lockTeacherSession()" class="btn btn-sm" style="background: #991b1b; color: #ffffff; border-color: #991b1b; font-weight: 800;" title="Lock the Teachers Portal and return to secure mode">
+            🔒 Lock Teachers Portal
           </button>
         </div>
       </div>

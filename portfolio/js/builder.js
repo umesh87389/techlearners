@@ -654,11 +654,16 @@ document.addEventListener("DOMContentLoaded", function() {
   }
   // Check for teacher mode or view parameter
   const viewParam = urlParams.get("view") || urlParams.get("tab");
+  // Note: auth=teacher in URL will NOT bypass PIN unless session is already unlocked
   if (urlParams.get("auth") === "teacher") {
-    isTeacherMode = true;
-    sessionStorage.setItem("portfolio_teacher_unlocked", "true");
-    sessionStorage.setItem("portfolio_teacher_role", "Teacher");
-    updateTeacherLockUI();
+    if (sessionStorage.getItem("portfolio_teacher_unlocked") === "true") {
+      isTeacherMode = true;
+      updateTeacherLockUI();
+    } else {
+      isTeacherMode = false;
+      // Require PIN unlock
+      setTimeout(() => openTeacherAuthModal(), 350);
+    }
   }
   if (urlParams.get("new") === "true") {
     createNewStudent(true);
@@ -721,6 +726,21 @@ function updateTeacherLockUI() {
   const statusPill = document.getElementById("teacherModeStatusPill");
   const statusLabel = document.getElementById("teacherStatusLabel");
   const authTrigger = document.getElementById("btnTeacherAuthTrigger");
+  const btnTeachersTab = document.getElementById("btnModeTeachers");
+
+  const students = (window.DataStore && typeof window.DataStore.getStudents === "function") 
+    ? window.DataStore.getStudents() 
+    : (window.DEFAULT_STUDENTS || []);
+
+  if (btnTeachersTab) {
+    if (isTeacherMode) {
+      btnTeachersTab.innerHTML = `<span class="mode-icon">👨‍🏫</span> <span class="mode-text">Teachers Tab</span> <span class="badge" id="teachersRosterCountBadge" style="background: #e0e7ff; color: #3730a3; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">${students.length}</span>`;
+      btnTeachersTab.title = "Teachers Tab: Unlocked (Faculty Mode)";
+    } else {
+      btnTeachersTab.innerHTML = `<span class="mode-icon">🔒</span> <span class="mode-text">Teachers Tab</span> <span class="badge" id="teachersRosterCountBadge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">PIN Locked</span>`;
+      btnTeachersTab.title = "Teachers Tab: Locked with faculty PIN";
+    }
+  }
 
   const verifiedRole = sessionStorage.getItem("portfolio_teacher_role") || "Teacher Mode";
 
@@ -938,6 +958,13 @@ function lockTeacherMode() {
   sessionStorage.removeItem("portfolio_teacher_role");
   updateTeacherLockUI();
   renderPreview(currentData);
+  const portalView = document.getElementById("teachersPortalView");
+  if (portalView && portalView.style.display !== "none") {
+    renderTeachersPortal();
+  }
+  if (typeof showSaveToast === "function") {
+    showSaveToast("🔒 Teacher evaluation mode locked.");
+  }
 }
 
 // Re-render lock UI if PIN settings change
@@ -3657,13 +3684,23 @@ function updateTeachersBadge() {
 }
 
 function openTeachersTab() {
-  const isUnlocked = isTeacherMode || (sessionStorage.getItem("portfolio_teacher_unlocked") === "true");
-  if (!isUnlocked) {
-    openTeacherAuthModal();
-  }
   setViewMode("teachers");
+  renderTeachersPortal();
 }
 window.openTeachersTab = openTeachersTab;
+
+function lockTeachersTab() {
+  isTeacherMode = false;
+  sessionStorage.removeItem("portfolio_teacher_unlocked");
+  sessionStorage.removeItem("portfolio_is_master_admin");
+  sessionStorage.removeItem("portfolio_teacher_role");
+  updateTeacherLockUI();
+  renderTeachersPortal();
+  if (typeof showSaveToast === "function") {
+    showSaveToast("🔒 Teachers Portal & Evaluation Marks are now locked.");
+  }
+}
+window.lockTeachersTab = lockTeachersTab;
 
 function handlePortalPinSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
@@ -3698,7 +3735,7 @@ function handlePortalPinSubmit(e) {
     setTimeout(function() {
       updateTeacherLockUI();
       renderTeachersPortal();
-    }, 350);
+    }, 300);
   } else {
     if (feedback) {
       feedback.style.color = "#dc2626";
@@ -3723,13 +3760,17 @@ function renderTeachersPortal() {
     container.innerHTML = `
       <div class="teachers-auth-lock-card">
         <div class="teachers-lock-icon">🔒</div>
-        <h2 class="teachers-lock-title">Teachers Portal Authentication</h2>
-        <p class="teachers-lock-desc">This portal contains confidential student records, marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
+        <span class="teachers-lock-badge">Faculty Authorization Required</span>
+        <h2 class="teachers-lock-title">Teachers Portal is Locked</h2>
+        <p class="teachers-lock-desc">This portal contains confidential student records, continuous marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
         <form class="teachers-pin-form" onsubmit="handlePortalPinSubmit(event)">
           <input type="password" id="portalPinInput" class="teachers-pin-input" placeholder="Enter Teacher PIN (shm2026)" autofocus autocomplete="off">
-          <button type="submit" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; padding: 0.65rem 1.2rem;">
+          <button type="submit" class="teachers-pin-submit-btn">
             🔑 Unlock Teachers Portal
           </button>
+          <div class="teachers-pin-hint-chip" onclick="document.getElementById('portalPinInput').value='shm2026'; handlePortalPinSubmit();" title="Click to auto-fill default PIN">
+            💡 Quick Fill Faculty PIN: <strong>shm2026</strong>
+          </div>
           <div id="portalPinFeedback" class="teachers-pin-feedback"></div>
         </form>
       </div>
@@ -3832,20 +3873,20 @@ function renderTeachersPortal() {
       return `
         <tr>
           <td>
-            <div style="display: flex; align-items: center; gap: 0.65rem;">
-              <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" style="width: 38px; height: 38px; border-radius: 6px; object-fit: cover; border: 1px solid #0f172a;" onerror="this.src='assets/school-logo.jpg'">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${escapeHtml(s.name)}" style="width: 42px; height: 42px; border-radius: 8px; object-fit: cover; border: 1.5px solid #0f172a;" onerror="this.src='assets/school-logo.jpg'">
               <div>
-                <strong>${escapeHtml(s.name)}</strong>
-                <div style="font-size: 0.75rem; color: #64748b;">Adm: ${escapeHtml(s.admissionNo || s.id)}</div>
+                <strong style="font-size: 0.95rem;">${escapeHtml(s.name)}</strong>
+                <div style="font-size: 0.76rem; color: #64748b;">Adm: ${escapeHtml(s.admissionNo || s.id)}</div>
               </div>
             </div>
           </td>
-          <td><strong>${escapeHtml(cls)}</strong></td>
+          <td><strong style="color: #3730a3;">${escapeHtml(cls)}</strong></td>
           <td class="center"><strong>${escapeHtml(s.rollNo || "--")}</strong></td>
-          <td class="center"><strong style="color: #166534;">${escapeHtml(score)}</strong></td>
+          <td class="center"><strong style="color: #166534; font-size: 0.98rem;">${escapeHtml(score)}</strong></td>
           <td>${statusPill}</td>
           <td>
-            <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+            <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
               <button type="button" onclick="loadStudentToTeacherEdit('${s.id}')" class="btn btn-primary btn-xs btn-card-edit" title="Edit student details & marks in Teacher Mode">✏️ Edit Details</button>
               <button type="button" onclick="printStudentFromTeacherRoster('${s.id}')" class="btn btn-xs btn-card-print" title="Print official 2-page portfolio">🖨️ Print 2 Pages</button>
               <button type="button" onclick="previewStudentFromTeacherRoster('${s.id}')" class="btn btn-secondary btn-xs" title="Preview 2-page sheet">👁️ Sheet</button>
@@ -3884,8 +3925,8 @@ function renderTeachersPortal() {
       const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
       const isPending = s.reviewStatus === "pending";
       const statusPill = isVerified 
-        ? `<span class="badge badge-success" style="font-size: 0.72rem;">✓ Evaluated &amp; Verified</span>` 
-        : (isPending ? `<span class="badge badge-warning" style="font-size: 0.72rem;">⏳ Needs Teacher Review</span>` : `<span class="badge badge-secondary" style="font-size: 0.72rem;">📝 Draft Portfolio</span>`);
+        ? `<span class="badge badge-success" style="font-size: 0.74rem;">✓ Evaluated &amp; Verified</span>` 
+        : (isPending ? `<span class="badge badge-warning" style="font-size: 0.74rem;">⏳ Needs Teacher Review</span>` : `<span class="badge badge-secondary" style="font-size: 0.74rem;">📝 Draft Portfolio</span>`);
 
       const teacherName = (s.teacherObservation && s.teacherObservation.teacherName) || "Mrs. Sunita Roy (Subject Faculty)";
 
@@ -3913,7 +3954,7 @@ function renderTeachersPortal() {
               <span class="teacher-card-chip">📖 English: 95%</span>
             </div>
 
-            <div style="font-size: 0.78rem; color: #475569; margin-bottom: 0.5rem;">
+            <div style="font-size: 0.8rem; color: #475569; margin-bottom: 0.5rem;">
               <strong>Evaluator:</strong> ${escapeHtml(teacherName)}
             </div>
           </div>
@@ -3947,10 +3988,10 @@ function renderTeachersPortal() {
   if (pendingReviews.length === 0) {
     reviewsContentHtml = `
       <div class="teachers-empty-state">
-        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+        <div style="font-size: 2.8rem; margin-bottom: 0.6rem;">🎉</div>
         <h3>All Caught Up! No Pending Review Requests</h3>
         <p>All student submissions have been reviewed, graded, and certified. New student portfolio submissions will appear here automatically.</p>
-        <button type="button" onclick="setTeacherSubTab('roster')" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">View All Saved Students</button>
+        <button type="button" onclick="setTeacherSubTab('roster')" class="btn btn-secondary btn-sm" style="margin-top: 0.75rem; font-weight: 700;">View All Saved Students</button>
       </div>
     `;
   } else {
@@ -3967,21 +4008,21 @@ function renderTeachersPortal() {
               <div class="pending-student-info">
                 <img src="${avatar}" alt="${escapeHtml(r.studentName)}" class="pending-student-avatar" onerror="this.src='assets/school-logo.jpg'">
                 <div>
-                  <h4 style="margin: 0 0 2px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">${escapeHtml(r.studentName)}</h4>
-                  <div style="font-size: 0.82rem; font-weight: 700; color: #4338ca;">🏫 ${escapeHtml(r.classSection || "Class VIII - A")}</div>
-                  <div style="font-size: 0.78rem; color: #64748b;">Roll: <strong>${escapeHtml(r.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(r.admissionNo || "--")}</strong></div>
+                  <h4 style="margin: 0 0 2px 0; font-size: 1.1rem; font-weight: 800; color: #0f172a;">${escapeHtml(r.studentName)}</h4>
+                  <div style="font-size: 0.85rem; font-weight: 700; color: #4338ca;">🏫 ${escapeHtml(r.classSection || "Class VIII - A")}</div>
+                  <div style="font-size: 0.8rem; color: #64748b;">Roll: <strong>${escapeHtml(r.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(r.admissionNo || "--")}</strong></div>
                 </div>
               </div>
-              <span class="badge badge-warning" style="font-size: 0.72rem; white-space: nowrap;">⏳ Pending Review</span>
+              <span class="badge badge-warning" style="font-size: 0.75rem; white-space: nowrap;">⏳ Pending Review</span>
             </div>
 
-            <div style="font-size: 0.82rem; color: #334155; margin-bottom: 0.5rem;">
+            <div style="font-size: 0.84rem; color: #334155; margin-bottom: 0.6rem;">
               <strong>Assigned Faculty:</strong> ${escapeHtml(subject)}<br>
-              <span style="font-size: 0.76rem; color: #64748b;">Submitted: ${escapeHtml(dateStr)}</span>
+              <span style="font-size: 0.78rem; color: #64748b;">Submitted: ${escapeHtml(dateStr)}</span>
             </div>
 
             <div class="pending-note-box">
-              <strong style="display: block; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: #92400e; margin-bottom: 2px;">Student Note:</strong>
+              <strong style="display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: #92400e; margin-bottom: 3px;">Student Note:</strong>
               ${escapeHtml(r.studentNote || "Student submitted portfolio for continuous evaluation and marks certification.")}
             </div>
           </div>
@@ -4007,10 +4048,10 @@ function renderTeachersPortal() {
     reviewsContentHtml = `
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
         <div>
-          <h3 style="margin: 0 0 4px 0; font-size: 1.15rem; color: #0f172a;">📨 Student Submissions Pending Faculty Review (${pendingCount})</h3>
-          <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Review student practical work, enter certified marks in Teacher Mode, or quick approve records.</p>
+          <h3 style="margin: 0 0 4px 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">📨 Student Submissions Pending Faculty Review (${pendingCount})</h3>
+          <p style="margin: 0; font-size: 0.88rem; color: #64748b;">Review student practical work, enter certified marks in Teacher Mode, or quick approve records.</p>
         </div>
-        <button type="button" onclick="quickApproveAllPendingReviews()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+        <button type="button" onclick="quickApproveAllPendingReviews()" class="btn btn-secondary btn-sm" style="font-weight: 800; background: #ecfdf5; color: #065f46; border-color: #a7f3d0;">
           ✅ Approve All Pending (${pendingCount})
         </button>
       </div>
@@ -4064,7 +4105,7 @@ function renderTeachersPortal() {
       <!-- Top Portal Header -->
       <div class="teachers-portal-header">
         <div class="teachers-portal-titles">
-          <h2><span>👨‍🏫</span> <span>Teachers Portal &amp; Saved Students Roster</span></h2>
+          <h2><span>👨‍🏫</span> <span>Teachers Evaluation Portal &amp; Student Roster</span></h2>
           <p>Official SHM Academy Student Roster • Edit student particulars &amp; marks in Teacher Mode, review student requests, or generate verified 2-page prints.</p>
         </div>
         <div class="teachers-portal-actions">
@@ -4077,15 +4118,15 @@ function renderTeachersPortal() {
           <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
             📊 Export Marks (CSV)
           </button>
-          <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            ${isTeacherMode ? "🔑 Teacher PIN Unlocked ✓" : "🔒 Teacher PIN Unlock"}
+          <button type="button" onclick="lockTeachersTab()" class="btn btn-sm" style="background: #991b1b; color: #ffffff; border-color: #991b1b; font-weight: 800;" title="Lock the Teachers Portal and return to secure mode">
+            🔒 Lock Teachers Tab
           </button>
         </div>
       </div>
 
       <!-- KPI Summary Cards -->
       <div class="teachers-kpi-grid">
-        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="setTeacherSubTab('roster')">
+        <div class="teachers-kpi-card" onclick="setTeacherSubTab('roster')" title="Click to view all saved students">
           <div class="teachers-kpi-icon">👥</div>
           <div class="teachers-kpi-info">
             <div class="teachers-kpi-val">${totalStudents}</div>
@@ -4099,7 +4140,7 @@ function renderTeachersPortal() {
             <div class="teachers-kpi-label">Evaluated &amp; Verified</div>
           </div>
         </div>
-        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="setTeacherSubTab('reviews')">
+        <div class="teachers-kpi-card" onclick="setTeacherSubTab('reviews')" title="Click to view pending student submissions">
           <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
           <div class="teachers-kpi-info">
             <div class="teachers-kpi-val" style="color: #b45309;">${pendingCount}</div>
