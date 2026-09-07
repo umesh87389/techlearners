@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".school-name-text").forEach(el => el.textContent = schoolConfig.schoolName);
   document.querySelectorAll(".school-year-text").forEach(el => el.textContent = schoolConfig.academicYear);
 
-  const heroPrintBtn = document.getElementById("heroPrintSummaryBtn");
-  if (heroPrintBtn) {
-    heroPrintBtn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=mathematics&mode=preview&print=true`;
-  }
+  const heroPrintBtns = document.querySelectorAll("#heroPrintSummaryBtn, #heroPrintSummaryBtn2, .heroPrintBtn");
+  heroPrintBtns.forEach(btn => {
+    btn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=mathematics&mode=preview&print=true`;
+  });
 
   // Update Page Title
   document.title = `${student.name} - Digital Portfolio | ${schoolConfig.schoolName}`;
@@ -355,10 +355,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPortfolioSubjectDetails();
     const subData = DEFAULT_SUBJECT_PORTFOLIOS_MAP[subId];
     renderPortfolioPerformanceGraph(subData ? subData.subject : "Mathematics");
-    const heroPrintBtn = document.getElementById("heroPrintSummaryBtn");
-    if (heroPrintBtn) {
-      heroPrintBtn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=${encodeURIComponent(subId)}&mode=preview&print=true`;
-    }
+    document.querySelectorAll("#heroPrintSummaryBtn, #heroPrintSummaryBtn2, .heroPrintBtn").forEach(btn => {
+      btn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=${encodeURIComponent(subId)}&mode=preview&print=true`;
+    });
   }
 
   function renderPortfolioSubjectDetails() {
@@ -449,7 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroCover = document.getElementById("heroCover");
   if (heroCover && student.coverImage) heroCover.src = student.coverImage;
 
-  const heroAvatar = document.getElementById("heroAvatar");
+  const heroAvatar = document.getElementById("heroAvatar") || document.getElementById("studentAvatar");
   if (heroAvatar && student.avatar) heroAvatar.src = student.avatar;
 
   const studentNameEl = document.getElementById("studentName");

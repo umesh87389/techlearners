@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         studentsToRender = studentsToRender.filter(s => (s.team || "").toLowerCase() === teamFilterValue.toLowerCase());
       }
       if (classFilterValue && classFilterValue !== "all") {
-        studentsToRender = studentsToRender.filter(s => s.class.toLowerCase() === classFilterValue.toLowerCase());
+        studentsToRender = studentsToRender.filter(s => s.class && s.class.toLowerCase() === classFilterValue.toLowerCase());
       }
     }
 
@@ -81,7 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const teamInfo = getTeamDetails(student.team);
       const qrTargetUrl = getBasePortfolioUrl(student.id);
-      const qrBoxId = `qr-canvas-${student.id.replace(/[^a-zA-Z0-9]/g, "-")}-${index}`;
+      const safeId = String(student.id || index).replace(/[^a-zA-Z0-9]/g, "-");
+      const qrBoxId = `qr-canvas-${safeId}-${index}`;
       const projectName = student.activityCycle?.projectName || student.projects?.[0]?.title || "Project Showcase";
 
       card.innerHTML = `
@@ -91,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <p style="color: rgba(255,255,255,0.9); font-size: 0.7rem;">${schoolConfig.academicYear} • Official Digital Portfolio Badge</p>
         </div>
         <div class="id-body">
-          <img src="${student.avatar}" alt="${student.name}" class="id-avatar" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'">
+          <img src="${student.avatar || 'assets/school-logo.jpg'}" alt="${student.name}" class="id-avatar" onerror="this.src='assets/school-logo.jpg'">
           <div class="id-student-name">${student.name}</div>
           <div class="id-student-class">${student.class} — Sec ${student.section} (Roll #${student.rollNo})</div>
           

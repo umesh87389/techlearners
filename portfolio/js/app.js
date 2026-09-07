@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
         <div class="card-banner team-banner-${student.team || "it"}"></div>
         <div class="card-avatar-wrapper">
-          <img src="${student.avatar}" alt="${student.name}" class="student-card-avatar" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'">
+          <img src="${student.avatar || 'assets/school-logo.jpg'}" alt="${student.name}" class="student-card-avatar" onerror="this.src='assets/school-logo.jpg'">
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
             ${teamBadge}
             <span class="badge badge-dark" style="font-size: 0.7rem;">${student.class}-${student.section}</span>

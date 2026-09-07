@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>\n  <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
+<head>
+  <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Technology Teams & Activity Cycle | TechLearners</title>
@@ -256,7 +257,7 @@
           const card = document.createElement("div");
           card.className = "team-student-item";
           card.innerHTML = `
-            <img src="${s.avatar}" alt="${s.name}" class="team-student-avatar">
+            <img src="${s.avatar || 'assets/school-logo.jpg'}" alt="${s.name}" class="team-student-avatar" onerror="this.src='assets/school-logo.jpg'">
             <div style="flex: 1; min-width: 0;">
               <h5 style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.15rem;">${s.name}</h5>
               <div style="font-size: 0.75rem; color: var(--text-muted);">${s.class}-${s.section} • ${s.teamRole || "Team Member"}</div>

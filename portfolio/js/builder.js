@@ -676,6 +676,10 @@ document.addEventListener("DOMContentLoaded", function() {
     setTimeout(() => printSinglePage(), 600);
   } else if (urlParams.get("mode") === "preview") {
     setViewMode("preview");
+  } else if (urlParams.get("mode") === "form") {
+    setViewMode("form");
+  } else if (urlParams.get("mode") === "split") {
+    setViewMode("split");
   } else {
     // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
     if (window.innerWidth >= 1200) {
@@ -1011,8 +1015,21 @@ function loadSavedData() {
 
     if (reviewId && window.PortfolioReviewStore) {
       const sub = window.PortfolioReviewStore.getById(reviewId);
-      if (sub && sub.portfolioData) {
-        currentData = Object.assign({}, SAMPLE_SHM_STUDENT, sub.portfolioData);
+      if (sub) {
+        if (sub.portfolioData && Object.keys(sub.portfolioData).length > 0) {
+          currentData = Object.assign({}, SAMPLE_SHM_STUDENT, sub.portfolioData);
+        } else {
+          currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+            id: sub.admissionNo || "student-" + Date.now(),
+            studentName: sub.studentName || "",
+            classSection: sub.classSection || "Class VIII - A",
+            rollNo: sub.rollNo || "",
+            admissionNo: sub.admissionNo || "",
+            aboutSentence: sub.studentNote || "",
+            teacherRemarks: sub.teacherRemarks || "",
+            reviewStatus: sub.status || "pending"
+          });
+        }
         if (subjectParam) currentData.selectedSubjectId = subjectParam;
         return;
       }
@@ -4381,6 +4398,170 @@ function exportTeacherRosterCsv() {
   showSaveToast("📊 Student roster exported to CSV.");
 }
 
+// =============================================================
+// REVIEW QUEUE EVENT HANDLERS (Pending Submissions in Faculty Portal)
+// =============================================================
+
+function reviewAndGradeSubmission(subId) {
+  if (!window.PortfolioReviewStore) return;
+  const sub = window.PortfolioReviewStore.getById(subId);
+  if (!sub) {
+    alert("Submission record not found.");
+    return;
+  }
+  isTeacherMode = true;
+  sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+  sessionStorage.setItem("portfolio_teacher_role", "Teacher");
+  updateTeacherLockUI();
+
+  // Find if student exists in DataStore
+  let foundStudent = null;
+  if (window.DataStore) {
+    const students = window.DataStore.getStudents();
+    foundStudent = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
+  }
+
+  if (foundStudent) {
+    loadStudentToTeacherEdit(foundStudent.id);
+  } else if (sub.portfolioData && Object.keys(sub.portfolioData).length > 0) {
+    currentData = Object.assign({}, SAMPLE_SHM_STUDENT, sub.portfolioData);
+    syncDataToForm(currentData);
+    renderPreview(currentData);
+    saveToLocalStorage();
+    setViewMode("form");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    showSaveToast(`👩‍🏫 Loaded submission for "${currentData.studentName}" in Teacher Edit Mode.`);
+  } else {
+    currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+      id: sub.admissionNo || "student-" + Date.now(),
+      studentName: sub.studentName || "",
+      classSection: sub.classSection || "Class VIII - A",
+      rollNo: sub.rollNo || "",
+      admissionNo: sub.admissionNo || "",
+      aboutSentence: sub.studentNote || "",
+      teacherRemarks: sub.teacherRemarks || "",
+      reviewStatus: sub.status || "pending"
+    });
+    currentData.schoolMotto = "Knowledge Infinite";
+    syncDataToForm(currentData);
+    renderPreview(currentData);
+    saveToLocalStorage();
+    setViewMode("form");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    showSaveToast(`👩‍🏫 Loaded submission for "${currentData.studentName}" in Teacher Edit Mode.`);
+  }
+}
+
+function approveReviewFromPortal(subId) {
+  if (!window.PortfolioReviewStore) return;
+  const sub = window.PortfolioReviewStore.getById(subId);
+  const name = sub ? sub.studentName : "this submission";
+  const remarks = prompt(`Approve & Certify portfolio for "${name}".\n\nEnter teacher remarks (optional):`, "Verified by Subject Teacher - Exemplary Work");
+  if (remarks === null) return;
+
+  window.PortfolioReviewStore.approveReview(subId, remarks);
+
+  if (window.DataStore && sub) {
+    const students = window.DataStore.getStudents();
+    const st = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
+    if (st) {
+      st.reviewStatus = "approved";
+      if (!st.portfolioBuilderData) st.portfolioBuilderData = {};
+      st.portfolioBuilderData.teacherRemarks = remarks;
+      st.portfolioBuilderData.reviewStatus = "approved";
+      window.DataStore.saveStudent(st);
+    }
+  }
+
+  if (currentData && sub && ((currentData.admissionNo && currentData.admissionNo === sub.admissionNo) || (currentData.studentName === sub.studentName))) {
+    currentData.reviewStatus = "approved";
+    currentData.teacherRemarks = remarks;
+    syncDataToForm(currentData);
+    renderPreview(currentData);
+    saveToLocalStorage();
+  }
+
+  showSaveToast(`✅ Portfolio submission for "${name}" approved & certified.`);
+  renderTeachersPortal();
+}
+
+function printReviewSubmission(subId) {
+  if (!window.PortfolioReviewStore) return;
+  const sub = window.PortfolioReviewStore.getById(subId);
+  if (!sub) return;
+
+  let foundStudent = null;
+  if (window.DataStore) {
+    const students = window.DataStore.getStudents();
+    foundStudent = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
+  }
+
+  if (foundStudent) {
+    printStudentFromTeacherRoster(foundStudent.id);
+  } else {
+    currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+      studentName: sub.studentName || "",
+      classSection: sub.classSection || "Class VIII - A",
+      rollNo: sub.rollNo || "",
+      admissionNo: sub.admissionNo || ""
+    });
+    syncDataToForm(currentData);
+    renderPreview(currentData);
+    printSinglePage();
+  }
+}
+
+function previewReviewSubmission(subId) {
+  if (!window.PortfolioReviewStore) return;
+  const sub = window.PortfolioReviewStore.getById(subId);
+  if (!sub) return;
+
+  let foundStudent = null;
+  if (window.DataStore) {
+    const students = window.DataStore.getStudents();
+    foundStudent = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
+  }
+
+  if (foundStudent) {
+    previewStudentFromTeacherRoster(foundStudent.id);
+  } else {
+    currentData = Object.assign({}, SAMPLE_SHM_STUDENT, {
+      studentName: sub.studentName || "",
+      classSection: sub.classSection || "Class VIII - A",
+      rollNo: sub.rollNo || "",
+      admissionNo: sub.admissionNo || ""
+    });
+    syncDataToForm(currentData);
+    renderPreview(currentData);
+    setViewMode("preview");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function quickApproveAllPendingReviews() {
+  if (!window.PortfolioReviewStore) return;
+  const pending = window.PortfolioReviewStore.getAll().filter(r => r.status === "pending");
+  if (pending.length === 0) {
+    alert("No pending reviews to approve.");
+    return;
+  }
+  if (confirm(`Approve all ${pending.length} pending student portfolio reviews?`)) {
+    pending.forEach(r => {
+      window.PortfolioReviewStore.approveReview(r.id, "Verified by Teacher - Approved");
+      if (window.DataStore) {
+        const students = window.DataStore.getStudents();
+        const st = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
+        if (st) {
+          st.reviewStatus = "approved";
+          window.DataStore.saveStudent(st);
+        }
+      }
+    });
+    showSaveToast(`✅ All ${pending.length} pending reviews approved & certified.`);
+    renderTeachersPortal();
+  }
+}
+
 // Expose functions to global window object
 window.renderTeachersPortal = renderTeachersPortal;
 window.loadStudentToTeacherEdit = loadStudentToTeacherEdit;
@@ -4395,4 +4576,9 @@ window.onTeacherStatusFilter = onTeacherStatusFilter;
 window.onTeacherSubjectSelect = onTeacherSubjectSelect;
 window.setTeacherViewStyle = setTeacherViewStyle;
 window.clearTeacherFilters = clearTeacherFilters;
+window.reviewAndGradeSubmission = reviewAndGradeSubmission;
+window.approveReviewFromPortal = approveReviewFromPortal;
+window.printReviewSubmission = printReviewSubmission;
+window.previewReviewSubmission = previewReviewSubmission;
+window.quickApproveAllPendingReviews = quickApproveAllPendingReviews;
 
