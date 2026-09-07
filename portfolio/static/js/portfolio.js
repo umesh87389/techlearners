@@ -1487,8 +1487,14 @@
 
     // Header Info
     setElText('print_session_text', s.header?.academic_session || '2026–2027');
-    setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
-    setElText('print_class_pill', p.class_section || 'Class 6 - Section A');
+    if (selectedSubject === 'all') {
+      setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
+      setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'} • All Subjects`);
+    } else {
+      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
+      setElText('print_record_id', `Subject: ${targetConfig.name}`);
+      setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'} • ${targetConfig.name} Only`);
+    }
 
     // Profile table
     setElText('print_name', p.student_name || '—');
@@ -1521,7 +1527,12 @@
     // About Me & Strengths
     const aboutSnippetParts = [];
     if (about.student_type) aboutSnippetParts.push(`Learner Type: ${about.student_type}`);
-    if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
+    if (selectedSubject === 'all') {
+      if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
+    } else {
+      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
+      aboutSnippetParts.push(`Evaluated Subject: ${targetConfig.name}`);
+    }
     if (about.one_improvement) aboutSnippetParts.push(`Target: ${about.one_improvement}`);
     setElText('print_about_snippet', aboutSnippetParts.join(' • ') || 'Dedicated, curious student committed to academic excellence.');
 
@@ -1539,23 +1550,11 @@
     const goalsList = Array.isArray(goals.this_year_goals) ? goals.this_year_goals : [];
     setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');
 
-    // Academic Section Title & Badge
-    const titleEl = document.getElementById('printAcademicSectionTitle');
-    const badgeEl = document.getElementById('printAcademicBadge');
-    if (selectedSubject === 'all') {
-      if (titleEl) titleEl.textContent = '4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED';
-      if (badgeEl) badgeEl.textContent = 'Verified Faculty Evaluation';
-    } else {
-      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
-      if (titleEl) titleEl.textContent = `4. ACADEMIC PROGRESS — ${targetConfig.name.toUpperCase()} (INDIVIDUAL SUBJECT)`;
-      if (badgeEl) badgeEl.textContent = `Focus Subject: ${targetConfig.name}`;
-    }
-
-    // Academic Progress (All 7 Subjects with Focus Highlight if selected)
+    // Compute baseline scores for all subjects
     const scoresMap = {};
     let totalScore = 0;
 
-    const acadRowsHtml = SUBJECTS_CONFIG.map(cfg => {
+    SUBJECTS_CONFIG.forEach(cfg => {
       const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
       const t1 = (m.term1 !== undefined && m.term1 !== '') ? parseFloat(m.term1) : (cfg.id === 'mathematics' ? 95 : (cfg.id === 'science' ? 94 : (cfg.id === 'computer_it' ? 98 : 92)));
       const mid = (m.midterm !== undefined && m.midterm !== '') ? parseFloat(m.midterm) : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
@@ -1569,21 +1568,58 @@
         avg, t1, mid, t2, remarks
       };
       totalScore += avg;
+    });
 
-      const isFocus = (selectedSubject !== 'all' && cfg.id === selectedSubject);
-      const rowStyle = isFocus
-        ? 'background: #eff6ff; font-weight: 800; border: 1.5px solid #1e3a8a;'
-        : '';
-      const nameDisplay = isFocus
-        ? `<span style="color: #1e3a8a;">★ ${escapeHtml(cfg.name)} (Focus Subject)</span>`
-        : escapeHtml(cfg.name);
+    // Academic Section Title & Badge
+    const titleEl = document.getElementById('printAcademicSectionTitle');
+    const badgeEl = document.getElementById('printAcademicBadge');
+    const isIndividual = (selectedSubject !== 'all');
+
+    if (!isIndividual) {
+      if (titleEl) titleEl.textContent = '4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED';
+      if (badgeEl) badgeEl.textContent = 'Verified Faculty Evaluation';
+    } else {
+      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
+      if (titleEl) titleEl.textContent = `4. ACADEMIC EVALUATION — ${targetConfig.name.toUpperCase()} (INDIVIDUAL SUBJECT)`;
+      if (badgeEl) badgeEl.textContent = `Focus Subject: ${targetConfig.name} Only`;
+    }
+
+    // Filter subjects: if an individual subject is selected, HIDE ALL OTHER SUBJECTS
+    const subjectsToDisplay = isIndividual
+      ? SUBJECTS_CONFIG.filter(cfg => cfg.id === selectedSubject)
+      : SUBJECTS_CONFIG;
+
+    const acadRowsHtml = subjectsToDisplay.map(cfg => {
+      const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
+      const t1 = (m.term1 !== undefined && m.term1 !== '') ? m.term1 : (cfg.id === 'mathematics' ? 95 : (cfg.id === 'science' ? 94 : (cfg.id === 'computer_it' ? 98 : 92)));
+      const mid = (m.midterm !== undefined && m.midterm !== '') ? m.midterm : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
+      const t2 = (m.term2 !== undefined && m.term2 !== '') ? m.term2 : (cfg.id === 'mathematics' ? 98 : (cfg.id === 'science' ? 96 : (cfg.id === 'computer_it' ? 99 : 94)));
+      const subScore = scoresMap[cfg.name] || {};
+      const avg = subScore.avg;
+      const remarks = m.remarks || subScore.remarks;
+
+      if (isIndividual) {
+        return `
+          <tr style="background: #eff6ff; font-weight: 700;">
+            <td style="vertical-align: middle; padding: 4px 6px;">
+              <div style="font-weight: 900; font-size: 8.5pt; color: #1e3a8a;">${cfg.icon || '📘'} ${escapeHtml(cfg.name)}</div>
+              <div style="font-size: 6.2pt; color: #64748b; margin-top: 1px;">Subject Faculty: ${escapeHtml(cfg.teacher || 'Subject Teacher')}</div>
+            </td>
+            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${t1} / ${cfg.maxMarks}</td>
+            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${mid} / ${cfg.maxMarks}</td>
+            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${t2} / ${cfg.maxMarks}</td>
+            <td style="text-align: center; vertical-align: middle; font-weight: 900; font-size: 8.8pt; color: #15803d; background: #f0fdf4; padding: 4px;">${avg}%</td>
+            <td style="vertical-align: middle; font-size: 7.2pt; line-height: 1.3; color: #1e293b; padding: 4px 6px;">${escapeHtml(remarks)}</td>
+          </tr>
+        `;
+      }
 
       return `
-        <tr style="${rowStyle}">
-          <td style="font-weight: 700; color: #0f172a;">${nameDisplay}</td>
-          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.term1 !== undefined && m.term1 !== '') ? m.term1 : t1} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.midterm !== undefined && m.midterm !== '') ? m.midterm : mid} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: ${isFocus ? '800' : '600'};">${(m.term2 !== undefined && m.term2 !== '') ? m.term2 : t2} / ${cfg.maxMarks}</td>
+        <tr>
+          <td style="font-weight: 700; color: #0f172a;">${escapeHtml(cfg.name)}</td>
+          <td style="text-align: center; font-weight: 600;">${t1} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: 600;">${mid} / ${cfg.maxMarks}</td>
+          <td style="text-align: center; font-weight: 600;">${t2} / ${cfg.maxMarks}</td>
           <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${avg}%</td>
           <td style="font-size: 6.8pt; color: #334155;">${escapeHtml(remarks)}</td>
         </tr>
@@ -1600,7 +1636,7 @@
     else if (overallAvg < 80) grade = 'B1';
     else if (overallAvg < 90) grade = 'A2';
 
-    if (selectedSubject === 'all') {
+    if (!isIndividual) {
       setElText('print_overall_avg', `${overallAvg}% (Grade ${grade})`);
       setElText('print_academic_achievement', acad.academic_achievement || 'Exemplary academic effort and proactive participation across subjects.');
     } else {
@@ -1612,7 +1648,7 @@
       else if (targetData.avg < 80) subGrade = 'B1';
       else if (targetData.avg < 90) subGrade = 'A2';
 
-      setElText('print_overall_avg', `${targetCfg.name} Avg: ${targetData.avg}% (${subGrade})`);
+      setElText('print_overall_avg', `${targetCfg.name} Aggregate: ${targetData.avg}% (${subGrade})`);
       setElText('print_academic_achievement', `Focus Subject (${targetCfg.name}): ${targetData.remarks || 'Consistent academic dedication and mastery.'}`);
     }
 
