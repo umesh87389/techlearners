@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teachers Portal | Saved Students &amp; Portfolio Assessment</title>
+  <title>Teachers Portal | Saved Students &amp; Review Queue</title>
   <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/builder.css">
@@ -40,13 +40,28 @@
   <!-- Main Container -->
   <main class="container" style="max-width: 1400px; padding-top: 1.5rem; padding-bottom: 3rem;">
 
-    <div class="teachers-portal-container">
+    <!-- PIN Authentication Gate (Shown if not authenticated) -->
+    <div class="teachers-auth-lock-card" id="teachersLockGate" style="display: none;">
+      <div class="teachers-lock-icon">🔒</div>
+      <h2 class="teachers-lock-title">Teachers Portal Authentication</h2>
+      <p class="teachers-lock-desc">This portal contains confidential student records, marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
+      <form class="teachers-pin-form" onsubmit="handleTeachersPagePinSubmit(event)">
+        <input type="password" id="pageTeacherPinInput" class="teachers-pin-input" placeholder="Enter Teacher PIN (shm2026)" autofocus autocomplete="off">
+        <button type="submit" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; padding: 0.65rem 1.2rem;">
+          🔑 Unlock Teachers Portal
+        </button>
+        <div id="pageTeacherPinFeedback" class="teachers-pin-feedback"></div>
+      </form>
+    </div>
+
+    <!-- Authenticated Teachers Portal Content -->
+    <div class="teachers-portal-container" id="teachersPortalContent" style="display: none;">
       
       <!-- Top Portal Header -->
       <div class="teachers-portal-header">
         <div class="teachers-portal-titles">
           <h2><span>👨‍🏫</span> <span>Teachers Portal &amp; Saved Students Roster</span></h2>
-          <p>Official SHM Academy Student Roster • View saved students, edit student particulars &amp; evaluation marks, or print 2-page subject portfolios.</p>
+          <p>Official SHM Academy Student Roster • View saved students, evaluate pending review requests, edit particulars &amp; marks, or print 2-page portfolios.</p>
         </div>
         <div class="teachers-portal-actions">
           <a href="builder.html?mode=form&new=true&auth=teacher" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
@@ -58,15 +73,15 @@
           <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
             📊 Export Marks (CSV)
           </button>
-          <button type="button" id="btnPinAuth" onclick="openTeacherPinModal()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            🔑 Teacher PIN (shm2026)
+          <button type="button" id="btnPinAuth" onclick="lockTeacherSession()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            🔒 Lock Portal
           </button>
         </div>
       </div>
 
       <!-- KPI Summary Cards -->
       <div class="teachers-kpi-grid">
-        <div class="teachers-kpi-card">
+        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="switchPageTab('roster')">
           <div class="teachers-kpi-icon">👥</div>
           <div class="teachers-kpi-info">
             <div class="teachers-kpi-val" id="kpiTotalStudents">0</div>
@@ -80,7 +95,7 @@
             <div class="teachers-kpi-label">Evaluated &amp; Certified</div>
           </div>
         </div>
-        <div class="teachers-kpi-card">
+        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="switchPageTab('reviews')">
           <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
           <div class="teachers-kpi-info">
             <div class="teachers-kpi-val" id="kpiPendingCount" style="color: #b45309;">0</div>
@@ -96,38 +111,70 @@
         </div>
       </div>
 
-      <!-- Toolbar & Filters -->
-      <div class="teachers-toolbar">
-        <div class="teachers-filters-group">
-          <input type="text" id="teacherSearchInput" class="teachers-search-input" placeholder="🔍 Search student name, roll no, admission no..." oninput="onFilterChange()">
-          <select id="teacherClassSelect" class="teachers-select" onchange="onFilterChange()">
-            <option value="all">🏫 All Classes</option>
-          </select>
-          <select id="teacherStatusSelect" class="teachers-select" onchange="onFilterChange()">
-            <option value="all">All Evaluation Status</option>
-            <option value="verified">✓ Evaluated &amp; Certified</option>
-            <option value="pending">⏳ Pending Review</option>
-            <option value="draft">📝 Drafts</option>
-          </select>
-          <select id="teacherSubjectSelect" class="teachers-select" title="Choose default subject for printing" onchange="onFilterChange()">
-            <option value="mathematics">📐 Mathematics Print</option>
-            <option value="science">🔬 Science Print</option>
-            <option value="computer_it">💻 Computer / IT Print</option>
-            <option value="english">📖 English Print</option>
-            <option value="social_science">🌍 Social Science Print</option>
-            <option value="hindi">🇮🇳 Hindi Print</option>
-            <option value="ai">🤖 Artificial Intelligence Print</option>
-          </select>
+      <!-- Dual Sub-Navigation: All Saved Students vs Pending Review Requests -->
+      <div class="teachers-subnav">
+        <button type="button" id="tabBtnRoster" class="teachers-subnav-btn active" onclick="switchPageTab('roster')">
+          👥 All Saved Students <span class="teachers-subnav-badge" id="badgeSavedStudents">0</span>
+        </button>
+        <button type="button" id="tabBtnReviews" class="teachers-subnav-btn" onclick="switchPageTab('reviews')">
+          📨 Pending Review Requests <span class="teachers-subnav-badge" id="badgePendingReviews">0</span>
+        </button>
+      </div>
+
+      <!-- VIEW 1: All Saved Students Roster -->
+      <div id="viewRosterSection">
+        <!-- Toolbar & Filters -->
+        <div class="teachers-toolbar">
+          <div class="teachers-filters-group">
+            <input type="text" id="teacherSearchInput" class="teachers-search-input" placeholder="🔍 Search student name, roll no, admission no..." oninput="onFilterChange()">
+            <select id="teacherClassSelect" class="teachers-select" onchange="onFilterChange()">
+              <option value="all">🏫 All Classes</option>
+            </select>
+            <select id="teacherStatusSelect" class="teachers-select" onchange="onFilterChange()">
+              <option value="all">All Evaluation Status</option>
+              <option value="verified">✓ Evaluated &amp; Certified</option>
+              <option value="pending">⏳ Pending Review</option>
+              <option value="draft">📝 Drafts</option>
+            </select>
+            <select id="teacherSubjectSelect" class="teachers-select" title="Choose default subject for printing" onchange="onFilterChange()">
+              <option value="mathematics">📐 Mathematics Print</option>
+              <option value="science">🔬 Science Print</option>
+              <option value="computer_it">💻 Computer / IT Print</option>
+              <option value="english">📖 English Print</option>
+              <option value="social_science">🌍 Social Science Print</option>
+              <option value="hindi">🇮🇳 Hindi Print</option>
+              <option value="ai">🤖 Artificial Intelligence Print</option>
+            </select>
+          </div>
+          <div class="teachers-view-toggle-btns">
+            <button type="button" id="btnViewCards" class="active" onclick="setViewModeCards(true)">🎴 Cards</button>
+            <button type="button" id="btnViewTable" onclick="setViewModeCards(false)">📋 Table</button>
+          </div>
         </div>
-        <div class="teachers-view-toggle-btns">
-          <button type="button" id="btnViewCards" class="active" onclick="setViewModeCards(true)">🎴 Cards</button>
-          <button type="button" id="btnViewTable" onclick="setViewModeCards(false)">📋 Table</button>
+
+        <!-- Student Roster Container -->
+        <div id="rosterContainer">
+          <!-- Rendered dynamically -->
         </div>
       </div>
 
-      <!-- Student Roster Container -->
-      <div id="rosterContainer">
-        <!-- Rendered dynamically -->
+      <!-- VIEW 2: Pending Review Requests -->
+      <div id="viewReviewsSection" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <h3 style="margin: 0 0 4px 0; font-size: 1.15rem; color: #0f172a;">📨 Student Submissions Pending Faculty Review</h3>
+            <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Review student practical work and portfolio records, enter certified marks, and approve submissions.</p>
+          </div>
+          <div>
+            <button type="button" onclick="approveAllPendingFromPage()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+              ✅ Approve All Pending
+            </button>
+          </div>
+        </div>
+
+        <div id="reviewsContainer">
+          <!-- Rendered dynamically -->
+        </div>
       </div>
 
     </div>
@@ -149,10 +196,90 @@
 
   <script>
     let isCardsView = true;
+    let activeSubTab = "roster";
 
     document.addEventListener("DOMContentLoaded", () => {
-      renderPage();
+      checkAuthAndRender();
     });
+
+    function checkAuthAndRender() {
+      const isUnlocked = sessionStorage.getItem("portfolio_teacher_unlocked") === "true";
+      const gate = document.getElementById("teachersLockGate");
+      const content = document.getElementById("teachersPortalContent");
+
+      if (!isUnlocked) {
+        gate.style.display = "block";
+        content.style.display = "none";
+        const pinInp = document.getElementById("pageTeacherPinInput");
+        if (pinInp) pinInp.focus();
+      } else {
+        gate.style.display = "none";
+        content.style.display = "block";
+        renderPage();
+      }
+    }
+
+    function handleTeachersPagePinSubmit(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const input = document.getElementById("pageTeacherPinInput");
+      const feedback = document.getElementById("pageTeacherPinFeedback");
+      const code = (input && input.value ? input.value : "").trim();
+
+      let verification = null;
+      if (window.TeacherPINStore && typeof window.TeacherPINStore.verify === "function") {
+        verification = window.TeacherPINStore.verify(code, "");
+      } else {
+        const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+        if (validCodes.includes(code.toLowerCase())) {
+          verification = { valid: true, role: "Teacher/Staff", isMaster: true, message: "Verified as School Teacher" };
+        } else {
+          verification = { valid: false, message: "Incorrect teacher passcode. Please use 'shm2026'." };
+        }
+      }
+
+      if (verification && verification.valid) {
+        sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+        if (feedback) {
+          feedback.style.color = "#16a34a";
+          feedback.textContent = "✅ Verification successful! Unlocking portal...";
+        }
+        setTimeout(() => {
+          checkAuthAndRender();
+        }, 300);
+      } else {
+        if (feedback) {
+          feedback.style.color = "#dc2626";
+          feedback.textContent = "❌ Incorrect teacher PIN. Please verify or use 'shm2026'.";
+        }
+      }
+    }
+
+    function lockTeacherSession() {
+      sessionStorage.removeItem("portfolio_teacher_unlocked");
+      checkAuthAndRender();
+    }
+
+    function switchPageTab(tab) {
+      activeSubTab = tab;
+      const btnRoster = document.getElementById("tabBtnRoster");
+      const btnReviews = document.getElementById("tabBtnReviews");
+      const secRoster = document.getElementById("viewRosterSection");
+      const secReviews = document.getElementById("viewReviewsSection");
+
+      if (tab === "reviews") {
+        btnRoster.className = "teachers-subnav-btn";
+        btnReviews.className = "teachers-subnav-btn active";
+        secRoster.style.display = "none";
+        secReviews.style.display = "block";
+        renderReviewsList();
+      } else {
+        btnRoster.className = "teachers-subnav-btn active";
+        btnReviews.className = "teachers-subnav-btn";
+        secRoster.style.display = "block";
+        secReviews.style.display = "none";
+        renderRosterList();
+      }
+    }
 
     function escapeHtml(str) {
       if (str === null || str === undefined) return "";
@@ -168,6 +295,20 @@
       const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
         ? window.DataStore.getStudents()
         : (window.DEFAULT_STUDENTS || []);
+
+      const allReviews = (window.PortfolioReviewStore && typeof window.PortfolioReviewStore.getAll === "function")
+        ? window.PortfolioReviewStore.getAll()
+        : [];
+      const pendingReviews = allReviews.filter(r => r.status === "pending");
+
+      // Badges
+      document.getElementById("badgeSavedStudents").textContent = students.length;
+      const badgeReviews = document.getElementById("badgePendingReviews");
+      badgeReviews.textContent = pendingReviews.length;
+      if (pendingReviews.length > 0) {
+        badgeReviews.style.background = "#f59e0b";
+        badgeReviews.style.color = "#0f172a";
+      }
 
       // Populate unique classes
       const classSelect = document.getElementById("teacherClassSelect");
@@ -187,8 +328,7 @@
       document.getElementById("kpiTotalStudents").textContent = students.length;
       const verified = students.filter(s => s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)).length;
       document.getElementById("kpiVerifiedCount").textContent = verified;
-      const pending = students.filter(s => s.reviewStatus === "pending").length;
-      document.getElementById("kpiPendingCount").textContent = pending;
+      document.getElementById("kpiPendingCount").textContent = pendingReviews.length;
 
       let scoreSum = 0, scoreCount = 0;
       students.forEach(s => {
@@ -197,7 +337,11 @@
       });
       document.getElementById("kpiAvgScore").textContent = (scoreCount > 0 ? (scoreSum / scoreCount).toFixed(1) : "95.2") + "%";
 
-      renderRosterList();
+      if (activeSubTab === "reviews") {
+        renderReviewsList();
+      } else {
+        renderRosterList();
+      }
     }
 
     function onFilterChange() {
@@ -300,7 +444,7 @@
                   ✏️ Edit Details
                 </a>
                 <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview&print=true" class="btn btn-sm btn-card-print" title="Print official 2-page subject portfolio">
-                  🖨️ Print (2 Pages)
+                  🖨️ Print 2 Pages
                 </a>
                 <a href="builder.html?id=${encodeURIComponent(s.id)}&subject=${encodeURIComponent(subjectFilter)}&mode=preview" class="btn btn-secondary btn-sm" title="Preview 2-page sheet in builder">
                   👁️ Sheet
@@ -374,6 +518,132 @@
       }
     }
 
+    function renderReviewsList() {
+      const container = document.getElementById("reviewsContainer");
+      if (!container) return;
+
+      const students = (window.DataStore && typeof window.DataStore.getStudents === "function")
+        ? window.DataStore.getStudents()
+        : (window.DEFAULT_STUDENTS || []);
+
+      const allReviews = (window.PortfolioReviewStore && typeof window.PortfolioReviewStore.getAll === "function")
+        ? window.PortfolioReviewStore.getAll()
+        : [];
+      const pendingReviews = allReviews.filter(r => r.status === "pending");
+
+      if (pendingReviews.length === 0) {
+        container.innerHTML = `
+          <div class="teachers-empty-state">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+            <h3>All Caught Up! No Pending Review Requests</h3>
+            <p>All student submissions have been reviewed, graded, and certified. New student portfolio submissions will appear here automatically.</p>
+            <button type="button" onclick="switchPageTab('roster')" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">View All Saved Students</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `<div class="pending-reviews-grid">` + pendingReviews.map(r => {
+        const matched = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
+        const avatar = (matched && matched.avatar) || "assets/school-logo.jpg";
+        const studentId = matched ? matched.id : "";
+        const subject = r.targetTeacher || "Subject Faculty";
+        const dateStr = r.submittedAtFormatted || (r.submittedAt ? new Date(r.submittedAt).toLocaleString() : "Recently");
+
+        return `
+          <div class="pending-review-card">
+            <div>
+              <div class="pending-review-header">
+                <div class="pending-student-info">
+                  <img src="${avatar}" alt="${escapeHtml(r.studentName)}" class="pending-student-avatar" onerror="this.src='assets/school-logo.jpg'">
+                  <div>
+                    <h4 style="margin: 0 0 2px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">${escapeHtml(r.studentName)}</h4>
+                    <div style="font-size: 0.82rem; font-weight: 700; color: #4338ca;">🏫 ${escapeHtml(r.classSection || "Class VIII - A")}</div>
+                    <div style="font-size: 0.78rem; color: #64748b;">Roll: <strong>${escapeHtml(r.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(r.admissionNo || "--")}</strong></div>
+                  </div>
+                </div>
+                <span class="badge badge-warning" style="font-size: 0.72rem; white-space: nowrap;">⏳ Pending Review</span>
+              </div>
+
+              <div style="font-size: 0.82rem; color: #334155; margin-bottom: 0.5rem;">
+                <strong>Assigned Faculty:</strong> ${escapeHtml(subject)}<br>
+                <span style="font-size: 0.76rem; color: #64748b;">Submitted: ${escapeHtml(dateStr)}</span>
+              </div>
+
+              <div class="pending-note-box">
+                <strong style="display: block; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: #92400e; margin-bottom: 2px;">Student Note:</strong>
+                ${escapeHtml(r.studentNote || "Student submitted portfolio for continuous evaluation and marks certification.")}
+              </div>
+            </div>
+
+            <div class="pending-actions-row">
+              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=form&auth=teacher" class="btn btn-sm btn-primary btn-card-edit" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;" title="Load student into builder to grade marks and verify rubrics">
+                📝 Review &amp; Grade
+              </a>
+              <button type="button" onclick="approveReviewDirectly('${r.id}')" class="btn btn-sm" style="background: #059669; color: #ffffff; border-color: #059669; font-weight: 800;" title="Approve and certify this portfolio record">
+                ✅ Quick Approve
+              </button>
+              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=preview&print=true" class="btn btn-sm btn-secondary" title="Print official 2-page subject portfolio">
+                🖨️ Print 2 Pages
+              </a>
+              <a href="builder.html?${studentId ? 'id=' + encodeURIComponent(studentId) + '&' : ''}mode=preview" class="btn btn-sm btn-secondary" title="Preview 2-page sheet in builder">
+                👁️ Sheet
+              </a>
+            </div>
+          </div>
+        `;
+      }).join("") + `</div>`;
+    }
+
+    function approveReviewDirectly(subId) {
+      if (!window.PortfolioReviewStore) return;
+      const sub = window.PortfolioReviewStore.getById(subId);
+      const name = sub ? sub.studentName : "this submission";
+      const remarks = prompt(`Approve & Certify portfolio for "${name}".\n\nEnter teacher remarks (optional):`, "Verified by Subject Teacher - Exemplary Work");
+      if (remarks === null) return;
+
+      window.PortfolioReviewStore.approveReview(subId, remarks);
+
+      if (window.DataStore && sub) {
+        const students = window.DataStore.getStudents();
+        const st = students.find(s => (s.admissionNo && s.admissionNo === sub.admissionNo) || (s.name && s.name.toLowerCase() === (sub.studentName || '').toLowerCase()));
+        if (st) {
+          st.reviewStatus = "approved";
+          if (!st.portfolioBuilderData) st.portfolioBuilderData = {};
+          st.portfolioBuilderData.teacherRemarks = remarks;
+          st.portfolioBuilderData.reviewStatus = "approved";
+          window.DataStore.saveStudent(st);
+        }
+      }
+
+      alert(`✅ Portfolio submission for "${name}" approved!`);
+      renderPage();
+    }
+
+    function approveAllPendingFromPage() {
+      if (!window.PortfolioReviewStore) return;
+      const pending = window.PortfolioReviewStore.getAll().filter(r => r.status === "pending");
+      if (pending.length === 0) {
+        alert("No pending reviews to approve.");
+        return;
+      }
+      if (confirm(`Approve all ${pending.length} pending student portfolio reviews?`)) {
+        pending.forEach(r => {
+          window.PortfolioReviewStore.approveReview(r.id, "Verified by Teacher - Approved");
+          if (window.DataStore) {
+            const students = window.DataStore.getStudents();
+            const st = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
+            if (st) {
+              st.reviewStatus = "approved";
+              window.DataStore.saveStudent(st);
+            }
+          }
+        });
+        alert(`✅ All ${pending.length} pending reviews have been approved.`);
+        renderPage();
+      }
+    }
+
     function deleteStudent(id) {
       if (!window.DataStore) return;
       const s = window.DataStore.getStudentById(id);
@@ -381,17 +651,6 @@
       if (confirm(`Are you sure you want to delete "${name}" from the saved students database?`)) {
         window.DataStore.deleteStudent(id);
         renderPage();
-      }
-    }
-
-    function openTeacherPinModal() {
-      const pin = prompt("Enter School Teacher Passcode (Default: shm2026):");
-      if (pin && ["shm2026", "shm", "teacher2026", "teacher", "admin"].includes(pin.toLowerCase())) {
-        sessionStorage.setItem("portfolio_teacher_unlocked", "true");
-        alert("✅ Teacher Verified successfully! Passcode unlocked.");
-        document.getElementById("btnPinAuth").textContent = "🔑 Teacher PIN Unlocked ✓";
-      } else if (pin !== null) {
-        alert("❌ Incorrect passcode. Please use 'shm2026'.");
       }
     }
 

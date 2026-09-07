@@ -916,6 +916,10 @@ function handleTeacherPasscodeSubmit(e) {
       closeTeacherAuthModal();
       updateTeacherLockUI();
       renderPreview(currentData);
+      const portalView = document.getElementById("teachersPortalView");
+      if (portalView && portalView.style.display !== "none") {
+        renderTeachersPortal();
+      }
     }, 450);
   } else {
     if (feedback) {
@@ -3652,13 +3656,101 @@ function updateTeachersBadge() {
   badge.textContent = students.length;
 }
 
+function openTeachersTab() {
+  const isUnlocked = isTeacherMode || (sessionStorage.getItem("portfolio_teacher_unlocked") === "true");
+  if (!isUnlocked) {
+    openTeacherAuthModal();
+  }
+  setViewMode("teachers");
+}
+window.openTeachersTab = openTeachersTab;
+
+function handlePortalPinSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const input = document.getElementById("portalPinInput");
+  const feedback = document.getElementById("portalPinFeedback");
+  const code = (input && input.value ? input.value : "").trim();
+
+  let verification = null;
+  if (window.TeacherPINStore && typeof window.TeacherPINStore.verify === "function") {
+    verification = window.TeacherPINStore.verify(code, "");
+  } else {
+    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+    if (validCodes.includes(code.toLowerCase())) {
+      verification = { valid: true, role: "Teacher/Staff", isMaster: true, message: "Verified as School Teacher" };
+    } else {
+      verification = { valid: false, message: "Incorrect teacher passcode. Please use 'shm2026'." };
+    }
+  }
+
+  if (verification && verification.valid) {
+    isTeacherMode = true;
+    sessionStorage.setItem("portfolio_teacher_unlocked", "true");
+    if (verification.isMaster) {
+      sessionStorage.setItem("portfolio_is_master_admin", "true");
+    }
+    sessionStorage.setItem("portfolio_teacher_role", verification.role || "Teacher");
+
+    if (feedback) {
+      feedback.style.color = "#16a34a";
+      feedback.textContent = `✅ ${verification.message || "Teacher verified!"} Unlocking portal...`;
+    }
+    setTimeout(function() {
+      updateTeacherLockUI();
+      renderTeachersPortal();
+    }, 350);
+  } else {
+    if (feedback) {
+      feedback.style.color = "#dc2626";
+      feedback.textContent = "❌ Incorrect teacher PIN. Please verify or use 'shm2026'.";
+    }
+  }
+}
+window.handlePortalPinSubmit = handlePortalPinSubmit;
+
+function setTeacherSubTab(tab) {
+  teacherRosterState.activeTab = tab;
+  renderTeachersPortal();
+}
+window.setTeacherSubTab = setTeacherSubTab;
+
 function renderTeachersPortal() {
   const container = document.getElementById("teachersPortalView");
   if (!container) return;
 
+  const isUnlocked = isTeacherMode || (sessionStorage.getItem("portfolio_teacher_unlocked") === "true");
+  if (!isUnlocked) {
+    container.innerHTML = `
+      <div class="teachers-auth-lock-card">
+        <div class="teachers-lock-icon">🔒</div>
+        <h2 class="teachers-lock-title">Teachers Portal Authentication</h2>
+        <p class="teachers-lock-desc">This portal contains confidential student records, marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
+        <form class="teachers-pin-form" onsubmit="handlePortalPinSubmit(event)">
+          <input type="password" id="portalPinInput" class="teachers-pin-input" placeholder="Enter Teacher PIN (shm2026)" autofocus autocomplete="off">
+          <button type="submit" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; padding: 0.65rem 1.2rem;">
+            🔑 Unlock Teachers Portal
+          </button>
+          <div id="portalPinFeedback" class="teachers-pin-feedback"></div>
+        </form>
+      </div>
+    `;
+    setTimeout(() => {
+      const pinInput = document.getElementById("portalPinInput");
+      if (pinInput) pinInput.focus();
+    }, 60);
+    return;
+  }
+
   const students = (window.DataStore && typeof window.DataStore.getStudents === "function") 
     ? window.DataStore.getStudents() 
     : (window.DEFAULT_STUDENTS || []);
+
+  const allReviews = (window.PortfolioReviewStore && typeof window.PortfolioReviewStore.getAll === "function")
+    ? window.PortfolioReviewStore.getAll()
+    : [];
+  const pendingReviews = allReviews.filter(r => r.status === "pending");
+
+  teacherRosterState.activeTab = teacherRosterState.activeTab || "roster";
 
   updateTeachersBadge();
 
@@ -3698,7 +3790,7 @@ function renderTeachersPortal() {
   // Calculate Metrics
   const totalStudents = students.length;
   const verifiedCount = students.filter(s => s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks)).length;
-  const pendingCount = students.filter(s => s.reviewStatus === "pending").length;
+  const pendingCount = pendingReviews.length;
 
   let totalScoreSum = 0;
   let scoreCount = 0;
@@ -3716,7 +3808,7 @@ function renderTeachersPortal() {
     <option value="${escapeHtml(c)}" ${teacherRosterState.classFilter === c ? "selected" : ""}>${escapeHtml(c)}</option>
   `).join("");
 
-  // Build Student Cards or Table
+  // Build Roster Content (Cards or Table)
   let rosterContentHtml = "";
   if (filtered.length === 0) {
     rosterContentHtml = `
@@ -3728,7 +3820,7 @@ function renderTeachersPortal() {
     `;
   } else if (teacherRosterState.viewStyle === "table") {
     // Detailed Table View
-    const rowsHtml = filtered.map((s, idx) => {
+    const rowsHtml = filtered.map(s => {
       const cls = `${s.class || "Class VIII"}${s.section ? " - " + s.section : ""}`;
       const score = s.academicScore || "95.0%";
       const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
@@ -3771,7 +3863,7 @@ function renderTeachersPortal() {
           <thead>
             <tr>
               <th>Student</th>
-              <th>Class & Section</th>
+              <th>Class &amp; Section</th>
               <th class="center">Roll No</th>
               <th class="center">Score %</th>
               <th>Status</th>
@@ -3792,7 +3884,7 @@ function renderTeachersPortal() {
       const isVerified = s.reviewStatus === "approved" || (s.portfolioBuilderData && s.portfolioBuilderData.teacherRemarks);
       const isPending = s.reviewStatus === "pending";
       const statusPill = isVerified 
-        ? `<span class="badge badge-success" style="font-size: 0.72rem;">✓ Evaluated & Verified</span>` 
+        ? `<span class="badge badge-success" style="font-size: 0.72rem;">✓ Evaluated &amp; Verified</span>` 
         : (isPending ? `<span class="badge badge-warning" style="font-size: 0.72rem;">⏳ Needs Teacher Review</span>` : `<span class="badge badge-secondary" style="font-size: 0.72rem;">📝 Draft Portfolio</span>`);
 
       const teacherName = (s.teacherObservation && s.teacherObservation.teacherName) || "Mrs. Sunita Roy (Subject Faculty)";
@@ -3850,63 +3942,88 @@ function renderTeachersPortal() {
     rosterContentHtml = `<div class="teachers-cards-grid">${cardsHtml}</div>`;
   }
 
-  container.innerHTML = `
-    <div class="teachers-portal-container">
-      
-      <!-- Top Portal Header -->
-      <div class="teachers-portal-header">
-        <div class="teachers-portal-titles">
-          <h2><span>👨‍🏫</span> <span>Teachers Portal &amp; Saved Students Roster</span></h2>
-          <p>Official SHM Academy Student Roster • Edit student particulars &amp; marks in Teacher Mode, or generate verified 2-page prints.</p>
-        </div>
-        <div class="teachers-portal-actions">
-          <button type="button" onclick="addNewStudentFromRoster()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
-            ➕ Add New Student
-          </button>
-          <button type="button" onclick="printAllSubjectPortfolios()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            🖨️ Batch Print Class (2 Pages)
-          </button>
-          <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            📊 Export Marks (CSV)
-          </button>
-          <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
-            ${isTeacherMode ? "🔑 Teacher PIN Unlocked ✓" : "🔒 Teacher PIN Unlock"}
-          </button>
-        </div>
+  // Build Pending Reviews HTML
+  let reviewsContentHtml = "";
+  if (pendingReviews.length === 0) {
+    reviewsContentHtml = `
+      <div class="teachers-empty-state">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+        <h3>All Caught Up! No Pending Review Requests</h3>
+        <p>All student submissions have been reviewed, graded, and certified. New student portfolio submissions will appear here automatically.</p>
+        <button type="button" onclick="setTeacherSubTab('roster')" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">View All Saved Students</button>
       </div>
+    `;
+  } else {
+    const reviewCardsHtml = pendingReviews.map(r => {
+      const matched = students.find(s => (s.admissionNo && s.admissionNo === r.admissionNo) || (s.name && s.name.toLowerCase() === (r.studentName || '').toLowerCase()));
+      const avatar = (matched && matched.avatar) || "assets/school-logo.jpg";
+      const subject = r.targetTeacher || "Subject Faculty";
+      const dateStr = r.submittedAtFormatted || (r.submittedAt ? new Date(r.submittedAt).toLocaleString() : "Recently");
 
-      <!-- KPI Summary Cards -->
-      <div class="teachers-kpi-grid">
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon">👥</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val">${totalStudents}</div>
-            <div class="teachers-kpi-label">Registered Students</div>
+      return `
+        <div class="pending-review-card">
+          <div>
+            <div class="pending-review-header">
+              <div class="pending-student-info">
+                <img src="${avatar}" alt="${escapeHtml(r.studentName)}" class="pending-student-avatar" onerror="this.src='assets/school-logo.jpg'">
+                <div>
+                  <h4 style="margin: 0 0 2px 0; font-size: 1.05rem; font-weight: 800; color: #0f172a;">${escapeHtml(r.studentName)}</h4>
+                  <div style="font-size: 0.82rem; font-weight: 700; color: #4338ca;">🏫 ${escapeHtml(r.classSection || "Class VIII - A")}</div>
+                  <div style="font-size: 0.78rem; color: #64748b;">Roll: <strong>${escapeHtml(r.rollNo || "--")}</strong> • Adm: <strong>${escapeHtml(r.admissionNo || "--")}</strong></div>
+                </div>
+              </div>
+              <span class="badge badge-warning" style="font-size: 0.72rem; white-space: nowrap;">⏳ Pending Review</span>
+            </div>
+
+            <div style="font-size: 0.82rem; color: #334155; margin-bottom: 0.5rem;">
+              <strong>Assigned Faculty:</strong> ${escapeHtml(subject)}<br>
+              <span style="font-size: 0.76rem; color: #64748b;">Submitted: ${escapeHtml(dateStr)}</span>
+            </div>
+
+            <div class="pending-note-box">
+              <strong style="display: block; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: #92400e; margin-bottom: 2px;">Student Note:</strong>
+              ${escapeHtml(r.studentNote || "Student submitted portfolio for continuous evaluation and marks certification.")}
+            </div>
+          </div>
+
+          <div class="pending-actions-row">
+            <button type="button" onclick="reviewAndGradeSubmission('${r.id}')" class="btn btn-sm btn-primary btn-card-edit" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;" title="Load student into builder to grade marks and verify rubrics">
+              📝 Review &amp; Grade
+            </button>
+            <button type="button" onclick="approveReviewFromPortal('${r.id}')" class="btn btn-sm" style="background: #059669; color: #ffffff; border-color: #059669; font-weight: 800;" title="Approve and certify this portfolio record">
+              ✅ Quick Approve
+            </button>
+            <button type="button" onclick="printReviewSubmission('${r.id}')" class="btn btn-sm btn-secondary" title="Print official 2-page subject portfolio">
+              🖨️ Print 2 Pages
+            </button>
+            <button type="button" onclick="previewReviewSubmission('${r.id}')" class="btn btn-sm btn-secondary" title="Preview 2-page sheet in builder">
+              👁️ Sheet
+            </button>
           </div>
         </div>
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon" style="background: #ecfdf5; border-color: #a7f3d0; color: #065f46;">✅</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" style="color: #15803d;">${verifiedCount}</div>
-            <div class="teachers-kpi-label">Evaluated &amp; Verified</div>
-          </div>
+      `;
+    }).join("");
+
+    reviewsContentHtml = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <h3 style="margin: 0 0 4px 0; font-size: 1.15rem; color: #0f172a;">📨 Student Submissions Pending Faculty Review (${pendingCount})</h3>
+          <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Review student practical work, enter certified marks in Teacher Mode, or quick approve records.</p>
         </div>
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" style="color: #b45309;">${pendingCount}</div>
-            <div class="teachers-kpi-label">Pending Teacher Review</div>
-          </div>
-        </div>
-        <div class="teachers-kpi-card">
-          <div class="teachers-kpi-icon" style="background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;">📈</div>
-          <div class="teachers-kpi-info">
-            <div class="teachers-kpi-val" style="color: #1d4ed8;">${avgScore}%</div>
-            <div class="teachers-kpi-label">Cohort Academic Average</div>
-          </div>
-        </div>
+        <button type="button" onclick="quickApproveAllPendingReviews()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+          ✅ Approve All Pending (${pendingCount})
+        </button>
       </div>
+      <div class="pending-reviews-grid">
+        ${reviewCardsHtml}
+      </div>
+    `;
+  }
 
+  // Active Main Content depending on active tab
+  const activeContentHtml = (teacherRosterState.activeTab === "reviews")
+    ? reviewsContentHtml
+    : `
       <!-- Toolbar & Filters -->
       <div class="teachers-toolbar">
         <div class="teachers-filters-group">
@@ -3939,6 +4056,77 @@ function renderTeachersPortal() {
 
       <!-- Rendered Student Roster -->
       ${rosterContentHtml}
+    `;
+
+  container.innerHTML = `
+    <div class="teachers-portal-container">
+      
+      <!-- Top Portal Header -->
+      <div class="teachers-portal-header">
+        <div class="teachers-portal-titles">
+          <h2><span>👨‍🏫</span> <span>Teachers Portal &amp; Saved Students Roster</span></h2>
+          <p>Official SHM Academy Student Roster • Edit student particulars &amp; marks in Teacher Mode, review student requests, or generate verified 2-page prints.</p>
+        </div>
+        <div class="teachers-portal-actions">
+          <button type="button" onclick="addNewStudentFromRoster()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
+            ➕ Add New Student
+          </button>
+          <button type="button" onclick="printAllSubjectPortfolios()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            🖨️ Batch Print Class (2 Pages)
+          </button>
+          <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            📊 Export Marks (CSV)
+          </button>
+          <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
+            ${isTeacherMode ? "🔑 Teacher PIN Unlocked ✓" : "🔒 Teacher PIN Unlock"}
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="teachers-kpi-grid">
+        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="setTeacherSubTab('roster')">
+          <div class="teachers-kpi-icon">👥</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val">${totalStudents}</div>
+            <div class="teachers-kpi-label">Registered Students</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon" style="background: #ecfdf5; border-color: #a7f3d0; color: #065f46;">✅</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #15803d;">${verifiedCount}</div>
+            <div class="teachers-kpi-label">Evaluated &amp; Verified</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card" style="cursor: pointer;" onclick="setTeacherSubTab('reviews')">
+          <div class="teachers-kpi-icon" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">⏳</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #b45309;">${pendingCount}</div>
+            <div class="teachers-kpi-label">Pending Teacher Review</div>
+          </div>
+        </div>
+        <div class="teachers-kpi-card">
+          <div class="teachers-kpi-icon" style="background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;">📈</div>
+          <div class="teachers-kpi-info">
+            <div class="teachers-kpi-val" style="color: #1d4ed8;">${avgScore}%</div>
+            <div class="teachers-kpi-label">Cohort Academic Average</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dual Sub-Navigation: All Saved Students vs Pending Review Requests -->
+      <div class="teachers-subnav">
+        <button type="button" class="teachers-subnav-btn ${teacherRosterState.activeTab !== 'reviews' ? 'active' : ''}" onclick="setTeacherSubTab('roster')">
+          👥 All Saved Students <span class="teachers-subnav-badge">${totalStudents}</span>
+        </button>
+        <button type="button" class="teachers-subnav-btn ${teacherRosterState.activeTab === 'reviews' ? 'active' : ''}" onclick="setTeacherSubTab('reviews')">
+          📨 Pending Review Requests <span class="teachers-subnav-badge" style="${pendingCount > 0 ? 'background: #f59e0b; color: #0f172a;' : ''}">${pendingCount}</span>
+        </button>
+      </div>
+
+      <!-- Rendered Content (Roster or Reviews) -->
+      ${activeContentHtml}
 
     </div>
   `;

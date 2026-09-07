@@ -23,7 +23,45 @@
       } catch (e) {
         console.warn("Could not load portfolio submissions:", e);
       }
-      return [];
+      // Auto-seed sample pending submissions if storage is currently empty
+      const defaultSubmissions = [
+        {
+          id: "SUB-AARAV-089",
+          studentName: "Aarav Gupta",
+          classSection: "Class VIII - A",
+          rollNo: "14",
+          admissionNo: "SHM-2024-089",
+          targetTeacher: "Mrs. Sunita Roy (Mathematics)",
+          studentNote: "Respected Ma'am, I have completed my Term-1 and Term-2 Mathematics practical lab on 3D Polyhedrons and ogive frequency curves. Kindly evaluate and verify my portfolio record.",
+          submittedAt: new Date(Date.now() - 3600000 * 2).toISOString(),
+          submittedAtFormatted: "Today, 10:30 AM",
+          status: "pending",
+          statusLabel: "Pending Teacher Review",
+          reviewedBy: null,
+          reviewedAt: null,
+          teacherRemarks: "",
+          portfolioData: null
+        },
+        {
+          id: "SUB-ISHAAN-102",
+          studentName: "Ishaan Sharma",
+          classSection: "Class VIII - A",
+          rollNo: "22",
+          admissionNo: "SHM-2024-102",
+          targetTeacher: "Dr. Amit Saxena (Science)",
+          studentNote: "Respected Sir, my physics circuit observations, lab apparatus diagrams, and Term-2 notebook submissions are ready for your assessment and certification.",
+          submittedAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+          submittedAtFormatted: "Today, 07:15 AM",
+          status: "pending",
+          statusLabel: "Pending Teacher Review",
+          reviewedBy: null,
+          reviewedAt: null,
+          teacherRemarks: "",
+          portfolioData: null
+        }
+      ];
+      this.saveAll(defaultSubmissions);
+      return defaultSubmissions;
     },
 
     /**
