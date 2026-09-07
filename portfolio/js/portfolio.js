@@ -23,6 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".school-name-text").forEach(el => el.textContent = schoolConfig.schoolName);
   document.querySelectorAll(".school-year-text").forEach(el => el.textContent = schoolConfig.academicYear);
 
+  const heroPrintBtn = document.getElementById("heroPrintSummaryBtn");
+  if (heroPrintBtn) {
+    heroPrintBtn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=mathematics&mode=preview&print=true`;
+  }
+
   // Update Page Title
   document.title = `${student.name} - Digital Portfolio | ${schoolConfig.schoolName}`;
 
@@ -47,9 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mrs. Sunita Roy",
       subjectTeacherRole: "PGT Mathematics & Subject Mentor",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "96", remarks: "Fast analytical reasoning" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "98", remarks: "Outstanding problem solving" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "99", remarks: "Near perfect score in geometry" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "96", remarks: "Fast analytical reasoning" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "99", remarks: "Near perfect score in geometry" },
         { phase: "Portfolio / Notebook", maxMarks: "20", marksScored: "20", remarks: "Exemplary neatness" },
         { phase: "Math Lab Practical", maxMarks: "10", marksScored: "10", remarks: "Active participation in geometry labs" }
       ],
@@ -71,9 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Dr. Amit Saxena",
       subjectTeacherRole: "PGT Science & Practical Head",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "94", remarks: "Solid physics laws understanding" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "95", remarks: "Excellent chemistry recall" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "97", remarks: "Outstanding practical lab application" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "94", remarks: "Solid physics laws understanding" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "97", remarks: "Outstanding practical lab application" },
         { phase: "Portfolio / Notebook", maxMarks: "20", marksScored: "20", remarks: "Complete verified diagrams" },
         { phase: "Science Lab Practical", maxMarks: "10", marksScored: "10", remarks: "Distinction in circuit and optics labs" }
       ],
@@ -95,9 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mr. Umesh Tripathi",
       subjectTeacherRole: "Faculty - Computer Science & AI",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "98", remarks: "Class topper in coding" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "99", remarks: "Flawless practical exam" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "100", remarks: "Perfect 100/100 in programming & database" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "98", remarks: "Class topper in coding" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "100", remarks: "Perfect 100/100 in programming & database" },
         { phase: "Portfolio / Practical File", maxMarks: "20", marksScored: "20", remarks: "Verified lab code" },
         { phase: "Hands-on Lab Exam & Viva", maxMarks: "10", marksScored: "10", remarks: "Outstanding viva voce" }
       ],
@@ -119,9 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mrs. Ritu Verma",
       subjectTeacherRole: "TGT English Language & Literature",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "91", remarks: "Strong comprehension" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "92", remarks: "Insightful literary analysis" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "94", remarks: "Exemplary essay writing" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "91", remarks: "Strong comprehension" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "94", remarks: "Exemplary essay writing" },
         { phase: "Portfolio / Notebook", maxMarks: "20", marksScored: "19", remarks: "Neat assignments and reading logs" },
         { phase: "ASL / Speaking & Listening", maxMarks: "10", marksScored: "10", remarks: "Flawless speech delivery" }
       ],
@@ -143,9 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mr. Rajeshwar Pandey",
       subjectTeacherRole: "PGT Social Science & History",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "90", remarks: "Accurate historical recall" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "91", remarks: "Great cartographic and map work" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "93", remarks: "Detailed answers with citations" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "90", remarks: "Accurate historical recall" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "93", remarks: "Detailed answers with citations" },
         { phase: "Portfolio / Notebook", maxMarks: "20", marksScored: "19", remarks: "Complete notes and project files" },
         { phase: "Project & Map Activity", maxMarks: "10", marksScored: "10", remarks: "Distinction in water conservation survey" }
       ],
@@ -167,9 +167,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mrs. Shashi Prabha",
       subjectTeacherRole: "TGT Hindi Literature & Language",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "88", remarks: "व्याकरण में संतोषजनक" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "89", remarks: "सुंदर सुलेख एवं अभिव्यक्ति" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "90", remarks: "निबंध लेखन में श्रेष्ठता" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "88", remarks: "व्याकरण में संतोषजनक" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "90", remarks: "निबंध लेखन में श्रेष्ठता" },
         { phase: "Portfolio / Notebook", maxMarks: "20", marksScored: "18", remarks: "नियमित गृहकार्य" },
         { phase: "वाचन एवं श्रवण कौशल", maxMarks: "10", marksScored: "10", remarks: "स्पष्ट उच्चारण एवं वाचन" }
       ],
@@ -191,9 +190,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subjectTeacher: "Mr. Umesh Tripathi",
       subjectTeacherRole: "Faculty - AI & Emerging Technologies",
       evalPhases: [
-        { phase: "Term 1 Exam", maxMarks: "100", marksScored: "97", remarks: "Strong foundation in AI" },
-        { phase: "Mid Term Exam", maxMarks: "100", marksScored: "99", remarks: "Outstanding model training" },
-        { phase: "Term 2 Exam", maxMarks: "100", marksScored: "100", remarks: "Perfect score in computer vision" },
+        { phase: "Term-1 Exam", maxMarks: "100", marksScored: "97", remarks: "Strong foundation in AI" },
+        { phase: "Term-2 Exam", maxMarks: "100", marksScored: "100", remarks: "Perfect score in computer vision" },
         { phase: "Portfolio / AI Project Log", maxMarks: "20", marksScored: "20", remarks: "Verified working model demo" },
         { phase: "Interactive Demo & Viva", maxMarks: "10", marksScored: "10", remarks: "Exceptional explanation of weights" }
       ],
@@ -212,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const OVERALL_PERF_DATA = {
     term1Avg: 92.4,
-    midTermAvg: 94.6,
     term2Avg: 96.8,
     targetAvg: 98.5,
     cumulative: 94.8,
@@ -236,14 +233,13 @@ document.addEventListener("DOMContentLoaded", () => {
       container.innerHTML = window.generateOverallPerformanceSvg(OVERALL_PERF_DATA, activeSubName);
     } else {
       // Inline SVG generator
-      const t1 = 92.4, mid = 94.6, t2 = 96.8, tgt = 98.5, cum = 94.8;
+      const t1 = 92.4, t2 = 96.8, tgt = 98.5, cum = 94.8;
       const chartBottom = 135, chartTop = 45, chartHeight = chartBottom - chartTop;
       const getY = (val) => chartBottom - ((Math.max(70, Math.min(100, val)) - 70) / 30) * chartHeight;
 
-      const p1 = { x: 42, y: getY(t1) };
-      const p2 = { x: 92, y: getY(mid) };
-      const p3 = { x: 142, y: getY(t2) };
-      const p4 = { x: 192, y: getY(tgt) };
+      const p1 = { x: 50, y: getY(t1) };
+      const p2 = { x: 125, y: getY(t2) };
+      const p3 = { x: 188, y: getY(tgt) };
 
       const barChartBottom = 135, barMaxHeight = 85, avgLineY = barChartBottom - (cum / 100) * barMaxHeight;
       const barStartX = 238, barWidth = 24, barGap = 9;
@@ -303,25 +299,21 @@ document.addEventListener("DOMContentLoaded", () => {
           <line x1="36" y1="${getY(90)}" x2="200" y2="${getY(90)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
           <line x1="36" y1="${getY(100)}" x2="200" y2="${getY(100)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
 
-          <path d="M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p4.x},${p4.y} L ${p4.x},${chartBottom} L ${p1.x},${chartBottom} Z" fill="url(#pTermAreaGrad)"/>
-          <path d="M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}" fill="none" stroke="#4338ca" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M ${p3.x},${p3.y} L ${p4.x},${p4.y}" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="3,3"/>
+          <path d="M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z" fill="url(#pTermAreaGrad)"/>
+          <path d="M ${p1.x},${p1.y} L ${p2.x},${p2.y}" fill="none" stroke="#4338ca" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M ${p2.x},${p2.y} L ${p3.x},${p3.y}" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="3,3"/>
 
           <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
           <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
-          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 1</text>
+          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term-1</text>
 
           <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
-          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Mid Term</text>
+          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
+          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term-2</text>
 
-          <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
-          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 2</text>
-
-          <circle cx="${p4.x}" cy="${p4.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-          <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
-          <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
+          <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
+          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
 
           <line x1="218" y1="30" x2="218" y2="152" stroke="#e2e8f0" stroke-width="1"/>
           <text x="228" y="38" font-size="7.2pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
@@ -363,6 +355,10 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPortfolioSubjectDetails();
     const subData = DEFAULT_SUBJECT_PORTFOLIOS_MAP[subId];
     renderPortfolioPerformanceGraph(subData ? subData.subject : "Mathematics");
+    const heroPrintBtn = document.getElementById("heroPrintSummaryBtn");
+    if (heroPrintBtn) {
+      heroPrintBtn.href = `builder.html?id=${encodeURIComponent(student.id || '')}&subject=${encodeURIComponent(subId)}&mode=preview&print=true`;
+    }
   }
 
   function renderPortfolioSubjectDetails() {
@@ -391,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
           <span class="badge badge-success" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Final Grade: ${sub.grade} (${sub.totalScore}%)</span>
-          <a href="builder.html?subject=${sub.id}&print=true" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700; white-space: nowrap;">
+          <a href="builder.html?id=${encodeURIComponent(student.id || '')}&subject=${sub.id}&mode=preview&print=true" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700; white-space: nowrap;" title="Print single-page A4 subject portfolio">
             🖨️ Print 1-Page ${sub.subject} Portfolio
           </a>
         </div>

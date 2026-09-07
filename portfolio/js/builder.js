@@ -27,9 +27,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mrs. Sunita Roy",
     subjectTeacherRole: "PGT Mathematics & Subject Mentor",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "96", remarks: "Fast analytical reasoning and precision" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "98", remarks: "Outstanding problem solving in algebra" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "99", remarks: "Near perfect score in geometry theorems" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "96", remarks: "Fast analytical reasoning and precision" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "99", remarks: "Near perfect score in geometry theorems" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Exemplary neatness, on-time submission" },
       { phase: "Practical / Math Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active participation in geometry labs" }
     ],
@@ -57,7 +56,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Speed in Advanced Trigonometric Identity Proofs",
       plan: "Solve 5 theorem questions daily from NCERT Exemplar",
-      target: "Term 2",
+      target: "Term-2",
       progress: "95% Achieved"
     }
   },
@@ -70,9 +69,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Dr. Amit Saxena",
     subjectTeacherRole: "PGT Science & Practical Head",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "94", remarks: "Solid understanding of physics laws" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "95", remarks: "Excellent chemistry reactions recall" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "97", remarks: "Outstanding practical lab application" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "94", remarks: "Solid understanding of physics laws" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "97", remarks: "Outstanding practical lab application" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Complete diagrams, verified records" },
       { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Distinction in circuit and optics labs" }
     ],
@@ -100,7 +98,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Chemical Equation Balancing Speed",
       plan: "Practice redox and precipitation reactions weekly",
-      target: "Mid Term",
+      target: "Term-2",
       progress: "Completed"
     }
   },
@@ -113,9 +111,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mr. Umesh Tripathi",
     subjectTeacherRole: "Faculty - Computer Science & AI",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "98", remarks: "Class topper in coding fundamentals" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "99", remarks: "Flawless practical exam execution" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect 100/100 in programming & database" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "98", remarks: "Class topper in coding fundamentals" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect 100/100 in programming & database" },
       { phase: "Portfolio / Practical File", maxMarks: "20", marksScored: "20", remarks: "Verified lab code with clean documentation" },
       { phase: "Hands-on Lab Exam & Viva", maxMarks: "10", marksScored: "10", remarks: "Outstanding viva voce performance" }
     ],
@@ -143,7 +140,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Object-Oriented Design in Python",
       plan: "Build 3 modular CLI applications using classes and inheritance",
-      target: "Term 2",
+      target: "Term-2",
       progress: "Certified"
     }
   },
@@ -156,9 +153,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mrs. Ritu Verma",
     subjectTeacherRole: "TGT English Language & Literature",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "91", remarks: "Strong comprehension & vocabulary" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Insightful literary analysis" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary formal letter and essay writing" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "91", remarks: "Strong comprehension & vocabulary" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary formal letter and essay writing" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Neat assignments and reading logs" },
       { phase: "ASL / Speaking & Listening Test", maxMarks: "10", marksScored: "10", remarks: "Flawless speech delivery and diction" }
     ],
@@ -186,7 +182,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Formal Precis Writing Under Timed Conditions",
       plan: "Write one editorial precis every weekend",
-      target: "Term 2",
+      target: "Term-2",
       progress: "85% Achieved"
     }
   },
@@ -199,9 +195,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mr. Rajeshwar Pandey",
     subjectTeacherRole: "PGT Social Science & History",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Accurate historical recall" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "91", remarks: "Great cartographic and map work" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "93", remarks: "Detailed answers with historical citations" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "90", remarks: "Accurate historical recall" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "93", remarks: "Detailed answers with historical citations" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Complete notes and project files" },
       { phase: "Project & Map Activity", maxMarks: "10", marksScored: "10", remarks: "Distinction in water conservation survey" }
     ],
@@ -229,7 +224,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Topographical Contour Map Interpretation",
       plan: "Practice survey sheet exercises with teacher twice weekly",
-      target: "Mid Term",
+      target: "Term-2",
       progress: "Completed"
     }
   },
@@ -242,9 +237,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mrs. Shashi Prabha",
     subjectTeacherRole: "TGT Hindi Literature & Language",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "88", remarks: "व्याकरण एवं वर्तनी में संतोषजनक" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "89", remarks: "सुंदर सुलेख एवं प्रभावशाली अभिव्यक्ति" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "90", remarks: "निबंध लेखन एवं उत्तरों में श्रेष्ठता" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "88", remarks: "व्याकरण एवं वर्तनी में संतोषजनक" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "90", remarks: "निबंध लेखन एवं उत्तरों में श्रेष्ठता" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "18", remarks: "नियमित गृहकार्य एवं सुव्यवस्थित संचिका" },
       { phase: "वाचन एवं श्रवण कौशल (ASL)", maxMarks: "10", marksScored: "10", remarks: "स्पष्ट उच्चारण एवं कविता वाचन" }
     ],
@@ -272,7 +266,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "संधि एवं समास के नियमों का शुद्ध अभ्यास",
       plan: "प्रतिदिन 15 मिनट व्याकरण अभ्यास पुस्तिका हल करना",
-      target: "Term 2",
+      target: "Term-2",
       progress: "90% Achieved"
     }
   },
@@ -285,9 +279,8 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     subjectTeacher: "Mr. Umesh Tripathi",
     subjectTeacherRole: "Faculty - AI & Emerging Technologies",
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "97", remarks: "Strong foundation in AI concepts" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "99", remarks: "Outstanding model training and testing" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect score in computer vision & ethics" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "97", remarks: "Strong foundation in AI concepts" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect score in computer vision & ethics" },
       { phase: "Portfolio / AI Project Log", maxMarks: "20", marksScored: "20", remarks: "Verified working model demonstrations" },
       { phase: "Interactive Demo & Viva", maxMarks: "10", marksScored: "10", remarks: "Exceptional explanation of neural weights" }
     ],
@@ -315,7 +308,7 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
     improvementPlan: {
       area: "Deep Learning Tensor Operations in Python",
       plan: "Complete introductory PyTorch matrix operations tutorial",
-      target: "Term 2",
+      target: "Term-2",
       progress: "In Progress"
     }
   }
@@ -323,19 +316,18 @@ const DEFAULT_SUBJECT_PORTFOLIOS = {
 
 const DEFAULT_OVERALL_PERFORMANCE = {
   term1Avg: 92.4,
-  midTermAvg: 94.6,
   term2Avg: 96.8,
   targetAvg: 98.5,
   cumulative: 94.8,
   attendance: "98.2%",
   rank: "1st in Class (STEM Scholar)",
   subjectScores: [
-    { id: "mathematics", name: "Mathematics", short: "Math", score: 98, t1: 96, mid: 98, t2: 99, remarks: "Top in class" },
-    { id: "science", name: "Science", short: "Sci", score: 95, t1: 94, mid: 95, t2: 97, remarks: "Lab distinction" },
-    { id: "computer_it", name: "Computer / IT", short: "IT", score: 99, t1: 98, mid: 99, t2: 100, remarks: "Coding topper" },
-    { id: "english", name: "English", short: "Eng", score: 92, t1: 91, mid: 92, t2: 94, remarks: "Fluent speaker" },
-    { id: "social_science", name: "Social Science", short: "SST", score: 91, t1: 90, mid: 91, t2: 93, remarks: "Great inquiry" },
-    { id: "hindi", name: "Hindi", short: "Hin", score: 89, t1: 88, mid: 89, t2: 90, remarks: "Creative writing" }
+    { id: "mathematics", name: "Mathematics", short: "Math", score: 98, t1: 96, t2: 99, remarks: "Top in class" },
+    { id: "science", name: "Science", short: "Sci", score: 95, t1: 94, t2: 97, remarks: "Lab distinction" },
+    { id: "computer_it", name: "Computer / IT", short: "IT", score: 99, t1: 98, t2: 100, remarks: "Coding topper" },
+    { id: "english", name: "English", short: "Eng", score: 92, t1: 91, t2: 94, remarks: "Fluent speaker" },
+    { id: "social_science", name: "Social Science", short: "SST", score: 91, t1: 90, t2: 93, remarks: "Great inquiry" },
+    { id: "hindi", name: "Hindi", short: "Hin", score: 89, t1: 88, t2: 90, remarks: "Creative writing" }
   ]
 };
 
@@ -348,7 +340,6 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
   const scores = (overallData && Array.isArray(overallData.subjectScores)) ? overallData.subjectScores : DEFAULT_OVERALL_PERFORMANCE.subjectScores;
 
   const t1 = Number(avg.term1Avg || 92.4);
-  const mid = Number(avg.midTermAvg || 94.6);
   const t2 = Number(avg.term2Avg || 96.8);
   const tgt = Number(avg.targetAvg || 98.5);
   const cum = Number(avg.cumulative || 94.8);
@@ -367,14 +358,13 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
     return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
   }
 
-  const p1 = { x: 42, y: getY(t1) };
-  const p2 = { x: 92, y: getY(mid) };
-  const p3 = { x: 142, y: getY(t2) };
-  const p4 = { x: 192, y: getY(tgt) };
+  const p1 = { x: 50, y: getY(t1) };
+  const p2 = { x: 125, y: getY(t2) };
+  const p3 = { x: 188, y: getY(tgt) };
 
-  const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p4.x},${p4.y} L ${p4.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
-  const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
-  const linePathDash = `M ${p3.x},${p3.y} L ${p4.x},${p4.y}`;
+  const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
+  const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y}`;
+  const linePathDash = `M ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
 
   // Right chart: Bars
   const barChartBottom = 135;
@@ -457,25 +447,20 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
       <path d="${linePathSolid}" fill="none" stroke="#4338ca" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="${linePathDash}" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3,3"/>
 
-      <!-- P1: Term 1 -->
+      <!-- P1: Term-1 -->
       <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
       <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
-      <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 1</text>
+      <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term-1</text>
 
-      <!-- P2: Mid Term -->
+      <!-- P2: Term-2 -->
       <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-      <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
-      <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Mid Term</text>
+      <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
+      <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term-2</text>
 
-      <!-- P3: Term 2 -->
-      <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
-      <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
-      <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#64748b">Term 2</text>
-
-      <!-- P4: Target -->
-      <circle cx="${p4.x}" cy="${p4.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
-      <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
-      <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
+      <!-- P3: Target -->
+      <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+      <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#059669">${tgt}%</text>
+      <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.8pt" font-weight="600" fill="#059669">Target</text>
 
       <!-- Divider -->
       <line x1="218" y1="30" x2="218" y2="152" stroke="#e2e8f0" stroke-width="1"/>
@@ -533,13 +518,13 @@ const SAMPLE_SHM_STUDENT = {
 
   // Academic Progress
   academics: [
-    { subject: "English", t1: "91", mid: "92", t2: "94", remarks: "Exemplary essay writing" },
-    { subject: "Hindi", t1: "88", mid: "89", t2: "90", remarks: "Fluent & consistent" },
-    { subject: "Mathematics", t1: "96", mid: "98", t2: "99", remarks: "Outstanding analytical skill" },
-    { subject: "Science", t1: "94", mid: "95", t2: "97", remarks: "Mastered practical labs" },
-    { subject: "Social Science", t1: "90", mid: "91", t2: "93", remarks: "Great historical inquiry" },
-    { subject: "Computer / IT", t1: "98", mid: "99", t2: "100", remarks: "Class topper in Coding & AI" },
-    { subject: "Other / Arts", t1: "92", mid: "94", t2: "95", remarks: "Creative model designs" }
+    { subject: "English", t1: "91", t2: "94", remarks: "Exemplary essay writing" },
+    { subject: "Hindi", t1: "88", t2: "90", remarks: "Fluent & consistent" },
+    { subject: "Mathematics", t1: "96", t2: "99", remarks: "Outstanding analytical skill" },
+    { subject: "Science", t1: "94", t2: "97", remarks: "Mastered practical labs" },
+    { subject: "Social Science", t1: "90", t2: "93", remarks: "Great historical inquiry" },
+    { subject: "Computer / IT", t1: "98", t2: "100", remarks: "Class topper in Coding & AI" },
+    { subject: "Other / Arts", t1: "92", t2: "95", remarks: "Creative model designs" }
   ],
   academicAchievement: "Ranked 1st in Class VIII Annual Academic Honors & STEM Scholar distinction.",
 
@@ -585,7 +570,7 @@ const SAMPLE_SHM_STUDENT = {
   // Reflection
   refLearn: "Learned embedded programming, circuit design, and structured peer collaboration.",
   refAchieve: "Building our working robotics prototype and earning 1st position at the STEM Expo.",
-  refChallenge: "Balancing revision for mid-term exams alongside hackathon build deadlines.",
+  refChallenge: "Balancing revision for Term-1 & Term-2 exams alongside hackathon build deadlines.",
   refOvercome: "Designed a daily Pomodoro timetable with dedicated 1-hour build sprints.",
   refBetter: "Practice public presentations early to build effortless stage presence.",
 
@@ -614,8 +599,8 @@ const SAMPLE_SHM_STUDENT = {
 
   // Personal Improvement Plan
   improvementPlans: [
-    { area: "Stage Presentation Confidence", plan: "Speak once every week during school assembly", target: "Term 2", progress: "90% Achieved" },
-    { area: "Touch Typing Speed", plan: "Practice 15 minutes daily on Keybr.com", target: "Mid Term", progress: "Completed (65 WPM)" },
+    { area: "Stage Presentation Confidence", plan: "Speak once every week during school assembly", target: "Term-2", progress: "90% Achieved" },
+    { area: "Touch Typing Speed", plan: "Practice 15 minutes daily on Keybr.com", target: "Term-2", progress: "Completed (65 WPM)" },
     { area: "Hardware Circuit Soldering", plan: "Complete safety soldering workshop in makerspace", target: "Nov 2026", progress: "Certified" }
   ],
 
@@ -667,18 +652,18 @@ document.addEventListener("DOMContentLoaded", function() {
   if (subParam) {
     switchPrintSubject(subParam);
   }
-  if (urlParams.get("mode") === "preview") {
-    setViewMode("preview");
-  }
   if (urlParams.get("print") === "true") {
-    setTimeout(() => printSinglePage(), 500);
-  }
-
-  // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
-  if (window.innerWidth >= 1200) {
-    setViewMode("split");
+    setViewMode("preview");
+    setTimeout(() => printSinglePage(), 600);
+  } else if (urlParams.get("mode") === "preview") {
+    setViewMode("preview");
   } else {
-    setViewMode("form");
+    // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
+    if (window.innerWidth >= 1200) {
+      setViewMode("split");
+    } else {
+      setViewMode("form");
+    }
   }
 
   // Initial scale calibration
@@ -744,12 +729,108 @@ function updateTeacherLockUI() {
     }
   }
 
-  // Ensure all student input fields remain enabled and accessible
-  document.querySelectorAll("#allSubjectsContainer input, #allSubjectsContainer textarea, #paneSkillsActivities input, #paneAssessmentSignatures input, #paneAssessmentSignatures select, #paneAssessmentSignatures textarea").forEach(function(el) {
-    el.disabled = false;
-    el.removeAttribute("readonly");
-    el.classList.remove("field-locked");
+  // 1. Lock/Unlock Subject Continuous Evaluation Marks & Subject Teacher details (Step 2)
+  const subjectEvalInputs = document.querySelectorAll(
+    "#allSubjectsContainer table input, " +
+    "#allSubjectsContainer input[oninput*='updateSubjectPhaseMarks'], " +
+    "#allSubjectsContainer input[oninput*='subjectTeacher'], " +
+    "#allSubjectsContainer input[oninput*='subjectTeacherRole'], " +
+    "#allSubjectsContainer input[oninput*='subjectCode']"
+  );
+  subjectEvalInputs.forEach(el => {
+    el.disabled = !isTeacherMode;
+    if (!isTeacherMode) {
+      el.setAttribute("readonly", "readonly");
+      el.classList.add("field-locked");
+      el.title = "Evaluation marks are filled and certified by your Subject Teacher. Click 'Teacher Unlock' to edit.";
+    } else {
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.title = "";
+    }
   });
+
+  // 2. Lock/Unlock 360 Core Competency Matrix Skills (Step 3)
+  const skillInputs = document.querySelectorAll('#paneSkillsActivities input[id^="f_skill_"]');
+  skillInputs.forEach(el => {
+    el.disabled = !isTeacherMode;
+    if (!isTeacherMode) {
+      el.setAttribute("readonly", "readonly");
+      el.classList.add("field-locked");
+      el.title = "Core competency skills are evaluated by school teachers. Click 'Teacher Unlock' to edit.";
+    } else {
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.title = "";
+    }
+  });
+
+  // 3. Lock/Unlock Teacher Conduct Rubrics & Remarks (Step 4)
+  const teacherAssessmentEls = document.querySelectorAll(
+    "#paneAssessmentSignatures select[id^='f_tr_'], " +
+    "#f_teacherRemarks, #f_teacherSignDate"
+  );
+  teacherAssessmentEls.forEach(el => {
+    el.disabled = !isTeacherMode;
+    if (!isTeacherMode) {
+      el.setAttribute("readonly", "readonly");
+      el.classList.add("field-locked");
+      el.title = "Teacher assessment rubrics are certified by the Class Teacher. Click 'Teacher Unlock' to edit.";
+    } else {
+      el.removeAttribute("readonly");
+      el.classList.remove("field-locked");
+      el.title = "";
+    }
+  });
+
+  // 4. Update Informative Lock Banners
+  const evalNotice = document.getElementById("evalMarksLockNotice");
+  if (evalNotice) {
+    evalNotice.style.display = "block";
+    if (isTeacherMode) {
+      evalNotice.style.background = "#f0fdf4";
+      evalNotice.style.border = "1.5px solid #86efac";
+      evalNotice.style.color = "#166534";
+      evalNotice.innerHTML = `🔓 <strong>Teacher Mode Active (${escapeHtml(verifiedRole)}):</strong> You can now record evaluation marks, adjust subject scores, and enter official teacher observations.`;
+    } else {
+      evalNotice.style.background = "#fffbeb";
+      evalNotice.style.border = "1.5px solid #fde68a";
+      evalNotice.style.color = "#92400e";
+      evalNotice.innerHTML = `🔒 <strong>Evaluation Marks Locked (Student Mode):</strong> Term-1, Term-2, and continuous assessment marks are officially certified and entered by Subject Teachers. <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem; font-size: 0.76rem; padding: 0.2rem 0.6rem; vertical-align: middle;">🔑 Teacher Unlock</button>`;
+    }
+  }
+
+  const skillsNotice = document.getElementById("skillsLockNotice");
+  if (skillsNotice) {
+    skillsNotice.style.display = "block";
+    if (isTeacherMode) {
+      skillsNotice.style.background = "#f0fdf4";
+      skillsNotice.style.border = "1.5px solid #86efac";
+      skillsNotice.style.color = "#166534";
+      skillsNotice.innerHTML = `🔓 <strong>Teacher Mode Active (${escapeHtml(verifiedRole)}):</strong> Core Competency Matrix ratings (1.0 to 5.0) are unlocked for teacher evaluation.`;
+    } else {
+      skillsNotice.style.background = "#fffbeb";
+      skillsNotice.style.border = "1.5px solid #fde68a";
+      skillsNotice.style.color = "#92400e";
+      skillsNotice.innerHTML = `🔒 <strong>Skills Evaluation Locked (Student Mode):</strong> The 360° Core Competency Matrix (Rate 1.0 to 5.0) is assessed and certified by your teachers. <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem; font-size: 0.76rem; padding: 0.2rem 0.6rem; vertical-align: middle;">🔑 Teacher Unlock</button>`;
+    }
+  }
+
+  const assessmentNotice = document.getElementById("assessmentLockNotice");
+  if (assessmentNotice) {
+    assessmentNotice.style.display = "block";
+    if (isTeacherMode) {
+      assessmentNotice.style.background = "#f0fdf4";
+      assessmentNotice.style.border = "1.5px solid #86efac";
+      assessmentNotice.style.color = "#166534";
+      assessmentNotice.innerHTML = `🔓 <strong>Teacher Mode Active (${escapeHtml(verifiedRole)}):</strong> Class Teacher Conduct Rubrics and Final Sign-Off remarks are unlocked.`;
+    } else {
+      assessmentNotice.style.background = "#fffbeb";
+      assessmentNotice.style.border = "1.5px solid #fde68a";
+      assessmentNotice.style.color = "#92400e";
+      assessmentNotice.innerHTML = `🔒 <strong>Teacher Assessment Locked (Student Mode):</strong> Class Teacher Rubrics and Observation Remarks are entered by the Class Teacher. <button type="button" onclick="openTeacherAuthModal()" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem; font-size: 0.76rem; padding: 0.2rem 0.6rem; vertical-align: middle;">🔑 Teacher Unlock</button>`;
+    }
+  }
 
   if (typeof updateReviewStatusUI === "function") {
     updateReviewStatusUI();
@@ -968,6 +1049,8 @@ function goToStep(stepIndex) {
   // Update jump select dropdown
   const jumpSel = document.getElementById("jumpSectionSelect");
   if (jumpSel) jumpSel.value = meta.id;
+
+  updateTeacherLockUI();
 
   // Smooth scroll form card to top
   const formCard = document.getElementById("builderFormCard");
@@ -1262,6 +1345,10 @@ function getVal(id, fallback = "") {
 }
 
 // Read form to currentData
+function readActiveSubjectForm() {
+  // Active subject values are updated in real-time by updateSubjectProp and updateSubjectPhaseMarks
+}
+
 function readFormToData() {
   readActiveSubjectForm();
   currentData.schoolName = getVal("f_schoolName", "SHM ACADEMY");
@@ -1350,7 +1437,6 @@ function renderAcademicsTable() {
     tr.innerHTML = `
       <td><input type="text" class="subj-name" value="${escapeHtml(row.subject)}"></td>
       <td><input type="text" class="subj-t1" value="${escapeHtml(row.t1 || "")}" style="width: 60px; text-align: center;"></td>
-      <td><input type="text" class="subj-mid" value="${escapeHtml(row.mid || "")}" style="width: 60px; text-align: center;"></td>
       <td><input type="text" class="subj-t2" value="${escapeHtml(row.t2 || "")}" style="width: 60px; text-align: center;"></td>
       <td><input type="text" class="subj-rem" value="${escapeHtml(row.remarks || "")}"></td>
     `;
@@ -1497,7 +1583,7 @@ function addPlanRow() {
     openTeacherAuthModal();
     return;
   }
-  currentData.improvementPlans.push({ area: "New Target Area", plan: "Action steps", target: "Term 2", progress: "Initiated" });
+  currentData.improvementPlans.push({ area: "New Target Area", plan: "Action steps", target: "Term-2", progress: "Initiated" });
   renderImprovementInputs();
   renderPreview(currentData);
   saveToLocalStorage();
@@ -1522,6 +1608,19 @@ function ensureSubjectPortfoliosData() {
     currentData.overallPerformance = JSON.parse(JSON.stringify(DEFAULT_OVERALL_PERFORMANCE));
   }
 
+  // Purge any Mid Term evaluation records and normalize Term-1 & Term-2
+  if (currentData.subjectPortfolios && typeof currentData.subjectPortfolios === "object") {
+    Object.keys(currentData.subjectPortfolios).forEach(subKey => {
+      const sData = currentData.subjectPortfolios[subKey];
+      if (sData && Array.isArray(sData.evalPhases)) {
+        sData.evalPhases = sData.evalPhases.filter(p => !p.phase || (!p.phase.toLowerCase().includes("mid term") && !p.phase.toLowerCase().includes("midterm")));
+        sData.evalPhases.forEach(p => {
+          if (p.phase) p.phase = p.phase.replace(/Term\s*1\b/i, "Term-1").replace(/Term\s*2\b/i, "Term-2");
+        });
+      }
+    });
+  }
+
   // Ensure all subjects exist in dictionary
   (currentData.subjectsList || DEFAULT_SUBJECTS).forEach(s => {
     if (!currentData.subjectPortfolios[s.id]) {
@@ -1533,9 +1632,8 @@ function ensureSubjectPortfoliosData() {
         subjectTeacher: s.teacher || (currentData.classTeacher || "Class Teacher"),
         subjectTeacherRole: s.role || "Subject Faculty",
         evalPhases: [
-          { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
-          { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
-          { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
+          { phase: "Term-1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
+          { phase: "Term-2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
           { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
           { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
         ],
@@ -1563,7 +1661,7 @@ function ensureSubjectPortfoliosData() {
         improvementPlan: {
           area: "Timed Practice and Complex Problem Speed",
           plan: "Practice weekly past exam questions",
-          target: "Term 2",
+          target: "Term-2",
           progress: "In Progress"
         }
       };
@@ -1703,9 +1801,8 @@ function renderAllSubjectsForm() {
   subjects.forEach(s => {
     const sub = currentData.subjectPortfolios[s.id] || {};
     const evalPhases = Array.isArray(sub.evalPhases) ? sub.evalPhases : [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
       { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
     ];
@@ -1846,6 +1943,7 @@ function renderAllSubjectsForm() {
   });
 
   container.innerHTML = html;
+  updateTeacherLockUI();
 }
 
 function updateSubjectProp(subjectId, prop, val) {
@@ -1895,8 +1993,7 @@ function updateSubjectPhaseMarks(subjectId, phaseIdx, field, val) {
     if (match) {
       match.score = Math.round(Number(sub.totalScore) || 90);
       if (phaseIdx === 0) match.t1 = scoredVal;
-      else if (phaseIdx === 1) match.mid = scoredVal;
-      else if (phaseIdx === 2) match.t2 = scoredVal;
+      else if (phaseIdx === 1) match.t2 = scoredVal;
     }
     recalculateOverallAverages();
   }
@@ -2017,7 +2114,6 @@ function renderAllSubjectBenchmarkTable() {
     tr.innerHTML = `
       <td><strong>${escapeHtml(s.name)}</strong></td>
       <td><input type="number" value="${escapeHtml(s.t1 || 90)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 't1', this.value)"></td>
-      <td><input type="number" value="${escapeHtml(s.mid || 92)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'mid', this.value)"></td>
       <td><input type="number" value="${escapeHtml(s.t2 || 95)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 't2', this.value)"></td>
       <td><input type="number" value="${escapeHtml(s.score || 95)}" style="width: 55px; text-align: center; font-weight: 700; color: #4338ca;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'score', this.value)"></td>
       <td><input type="text" value="${escapeHtml(s.remarks || '')}" placeholder="Evaluation remark" style="width: 100%;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'remarks', this.value)"></td>
@@ -2098,9 +2194,8 @@ function handleAddSubjectSubmit(e) {
     subjectTeacher: teacher,
     subjectTeacherRole: role,
     evalPhases: [
-      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual start" },
-      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Active participation" },
-      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "95", remarks: "Demonstrated subject clarity" },
+      { phase: "Term-1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual start" },
+      { phase: "Term-2 Examination", maxMarks: "100", marksScored: "95", remarks: "Demonstrated subject clarity" },
       { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Verified and neat" },
       { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Practical activities verified" }
     ],
@@ -2128,7 +2223,7 @@ function handleAddSubjectSubmit(e) {
     improvementPlan: {
       area: "Analytical Speed and Exam Timing",
       plan: "Regular past paper practice under timer",
-      target: "Term 2",
+      target: "Term-2",
       progress: "In Progress"
     }
   };
@@ -2408,19 +2503,29 @@ function renderPreview(d) {
 }
 
 function printSinglePage() {
-  readFormToData();
-  renderPreview(currentData);
+  try {
+    readFormToData();
+  } catch (err) {
+    console.warn("readFormToData error during print:", err);
+  }
+  try {
+    renderPreview(currentData);
+  } catch (err) {
+    console.warn("renderPreview error during print:", err);
+  }
 
   // Automatically add & sync student to the database for teacher/admin review
-  if (currentData.studentName && currentData.studentName.trim()) {
+  if (currentData && currentData.studentName && currentData.studentName.trim()) {
     try {
-      const activeSub = getActiveSubjectData();
-      syncStudentToDatabase({
-        source: "print",
-        forceReviewSubmit: true,
-        studentNote: `Student printed individual subject portfolio for ${activeSub.subject} (Code: ${activeSub.subjectCode}). Submitted for teacher evaluation.`
-      });
-      showSaveToast(`📄 ${activeSub.subject} Portfolio for "${currentData.studentName}" submitted for teacher review!`);
+      const activeSub = typeof getActiveSubjectData === "function" ? getActiveSubjectData() : null;
+      if (activeSub && typeof syncStudentToDatabase === "function") {
+        syncStudentToDatabase({
+          source: "print",
+          forceReviewSubmit: true,
+          studentNote: `Student printed individual subject portfolio for ${activeSub.subject} (Code: ${activeSub.subjectCode}). Submitted for teacher evaluation.`
+        });
+        showSaveToast(`📄 ${activeSub.subject} Portfolio for "${currentData.studentName}" submitted for teacher review!`);
+      }
     } catch (err) {
       console.warn("Auto-sync on print:", err);
     }
@@ -2430,8 +2535,12 @@ function printSinglePage() {
 }
 
 function printAllSubjectPortfolios() {
-  readFormToData();
-  saveToLocalStorage();
+  try {
+    readFormToData();
+    saveToLocalStorage();
+  } catch (err) {
+    console.warn("Save before printAll error:", err);
+  }
 
   ensureSubjectPortfoliosData();
   const subjects = currentData.subjectsList || DEFAULT_SUBJECTS;
@@ -2559,13 +2668,13 @@ function clearForm() {
       longGoal: "",
       goalsChecked: [false, false, false, false, false, false],
       academics: isTeacherMode ? [
-        { subject: "English", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Hindi", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Mathematics", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Science", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Social Science", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Computer / IT", t1: "", mid: "", t2: "", remarks: "" },
-        { subject: "Other", t1: "", mid: "", t2: "", remarks: "" }
+        { subject: "English", t1: "", t2: "", remarks: "" },
+        { subject: "Hindi", t1: "", t2: "", remarks: "" },
+        { subject: "Mathematics", t1: "", t2: "", remarks: "" },
+        { subject: "Science", t1: "", t2: "", remarks: "" },
+        { subject: "Social Science", t1: "", t2: "", remarks: "" },
+        { subject: "Computer / IT", t1: "", t2: "", remarks: "" },
+        { subject: "Other", t1: "", t2: "", remarks: "" }
       ] : (prevAcademics || []),
       academicAchievement: isTeacherMode ? "" : (prevAchievement || ""),
       skills: isTeacherMode ? {
@@ -2985,7 +3094,7 @@ function syncStudentToDatabase(options = {}) {
   if (Array.isArray(currentData.academics) && currentData.academics.length > 0) {
     let sum = 0, count = 0;
     currentData.academics.forEach(ac => {
-      const val = parseFloat(ac.t2 || ac.mid || ac.t1);
+      const val = parseFloat(ac.t2 || ac.t1);
       if (!isNaN(val)) {
         sum += val;
         count++;
@@ -3003,7 +3112,7 @@ function syncStudentToDatabase(options = {}) {
   if ((!scorecard || scorecard.length === 0) && Array.isArray(currentData.academics)) {
     scorecard = currentData.academics.map(ac => ({
       area: ac.subject,
-      level: parseFloat(ac.t2 || ac.mid || ac.t1 || "85") || 85,
+      level: parseFloat(ac.t2 || ac.t1 || "85") || 85,
       description: ac.remarks || "Assessed academic performance"
     }));
   }
