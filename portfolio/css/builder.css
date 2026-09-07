@@ -1017,8 +1017,8 @@ html, body {
 }
 
 @media (max-width: 1100px) {
-  .builder-layout.mode-form ~ .mobile-preview-fab {
-    display: flex;
+  .mobile-preview-fab {
+    display: flex !important;
   }
 }
 
@@ -1035,11 +1035,11 @@ html, body {
     display: none !important;
   }
   .container {
-    padding-inline: clamp(0.5rem, 2.5vw, 0.85rem) !important;
+    padding-inline: clamp(0.4rem, 2.5vw, 0.75rem) !important;
     max-width: 100% !important;
   }
   .builder-layout {
-    margin: 0.5rem auto !important;
+    margin: 0.35rem auto !important;
     max-width: 100% !important;
     width: 100% !important;
   }
@@ -1074,7 +1074,7 @@ html, body {
   .topbar-subject-indicator {
     font-size: 0.68rem;
     padding: 0.15rem 0.4rem;
-    max-width: 125px;
+    max-width: 130px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1087,30 +1087,47 @@ html, body {
   .view-mode-switch .mode-btn {
     flex: 1;
     justify-content: center;
-    padding: 0.3rem 0.4rem;
-    font-size: 0.74rem;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.76rem;
   }
   .topbar-actions {
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    gap: 0.3rem;
-    padding: 0.2rem 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
+    padding: 0.2rem 0 !important;
   }
-  .topbar-actions::-webkit-scrollbar {
-    display: none;
+  .topbar-actions .btn,
+  .topbar-actions label.btn {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.45rem 0.35rem !important;
+    font-size: 0.74rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
   }
-  .topbar-actions .btn {
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 0.3rem 0.55rem;
-    font-size: 0.72rem;
+  .topbar-actions #btnSaveAndSendReview {
+    grid-column: 1 / -1 !important;
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.6rem !important;
+  }
+  .topbar-actions #btnSaveProfileDb {
+    grid-column: 1 / -1 !important;
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.6rem !important;
+  }
+  .topbar-actions button[onclick="printSinglePage()"] {
+    grid-column: 1 / -1 !important;
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.6rem !important;
   }
   .builder-form-card {
-    padding: 0.75rem 0.6rem !important;
+    padding: 0.75rem 0.55rem !important;
     border-radius: 12px !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1135,6 +1152,52 @@ html, body {
   .teacher-status-pill #teacherStatusLabel {
     white-space: normal;
   }
+  .builder-section-nav {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.3rem !important;
+    padding-bottom: 0.5rem !important;
+    width: 100% !important;
+  }
+  .section-tab-btn {
+    flex: 1 1 calc(33.333% - 0.3rem) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.7rem !important;
+    padding: 0.38rem 0.2rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .step-nav-footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
+    margin-top: 1.25rem !important;
+    padding-top: 0.75rem !important;
+  }
+  .step-nav-status {
+    text-align: center !important;
+    font-size: 0.8rem !important;
+    order: -1 !important;
+  }
+  .step-nav-footer > div {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.35rem !important;
+  }
+  .step-nav-footer .btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.5rem 0.65rem !important;
+    font-size: 0.8rem !important;
+    white-space: normal !important;
+  }
   .field-grid-2,
   .field-grid-3,
   .field-grid-4 {
@@ -1142,62 +1205,68 @@ html, body {
     gap: 0.65rem !important;
   }
   .subject-portfolio-switcher-card {
-    padding: 0.75rem 0.65rem !important;
+    padding: 0.75rem 0.55rem !important;
     border-radius: 10px !important;
     width: 100% !important;
     max-width: 100% !important;
   }
   .subject-switcher-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.45rem !important;
+    width: 100% !important;
   }
   .subject-switcher-header > div:last-child {
-    display: flex;
-    gap: 0.35rem;
-    width: 100%;
-    justify-content: flex-start;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
   }
   .subject-switcher-header > div:last-child .btn {
-    flex: 1;
-    min-width: 0;
-    text-align: center;
-    font-size: 0.7rem;
-    padding: 0.35rem 0.4rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.45rem 0.5rem !important;
+    font-size: 0.76rem !important;
+    white-space: normal !important;
   }
   .subject-tabs-scroll {
-    gap: 0.35rem;
-    padding-bottom: 6px;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    padding-bottom: 0.4rem !important;
+    width: 100% !important;
   }
   .subject-tab-btn {
-    padding: 0.35rem 0.6rem;
-    font-size: 0.74rem;
-    flex-shrink: 0;
+    flex: 1 1 calc(50% - 0.35rem) !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.74rem !important;
+    padding: 0.4rem 0.3rem !important;
+    white-space: nowrap !important;
   }
   .subject-1to1-card,
   .child-perf-graph-box {
-    padding: 0.75rem 0.65rem !important;
+    padding: 0.75rem 0.55rem !important;
     width: 100% !important;
     max-width: 100% !important;
   }
   .subject-1to1-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem !important;
   }
   .child-perf-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.4rem !important;
   }
   .child-perf-header .btn {
-    width: 100%;
-    font-size: 0.74rem;
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 0.45rem 0.5rem !important;
+    font-size: 0.74rem !important;
   }
   .table-responsive {
     width: 100% !important;
@@ -1220,7 +1289,7 @@ html, body {
     padding: 0.55rem 0.65rem;
   }
   .preview-wrapper {
-    padding: 0.5rem 0.25rem 1rem !important;
+    padding: 0.4rem 0.2rem 1rem !important;
     border-radius: 8px !important;
     width: 100% !important;
     max-width: 100% !important;
@@ -1228,12 +1297,14 @@ html, body {
     min-width: 0 !important;
   }
   .preview-stage {
-    padding: 0.5rem 0.25rem 1rem !important;
+    padding: 0.4rem 0.2rem 1rem !important;
     border-radius: 8px !important;
     width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
     min-width: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
   .sheet-zoom-bar {
     width: 100% !important;
@@ -1241,12 +1312,13 @@ html, body {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 0.35rem !important;
-    padding: 0.4rem 0.5rem !important;
+    padding: 0.45rem 0.55rem !important;
   }
   .sheet-zoom-bar > div:first-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 0.82rem !important;
   }
   .zoom-controls {
     display: flex !important;
@@ -1256,8 +1328,13 @@ html, body {
   .zoom-btn {
     flex: 1 !important;
     text-align: center !important;
-    padding: 0.25rem 0.3rem !important;
+    padding: 0.35rem 0.2rem !important;
     font-size: 0.72rem !important;
+  }
+  .zoom-controls button[onclick="printSinglePage()"] {
+    flex: 2 !important;
+    font-size: 0.74rem !important;
+    padding: 0.35rem 0.4rem !important;
   }
   .sheet-viewport {
     width: 100% !important;
@@ -1273,6 +1350,21 @@ html, body {
     position: relative !important;
     margin: 0 auto !important;
     max-width: 100% !important;
+  }
+  .mobile-preview-fab {
+    display: flex !important;
+    bottom: 0.85rem !important;
+    right: 0.85rem !important;
+    padding: 0.55rem 0.95rem !important;
+    font-size: 0.8rem !important;
+    z-index: 1000 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-tab-btn {
+    flex: 1 1 calc(50% - 0.3rem) !important;
+    font-size: 0.72rem !important;
   }
 }
 

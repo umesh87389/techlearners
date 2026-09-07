@@ -2373,9 +2373,15 @@ h3 { font-size: clamp(1.15rem, 2.5vw + 0.3rem, 1.5rem); }
 }
 
 @media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
   .container {
     padding-inline: clamp(0.6rem, 3vw, 1rem) !important;
     max-width: 100% !important;
+    width: 100% !important;
   }
   .card, 
   .activity-cycle-project-card, 
@@ -2388,26 +2394,157 @@ h3 { font-size: clamp(1.15rem, 2.5vw + 0.3rem, 1.5rem); }
   .achievements-grid,
   .gallery-grid,
   .goals-list,
-  .cycle-timeline-grid {
+  .cycle-timeline-grid,
+  .projects-grid,
+  .checklist-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)) !important;
     gap: 0.85rem !important;
   }
-  .observations-grid {
+  .observations-grid,
+  .video-showcase-card {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
   }
   .hero-profile-box {
     padding: clamp(1rem, 3vw, 1.35rem) !important;
     gap: 1rem !important;
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    justify-items: center !important;
+  }
+  .hero-avatar {
+    width: 100px !important;
+    height: 100px !important;
+    margin-inline: auto !important;
+  }
+  .hero-info {
+    width: 100% !important;
+  }
+  .hero-info > div:first-child {
+    justify-content: center !important;
+  }
+
+  /* Hero badges & action buttons in 2-column mobile grid */
+  .hero-badges-side {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+    align-items: stretch !important;
+    margin-top: 0.5rem !important;
+  }
+  .hero-badges-side > button,
+  .hero-badges-side > a,
+  .hero-badges-side > .badge,
+  .hero-badges-side > .qr-trigger-btn {
+    margin: 0 !important;
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.45rem !important;
+    display: flex !important;
+    align-items: center !important;
+    white-space: normal !important;
+    min-height: 40px !important;
+  }
+  .hero-badges-side #btnSendPortfolioReview {
+    grid-column: 1 / -1 !important;
+    font-size: 0.86rem !important;
+    padding: 0.65rem 0.75rem !important;
+    font-weight: 800 !important;
+  }
+  .hero-badges-side a[href="builder.html"] {
+    grid-column: 1 / -1 !important;
+    font-size: 0.85rem !important;
+    padding: 0.6rem 0.75rem !important;
+    font-weight: 700 !important;
+  }
+  .hero-badges-side #reviewStatusHeroBadge {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Subject tabs switcher: 2-column mobile pill grid */
+  .subject-tabs-scroll {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.35rem !important;
+    overflow-x: visible !important;
+    width: 100% !important;
+    padding-bottom: 0.35rem !important;
   }
   .subject-tab-btn {
-    font-size: 0.76rem;
-    padding: 0.35rem 0.65rem;
-    gap: 0.35rem;
+    flex: 1 1 calc(50% - 0.35rem) !important;
+    font-size: 0.76rem !important;
+    padding: 0.45rem 0.5rem !important;
+    justify-content: center !important;
+    white-space: normal !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    gap: 0.35rem !important;
   }
   .subject-pill-badge {
-    font-size: 0.64rem;
-    padding: 0 4px;
+    font-size: 0.65rem !important;
+    padding: 1px 4px !important;
+  }
+
+  /* Subject details card header buttons stack full width */
+  .subject-details-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+  .subject-details-header > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.45rem !important;
+  }
+  .subject-details-header > div:last-child .btn,
+  .subject-details-header > div:last-child .badge {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: normal !important;
+    padding: 0.55rem 0.75rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Sticky nav bar fits on mobile */
+  .portfolio-nav-links {
+    gap: 0.35rem !important;
+    padding-inline: 0.25rem !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .p-nav-btn {
+    font-size: 0.76rem !important;
+    padding: 0.35rem 0.65rem !important;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.2rem, 3.5vw, 1.6rem) !important;
+  }
+  .section-header p {
+    font-size: 0.88rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-badges-side {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-badges-side > button,
+  .hero-badges-side > a,
+  .hero-badges-side > .badge,
+  .hero-badges-side > .qr-trigger-btn {
+    grid-column: 1 / -1 !important;
+  }
+  .subject-tab-btn {
+    flex: 1 1 100% !important;
   }
 }
 
