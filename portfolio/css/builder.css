@@ -14,12 +14,20 @@
   --card-bg: #ffffff;
 }
 
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 /* =============================================================
    LAYOUT & VIEW MODES
    ============================================================= */
 .builder-layout {
   margin: 1.25rem auto;
   align-items: start;
+  max-width: 100%;
   transition: all 0.25s ease;
 }
 
@@ -1026,38 +1034,60 @@
   .d-desktop-only {
     display: none !important;
   }
+  .container {
+    padding-inline: clamp(0.5rem, 2.5vw, 0.85rem) !important;
+    max-width: 100% !important;
+  }
+  .builder-layout {
+    margin: 0.5rem auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
   .builder-topbar {
     position: relative;
-    padding: 0.45rem 0.65rem;
+    padding: 0.4rem 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .builder-topbar-content {
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.35rem;
   }
   .topbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     gap: 0.35rem;
   }
   .topbar-brand-title {
     font-size: 0.82rem;
+    font-weight: 800;
   }
   .topbar-brand span.badge {
     display: none;
   }
   .topbar-subject-indicator {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     padding: 0.15rem 0.4rem;
-    max-width: 130px;
+    max-width: 125px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .view-mode-switch {
+    display: flex;
+    width: 100%;
     padding: 2px;
-    flex-shrink: 0;
   }
-  .mode-btn {
-    padding: 0.25rem 0.5rem;
+  .view-mode-switch .mode-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 0.3rem 0.4rem;
     font-size: 0.74rem;
   }
   .topbar-actions {
@@ -1066,7 +1096,7 @@
     overflow-x: auto;
     flex-wrap: nowrap;
     gap: 0.3rem;
-    padding: 0.25rem 0 0.1rem;
+    padding: 0.2rem 0;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -1076,48 +1106,84 @@
   .topbar-actions .btn {
     flex-shrink: 0;
     white-space: nowrap;
-    padding: 0.32rem 0.55rem;
-    font-size: 0.74rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.72rem;
   }
   .builder-form-card {
-    padding: 0.85rem 0.65rem;
-    border-radius: 12px;
+    padding: 0.75rem 0.6rem !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
   .form-header-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    width: 100%;
+  }
+  .form-header-title {
+    width: 100%;
   }
   .teacher-status-pill {
-    font-size: 0.72rem;
-    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem !important;
+    padding: 0.25rem 0.45rem !important;
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+    line-height: 1.25 !important;
+  }
+  .teacher-status-pill #teacherStatusLabel {
+    white-space: normal;
+  }
+  .field-grid-2,
+  .field-grid-3,
+  .field-grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+  .subject-portfolio-switcher-card {
+    padding: 0.75rem 0.65rem !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .subject-switcher-header {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
   .subject-switcher-header > div:last-child {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.35rem;
     width: 100%;
     justify-content: flex-start;
   }
   .subject-switcher-header > div:last-child .btn {
     flex: 1;
+    min-width: 0;
     text-align: center;
-    font-size: 0.74rem;
-    padding: 0.35rem 0.5rem;
+    font-size: 0.7rem;
+    padding: 0.35rem 0.4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .subject-tabs-scroll {
     gap: 0.35rem;
     padding-bottom: 6px;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
   .subject-tab-btn {
-    padding: 0.38rem 0.65rem;
-    font-size: 0.76rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.74rem;
     flex-shrink: 0;
+  }
+  .subject-1to1-card,
+  .child-perf-graph-box {
+    padding: 0.75rem 0.65rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .subject-1to1-header {
     flex-direction: column;
@@ -1127,11 +1193,21 @@
   .child-perf-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
   .child-perf-header .btn {
     width: 100%;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
+  }
+  .table-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    min-width: 0 !important;
+  }
+  .builder-table-input {
+    min-width: 440px !important;
   }
   .form-field input[type="text"],
   .form-field input[type="date"],
@@ -1141,14 +1217,62 @@
   .form-field select,
   .form-field textarea {
     font-size: 16px; /* Prevents auto-zoom on mobile browser */
-    padding: 0.6rem 0.65rem;
+    padding: 0.55rem 0.65rem;
   }
   .preview-wrapper {
-    padding: 0.5rem 0.25rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.25rem 1rem !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+  }
+  .preview-stage {
+    padding: 0.5rem 0.25rem 1rem !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+  }
+  .sheet-zoom-bar {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.35rem !important;
+    padding: 0.4rem 0.5rem !important;
+  }
+  .sheet-zoom-bar > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .zoom-controls {
+    display: flex !important;
+    width: 100% !important;
+    gap: 0.25rem !important;
+  }
+  .zoom-btn {
+    flex: 1 !important;
+    text-align: center !important;
+    padding: 0.25rem 0.3rem !important;
+    font-size: 0.72rem !important;
   }
   .sheet-viewport {
-    padding: 4px 0 12px;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    padding: 4px 0 16px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+  }
+  .sheet-scaler {
+    overflow: hidden !important;
+    position: relative !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
   }
 }
 

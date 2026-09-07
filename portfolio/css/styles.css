@@ -53,6 +53,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -63,8 +65,10 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   display: flex;
-  flex-col;
   flex-direction: column;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 /* Typography */
@@ -2355,19 +2359,47 @@ h3 { font-size: clamp(1.15rem, 2.5vw + 0.3rem, 1.5rem); }
 
 .perf-graph-svg {
   width: 100%;
+  max-width: 100%;
   height: auto;
   display: block;
   border-radius: 6px;
-  min-height: 90px;
 }
 
 .table-responsive {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .container {
+    padding-inline: clamp(0.6rem, 3vw, 1rem) !important;
+    max-width: 100% !important;
+  }
+  .card, 
+  .activity-cycle-project-card, 
+  .deliverables-box {
+    padding: clamp(0.85rem, 3vw, 1.25rem) !important;
+    border-radius: 12px !important;
+  }
+  .growth-grid,
+  .scorecard-grid,
+  .achievements-grid,
+  .gallery-grid,
+  .goals-list,
+  .cycle-timeline-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)) !important;
+    gap: 0.85rem !important;
+  }
+  .observations-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .hero-profile-box {
+    padding: clamp(1rem, 3vw, 1.35rem) !important;
+    gap: 1rem !important;
+  }
   .subject-tab-btn {
     font-size: 0.76rem;
     padding: 0.35rem 0.65rem;

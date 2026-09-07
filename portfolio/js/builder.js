@@ -1144,6 +1144,8 @@ function setViewMode(mode) {
 
   if (mode === "preview" || mode === "split") {
     requestAnimationFrame(applySheetScale);
+    setTimeout(applySheetScale, 60);
+    setTimeout(applySheetScale, 200);
   }
 }
 
@@ -1178,16 +1180,20 @@ function applySheetScale() {
   const sheet = document.getElementById("singlePageSheet");
   if (!viewport || !scaler || !sheet) return;
 
-  const viewportWidth = viewport.clientWidth;
-  if (viewportWidth <= 0) return;
+  let viewportWidth = viewport.clientWidth;
+  if (viewportWidth <= 0) {
+    const stage = document.getElementById("previewStage") || document.getElementById("previewWrapper");
+    if (stage && stage.clientWidth > 0) viewportWidth = stage.clientWidth - 16;
+  }
+  if (viewportWidth <= 0) viewportWidth = Math.max(280, (window.innerWidth || 360) - 32);
 
   const sheetPxWidth = 794; // 210mm in px at 96dpi
   const sheetPxHeight = 1123; // 297mm in px at 96dpi
 
   let scale = 1;
   if (currentZoom === "fit") {
-    const availableWidth = Math.max(260, viewportWidth - 24);
-    scale = Math.min(1.05, Math.max(0.32, availableWidth / sheetPxWidth));
+    const availableWidth = Math.max(220, viewportWidth - 8);
+    scale = Math.min(1.05, Math.max(0.25, availableWidth / sheetPxWidth));
   } else {
     scale = parseFloat(currentZoom) || 1;
   }
@@ -1197,10 +1203,11 @@ function applySheetScale() {
 
   scaler.style.width = `${scaledWidth}px`;
   scaler.style.height = `${scaledHeight}px`;
+  scaler.style.maxWidth = "100%";
   scaler.style.position = "relative";
-  scaler.style.overflow = "visible";
+  scaler.style.overflow = "hidden"; // Clip positioned 794px element strictly inside scaler!
   scaler.style.margin = "0 auto";
-  scaler.style.marginBottom = `${Math.max(16, 20 * scale)}px`;
+  scaler.style.marginBottom = `${Math.max(12, 16 * scale)}px`;
   scaler.style.transform = "none";
 
   sheet.style.position = "absolute";
@@ -1208,6 +1215,8 @@ function applySheetScale() {
   sheet.style.left = "0";
   sheet.style.width = `${sheetPxWidth}px`;
   sheet.style.height = `${sheetPxHeight}px`;
+  sheet.style.minWidth = `${sheetPxWidth}px`;
+  sheet.style.maxWidth = `${sheetPxWidth}px`;
   sheet.style.transformOrigin = "top left";
   sheet.style.transform = `scale(${scale})`;
 }
