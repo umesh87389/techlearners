@@ -90,7 +90,9 @@
   <!-- Sticky In-Page Navigation -->
   <nav class="portfolio-nav-bar">
     <div class="container portfolio-nav-links">
-      <a href="#activity-cycle" class="p-nav-btn active">⭐ Activity Cycle</a>
+      <a href="#performance-graph" class="p-nav-btn active">📈 Performance Graph</a>
+      <a href="#subject-portfolio" class="p-nav-btn">📚 Subject Portfolio</a>
+      <a href="#activity-cycle" class="p-nav-btn">⭐ Activity Cycle</a>
       <a href="#deliverables-checklist" class="p-nav-btn">🎯 Output Verification</a>
       <a href="#intro-video" class="p-nav-btn">🎬 1-Min Video Demo</a>
       <a href="#projects" class="p-nav-btn">🚀 Project Works</a>
@@ -105,6 +107,63 @@
 
   <!-- Main Content Sections -->
   <main class="container" style="margin-top: 1.5rem;">
+
+    <!-- 0. CHILD OVERALL PERFORMANCE GRAPH -->
+    <section id="performance-graph" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">Academic Analytics</span>
+        <h2>Child Overall Performance Graph & Benchmarks</h2>
+        <p>Holistic academic journey showing term-wise progression (Term 1 → Mid Term → Term 2) and comparative performance across all core subjects.</p>
+      </div>
+
+      <div class="card" style="padding: 1.25rem; border-radius: 12px; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <div id="portfolioPerfGraphContainer" style="margin-bottom: 1.25rem;">
+          <!-- Rendered dynamically by portfolio.js -->
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
+            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Overall Cumulative</small>
+            <strong id="kpiCumulativeAvg" style="font-size: 1.35rem; color: #166534;">94.8%</strong>
+            <span class="badge badge-success" style="font-size: 0.7rem; margin-top: 2px;">Grade A1</span>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
+            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Class Rank & Honors</small>
+            <strong id="kpiClassRank" style="font-size: 1.35rem; color: #4338ca;">1st in Class</strong>
+            <span class="badge badge-primary" style="font-size: 0.7rem; margin-top: 2px;">Scholar Badge</span>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
+            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Term Progression</small>
+            <strong id="kpiTermTrend" style="font-size: 1.35rem; color: #b45309;">↗ +4.4%</strong>
+            <span class="badge badge-warning" style="font-size: 0.7rem; margin-top: 2px; color: #78350f;">Upward Trajectory</span>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; text-align: center;">
+            <small style="color: #64748b; font-weight: 700; display: block; text-transform: uppercase;">Annual Attendance</small>
+            <strong id="kpiAttendance" style="font-size: 1.35rem; color: #0f172a;">98.2%</strong>
+            <span class="badge badge-info" style="font-size: 0.7rem; margin-top: 2px;">Regular & Punctual</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 0.5 INDIVIDUAL SUBJECT PORTFOLIO SHOWCASE (1-1 Subject Focus) -->
+    <section id="subject-portfolio" class="portfolio-section">
+      <div class="section-header">
+        <span class="tag">1-1 Subject Portfolios</span>
+        <h2>Individual Subject Portfolios</h2>
+        <p>Dedicated portfolios for each individual subject as evaluated by respective subject teachers. Select a subject below to view its specific curriculum projects, lab records, and teacher remarks.</p>
+      </div>
+
+      <!-- Subject Tabs Switcher -->
+      <div class="subject-tabs-scroll" id="portfolioSubjectTabs" style="margin-bottom: 1.25rem;">
+        <!-- Populated dynamically: Math, Science, IT, English, SST, Hindi, AI -->
+      </div>
+
+      <!-- Active Subject Details Card -->
+      <div class="card" id="portfolioSubjectDetailsCard" style="padding: 1.5rem; border-radius: 12px; background: #ffffff; border: 1.5px solid #cbd5e1; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <!-- Rendered dynamically by portfolio.js -->
+      </div>
+    </section>
 
     <!-- 1. TEAM ACTIVITY CYCLE (Learn -> Make -> Show -> Record) -->
     <section id="activity-cycle" class="portfolio-section">

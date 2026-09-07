@@ -41,6 +41,9 @@
           <div class="topbar-brand-title">Portfolio</div>
           <span class="badge badge-success" style="font-size: 0.7rem;">A4 1-Page Ready</span>
         </div>
+        <div class="topbar-subject-indicator" id="topbarSubjectIndicator" style="margin-left: 0.35rem;" title="Currently active subject portfolio">
+          <span>Subject:</span> <strong id="topbarSubjectName">Mathematics</strong>
+        </div>
       </div>
 
       <!-- View Mode Switcher (Form View / Preview / Side-by-Side) -->
@@ -116,6 +119,30 @@
             <span style="font-size: 0.78rem; font-weight: 700; color: #475569;">Form Display:</span>
             <button type="button" class="btn-display-toggle active" id="btnDisplayTabs" onclick="setSectionDisplayMode('tabs')">📑 Steps</button>
             <button type="button" class="btn-display-toggle" id="btnDisplayAll" onclick="setSectionDisplayMode('all')">📜 All Sections</button>
+        </div>
+
+        <!-- Individual Subject Portfolio Switcher Card -->
+        <div class="subject-portfolio-switcher-card" id="subjectPortfolioSwitcher">
+          <div class="subject-switcher-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span class="subject-switcher-icon">📚</span>
+              <div>
+                <strong style="font-size: 0.95rem; color: #1e1b4b;">Individual Subject Portfolio</strong>
+                <span class="badge badge-accent" style="font-size: 0.72rem; margin-left: 0.35rem;">1-1 Subject & Teacher Focus</span>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="openAddSubjectModal()" title="Add custom subject portfolio">
+                ➕ Add Subject
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="printAllSubjectPortfolios()" style="background: #312e81; border-color: #312e81;" title="Print separate A4 portfolios for all subjects">
+                🖨️ Print All Subject Portfolios
+              </button>
+            </div>
+          </div>
+          <p class="subject-switcher-desc">Select an individual subject below. Each subject has its dedicated portfolio, subject teacher evaluation, practical/lab projects, and the child's overall performance graph.</p>
+          <div class="subject-tabs-scroll" id="subjectTabsContainer" role="tablist">
+            <!-- Rendered dynamically by builder.js: Mathematics, Science, Computer/IT, English, Social Science, Hindi, AI, etc. -->
           </div>
         </div>
 
@@ -361,7 +388,7 @@
         <!-- 4. Academic Marks Pane -->
         <div class="form-step-pane" id="paneAcademics">
           <div class="form-group-title">
-            <span>📊 4. Academic Progress & Marks</span>
+            <span>📊 4. Academic Progress & 1-1 Subject Evaluation</span>
             <span style="font-size: 0.78rem; color: #ea580c; font-weight: 700;">Step 4 of 10 • 🔒 Teacher Only</span>
           </div>
 
@@ -369,32 +396,105 @@
           <div class="teacher-lock-banner" id="bannerAcademicsLock">
             <div class="lock-banner-icon">🔒</div>
             <div class="lock-banner-text">
-              <strong>Official Teacher-Only Section • Academic Marks & Grades</strong>
-              <p>Subject evaluation across Term 1, Mid Term, Term 2, and Academic Honors are officially entered by the Class Teacher. Students and unauthorized users cannot edit these entries.</p>
+              <strong>Official Teacher-Only Section • 1-1 Subject Evaluation & Performance Graph</strong>
+              <p>Subject evaluation across Term 1, Mid Term, Term 2, Lab/Portfolio marks, and overall child benchmarks are officially entered by the Subject/Class Teacher. Students and unauthorized users cannot edit these entries.</p>
             </div>
             <button type="button" class="teacher-mode-btn" onclick="openTeacherAuthModal()">
               🔑 Teacher Unlock
             </button>
           </div>
           
-          <div class="table-responsive">
-            <table class="builder-table-input">
-              <thead>
-                <tr>
-                  <th>Subject</th>
-                  <th style="width: 70px; text-align: center;">Term 1</th>
-                  <th style="width: 70px; text-align: center;">Mid Term</th>
-                  <th style="width: 70px; text-align: center;">Term 2</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody id="academicsInputBody"></tbody>
-            </table>
+          <!-- 1-1 Subject Evaluation Card -->
+          <div class="subject-1to1-card">
+            <div class="subject-1to1-header">
+              <div>
+                <strong style="color: #1e1b4b; font-size: 1rem;" id="activeSubjectCardHeading">📐 Mathematics (Code: 041)</strong>
+                <span class="badge badge-primary" style="margin-left: 0.5rem;" id="activeSubjectTeacherBadge">Teacher: Mrs. Sunita Roy</span>
+              </div>
+              <span class="badge badge-success" id="activeSubjectCalculatedGrade">Final Grade: A1 (98%)</span>
+            </div>
+
+            <div class="field-grid-3" style="margin-bottom: 0.85rem;">
+              <div class="form-field">
+                <label for="f_activeSubjectTeacher">Subject Teacher Name *</label>
+                <input type="text" id="f_activeSubjectTeacher" placeholder="e.g. Mrs. Sunita Roy" oninput="updateActiveSubjectField('subjectTeacher', this.value)">
+              </div>
+              <div class="form-field">
+                <label for="f_activeSubjectTeacherRole">Teacher Designation / Role</label>
+                <input type="text" id="f_activeSubjectTeacherRole" placeholder="e.g. PGT Mathematics & Subject Mentor" oninput="updateActiveSubjectField('subjectTeacherRole', this.value)">
+              </div>
+              <div class="form-field">
+                <label for="f_activeSubjectCode">Subject Code</label>
+                <input type="text" id="f_activeSubjectCode" placeholder="e.g. 041" oninput="updateActiveSubjectField('subjectCode', this.value)">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="builder-table-input">
+                <thead>
+                  <tr>
+                    <th>Evaluation Phase</th>
+                    <th style="width: 80px; text-align: center;">Max Marks</th>
+                    <th style="width: 80px; text-align: center;">Marks Scored</th>
+                    <th style="width: 80px; text-align: center;">Score %</th>
+                    <th>Teacher Remark / Evaluation</th>
+                  </tr>
+                </thead>
+                <tbody id="subject1to1TableBody">
+                  <!-- Term 1, Mid Term, Term 2, Portfolio / Notebook, Practical / Lab -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-field" style="margin-top: 0.85rem;">
+              <label for="f_activeSubjectTeacherRemarks">Subject Teacher's Detailed Evaluation & Feedback</label>
+              <textarea id="f_activeSubjectTeacherRemarks" rows="2" placeholder="Subject specific remarks..." oninput="updateActiveSubjectField('teacherRemarks', this.value)"></textarea>
+            </div>
           </div>
 
-          <div class="form-field" style="margin-top: 1rem;">
-            <label for="f_academicAchievement">🏆 Academic Achievement / Honors (Teacher Remark)</label>
-            <input type="text" id="f_academicAchievement" placeholder="e.g. Ranked 1st in Class VIII Annual Academic Honors.">
+          <!-- Child Overall Performance Graph Card -->
+          <div class="child-perf-graph-box">
+            <div class="child-perf-header">
+              <div>
+                <strong style="color: #1e1b4b; font-size: 0.95rem;">📈 Child Overall Performance Graph (Real-Time Dynamic SVG)</strong>
+                <p style="margin: 2px 0 0; font-size: 0.76rem; color: #64748b;">Visual progress across Term 1, Mid Term, Term 2, and comparative benchmarks across all subjects.</p>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAllSubjectBenchmarkEditor()">
+                ⚙️ Edit All-Subject Benchmarks (Teacher)
+              </button>
+            </div>
+
+            <div id="builderPerfGraphContainer" style="margin-top: 0.5rem;">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- All-Subject Benchmark Marks Editor (Collapsible) -->
+            <div id="allSubjectBenchmarkEditor" style="display: none; margin-top: 1rem; padding-top: 0.85rem; border-top: 1px dashed #cbd5e1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <strong style="font-size: 0.82rem; color: #334155;">🏫 Overall Performance Marks Across Core Subjects (Updates Graph)</strong>
+                <span style="font-size: 0.72rem; color: #ea580c; font-weight: 700;">🔒 Teacher Verified</span>
+              </div>
+              <div class="table-responsive">
+                <table class="builder-table-input" style="font-size: 0.8rem;">
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th style="width: 65px; text-align: center;">Term 1</th>
+                      <th style="width: 65px; text-align: center;">Mid Term</th>
+                      <th style="width: 65px; text-align: center;">Term 2</th>
+                      <th style="width: 65px; text-align: center;">Final %</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="allSubjectBenchmarkTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-field" style="margin-top: 0.5rem;">
+            <label for="f_academicAchievement">🏆 Overall Academic Honors / School Distinction (Teacher Certified)</label>
+            <input type="text" id="f_academicAchievement" placeholder="e.g. Ranked 1st in Class VIII Annual Academic Honors & STEM Scholar distinction.">
           </div>
 
           <!-- Step Navigation Footer -->
@@ -1022,6 +1122,56 @@
           Close
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Add Custom Subject Modal -->
+  <div id="addSubjectModal" class="teacher-modal-backdrop" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="addSubjectModalTitle">
+    <div class="teacher-modal-card" style="max-width: 480px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.8rem;">📚</span>
+          <div>
+            <h3 id="addSubjectModalTitle" style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0f172a;">Add Subject Portfolio</h3>
+            <p style="margin: 0.2rem 0 0; font-size: 0.8rem; color: #64748b;">Create a separate portfolio for a new subject</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeAddSubjectModal()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #94a3b8; padding: 0.2rem;" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="addSubjectForm" onsubmit="return handleAddSubjectSubmit(event)">
+        <div class="form-field">
+          <label for="inputNewSubjectName">Subject Name *</label>
+          <input type="text" id="inputNewSubjectName" placeholder="e.g. Sanskrit, French, Economics, Painting" required autofocus>
+        </div>
+        <div class="field-grid-2">
+          <div class="form-field">
+            <label for="inputNewSubjectCode">Subject Code</label>
+            <input type="text" id="inputNewSubjectCode" placeholder="e.g. 122 or 049">
+          </div>
+          <div class="form-field">
+            <label for="inputNewSubjectIcon">Subject Icon / Emoji</label>
+            <input type="text" id="inputNewSubjectIcon" placeholder="e.g. 📜 or 🎨" value="📚">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="inputNewSubjectTeacher">Subject Teacher Name</label>
+          <input type="text" id="inputNewSubjectTeacher" placeholder="e.g. Mr. Sharma">
+        </div>
+        <div class="form-field">
+          <label for="inputNewSubjectTeacherRole">Teacher Designation / Role</label>
+          <input type="text" id="inputNewSubjectTeacherRole" placeholder="e.g. Subject Faculty & Mentor">
+        </div>
+
+        <div style="display: flex; gap: 0.65rem; justify-content: flex-end; margin-top: 1.25rem;">
+          <button type="button" onclick="closeAddSubjectModal()" class="btn btn-secondary btn-sm">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm" style="background: #312e81; border-color: #312e81; font-weight: 700;">
+            ➕ Create Subject Portfolio
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

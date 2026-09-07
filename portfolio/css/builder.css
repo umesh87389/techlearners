@@ -1350,6 +1350,192 @@ textarea.field-locked {
 }
 
 /* =============================================================
+   INDIVIDUAL SUBJECT PORTFOLIO SWITCHER & 1-1 SUBJECT UI
+   ============================================================= */
+.subject-portfolio-switcher-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+  border: 1.5px solid #c7d2fe;
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.06);
+}
+
+.subject-switcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.4rem;
+}
+
+.subject-switcher-icon {
+  font-size: 1.4rem;
+}
+
+.subject-switcher-desc {
+  font-size: 0.8rem;
+  color: #475569;
+  margin: 0 0 0.8rem;
+  line-height: 1.4;
+}
+
+.subject-tabs-scroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.subject-tabs-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+.subject-tabs-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.subject-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.subject-tab-btn:hover {
+  border-color: #818cf8;
+  color: #1e1b4b;
+  background: #f5f3ff;
+  transform: translateY(-1px);
+}
+
+.subject-tab-btn.active {
+  background: #312e81;
+  border-color: #312e81;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(49, 46, 129, 0.25);
+}
+
+.subject-tab-btn.active .subject-pill-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.subject-pill-badge {
+  font-size: 0.68rem;
+  padding: 1px 5px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+  font-weight: 800;
+}
+
+.topbar-subject-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #312e81;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* 1-1 Subject Evaluation Form Card in Step 4 */
+.subject-1to1-card {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.subject-1to1-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0.85rem;
+}
+
+/* Child Overall Performance Graph in Builder & Print */
+.child-perf-graph-box {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.child-perf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.perf-graph-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Single-Page A4 Sheet Subject Badges */
+.sp-doc-subject-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #1e1b4b;
+  color: #ffffff;
+  font-size: 8.5pt;
+  font-weight: 900;
+  padding: 2.5px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sp-subject-code-tag {
+  background: #f59e0b;
+  color: #0f172a;
+  font-size: 6.8pt;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  margin-left: 4px;
+}
+
+.sp-teacher-badge {
+  font-size: 6.8pt;
+  background: #ecfdf5;
+  border: 0.5px solid #a7f3d0;
+  color: #065f46;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+/* =============================================================
    PRINT MEDIA QUERY: PERFECT CENTERED SINGLE-PAGE FIT
    Symmetrical, proper margins from all 4 sides (Top, Right, Bottom, Left)
    ============================================================= */

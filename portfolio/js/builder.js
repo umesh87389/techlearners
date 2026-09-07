@@ -3,10 +3,506 @@
  * Matches 100% of portfolio.docx (SHM Academy)
  */
 
+
+// =============================================================
+// INDIVIDUAL SUBJECT PORTFOLIOS MASTER CONFIGURATION
+// 1-1 Subject and Teacher Focus & Child Overall Performance Graph
+// =============================================================
+const DEFAULT_SUBJECTS = [
+  { id: "mathematics", name: "Mathematics", code: "041", icon: "📐", teacher: "Mrs. Sunita Roy", role: "PGT Mathematics & Subject Mentor" },
+  { id: "science", name: "Science", code: "086", icon: "🔬", teacher: "Dr. Amit Saxena", role: "PGT Science & Practical Head" },
+  { id: "computer_it", name: "Computer / IT", code: "402", icon: "💻", teacher: "Mr. Umesh Tripathi", role: "Faculty - Computer Science & AI" },
+  { id: "english", name: "English", code: "184", icon: "📖", teacher: "Mrs. Ritu Verma", role: "TGT English Language & Literature" },
+  { id: "social_science", name: "Social Science", code: "087", icon: "🌍", teacher: "Mr. Rajeshwar Pandey", role: "PGT Social Science & History" },
+  { id: "hindi", name: "Hindi", code: "002", icon: "🇮🇳", teacher: "Mrs. Shashi Prabha", role: "TGT Hindi Literature & Language" },
+  { id: "ai", name: "Artificial Intelligence", code: "417", icon: "🤖", teacher: "Mr. Umesh Tripathi", role: "Faculty - AI & Emerging Technologies" }
+];
+
+const DEFAULT_SUBJECT_PORTFOLIOS = {
+  "mathematics": {
+    id: "mathematics",
+    subject: "Mathematics",
+    subjectCode: "041",
+    subjectIcon: "📐",
+    subjectTeacher: "Mrs. Sunita Roy",
+    subjectTeacherRole: "PGT Mathematics & Subject Mentor",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "96", remarks: "Fast analytical reasoning and precision" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "98", remarks: "Outstanding problem solving in algebra" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "99", remarks: "Near perfect score in geometry theorems" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Exemplary neatness, on-time submission" },
+      { phase: "Practical / Math Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active participation in geometry labs" }
+    ],
+    totalScore: "98.0",
+    grade: "A1",
+    teacherRemarks: "Aarav exhibits extraordinary mathematical intuition, consistently applying algebraic concepts to complex real-world models with remarkable clarity.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Coordinate Geometry, Quadratic Equations & Heights",
+    subjectGoal: "Attain 100% in CBSE Mathematics Board Examination and clear National Math Olympiad.",
+    subjectReflection: "Mastered multi-step proofs, reduced calculation errors, and learned to visualize theorems using 3D models.",
+    proj1Title: "Geometric Proofs & 3D Polyhedron Construction",
+    proj1Did: "Constructed precise 3D geometric polyhedrons to physically demonstrate surface area and volume equations.",
+    proj1Learned: "Applied theoretical spatial geometry formulas to tangible scaled models.",
+    proj2Title: "Statistical Survey & Cumulative Frequency Ogive Curves",
+    proj2Did: "Gathered school demographic and attendance datasets, computing mean, median, mode, and ogives.",
+    proj2Learned: "Data classification, cumulative frequency curves, and statistical variance.",
+    competencies: {
+      conceptClarity: "5.0",
+      problemSolving: "5.0",
+      practicalLabWork: "4.8",
+      portfolioRegularity: "5.0",
+      regularityHomework: "4.9",
+      vivaCommunication: "4.7"
+    },
+    improvementPlan: {
+      area: "Speed in Advanced Trigonometric Identity Proofs",
+      plan: "Solve 5 theorem questions daily from NCERT Exemplar",
+      target: "Term 2",
+      progress: "95% Achieved"
+    }
+  },
+
+  "science": {
+    id: "science",
+    subject: "Science",
+    subjectCode: "086",
+    subjectIcon: "🔬",
+    subjectTeacher: "Dr. Amit Saxena",
+    subjectTeacherRole: "PGT Science & Practical Head",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "94", remarks: "Solid understanding of physics laws" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "95", remarks: "Excellent chemistry reactions recall" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "97", remarks: "Outstanding practical lab application" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Complete diagrams, verified records" },
+      { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Distinction in circuit and optics labs" }
+    ],
+    totalScore: "95.3",
+    grade: "A1",
+    teacherRemarks: "Exceptional scientific inquiry and dedication in the laboratory. Demonstrates great maturity in scientific prototyping.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Ohm's Law, Electrical Resistance & Plant Biology",
+    subjectGoal: "Achieve Gold Medal in National Science Olympiad and develop assistive agricultural IoT sensors.",
+    subjectReflection: "Gained immense confidence in circuit breadboarding, sensor probe calibration, and hypothesis testing.",
+    proj1Title: "Automated Soil Moisture Sensor & Irrigation System",
+    proj1Did: "Assembled capacitive moisture sensors with Arduino Uno and 5V mini relay water pump.",
+    proj1Learned: "Analog-to-digital signal conversion, circuit safety, and plant water conservation.",
+    proj2Title: "Plant Cell Osmosis & Diffusion Microscopic Study",
+    proj2Did: "Observed onion epidermal cells under 400x magnification across hypertonic and hypotonic solutions.",
+    proj2Learned: "Cell wall permeability, vacuole turgidity, and biological staining procedures.",
+    competencies: {
+      conceptClarity: "4.9",
+      problemSolving: "4.8",
+      practicalLabWork: "5.0",
+      portfolioRegularity: "5.0",
+      regularityHomework: "4.8",
+      vivaCommunication: "4.6"
+    },
+    improvementPlan: {
+      area: "Chemical Equation Balancing Speed",
+      plan: "Practice redox and precipitation reactions weekly",
+      target: "Mid Term",
+      progress: "Completed"
+    }
+  },
+
+  "computer_it": {
+    id: "computer_it",
+    subject: "Computer / IT",
+    subjectCode: "402",
+    subjectIcon: "💻",
+    subjectTeacher: "Mr. Umesh Tripathi",
+    subjectTeacherRole: "Faculty - Computer Science & AI",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "98", remarks: "Class topper in coding fundamentals" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "99", remarks: "Flawless practical exam execution" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect 100/100 in programming & database" },
+      { phase: "Portfolio / Practical File", maxMarks: "20", marksScored: "20", remarks: "Verified lab code with clean documentation" },
+      { phase: "Hands-on Lab Exam & Viva", maxMarks: "10", marksScored: "10", remarks: "Outstanding viva voce performance" }
+    ],
+    totalScore: "99.0",
+    grade: "A1",
+    teacherRemarks: "Exemplary coder and top technology achiever. Leads peer workshops, builds real-world web applications, and demonstrates mastery.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Relational Databases, Python Automation & Web Layouts",
+    subjectGoal: "Publish an open-source CBSE study portal and represent school in national hackathons.",
+    subjectReflection: "Mastered responsive layouts, JSON structures, Git version control, and database query optimization.",
+    proj1Title: "Interactive CBSE Study Portal & Flashcard Quiz",
+    proj1Did: "Built responsive study portal with chapter notes, timed MCQ practice tests, and instant score charts.",
+    proj1Learned: "CSS Grid & Flexbox, DOM manipulation, LocalStorage caching, and automated testing.",
+    proj2Title: "Automated Student Digital Portfolio Engine",
+    proj2Did: "Engineered single-page A4 printing system with dynamic SVG child performance graphs and teacher review sync.",
+    proj2Learned: "Vector SVG coordinate mathematics, print CSS media queries, and responsive web typography.",
+    competencies: {
+      conceptClarity: "5.0",
+      problemSolving: "5.0",
+      practicalLabWork: "5.0",
+      portfolioRegularity: "5.0",
+      regularityHomework: "5.0",
+      vivaCommunication: "4.9"
+    },
+    improvementPlan: {
+      area: "Object-Oriented Design in Python",
+      plan: "Build 3 modular CLI applications using classes and inheritance",
+      target: "Term 2",
+      progress: "Certified"
+    }
+  },
+
+  "english": {
+    id: "english",
+    subject: "English",
+    subjectCode: "184",
+    subjectIcon: "📖",
+    subjectTeacher: "Mrs. Ritu Verma",
+    subjectTeacherRole: "TGT English Language & Literature",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "91", remarks: "Strong comprehension & vocabulary" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Insightful literary analysis" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary formal letter and essay writing" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Neat assignments and reading logs" },
+      { phase: "ASL / Speaking & Listening Test", maxMarks: "10", marksScored: "10", remarks: "Flawless speech delivery and diction" }
+    ],
+    totalScore: "92.3",
+    grade: "A1",
+    teacherRemarks: "Articulate, expressive speaker and thoughtful writer with rich vocabulary. Demonstrates remarkable sensitivity in literary analysis.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Analytical Essay Writing & Classic Literary Dramas",
+    subjectGoal: "Represent school in National Debate Championship and publish articles in student journals.",
+    subjectReflection: "Developed great stage poise, learned to construct structured rhetorical arguments, and widened literary reading.",
+    proj1Title: "Creative Writing Anthology & Thematic Essays",
+    proj1Did: "Authored original short stories and reflective character sketches exploring ethical dilemmas.",
+    proj1Learned: "Narrative pacing, tone modulation, and thematic coherence.",
+    proj2Title: "Inter-School Debate Speech on AI in Education",
+    proj2Did: "Formulated constructive arguments with empirical evidence analyzing the societal impact of AI tools.",
+    proj2Learned: "Rebuttal strategy, impromptu speaking, and persuasive rhetoric.",
+    competencies: {
+      conceptClarity: "4.7",
+      problemSolving: "4.6",
+      practicalLabWork: "4.8",
+      portfolioRegularity: "4.9",
+      regularityHomework: "4.8",
+      vivaCommunication: "5.0"
+    },
+    improvementPlan: {
+      area: "Formal Precis Writing Under Timed Conditions",
+      plan: "Write one editorial precis every weekend",
+      target: "Term 2",
+      progress: "85% Achieved"
+    }
+  },
+
+  "social_science": {
+    id: "social_science",
+    subject: "Social Science",
+    subjectCode: "087",
+    subjectIcon: "🌍",
+    subjectTeacher: "Mr. Rajeshwar Pandey",
+    subjectTeacherRole: "PGT Social Science & History",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Accurate historical recall" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "91", remarks: "Great cartographic and map work" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "93", remarks: "Detailed answers with historical citations" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Complete notes and project files" },
+      { phase: "Project & Map Activity", maxMarks: "10", marksScored: "10", remarks: "Distinction in water conservation survey" }
+    ],
+    totalScore: "91.3",
+    grade: "A1",
+    teacherRemarks: "Inquisitive learner with keen interest in constitutional governance and historical cause-effect relationships.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Indian National Movement & Water Harvesting Systems",
+    subjectGoal: "Score 95%+ in Social Science and present a research monograph on local heritage conservation.",
+    subjectReflection: "Deepened appreciation for constitutional values, civil rights, and sustainable geographic resource management.",
+    proj1Title: "Comparative Survey of Traditional Indian Water Harvesting",
+    proj1Did: "Investigated traditional Stepwells (Baolis), Johads, and Kunds in semi-arid regions of India.",
+    proj1Learned: "Ecological history, community resource stewardship, and geographical analysis.",
+    proj2Title: "Chronological Interactive Map of Indian Freedom Struggle",
+    proj2Did: "Mapped historic pathways of the Dandi Salt March, Champaran Satyagraha, and Non-Cooperation movement.",
+    proj2Learned: "Cartographic accuracy, archival research, and chronology mapping.",
+    competencies: {
+      conceptClarity: "4.8",
+      problemSolving: "4.7",
+      practicalLabWork: "4.6",
+      portfolioRegularity: "4.9",
+      regularityHomework: "4.8",
+      vivaCommunication: "4.7"
+    },
+    improvementPlan: {
+      area: "Topographical Contour Map Interpretation",
+      plan: "Practice survey sheet exercises with teacher twice weekly",
+      target: "Mid Term",
+      progress: "Completed"
+    }
+  },
+
+  "hindi": {
+    id: "hindi",
+    subject: "Hindi",
+    subjectCode: "002",
+    subjectIcon: "🇮🇳",
+    subjectTeacher: "Mrs. Shashi Prabha",
+    subjectTeacherRole: "TGT Hindi Literature & Language",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "88", remarks: "व्याकरण एवं वर्तनी में संतोषजनक" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "89", remarks: "सुंदर सुलेख एवं प्रभावशाली अभिव्यक्ति" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "90", remarks: "निबंध लेखन एवं उत्तरों में श्रेष्ठता" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "18", remarks: "नियमित गृहकार्य एवं सुव्यवस्थित संचिका" },
+      { phase: "वाचन एवं श्रवण कौशल (ASL)", maxMarks: "10", marksScored: "10", remarks: "स्पष्ट उच्चारण एवं कविता वाचन" }
+    ],
+    totalScore: "89.0",
+    grade: "A2",
+    teacherRemarks: "सदा अनुशासित, अध्ययनशील एवं भाषा के प्रति निष्ठावान। हिंदी साहित्य एवं रचनात्मक लेखन में सराहनीय प्रगति।",
+    teacherSignDate: "15 March 2027",
+    favTopic: "हिंदी व्याकरण, मुहावरे एवं प्रेरक कविता पाठ",
+    subjectGoal: "हिंदी निबंध एवं कविता वाचन प्रतियोगिता में विद्यालय का प्रतिनिधित्व करना।",
+    subjectReflection: "शब्दावली में विस्तार हुआ, मानक वर्तनी सीखी और विचारों को शुद्ध हिंदी में अभिव्यक्त करने का आत्मविश्वास बढ़ा।",
+    proj1Title: "हिंदी निबंध एवं मौलिक कविता संकलन",
+    proj1Did: "पर्यावरण संरक्षण तथा आधुनिक विज्ञान के लाभ पर स्वरचित कविताओं एवं निबंधों का संग्रह तैयार किया।",
+    proj1Learned: "काव्य रस, अलंकार, भाषा सौंदर्य एवं सटीक शब्द चयन।",
+    proj2Title: "पत्र लेखन एवं संवाद कार्यशाला संचिका",
+    proj2Did: "दैनिक जीवन तथा सामाजिक विषयों पर औपचारिक पत्र एवं संवाद संकलित किए।",
+    proj2Learned: "मानक हिंदी प्रारूप, औपचारिक पत्र शैली एवं विराम चिह्नों का प्रयोग।",
+    competencies: {
+      conceptClarity: "4.6",
+      problemSolving: "4.5",
+      practicalLabWork: "4.7",
+      portfolioRegularity: "4.8",
+      regularityHomework: "4.7",
+      vivaCommunication: "4.6"
+    },
+    improvementPlan: {
+      area: "संधि एवं समास के नियमों का शुद्ध अभ्यास",
+      plan: "प्रतिदिन 15 मिनट व्याकरण अभ्यास पुस्तिका हल करना",
+      target: "Term 2",
+      progress: "90% Achieved"
+    }
+  },
+
+  "ai": {
+    id: "ai",
+    subject: "Artificial Intelligence",
+    subjectCode: "417",
+    subjectIcon: "🤖",
+    subjectTeacher: "Mr. Umesh Tripathi",
+    subjectTeacherRole: "Faculty - AI & Emerging Technologies",
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "97", remarks: "Strong foundation in AI concepts" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "99", remarks: "Outstanding model training and testing" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "100", remarks: "Perfect score in computer vision & ethics" },
+      { phase: "Portfolio / AI Project Log", maxMarks: "20", marksScored: "20", remarks: "Verified working model demonstrations" },
+      { phase: "Interactive Demo & Viva", maxMarks: "10", marksScored: "10", remarks: "Exceptional explanation of neural weights" }
+    ],
+    totalScore: "98.7",
+    grade: "A1",
+    teacherRemarks: "A true visionary young AI builder. Understands not just how to build models, but the societal responsibility and ethical guardrails required in AI.",
+    teacherSignDate: "15 March 2027",
+    favTopic: "Computer Vision, Neural Networks & Generative AI Ethics",
+    subjectGoal: "Deploy a computer vision recycling classifier for smart waste management in our school.",
+    subjectReflection: "Understood data preprocessing, training vs testing splits, confusion matrices, and responsible algorithmic fairness.",
+    proj1Title: "Teachable Machine Interactive Recycling Classifier",
+    proj1Did: "Curated 1,200 labeled images to train a browser-based computer vision model detecting plastic vs paper.",
+    proj1Learned: "Inference latency, confidence score thresholds, and camera stream processing.",
+    proj2Title: "AI Ethics & Algorithmic Fairness Monograph",
+    proj2Did: "Researched ethical guardrails against algorithmic bias in automated facial and voice recognition.",
+    proj2Learned: "Ethical auditing frameworks, demographic fairness, and transparent model documentation.",
+    competencies: {
+      conceptClarity: "5.0",
+      problemSolving: "5.0",
+      practicalLabWork: "5.0",
+      portfolioRegularity: "5.0",
+      regularityHomework: "5.0",
+      vivaCommunication: "4.8"
+    },
+    improvementPlan: {
+      area: "Deep Learning Tensor Operations in Python",
+      plan: "Complete introductory PyTorch matrix operations tutorial",
+      target: "Term 2",
+      progress: "In Progress"
+    }
+  }
+};
+
+const DEFAULT_OVERALL_PERFORMANCE = {
+  term1Avg: 92.4,
+  midTermAvg: 94.6,
+  term2Avg: 96.8,
+  targetAvg: 98.5,
+  cumulative: 94.8,
+  attendance: "98.2%",
+  rank: "1st in Class (STEM Scholar)",
+  subjectScores: [
+    { id: "mathematics", name: "Mathematics", short: "Math", score: 98, t1: 96, mid: 98, t2: 99, remarks: "Top in class" },
+    { id: "science", name: "Science", short: "Sci", score: 95, t1: 94, mid: 95, t2: 97, remarks: "Lab distinction" },
+    { id: "computer_it", name: "Computer / IT", short: "IT", score: 99, t1: 98, mid: 99, t2: 100, remarks: "Coding topper" },
+    { id: "english", name: "English", short: "Eng", score: 92, t1: 91, mid: 92, t2: 94, remarks: "Fluent speaker" },
+    { id: "social_science", name: "Social Science", short: "SST", score: 91, t1: 90, mid: 91, t2: 93, remarks: "Great inquiry" },
+    { id: "hindi", name: "Hindi", short: "Hin", score: 89, t1: 88, mid: 89, t2: 90, remarks: "Creative writing" }
+  ]
+};
+
+// =============================================================
+// CHILD OVERALL PERFORMANCE GRAPH GENERATOR (Vector SVG)
+// High-resolution, zero-dependency, ultra-crisp in A4 print & screen
+// =============================================================
+function generateOverallPerformanceSvg(overallData, activeSubjectName) {
+  const avg = (overallData && overallData.term1Avg !== undefined) ? overallData : DEFAULT_OVERALL_PERFORMANCE;
+  const scores = (overallData && Array.isArray(overallData.subjectScores)) ? overallData.subjectScores : DEFAULT_OVERALL_PERFORMANCE.subjectScores;
+
+  const t1 = Number(avg.term1Avg || 92.4);
+  const mid = Number(avg.midTermAvg || 94.6);
+  const t2 = Number(avg.term2Avg || 96.8);
+  const tgt = Number(avg.targetAvg || 98.5);
+  const cum = Number(avg.cumulative || 94.8);
+
+  const activeNorm = String(activeSubjectName || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  // Left chart coordinates: Y maps 70% -> 135px, 100% -> 45px
+  const minVal = 70;
+  const maxVal = 100;
+  const chartBottom = 135;
+  const chartTop = 45;
+  const chartHeight = chartBottom - chartTop;
+
+  function getY(val) {
+    const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
+    return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
+  }
+
+  const p1 = { x: 42, y: getY(t1) };
+  const p2 = { x: 92, y: getY(mid) };
+  const p3 = { x: 142, y: getY(t2) };
+  const p4 = { x: 192, y: getY(tgt) };
+
+  const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p4.x},${p4.y} L ${p4.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
+  const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
+  const linePathDash = `M ${p3.x},${p3.y} L ${p4.x},${p4.y}`;
+
+  // Right chart: Bars
+  const barChartBottom = 135;
+  const barMaxHeight = 85;
+  const avgLineY = barChartBottom - (cum / 100) * barMaxHeight;
+  const barStartX = 238;
+  const barWidth = 24;
+  const barGap = 9;
+
+  let barsSvg = "";
+  scores.slice(0, 6).forEach((s, idx) => {
+    const bx = barStartX + idx * (barWidth + barGap);
+    const scoreVal = Number(s.score) || 80;
+    const bHeight = Math.max(8, (scoreVal / 100) * barMaxHeight);
+    const by = barChartBottom - bHeight;
+    const sNorm = String(s.name || s.short).toLowerCase().replace(/[^a-z0-9]/g, "");
+    const isActive = activeNorm && (sNorm.includes(activeNorm) || activeNorm.includes(sNorm));
+
+    const fill = isActive ? "url(#activeBarGrad)" : "#94a3b8";
+    const stroke = isActive ? "#312e81" : "#64748b";
+    const textColor = isActive ? "#312e81" : "#475569";
+    const textWeight = isActive ? "900" : "700";
+
+    barsSvg += `
+      <g class="bar-group ${isActive ? "active-bar" : ""}">
+        ${isActive ? `<text x="${bx + barWidth/2}" y="${by - 12}" text-anchor="middle" font-size="7pt" fill="#4338ca">★</text>` : ""}
+        <text x="${bx + barWidth/2}" y="${by - 3}" text-anchor="middle" font-size="${isActive ? '6.8pt' : '5.8pt'}" font-weight="${textWeight}" fill="${textColor}">${scoreVal}%</text>
+        <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${fill}" stroke="${stroke}" stroke-width="${isActive ? '1.5' : '0.8'}"/>
+        <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6pt" font-weight="${isActive ? '800' : '600'}" fill="${isActive ? '#1e1b4b' : '#64748b'}">${escapeHtml(s.short || s.name)}</text>
+      </g>
+    `;
+  });
+
+  return `
+    <svg viewBox="0 0 458 165" xmlns="http://www.w3.org/2000/svg" class="perf-graph-svg" style="width:100%; height:auto; display:block;">
+      <defs>
+        <linearGradient id="termAreaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.32"/>
+          <stop offset="100%" stop-color="#4f46e5" stop-opacity="0.02"/>
+        </linearGradient>
+        <linearGradient id="activeBarGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4f46e5"/>
+          <stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Outer Card -->
+      <rect x="1" y="1" width="456" height="163" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.8"/>
+
+      <!-- Header Strip -->
+      <path d="M 1,1 L 457,1 L 457,25 L 1,25 Z" fill="#f8fafc"/>
+      <line x1="1" y1="25" x2="457" y2="25" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="10" y="16.5" font-size="7.5pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
+
+      <!-- Header KPI Badges -->
+      <rect x="235" y="5" width="70" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.8"/>
+      <text x="270" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#166534">Avg: ${cum}%</text>
+
+      <rect x="310" y="5" width="68" height="15" rx="3" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="0.8"/>
+      <text x="344" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#3730a3">Rank: ${escapeHtml(avg.rank || "1st")}</text>
+
+      <rect x="383" y="5" width="68" height="15" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.8"/>
+      <text x="417" y="15.5" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#92400e">Trend: ↗ +4.4%</text>
+
+      <!-- Left Chart: Term Progression -->
+      <text x="10" y="38" font-size="6pt" font-weight="700" fill="#475569">TERM PROGRESSION</text>
+      
+      <!-- Gridlines -->
+      <line x1="36" y1="${getY(80)}" x2="200" y2="${getY(80)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="32" y="${getY(80) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">80%</text>
+
+      <line x1="36" y1="${getY(90)}" x2="200" y2="${getY(90)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="32" y="${getY(90) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">90%</text>
+
+      <line x1="36" y1="${getY(100)}" x2="200" y2="${getY(100)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="32" y="${getY(100) + 2}" text-anchor="end" font-size="5pt" fill="#94a3b8">100%</text>
+
+      <!-- Area fill & lines -->
+      <path d="${areaPath}" fill="url(#termAreaGrad)"/>
+      <path d="${linePathSolid}" fill="none" stroke="#4338ca" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="${linePathDash}" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3,3"/>
+
+      <!-- P1: Term 1 -->
+      <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
+      <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t1}%</text>
+      <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 1</text>
+
+      <!-- P2: Mid Term -->
+      <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
+      <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${mid}%</text>
+      <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Mid Term</text>
+
+      <!-- P3: Term 2 -->
+      <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#4338ca" stroke-width="2"/>
+      <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#1e1b4b">${t2}%</text>
+      <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#64748b">Term 2</text>
+
+      <!-- P4: Target -->
+      <circle cx="${p4.x}" cy="${p4.y}" r="3.2" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+      <text x="${p4.x}" y="${p4.y - 5}" text-anchor="middle" font-size="5.8pt" font-weight="800" fill="#059669">${tgt}%</text>
+      <text x="${p4.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="5.6pt" font-weight="600" fill="#059669">Target</text>
+
+      <!-- Divider -->
+      <line x1="218" y1="30" x2="218" y2="152" stroke="#e2e8f0" stroke-width="1"/>
+
+      <!-- Right Chart: Subject Benchmarks -->
+      <text x="228" y="38" font-size="6pt" font-weight="700" fill="#475569">SUBJECT BENCHMARKS</text>
+
+      <!-- Average line across bars -->
+      <line x1="234" y1="${avgLineY}" x2="445" y2="${avgLineY}" stroke="#b45309" stroke-width="1" stroke-dasharray="2,2"/>
+      <text x="448" y="${avgLineY + 2}" text-anchor="start" font-size="4.8pt" font-weight="700" fill="#b45309">Avg</text>
+
+      <!-- Rendered Bars -->
+      ${barsSvg}
+    </svg>
+  `;
+}
+
 const SAMPLE_SHM_STUDENT = {
   schoolName: "SHM ACADEMY",
   schoolMotto: "“Infinite Knowledge Through Education”",
   academicSession: "2026–2027",
+  
+  // Individual Subject Portfolios & Child Overall Performance
+  selectedSubjectId: "mathematics",
+  subjectsList: DEFAULT_SUBJECTS,
+  subjectPortfolios: JSON.parse(JSON.stringify(DEFAULT_SUBJECT_PORTFOLIOS)),
+  overallPerformance: JSON.parse(JSON.stringify(DEFAULT_OVERALL_PERFORMANCE)),
   
   // Profile
   studentName: "Aarav Gupta",
@@ -159,6 +655,9 @@ const STEP_META = [
 // Initialize application
 document.addEventListener("DOMContentLoaded", function() {
   loadSavedData();
+  ensureSubjectPortfoliosData();
+  renderSubjectSwitcher();
+  populateActiveSubjectForm();
   bindTabNavigation();
   bindFormInputs();
   renderPreview(currentData);
@@ -223,7 +722,7 @@ function updateTeacherLockUI() {
   const tagAssessment = document.getElementById("tagAssessmentLock");
 
   // Inputs list for Academics
-  const academicsInputs = document.querySelectorAll("#academicsInputBody input, #f_academicAchievement");
+  const academicsInputs = document.querySelectorAll("#academicsInputBody input, #subject1to1TableBody input, #allSubjectBenchmarkTableBody input, #f_activeSubjectTeacher, #f_activeSubjectTeacherRole, #f_activeSubjectCode, #f_activeSubjectTeacherRemarks, #f_academicAchievement");
   
   // Inputs list for Skills
   const skillsInputs = document.querySelectorAll("#paneSkills input");
@@ -815,6 +1314,9 @@ function syncDataToForm(d) {
     }
   }
 
+  ensureSubjectPortfoliosData();
+  renderSubjectSwitcher();
+  populateActiveSubjectForm();
   renderAcademicsTable();
   renderActivitiesInputs();
   renderAchievementsInputs();
@@ -833,6 +1335,7 @@ function getVal(id, fallback = "") {
 
 // Read form to currentData
 function readFormToData() {
+  readActiveSubjectForm();
   currentData.schoolName = getVal("f_schoolName", "SHM ACADEMY");
   currentData.schoolMotto = getVal("f_schoolMotto", "“Infinite Knowledge Through Education”");
   currentData.academicSession = getVal("f_academicSession", "2026–2027");
@@ -1098,12 +1601,418 @@ function addPlanRow() {
   saveToLocalStorage();
 }
 
+
 // =============================================================
-// RENDER SINGLE-PAGE A4 PREVIEW CANVAS
+// INDIVIDUAL SUBJECT PORTFOLIOS CONTROLLER & SWITCHER
 // =============================================================
-function renderPreview(d) {
-  const sheet = document.getElementById("singlePageSheet");
-  if (!sheet) return;
+
+function ensureSubjectPortfoliosData() {
+  if (!currentData.subjectsList || !Array.isArray(currentData.subjectsList) || currentData.subjectsList.length === 0) {
+    currentData.subjectsList = JSON.parse(JSON.stringify(DEFAULT_SUBJECTS));
+  }
+  if (!currentData.subjectPortfolios || typeof currentData.subjectPortfolios !== "object") {
+    currentData.subjectPortfolios = JSON.parse(JSON.stringify(DEFAULT_SUBJECT_PORTFOLIOS));
+  }
+  if (!currentData.selectedSubjectId) {
+    currentData.selectedSubjectId = currentData.subjectsList[0].id;
+  }
+  if (!currentData.overallPerformance || !Array.isArray(currentData.overallPerformance.subjectScores)) {
+    currentData.overallPerformance = JSON.parse(JSON.stringify(DEFAULT_OVERALL_PERFORMANCE));
+  }
+
+  // Ensure active subject exists in dictionary
+  const activeId = currentData.selectedSubjectId;
+  if (!currentData.subjectPortfolios[activeId]) {
+    const meta = currentData.subjectsList.find(s => s.id === activeId) || { name: activeId, code: "--", icon: "📚" };
+    currentData.subjectPortfolios[activeId] = {
+      id: activeId,
+      subject: meta.name || activeId,
+      subjectCode: meta.code || "--",
+      subjectIcon: meta.icon || "📚",
+      subjectTeacher: meta.teacher || (currentData.classTeacher || "Class Teacher"),
+      subjectTeacherRole: meta.role || "Subject Faculty",
+      evalPhases: [
+        { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
+        { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
+        { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
+        { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
+        { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
+      ],
+      totalScore: "92.0",
+      grade: "A1",
+      teacherRemarks: `Demonstrates commendable dedication and intellectual curiosity in ${meta.name}.`,
+      teacherSignDate: currentData.teacherSignDate || "15 March 2027",
+      favTopic: "Key curriculum topics",
+      subjectGoal: `Score 95%+ in ${meta.name} and represent school in academic symposiums.`,
+      subjectReflection: `Deepened subject concepts, applied practical methodologies, and mastered key problem types.`,
+      proj1Title: `${meta.name} Practical Project 1`,
+      proj1Did: "Completed hands-on practical assignment and investigative study.",
+      proj1Learned: "Applied subject principles to practical problem solving.",
+      proj2Title: `${meta.name} Project / Lab Work 2`,
+      proj2Did: "Formulated data models and conducted laboratory experiments.",
+      proj2Learned: "Analytical synthesis, documentation, and error reduction.",
+      competencies: {
+        conceptClarity: "4.8",
+        problemSolving: "4.8",
+        practicalLabWork: "4.8",
+        portfolioRegularity: "5.0",
+        regularityHomework: "4.9",
+        vivaCommunication: "4.7"
+      },
+      improvementPlan: {
+        area: "Timed Practice and Complex Problem Speed",
+        plan: "Practice weekly past exam questions",
+        target: "Term 2",
+        progress: "In Progress"
+      }
+    };
+  }
+}
+
+function getActiveSubjectData() {
+  ensureSubjectPortfoliosData();
+  const id = currentData.selectedSubjectId;
+  return currentData.subjectPortfolios[id] || currentData.subjectPortfolios["mathematics"];
+}
+
+function renderSubjectSwitcher() {
+  ensureSubjectPortfoliosData();
+  const container = document.getElementById("subjectTabsContainer");
+  if (!container) return;
+
+  container.innerHTML = "";
+  const activeId = currentData.selectedSubjectId;
+
+  currentData.subjectsList.forEach(subj => {
+    const subData = currentData.subjectPortfolios[subj.id] || {};
+    const isActive = subj.id === activeId;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `subject-tab-btn ${isActive ? "active" : ""}`;
+    btn.setAttribute("data-subject-id", subj.id);
+    btn.onclick = () => switchSubject(subj.id);
+    btn.innerHTML = `
+      <span>${subj.icon || "📚"}</span>
+      <span>${escapeHtml(subj.name)}</span>
+      <span class="subject-pill-badge">${escapeHtml(subData.grade || "A1")}</span>
+    `;
+    container.appendChild(btn);
+  });
+
+  updateSubjectIndicator();
+}
+
+function updateSubjectIndicator() {
+  const activeSub = getActiveSubjectData();
+  const topbarName = document.getElementById("topbarSubjectName");
+  if (topbarName && activeSub) {
+    topbarName.textContent = `${activeSub.subjectIcon || "📚"} ${activeSub.subject}`;
+  }
+}
+
+function switchSubject(subjectId) {
+  readActiveSubjectForm();
+  currentData.selectedSubjectId = subjectId;
+  ensureSubjectPortfoliosData();
+  renderSubjectSwitcher();
+  populateActiveSubjectForm();
+  renderBuilderPerformanceGraph();
+  renderPreview(currentData);
+  saveToLocalStorage();
+}
+
+function updateActiveSubjectField(field, val) {
+  const sub = getActiveSubjectData();
+  if (!sub) return;
+  sub[field] = val;
+
+  if (field === "subjectTeacher") {
+    const badge = document.getElementById("activeSubjectTeacherBadge");
+    if (badge) badge.textContent = `Teacher: ${val || "Not assigned"}`;
+  }
+
+  renderPreview(currentData);
+  saveToLocalStorage();
+}
+
+function readActiveSubjectForm() {
+  const sub = getActiveSubjectData();
+  if (!sub) return;
+
+  const tName = document.getElementById("f_activeSubjectTeacher");
+  if (tName) sub.subjectTeacher = tName.value.trim();
+
+  const tRole = document.getElementById("f_activeSubjectTeacherRole");
+  if (tRole) sub.subjectTeacherRole = tRole.value.trim();
+
+  const sCode = document.getElementById("f_activeSubjectCode");
+  if (sCode) sub.subjectCode = sCode.value.trim();
+
+  const tRemarks = document.getElementById("f_activeSubjectTeacherRemarks");
+  if (tRemarks) sub.teacherRemarks = tRemarks.value.trim();
+}
+
+function populateActiveSubjectForm() {
+  const sub = getActiveSubjectData();
+  if (!sub) return;
+
+  const heading = document.getElementById("activeSubjectCardHeading");
+  if (heading) {
+    heading.textContent = `${sub.subjectIcon || "📚"} ${sub.subject} (Code: ${sub.subjectCode || "--"})`;
+  }
+
+  const badge = document.getElementById("activeSubjectTeacherBadge");
+  if (badge) {
+    badge.textContent = `Teacher: ${sub.subjectTeacher || "Not assigned"}`;
+  }
+
+  const gradeBadge = document.getElementById("activeSubjectCalculatedGrade");
+  if (gradeBadge) {
+    gradeBadge.textContent = `Final Grade: ${sub.grade || "A1"} (${sub.totalScore || "98"}%)`;
+  }
+
+  setVal("f_activeSubjectTeacher", sub.subjectTeacher);
+  setVal("f_activeSubjectTeacherRole", sub.subjectTeacherRole);
+  setVal("f_activeSubjectCode", sub.subjectCode);
+  setVal("f_activeSubjectTeacherRemarks", sub.teacherRemarks);
+
+  renderSubject1to1Table();
+  renderAllSubjectBenchmarkTable();
+  renderBuilderPerformanceGraph();
+}
+
+function renderSubject1to1Table() {
+  const tbody = document.getElementById("subject1to1TableBody");
+  if (!tbody) return;
+
+  const sub = getActiveSubjectData();
+  if (!sub || !Array.isArray(sub.evalPhases)) return;
+
+  tbody.innerHTML = "";
+  sub.evalPhases.forEach((p, idx) => {
+    const maxVal = Number(p.maxMarks) || 100;
+    const scoredVal = Number(p.marksScored) || 0;
+    const pct = Math.round((scoredVal / maxVal) * 100);
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${escapeHtml(p.phase)}</strong></td>
+      <td><input type="number" class="subj-max" value="${escapeHtml(p.maxMarks)}" style="width: 70px; text-align: center;" oninput="updateSubjectEvalPhase(${idx}, 'maxMarks', this.value)"></td>
+      <td><input type="number" class="subj-scored" value="${escapeHtml(p.marksScored)}" style="width: 70px; text-align: center; font-weight: 700;" oninput="updateSubjectEvalPhase(${idx}, 'marksScored', this.value)"></td>
+      <td style="text-align: center; font-weight: 800; color: #4338ca;">${pct}%</td>
+      <td><input type="text" class="subj-rem" value="${escapeHtml(p.remarks || "")}" style="width: 100%;" oninput="updateSubjectEvalPhase(${idx}, 'remarks', this.value)"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  updateTeacherLockUI();
+}
+
+function updateSubjectEvalPhase(idx, field, val) {
+  const sub = getActiveSubjectData();
+  if (!sub || !sub.evalPhases || !sub.evalPhases[idx]) return;
+
+  sub.evalPhases[idx][field] = val;
+  calculateSubjectGrade(sub);
+
+  const gradeBadge = document.getElementById("activeSubjectCalculatedGrade");
+  if (gradeBadge) {
+    gradeBadge.textContent = `Final Grade: ${sub.grade} (${sub.totalScore}%)`;
+  }
+
+  // Update benchmark score for this subject
+  if (currentData.overallPerformance && Array.isArray(currentData.overallPerformance.subjectScores)) {
+    const match = currentData.overallPerformance.subjectScores.find(s => s.id === sub.id || s.name === sub.subject);
+    if (match) {
+      match.score = Math.round(Number(sub.totalScore) || 90);
+    }
+    recalculateOverallAverages();
+  }
+
+  renderSubject1to1Table();
+  renderBuilderPerformanceGraph();
+  renderPreview(currentData);
+  saveToLocalStorage();
+}
+
+function calculateSubjectGrade(subData) {
+  let scoredTotal = 0;
+  let maxTotal = 0;
+
+  (subData.evalPhases || []).forEach(p => {
+    scoredTotal += Number(p.marksScored) || 0;
+    maxTotal += Number(p.maxMarks) || 100;
+  });
+
+  const pct = maxTotal > 0 ? (scoredTotal / maxTotal) * 100 : 90;
+  subData.totalScore = pct.toFixed(1);
+
+  if (pct >= 91) subData.grade = "A1";
+  else if (pct >= 81) subData.grade = "A2";
+  else if (pct >= 71) subData.grade = "B1";
+  else if (pct >= 61) subData.grade = "B2";
+  else if (pct >= 51) subData.grade = "C1";
+  else subData.grade = "C2";
+
+  return subData.grade;
+}
+
+function recalculateOverallAverages() {
+  if (!currentData.overallPerformance) return;
+  const scores = currentData.overallPerformance.subjectScores || [];
+  if (scores.length === 0) return;
+
+  let sum = 0;
+  scores.forEach(s => {
+    sum += Number(s.score) || 85;
+  });
+  const avg = (sum / scores.length).toFixed(1);
+  currentData.overallPerformance.cumulative = avg;
+}
+
+function renderAllSubjectBenchmarkTable() {
+  const tbody = document.getElementById("allSubjectBenchmarkTableBody");
+  if (!tbody) return;
+
+  ensureSubjectPortfoliosData();
+  const scores = currentData.overallPerformance.subjectScores || [];
+
+  tbody.innerHTML = "";
+  scores.forEach((s, idx) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${escapeHtml(s.name)}</strong></td>
+      <td><input type="number" value="${escapeHtml(s.t1 || 90)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 't1', this.value)"></td>
+      <td><input type="number" value="${escapeHtml(s.mid || 92)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'mid', this.value)"></td>
+      <td><input type="number" value="${escapeHtml(s.t2 || 95)}" style="width: 55px; text-align: center;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 't2', this.value)"></td>
+      <td><input type="number" value="${escapeHtml(s.score || 95)}" style="width: 55px; text-align: center; font-weight: 700; color: #4338ca;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'score', this.value)"></td>
+      <td><input type="text" value="${escapeHtml(s.remarks || '')}" placeholder="Evaluation remark" style="width: 100%;" oninput="updateSubjectBenchmarkScore('${s.id || s.name}', 'remarks', this.value)"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  updateTeacherLockUI();
+}
+
+function updateSubjectBenchmarkScore(subId, field, val) {
+  if (!currentData.overallPerformance || !Array.isArray(currentData.overallPerformance.subjectScores)) return;
+  const match = currentData.overallPerformance.subjectScores.find(s => s.id === subId || s.name === subId);
+  if (match) {
+    match[field] = val;
+    recalculateOverallAverages();
+    renderBuilderPerformanceGraph();
+    renderPreview(currentData);
+    saveToLocalStorage();
+  }
+}
+
+function renderBuilderPerformanceGraph() {
+  const container = document.getElementById("builderPerfGraphContainer");
+  if (!container) return;
+
+  ensureSubjectPortfoliosData();
+  const activeSub = getActiveSubjectData();
+  container.innerHTML = generateOverallPerformanceSvg(currentData.overallPerformance, activeSub.subject);
+}
+
+function toggleAllSubjectBenchmarkEditor() {
+  const el = document.getElementById("allSubjectBenchmarkEditor");
+  if (el) {
+    el.style.display = (el.style.display === "none" || !el.style.display) ? "block" : "none";
+  }
+}
+
+function openAddSubjectModal() {
+  const m = document.getElementById("addSubjectModal");
+  if (m) {
+    m.style.display = "flex";
+    const inp = document.getElementById("inputNewSubjectName");
+    if (inp) {
+      inp.value = "";
+      setTimeout(() => inp.focus(), 100);
+    }
+  }
+}
+
+function closeAddSubjectModal() {
+  const m = document.getElementById("addSubjectModal");
+  if (m) m.style.display = "none";
+}
+
+function handleAddSubjectSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+
+  const name = document.getElementById("inputNewSubjectName")?.value.trim();
+  const code = document.getElementById("inputNewSubjectCode")?.value.trim() || "--";
+  const icon = document.getElementById("inputNewSubjectIcon")?.value.trim() || "📚";
+  const teacher = document.getElementById("inputNewSubjectTeacher")?.value.trim() || (currentData.classTeacher || "Class Teacher");
+  const role = document.getElementById("inputNewSubjectTeacherRole")?.value.trim() || "Subject Faculty";
+
+  if (!name) return false;
+
+  ensureSubjectPortfoliosData();
+  const id = name.toLowerCase().replace(/[^a-z0-9]/g, "_") + "_" + Date.now().toString(36).slice(-3);
+
+  const newSubMeta = { id: id, name: name, code: code, icon: icon, teacher: teacher, role: role };
+  currentData.subjectsList.push(newSubMeta);
+
+  currentData.subjectPortfolios[id] = {
+    id: id,
+    subject: name,
+    subjectCode: code,
+    subjectIcon: icon,
+    subjectTeacher: teacher,
+    subjectTeacherRole: role,
+    evalPhases: [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual start" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Active participation" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "95", remarks: "Demonstrated subject clarity" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "20", remarks: "Verified and neat" },
+      { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Practical activities verified" }
+    ],
+    totalScore: "93.0",
+    grade: "A1",
+    teacherRemarks: `Diligent and inquisitive student in ${name}. Shows strong academic potential.`,
+    teacherSignDate: currentData.teacherSignDate || "15 March 2027",
+    favTopic: `${name} Core Studies`,
+    subjectGoal: `Attain distinction in ${name} and master practical assignments.`,
+    subjectReflection: `Expanded knowledge base and gained confidence in answering complex analytical questions.`,
+    proj1Title: `${name} Practical Project`,
+    proj1Did: "Researched and documented comprehensive practical case study.",
+    proj1Learned: "Systematic investigation, data analysis, and documentation.",
+    proj2Title: `${name} Application / Lab Study`,
+    proj2Did: "Executed practical demonstrations and laboratory exercises.",
+    proj2Learned: "Hypothesis testing and structured reporting.",
+    competencies: {
+      conceptClarity: "4.8",
+      problemSolving: "4.8",
+      practicalLabWork: "4.8",
+      portfolioRegularity: "5.0",
+      regularityHomework: "4.9",
+      vivaCommunication: "4.7"
+    },
+    improvementPlan: {
+      area: "Analytical Speed and Exam Timing",
+      plan: "Regular past paper practice under timer",
+      target: "Term 2",
+      progress: "In Progress"
+    }
+  };
+
+  closeAddSubjectModal();
+  switchSubject(id);
+  showSaveToast(`📚 Created individual portfolio for "${name}"!`);
+  return false;
+}
+
+
+// =============================================================
+// GENERATE 1-1 SUBJECT SINGLE-PAGE A4 PORTFOLIO CANVAS HTML
+// Only shows 1-1 subject as per teacher and subject + Child Performance Graph
+// =============================================================
+function generateSinglePageSheetHtml(d, subjectId) {
+  ensureSubjectPortfoliosData();
+  const sub = (d.subjectPortfolios && d.subjectPortfolios[subjectId]) || (d.subjectPortfolios && d.subjectPortfolios["mathematics"]) || getActiveSubjectData();
 
   const school = escapeHtml(d.schoolName || "SHM ACADEMY");
   const motto = escapeHtml(d.schoolMotto || "“Infinite Knowledge Through Education”");
@@ -1115,11 +2024,41 @@ function renderPreview(d) {
   const dob = escapeHtml(d.dob || "--");
   const father = escapeHtml(d.fatherName || "--");
   const mother = escapeHtml(d.motherName || "--");
-  const house = escapeHtml(d.house || "--");
-  const teacher = escapeHtml(d.classTeacher || "Class Teacher");
   const photo = d.photoUrl || "assets/logo.svg";
 
-  sheet.innerHTML = `
+  const subjectName = sub.subject || "Mathematics";
+  const subjectCode = sub.subjectCode || "041";
+  const subjectIcon = sub.subjectIcon || "📚";
+  const subjectTeacher = sub.subjectTeacher || (d.classTeacher || "Class Teacher");
+  const subjectTeacherRole = sub.subjectTeacherRole || "Subject Faculty & Mentor";
+
+  const evalRowsHtml = (sub.evalPhases || []).map(p => {
+    const maxVal = Number(p.maxMarks) || 100;
+    const scoredVal = Number(p.marksScored) || 0;
+    const pct = Math.round((scoredVal / maxVal) * 100);
+    return `
+      <tr>
+        <td><strong>${escapeHtml(p.phase)}</strong></td>
+        <td class="center">${escapeHtml(p.maxMarks)}</td>
+        <td class="center"><strong>${escapeHtml(p.marksScored)}</strong></td>
+        <td class="center">${pct}%</td>
+        <td>${escapeHtml(p.remarks || "Certified")}</td>
+      </tr>
+    `;
+  }).join("");
+
+  const comp = sub.competencies || {
+    conceptClarity: "5.0",
+    problemSolving: "5.0",
+    practicalLabWork: "4.8",
+    portfolioRegularity: "5.0",
+    regularityHomework: "4.9",
+    vivaCommunication: "4.7"
+  };
+
+  const perfSvg = generateOverallPerformanceSvg(d.overallPerformance, subjectName);
+
+  return `
     <!-- 1. Header & Student Meta -->
     <div class="sp-header">
       <div class="sp-brand-header-col">
@@ -1129,9 +2068,10 @@ function renderPreview(d) {
       <div class="sp-school-block">
         <div class="sp-school-title">${school}</div>
         <div class="sp-school-motto">${motto}</div>
-        <div class="sp-doc-title-row">
+        <div class="sp-doc-title-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
           <span class="sp-doc-title-badge">STUDENT PORTFOLIO</span>
-          <span class="sp-doc-session-text">Academic Session: ${session}</span>
+          <span class="sp-doc-subject-banner">${subjectIcon} ${escapeHtml(subjectName.toUpperCase())} <span class="sp-subject-code-tag">CODE: ${escapeHtml(subjectCode)}</span></span>
+          <span class="sp-doc-session-text">Session: ${session}</span>
         </div>
       </div>
       <div class="sp-photo-wrapper">
@@ -1139,32 +2079,28 @@ function renderPreview(d) {
       </div>
     </div>
 
-    <!-- Student Profile Strip -->
+    <!-- Student Profile Strip & Subject Teacher -->
     <div class="sp-profile-meta-grid">
       <div class="sp-meta-item"><strong>Student:</strong> <span>${name}</span></div>
       <div class="sp-meta-item"><strong>Class & Sec:</strong> <span>${cls}</span></div>
       <div class="sp-meta-item"><strong>Roll No:</strong> <span>${roll}</span></div>
       <div class="sp-meta-item"><strong>Adm No:</strong> <span>${adm}</span></div>
       <div class="sp-meta-item"><strong>DOB:</strong> <span>${dob}</span></div>
-      <div class="sp-meta-item"><strong>Father:</strong> <span>${father}</span></div>
-      <div class="sp-meta-item"><strong>Mother:</strong> <span>${mother}</span></div>
-      <div class="sp-meta-item"><strong>House / Mentor:</strong> <span>${house}</span></div>
+      <div class="sp-meta-item"><strong>Parents:</strong> <span>${father} / ${mother}</span></div>
+      <div class="sp-meta-item" style="grid-column: span 2;"><strong>Subject Teacher:</strong> <span class="sp-teacher-badge">👩‍🏫 ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span></div>
     </div>
 
-    <!-- 2. Ribbon: MY YEAR IN ONE PAGE -->
+    <!-- 2. Ribbon: MY SUBJECT PORTFOLIO IN ONE PAGE -->
     <div class="sp-year-ribbon">
       <div class="sp-ribbon-title">
-        <span>⭐ MY YEAR IN ONE PAGE</span>
-        <span style="font-size: 6.2pt; color: #b45309; text-transform: none; font-weight: 600;">Official Annual Portfolio Summary</span>
+        <span>⭐ MY ${escapeHtml(subjectName.toUpperCase())} PORTFOLIO IN ONE PAGE</span>
+        <span style="font-size: 6.2pt; color: #b45309; text-transform: none; font-weight: 700;">Official Individual Subject Record • Evaluated by ${escapeHtml(subjectTeacher)}</span>
       </div>
       <div class="sp-ribbon-grid">
-        <div class="sp-ribbon-pill"><strong>⭐ Achievement:</strong> ${escapeHtml(d.yearAchievement || "Top Honors")}</div>
-        <div class="sp-ribbon-pill"><strong>📚 Fav Subject:</strong> ${escapeHtml(d.yearFavSubject || "Mathematics & IT")}</div>
-        <div class="sp-ribbon-pill"><strong>🎨 Fav Activity:</strong> ${escapeHtml(d.yearFavActivity || "Robotics & Circuits")}</div>
-        <div class="sp-ribbon-pill"><strong>🏆 Award:</strong> ${escapeHtml(d.yearAward || "Olympiad Distinction")}</div>
-        <div class="sp-ribbon-pill"><strong>💡 New Learned:</strong> ${escapeHtml(d.yearNewLearned || "AI Tools & Python")}</div>
-        <div class="sp-ribbon-pill"><strong>❤️ Proud Of:</strong> ${escapeHtml(d.yearProudOf || "Team Demo")}</div>
-        <div class="sp-ribbon-pill" style="grid-column: span 2;"><strong>🚀 Goal Next Year:</strong> ${escapeHtml(d.yearGoalNext || "Excellence in AI & STEM")}</div>
+        <div class="sp-ribbon-pill"><strong>📚 Subject Target:</strong> ${escapeHtml(sub.subjectGoal || "Academic Excellence & Distinction")}</div>
+        <div class="sp-ribbon-pill"><strong>💡 Key Topic:</strong> ${escapeHtml(sub.favTopic || "Core Theorems & Concepts")}</div>
+        <div class="sp-ribbon-pill"><strong>🔬 Practical/Lab:</strong> ${escapeHtml(sub.proj1Title || "Practical Project Completed")}</div>
+        <div class="sp-ribbon-pill"><strong>⭐ Subject Grade:</strong> <strong>${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</strong></div>
       </div>
     </div>
 
@@ -1174,96 +2110,67 @@ function renderPreview(d) {
       <!-- LEFT COLUMN -->
       <div class="sp-col">
         
-        <!-- About Me & Strengths -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>👤 About Me & Strengths</span></div>
-          <div style="font-size: 6.7pt; line-height: 1.25; margin-bottom: 2px;">
-            ${escapeHtml(d.aboutSentence || "Dedicated and curious student at SHM Academy.")}
-          </div>
-          <div style="font-size: 6.4pt; color: #334155; line-height: 1.2;">
-            <strong>Strengths:</strong> 1. ${escapeHtml(d.strength1 || "Problem solving")}; 2. ${escapeHtml(d.strength2 || "Teamwork")}; 3. ${escapeHtml(d.strength3 || "Dedication")}.
-            <br><strong>Focus:</strong> ${escapeHtml(d.improveOne || "Continuous self-improvement")}
-          </div>
-        </div>
-
-        <!-- Goals & Aspirations -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>🎯 Goals & Roadmap</span></div>
-          <div style="font-size: 6.5pt; line-height: 1.2;">
-            <strong>Short-Term:</strong> ${escapeHtml(d.shortGoal || "Achieve 95%+ and excel in STEM competitions.")}
-            <br><strong>Long-Term:</strong> ${escapeHtml(d.longGoal || "Pursue Computer Science & Technology Innovation.")}
-          </div>
-        </div>
-
-        <!-- 360 Skills Matrix -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>⚡ Core Competency Matrix (Rate 1-5)</span></div>
-          <div class="sp-skills-grid">
-            <div class="sp-skill-badge"><span>Communication</span><span class="score">${(d.skills && d.skills.communication) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Reading</span><span class="score">${(d.skills && d.skills.reading) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Writing</span><span class="score">${(d.skills && d.skills.writing) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Creativity</span><span class="score">${(d.skills && d.skills.creativity) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Problem Solving</span><span class="score">${(d.skills && d.skills.problemSolving) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Teamwork</span><span class="score">${(d.skills && d.skills.teamwork) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Leadership</span><span class="score">${(d.skills && d.skills.leadership) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Time Mgmt</span><span class="score">${(d.skills && d.skills.timeManagement) || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Digital Skills</span><span class="score">${(d.skills && d.skills.digitalSkills) || "5.0"}/5</span></div>
-          </div>
-        </div>
-
-        <!-- Academic Progress Table -->
+        <!-- 1-1 Subject Academic Progress Table -->
         <div class="sp-card">
           <div class="sp-card-title">
-            <span>📊 Academic Progress</span>
-            <span style="font-size: 6pt; color: #4338ca; text-transform: none;">${escapeHtml(d.academicAchievement || "Academic Honors")}</span>
+            <span>📊 1-1 Subject Evaluation: ${escapeHtml(subjectName)}</span>
+            <span style="font-size: 6pt; color: #16a34a; font-weight: 800;">Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</span>
           </div>
           <table class="sp-table">
             <thead>
               <tr>
-                <th>Subject</th>
-                <th class="center" style="width: 28px;">T1</th>
-                <th class="center" style="width: 28px;">Mid</th>
-                <th class="center" style="width: 28px;">T2</th>
-                <th>Remarks</th>
+                <th>Evaluation Phase</th>
+                <th class="center" style="width: 28px;">Max</th>
+                <th class="center" style="width: 28px;">Scored</th>
+                <th class="center" style="width: 32px;">Score %</th>
+                <th>Teacher Remark / Verification</th>
               </tr>
             </thead>
             <tbody>
-              ${(d.academics || []).slice(0, 7).map(a => `
-                <tr>
-                  <td><strong>${escapeHtml(a.subject)}</strong></td>
-                  <td class="center">${escapeHtml(a.t1)}</td>
-                  <td class="center">${escapeHtml(a.mid)}</td>
-                  <td class="center">${escapeHtml(a.t2)}</td>
-                  <td>${escapeHtml(a.remarks)}</td>
-                </tr>
-              `).join("")}
+              ${evalRowsHtml}
             </tbody>
           </table>
+          <div style="font-size: 6.2pt; color: #334155; margin-top: 2px; padding: 1.5px 3px; background: #f8fafc; border-radius: 3px; display: flex; justify-content: space-between;">
+            <span><strong>Final Subject Score:</strong> ${escapeHtml(sub.totalScore || "98")}% (Grade ${escapeHtml(sub.grade || "A1")})</span>
+            <span><strong>Certified By:</strong> ${escapeHtml(subjectTeacher)}</span>
+          </div>
         </div>
 
-        <!-- Improvement Plan -->
+        <!-- Child Overall Performance Graph -->
+        <div class="sp-card sp-perf-graph-card">
+          <div class="sp-card-title">
+            <span>📈 Child Overall Academic Performance Graph</span>
+            <span style="font-size: 5.8pt; color: #4338ca; font-weight: 700;">Trajectory & Benchmark</span>
+          </div>
+          <div class="sp-perf-graph-wrapper">
+            ${perfSvg}
+          </div>
+        </div>
+
+        <!-- Subject Core Competency Matrix -->
         <div class="sp-card">
-          <div class="sp-card-title"><span>🌱 Personal Improvement Plan</span></div>
-          <table class="sp-table">
-            <thead>
-              <tr>
-                <th>Area to Improve</th>
-                <th>Action Plan</th>
-                <th class="center" style="width: 45px;">Target</th>
-                <th class="center" style="width: 45px;">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${(d.improvementPlans || []).slice(0, 2).map(p => `
-                <tr>
-                  <td>${escapeHtml(p.area)}</td>
-                  <td>${escapeHtml(p.plan)}</td>
-                  <td class="center">${escapeHtml(p.target)}</td>
-                  <td class="center"><strong>${escapeHtml(p.progress)}</strong></td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
+          <div class="sp-card-title"><span>⚡ ${escapeHtml(subjectName)} Competency Matrix (Rate 1–5)</span></div>
+          <div class="sp-skills-grid">
+            <div class="sp-skill-badge"><span>Concept Clarity</span><span class="score">${comp.conceptClarity || "5.0"}/5</span></div>
+            <div class="sp-skill-badge"><span>Problem Solving</span><span class="score">${comp.problemSolving || "5.0"}/5</span></div>
+            <div class="sp-skill-badge"><span>Practical/Lab</span><span class="score">${comp.practicalLabWork || "4.8"}/5</span></div>
+            <div class="sp-skill-badge"><span>Portfolio Sub</span><span class="score">${comp.portfolioRegularity || "5.0"}/5</span></div>
+            <div class="sp-skill-badge"><span>Class Regularity</span><span class="score">${comp.regularityHomework || "4.9"}/5</span></div>
+            <div class="sp-skill-badge"><span>Viva/Oral</span><span class="score">${comp.vivaCommunication || "4.7"}/5</span></div>
+          </div>
+        </div>
+
+        <!-- Subject Improvement Roadmap -->
+        <div class="sp-card">
+          <div class="sp-card-title"><span>🌱 ${escapeHtml(subjectName)} Target & Action Plan</span></div>
+          <div style="font-size: 6.3pt; line-height: 1.25;">
+            <strong>Focus Area:</strong> ${escapeHtml(sub.improvementPlan?.area || "Advanced problem speed and proofs")}<br>
+            <strong>Action Plan:</strong> ${escapeHtml(sub.improvementPlan?.plan || "Daily exemplar practice under timer")}<br>
+            <div style="display: flex; justify-content: space-between; margin-top: 1px;">
+              <span><strong>Target:</strong> ${escapeHtml(sub.improvementPlan?.target || "Term 2")}</span>
+              <span><strong>Status:</strong> <strong style="color: #16a34a;">${escapeHtml(sub.improvementPlan?.progress || "In Progress")}</strong></span>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -1271,89 +2178,55 @@ function renderPreview(d) {
       <!-- RIGHT COLUMN -->
       <div class="sp-col">
         
-        <!-- Projects & Deliverables -->
+        <!-- Subject Projects & Practical Work -->
         <div class="sp-card">
-          <div class="sp-card-title"><span>💡 Projects & Creative Work</span></div>
-          <div style="font-size: 6.5pt; line-height: 1.25; margin-bottom: 3px;">
-            <strong>1. ${escapeHtml(d.proj1Title || "Project 1")}:</strong>
-            ${escapeHtml(d.proj1Did || "")}. <em>Learned:</em> ${escapeHtml(d.proj1Learned || "")}
+          <div class="sp-card-title"><span>💡 ${escapeHtml(subjectName)} Projects & Practical Work</span></div>
+          <div style="font-size: 6.5pt; line-height: 1.25; margin-bottom: 2.5px;">
+            <strong>1. ${escapeHtml(sub.proj1Title || "Subject Practical Project 1")}:</strong>
+            ${escapeHtml(sub.proj1Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj1Learned || "")}
           </div>
           <div style="font-size: 6.5pt; line-height: 1.25;">
-            <strong>2. ${escapeHtml(d.proj2Title || "Project 2")}:</strong>
-            ${escapeHtml(d.proj2Did || "")}. <em>Learned:</em> ${escapeHtml(d.proj2Learned || "")}
+            <strong>2. ${escapeHtml(sub.proj2Title || "Lab Experiment / Project 2")}:</strong>
+            ${escapeHtml(sub.proj2Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj2Learned || "")}
           </div>
         </div>
 
-        <!-- Co-Curricular & Achievements -->
+        <!-- Subject Achievements & Honors -->
         <div class="sp-card">
-          <div class="sp-card-title"><span>🏆 Achievements & Co-Curricular</span></div>
-          <table class="sp-table">
-            <thead>
-              <tr>
-                <th>Event / Achievement</th>
-                <th style="width: 45px;">Date</th>
-                <th>Role / Award</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${(d.achievements || []).slice(0, 2).map(ach => `
-                <tr>
-                  <td><strong>${escapeHtml(ach.title)}</strong> (${escapeHtml(ach.event)})</td>
-                  <td>${escapeHtml(ach.date)}</td>
-                  <td>${escapeHtml(ach.award)}</td>
-                </tr>
-              `).join("")}
-              ${(d.activities || []).slice(0, 2).map(act => `
-                <tr>
-                  <td>${escapeHtml(act.event)}</td>
-                  <td>${escapeHtml(act.date)}</td>
-                  <td>${escapeHtml(act.remarks)}</td>
-                </tr>
-              `).join("")}
-            </tbody>
-          </table>
+          <div class="sp-card-title"><span>🏆 ${escapeHtml(subjectName)} Honors & Achievements</span></div>
+          <div style="font-size: 6.4pt; line-height: 1.25;">
+            <strong>Olympiad / Competition:</strong> ${escapeHtml(d.achievements && d.achievements[0] ? d.achievements[0].title : "Subject Olympiad Distinction")}<br>
+            <strong>Award / Distinction:</strong> ${escapeHtml(d.academicAchievement || "Ranked 1st in Annual Honors & STEM Distinction")}
+          </div>
         </div>
 
-        <!-- School Participation & Reflection -->
+        <!-- Student Subject Self-Reflection -->
         <div class="sp-card">
-          <div class="sp-card-title"><span>🏫 Participation & Reflection</span></div>
-          <div class="sp-mini-check-list" style="margin-bottom: 2px;">
-            <span>☑ Sports & Athletics</span>
-            <span>☑ Cultural & Arts</span>
-            <span>☑ Debate & Speech</span>
-            <span>☑ Science & Maths</span>
-            <span>☑ Quiz & Olympiads</span>
-            <span>☑ School Assembly</span>
-          </div>
-          <div style="font-size: 6.3pt; line-height: 1.2; color: #334155; margin-top: 1.5px;">
-            <strong>Memorable:</strong> ${escapeHtml(d.memorableActivity || "Demonstrating project at exhibition")}<br>
-            <strong>Key Learning:</strong> ${escapeHtml(d.refLearn || "Advanced technology logic & team collaboration")}
+          <div class="sp-card-title"><span>✍️ Student Reflection on ${escapeHtml(subjectName)}</span></div>
+          <div style="font-size: 6.3pt; line-height: 1.25; color: #334155;">
+            <strong>Learning:</strong> ${escapeHtml(sub.subjectReflection || "Mastered curriculum concepts and applied logical principles.")}<br>
+            <strong>Challenge Overcome:</strong> ${escapeHtml(d.refChallenge || "Balanced examination revision alongside practical project work.")}
           </div>
         </div>
 
-        <!-- Teacher's Assessment -->
+        <!-- Subject Teacher's Assessment -->
         <div class="sp-card">
           <div class="sp-card-title">
-            <span>👩‍🏫 Teacher’s Assessment</span>
-            <span style="font-size: 6pt; color: ${d.reviewStatus === 'approved' ? '#16a34a' : (d.reviewStatus === 'pending' ? '#d97706' : '#16a34a')}; font-weight: 700;">${d.reviewStatus === 'approved' ? '✔ Verified & Approved' : (d.reviewStatus === 'pending' ? '⌛ Under Review' : 'Exemplary Rating')}</span>
+            <span>👩‍🏫 Subject Teacher's Assessment (${escapeHtml(subjectName)})</span>
+            <span style="font-size: 6pt; color: #16a34a; font-weight: 800;">Official Certified ✓</span>
           </div>
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px 3px; font-size: 6.2pt; background: #f8fafc; padding: 2px 4px; border-radius: 3px; margin-bottom: 2px;">
-            <div>Acad: <strong>${(d.teacherRatings && d.teacherRatings.academic) || "Excellent"}</strong></div>
-            <div>Discipline: <strong>${(d.teacherRatings && d.teacherRatings.discipline) || "Excellent"}</strong></div>
-            <div>Regularity: <strong>${(d.teacherRatings && d.teacherRatings.regularity) || "Excellent"}</strong></div>
-            <div>Teamwork: <strong>${(d.teacherRatings && d.teacherRatings.teamwork) || "Excellent"}</strong></div>
+            <div>Concept: <strong>Excellent</strong></div>
+            <div>Practical: <strong>Excellent</strong></div>
+            <div>Regularity: <strong>Excellent</strong></div>
+            <div>Portfolio: <strong>Excellent</strong></div>
           </div>
-          <div style="font-size: 6.4pt; font-style: italic; color: #1e293b; line-height: 1.2;">
-            “${escapeHtml(d.teacherRemarks || "Demonstrates remarkable growth and innovative spirit.")}”
+          <div style="font-size: 6.4pt; font-style: italic; color: #1e293b; line-height: 1.2; margin-bottom: 2px;">
+            “${escapeHtml(sub.teacherRemarks || "Demonstrates remarkable conceptual clarity, diligence, and intellectual curiosity.")}”
           </div>
-        </div>
-
-        <!-- Parent's Feedback -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>👨‍👩‍👦 Parent’s Feedback</span></div>
-          <div style="font-size: 6.4pt; line-height: 1.2; color: #334155;">
-            <strong>Strengths:</strong> ${escapeHtml(d.parentStrengths || "Curious, disciplined, and hard working")}.<br>
-            <strong>Suggestions:</strong> ${escapeHtml(d.parentSuggestions || "Encourage further competitive participation")}.
+          <div style="font-size: 6.2pt; color: #475569; display: flex; justify-content: space-between;">
+            <span><strong>Evaluator:</strong> ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span>
+            <span><strong>Date:</strong> ${escapeHtml(sub.teacherSignDate || "15 March 2027")}</span>
           </div>
         </div>
 
@@ -1364,7 +2237,7 @@ function renderPreview(d) {
     <!-- 4. Bottom Signatures Strip -->
     <div class="sp-footer">
       <div class="sp-declaration-quote">
-        “I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”
+        “I have completed this ${escapeHtml(subjectName)} portfolio with sincere effort, recording all practical activities, lab evidence, and learning reflections.”
       </div>
       <div class="sp-signatures-grid">
         <div class="sp-sig-col">
@@ -1374,25 +2247,32 @@ function renderPreview(d) {
         </div>
         <div class="sp-sig-col">
           <div class="sp-sig-line"></div>
-          <strong>${teacher}</strong>
-          <p>Class Teacher • ${escapeHtml(d.teacherSignDate || "2027")}</p>
+          <strong>${escapeHtml(subjectTeacher)}</strong>
+          <p>Subject Teacher (${escapeHtml(subjectName)}) • ${escapeHtml(sub.teacherSignDate || "2027")}</p>
         </div>
         <div class="sp-sig-col">
           <div class="sp-sig-line"></div>
           <strong>Principal / Seal</strong>
-          <p>${school} • Verified Record</p>
+          <p>${school} • Verified Academic Record</p>
         </div>
       </div>
       <div class="sp-watermark-strip">
         <img src="assets/logo.svg" alt="TechLearners" class="sp-footer-logo">
-        <span>Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform • Verified Academic Record</span>
+        <span>Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform • Individual Subject Portfolio Engine</span>
       </div>
     </div>
   `;
+}
+
+function renderPreview(d) {
+  const sheet = document.getElementById("singlePageSheet");
+  if (!sheet) return;
+  ensureSubjectPortfoliosData();
+  const activeSubId = d.selectedSubjectId || (d.subjectsList && d.subjectsList[0] ? d.subjectsList[0].id : "mathematics");
+  sheet.innerHTML = generateSinglePageSheetHtml(d, activeSubId);
   requestAnimationFrame(applySheetScale);
 }
 
-// Print Single Page Function
 function printSinglePage() {
   readFormToData();
   renderPreview(currentData);
@@ -1400,12 +2280,13 @@ function printSinglePage() {
   // Automatically add & sync student to the database for teacher/admin review
   if (currentData.studentName && currentData.studentName.trim()) {
     try {
+      const activeSub = getActiveSubjectData();
       syncStudentToDatabase({
         source: "print",
         forceReviewSubmit: true,
-        studentNote: "Student generated single-page printable portfolio (A4). Auto-submitted for teacher evaluation."
+        studentNote: `Student printed individual subject portfolio for ${activeSub.subject} (Code: ${activeSub.subjectCode}). Submitted for teacher evaluation.`
       });
-      showSaveToast(`📄 Profile for "${currentData.studentName}" automatically recorded in database for teacher review!`);
+      showSaveToast(`📄 ${activeSub.subject} Portfolio for "${currentData.studentName}" submitted for teacher review!`);
     } catch (err) {
       console.warn("Auto-sync on print:", err);
     }
@@ -1414,7 +2295,66 @@ function printSinglePage() {
   window.print();
 }
 
-// Window print event listeners for clean centered printing and smooth screen restoration
+function printAllSubjectPortfolios() {
+  readFormToData();
+  saveToLocalStorage();
+
+  ensureSubjectPortfoliosData();
+  const subjects = currentData.subjectsList || DEFAULT_SUBJECTS;
+  const originalSubjectId = currentData.selectedSubjectId;
+
+  // Render all subject sheets in printable multi-page wrapper
+  let multiHtml = "";
+  subjects.forEach(s => {
+    multiHtml += `
+      <div class="multi-subject-print-page" style="page-break-after: always; break-after: page;">
+        <div class="single-page-sheet-print" style="width: 194mm; height: 281mm; max-height: 281mm; margin: 0 auto; padding: 5mm 6mm; border: 1.5px solid #000000; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; background: #ffffff;">
+          ${generateSinglePageSheetHtml(currentData, s.id)}
+        </div>
+      </div>
+    `;
+  });
+
+  const printDiv = document.createElement("div");
+  printDiv.id = "allSubjectsPrintWrapper";
+  printDiv.innerHTML = multiHtml;
+  document.body.appendChild(printDiv);
+
+  const styleEl = document.createElement("style");
+  styleEl.id = "allSubjectsPrintStyle";
+  styleEl.innerHTML = `
+    @media print {
+      #builderLayout, .navbar, .footer, .builder-topbar, .mobile-preview-fab {
+        display: none !important;
+      }
+      #allSubjectsPrintWrapper {
+        display: block !important;
+      }
+      .multi-subject-print-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        height: 281mm !important;
+        max-height: 281mm !important;
+        overflow: hidden !important;
+      }
+    }
+  `;
+  document.head.appendChild(styleEl);
+
+  const prevTitle = document.title;
+  document.title = `${currentData.studentName || "Student"} - All Subject Portfolios (A4 Print)`;
+
+  window.print();
+
+  setTimeout(() => {
+    document.title = prevTitle;
+    if (printDiv.parentNode) printDiv.parentNode.removeChild(printDiv);
+    if (styleEl.parentNode) styleEl.parentNode.removeChild(styleEl);
+    switchSubject(originalSubjectId);
+  }, 1000);
+}
+
+
 window.addEventListener("beforeprint", function() {
   const scaler = document.getElementById("sheetScaler");
   if (scaler) {
@@ -1738,11 +2678,13 @@ function openSaveAndSendModal() {
   if (sessionEl) sessionEl.textContent = currentData.academicSession || "2026–2027";
 
   const sub = getActiveSubmission();
+  const activeSub = (typeof getActiveSubjectData === "function") ? getActiveSubjectData() : null;
   if (teacherInput) {
-    teacherInput.value = (sub && sub.targetTeacher) || currentData.classTeacher || "";
+    teacherInput.value = (activeSub && activeSub.subjectTeacher) || (sub && sub.targetTeacher) || currentData.classTeacher || "";
   }
   if (noteInput) {
-    noteInput.value = (sub && sub.studentNote) || currentData.studentReviewNote || "";
+    teacherInput.title = activeSub ? `Subject Teacher for ${activeSub.subject}` : "Class Teacher";
+    noteInput.value = (sub && sub.studentNote) || (activeSub ? `Dear Teacher, please review my individual subject portfolio for ${activeSub.subject} (Code: ${activeSub.subjectCode}) and verify my marks and practical work.` : "") || currentData.studentReviewNote || "";
   }
   if (feedback) feedback.textContent = "";
 
@@ -2281,5 +3223,17 @@ window.updateReviewStatusUI = updateReviewStatusUI;
 window.syncStudentToDatabase = syncStudentToDatabase;
 window.saveProfileToDatabase = saveProfileToDatabase;
 window.showSaveToast = showSaveToast;
+
+// Subject Portfolio & Performance Graph hooks
+window.switchSubject = switchSubject;
+window.updateActiveSubjectField = updateActiveSubjectField;
+window.updateSubjectEvalPhase = updateSubjectEvalPhase;
+window.updateSubjectBenchmarkScore = updateSubjectBenchmarkScore;
+window.toggleAllSubjectBenchmarkEditor = toggleAllSubjectBenchmarkEditor;
+window.openAddSubjectModal = openAddSubjectModal;
+window.closeAddSubjectModal = closeAddSubjectModal;
+window.handleAddSubjectSubmit = handleAddSubjectSubmit;
+window.printAllSubjectPortfolios = printAllSubjectPortfolios;
+window.generateOverallPerformanceSvg = generateOverallPerformanceSvg;
 
 
