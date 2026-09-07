@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
           <span class="badge badge-success" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Final Grade: ${sub.grade} (${sub.totalScore}%)</span>
-          <a href="builder.html" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700; white-space: nowrap;">
+          <a href="builder.html?subject=${sub.id}&print=true" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700; white-space: nowrap;">
             🖨️ Print 1-Page ${sub.subject} Portfolio
           </a>
         </div>

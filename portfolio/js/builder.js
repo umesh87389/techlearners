@@ -641,29 +641,38 @@ let currentZoom = "fit";
 
 const STEP_META = [
   { id: "paneProfile", name: "1. School Information & Student Profile", short: "1. Profile" },
-  { id: "paneAbout", name: "2. About Me & Self Reflection", short: "2. About" },
-  { id: "paneGoals", name: "3. My Goals & Focus", short: "3. Goals" },
-  { id: "paneAcademics", name: "4. Academic Progress & Marks", short: "4. Academics" },
-  { id: "paneSkills", name: "5. My Skills & Competencies (1–5)", short: "5. Skills" },
-  { id: "paneActivities", name: "6. Co-Curricular Activities & Awards", short: "6. Activities" },
-  { id: "paneProjects", name: "7. Projects & School Participation", short: "7. Projects" },
-  { id: "paneReflection", name: "8. Reflection & Best Work Evidence", short: "8. Reflection" },
-  { id: "paneAssessment", name: "9. Teacher's Assessment & Parent Feedback", short: "9. Assessment" },
-  { id: "paneYear", name: "10. My Year in One Page (Highlights)", short: "10. Highlights" }
+  { id: "paneAllSubjects", name: "2. All Subjects Evaluation & Projects (One Form)", short: "2. All Subjects" },
+  { id: "paneSkillsActivities", name: "3. Skills, Co-Curriculars & Goals", short: "3. Skills & Goals" },
+  { id: "paneAssessmentSignatures", name: "4. Remarks, Signatures & Print", short: "4. Remarks & Print" }
 ];
 
 // Initialize application
 document.addEventListener("DOMContentLoaded", function() {
   loadSavedData();
   ensureSubjectPortfoliosData();
-  renderSubjectSwitcher();
-  populateActiveSubjectForm();
+  syncPrintSubjectDropdowns();
+  renderSubjectQuickJumpChips();
+  renderAllSubjectsForm();
+  renderBuilderPerformanceGraph();
   bindTabNavigation();
   bindFormInputs();
   renderPreview(currentData);
   initTeacherMode();
   initReviewStatus();
   goToStep(0);
+
+  // Check URL params for subject or print trigger
+  const urlParams = new URLSearchParams(window.location.search);
+  const subParam = urlParams.get("subject");
+  if (subParam) {
+    switchPrintSubject(subParam);
+  }
+  if (urlParams.get("mode") === "preview") {
+    setViewMode("preview");
+  }
+  if (urlParams.get("print") === "true") {
+    setTimeout(() => printSinglePage(), 500);
+  }
 
   // Responsive default: Desktop widescreen >= 1200 gets split view; smaller screens get form focus
   if (window.innerWidth >= 1200) {
@@ -713,28 +722,9 @@ function updateTeacherLockUI() {
   const statusLabel = document.getElementById("teacherStatusLabel");
   const authTrigger = document.getElementById("btnTeacherAuthTrigger");
 
-  const academicsBanner = document.getElementById("bannerAcademicsLock");
-  const skillsBanner = document.getElementById("bannerSkillsLock");
-  const assessmentBanner = document.getElementById("bannerAssessmentLock");
-
-  const tagAcademics = document.getElementById("tagAcademicsLock");
-  const tagSkills = document.getElementById("tagSkillsLock");
-  const tagAssessment = document.getElementById("tagAssessmentLock");
-
-  // Inputs list for Academics
-  const academicsInputs = document.querySelectorAll("#academicsInputBody input, #subject1to1TableBody input, #allSubjectBenchmarkTableBody input, #f_activeSubjectTeacher, #f_activeSubjectTeacherRole, #f_activeSubjectCode, #f_activeSubjectTeacherRemarks, #f_academicAchievement");
-  
-  // Inputs list for Skills
-  const skillsInputs = document.querySelectorAll("#paneSkills input");
-
-  // Inputs list for Teacher Assessment
-  const assessmentInputs = document.querySelectorAll("#f_tr_academic, #f_tr_discipline, #f_tr_regularity, #f_tr_teamwork, #f_teacherRemarks, #f_teacherSignDate, #improvementInputRows input");
-  const addPlanBtn = document.querySelector('button[onclick="addPlanRow()"]');
-
   const verifiedRole = sessionStorage.getItem("portfolio_teacher_role") || "Teacher Mode";
 
   if (isTeacherMode) {
-    // UNLOCKED: Teacher Mode Active
     if (statusPill) {
       statusPill.className = "teacher-status-pill teacher-mode";
       if (statusLabel) statusLabel.textContent = `👩‍🏫 ${verifiedRole} Active`;
@@ -743,113 +733,23 @@ function updateTeacherLockUI() {
         authTrigger.onclick = lockTeacherMode;
       }
     }
-
-    [academicsBanner, skillsBanner, assessmentBanner].forEach(function(b) {
-      if (b) {
-        b.classList.add("unlocked");
-        const strong = b.querySelector(".lock-banner-text strong");
-        const p = b.querySelector(".lock-banner-text p");
-        const btn = b.querySelector(".teacher-mode-btn");
-        const icon = b.querySelector(".lock-banner-icon");
-        if (icon) icon.textContent = "🔓";
-        if (strong) strong.textContent = `${verifiedRole} • Editing Enabled`;
-        if (p) p.textContent = `You are authenticated as ${verifiedRole}. Official student marks, skills matrix, and teacher assessment rubrics are unlocked for editing.`;
-        if (btn) {
-          btn.textContent = "🔒 Switch to Student Mode";
-          btn.onclick = lockTeacherMode;
-        }
-      }
-    });
-
-    [tagAcademics, tagSkills, tagAssessment].forEach(function(t) {
-      if (t) t.textContent = "🔓";
-    });
-
-    // Enable inputs
-    academicsInputs.forEach(function(el) {
-      el.disabled = false;
-      el.removeAttribute("readonly");
-      el.classList.remove("field-locked");
-      el.removeAttribute("title");
-    });
-    skillsInputs.forEach(function(el) {
-      el.disabled = false;
-      el.removeAttribute("readonly");
-      el.classList.remove("field-locked");
-      el.removeAttribute("title");
-    });
-    assessmentInputs.forEach(function(el) {
-      el.disabled = false;
-      el.removeAttribute("readonly");
-      el.classList.remove("field-locked");
-      el.removeAttribute("title");
-    });
-    if (addPlanBtn) {
-      addPlanBtn.style.display = "inline-flex";
-    }
   } else {
-    // LOCKED: Student & Regular User Mode (Default)
     if (statusPill) {
       statusPill.className = "teacher-status-pill student-mode";
-      if (statusLabel) statusLabel.textContent = "Student Mode (Academics & Skills Locked)";
+      if (statusLabel) statusLabel.textContent = "Student Mode";
       if (authTrigger) {
         authTrigger.textContent = "🔑 Teacher Unlock";
         authTrigger.onclick = openTeacherAuthModal;
       }
     }
-
-    [academicsBanner, skillsBanner, assessmentBanner].forEach(function(b) {
-      if (b) {
-        b.classList.remove("unlocked");
-        const strong = b.querySelector(".lock-banner-text strong");
-        const p = b.querySelector(".lock-banner-text p");
-        const btn = b.querySelector(".teacher-mode-btn");
-        const icon = b.querySelector(".lock-banner-icon");
-        if (icon) icon.textContent = "🔒";
-        if (strong) {
-          if (b.id === "bannerAcademicsLock") strong.textContent = "Official Teacher-Only Section • Academic Marks & Grades";
-          else if (b.id === "bannerSkillsLock") strong.textContent = "Official Teacher-Only Section • 360° Skills Matrix";
-          else strong.textContent = "Official Teacher-Only Section • Evaluation & Assessment Rubrics";
-        }
-        if (p) {
-          if (b.id === "bannerAcademicsLock") p.textContent = "Subject marks and academic honors are officially evaluated by the Class Teacher. Students and unauthorized users cannot edit these entries.";
-          else if (b.id === "bannerSkillsLock") p.textContent = "Core skill competency ratings (1.0 to 5.0) are certified by the Class Teacher. Students are not permitted to change these scores.";
-          else p.textContent = "Conduct rubrics, teacher remarks, and improvement plans are certified by the Class Teacher. Unauthorized student edits are prohibited.";
-        }
-        if (btn) {
-          btn.textContent = "🔑 Teacher Unlock";
-          btn.onclick = openTeacherAuthModal;
-        }
-      }
-    });
-
-    [tagAcademics, tagSkills, tagAssessment].forEach(function(t) {
-      if (t) t.textContent = "🔒";
-    });
-
-    // Lock and disable inputs
-    academicsInputs.forEach(function(el) {
-      el.disabled = true;
-      el.setAttribute("readonly", "true");
-      el.classList.add("field-locked");
-      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
-    });
-    skillsInputs.forEach(function(el) {
-      el.disabled = true;
-      el.setAttribute("readonly", "true");
-      el.classList.add("field-locked");
-      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
-    });
-    assessmentInputs.forEach(function(el) {
-      el.disabled = true;
-      el.setAttribute("readonly", "true");
-      el.classList.add("field-locked");
-      el.title = "🔒 Filled by Class Teacher only. Students cannot edit.";
-    });
-    if (addPlanBtn) {
-      addPlanBtn.style.display = "none";
-    }
   }
+
+  // Ensure all student input fields remain enabled and accessible
+  document.querySelectorAll("#allSubjectsContainer input, #allSubjectsContainer textarea, #paneSkillsActivities input, #paneAssessmentSignatures input, #paneAssessmentSignatures select, #paneAssessmentSignatures textarea").forEach(function(el) {
+    el.disabled = false;
+    el.removeAttribute("readonly");
+    el.classList.remove("field-locked");
+  });
 
   if (typeof updateReviewStatusUI === "function") {
     updateReviewStatusUI();
@@ -953,6 +853,7 @@ function loadSavedData() {
     const urlParams = new URLSearchParams(window.location.search);
     const studentId = urlParams.get("id");
     const reviewId = urlParams.get("reviewId");
+    const subjectParam = urlParams.get("subject");
 
     if (studentId && window.DataStore) {
       const dbStudent = window.DataStore.getStudentById(studentId);
@@ -976,6 +877,7 @@ function loadSavedData() {
             reviewStatus: dbStudent.reviewStatus || "pending"
           });
         }
+        if (subjectParam) currentData.selectedSubjectId = subjectParam;
         return;
       }
     }
@@ -984,6 +886,7 @@ function loadSavedData() {
       const sub = window.PortfolioReviewStore.getById(reviewId);
       if (sub && sub.portfolioData) {
         currentData = Object.assign({}, SAMPLE_SHM_STUDENT, sub.portfolioData);
+        if (subjectParam) currentData.selectedSubjectId = subjectParam;
         return;
       }
     }
@@ -991,6 +894,9 @@ function loadSavedData() {
     const saved = localStorage.getItem("tl_shm_portfolio_data");
     if (saved) {
       currentData = JSON.parse(saved);
+    }
+    if (subjectParam) {
+      currentData.selectedSubjectId = subjectParam;
     }
   } catch(e) {
     console.warn("LocalStorage load failed:", e);
@@ -1055,7 +961,7 @@ function goToStep(stepIndex) {
   const progFill = document.getElementById("stepProgressFill");
   const pct = Math.round(((stepIndex + 1) / STEP_META.length) * 100);
 
-  if (progText) progText.textContent = `Step ${stepIndex + 1} of 10 • ${meta.name}`;
+  if (progText) progText.textContent = `Step ${stepIndex + 1} of ${STEP_META.length} • ${meta.name}`;
   if (progPercent) progPercent.textContent = `${pct}% Complete`;
   if (progFill) progFill.style.width = `${pct}%`;
 
@@ -1337,12 +1243,12 @@ function syncDataToForm(d) {
   }
 
   ensureSubjectPortfoliosData();
-  renderSubjectSwitcher();
-  populateActiveSubjectForm();
-  renderAcademicsTable();
+  syncPrintSubjectDropdowns();
+  renderSubjectQuickJumpChips();
+  renderAllSubjectsForm();
   renderActivitiesInputs();
   renderAchievementsInputs();
-  renderImprovementInputs();
+  renderBuilderPerformanceGraph();
 }
 
 function setVal(id, val) {
@@ -1417,47 +1323,21 @@ function readFormToData() {
   currentData.memorableActivity = getVal("f_memorableActivity");
   currentData.bestWorkNote = getVal("f_bestWorkNote");
 
-  // =========================================================
-  // TEACHER-ONLY FIELDS PROTECTION:
-  // If not in teacher mode, DO NOT read or overwrite:
-  // - Academics table and academic achievement
-  // - Skills matrix ratings
-  // - Teacher ratings, teacher remarks, teacher sign date
-  // =========================================================
-  if (isTeacherMode) {
-    currentData.academicAchievement = getVal("f_academicAchievement");
-    currentData.teacherRemarks = getVal("f_teacherRemarks");
-    currentData.teacherSignDate = getVal("f_teacherSignDate");
+  currentData.academicAchievement = getVal("f_academicAchievement");
 
-    // Read Teacher Ratings
-    const trKeys = ["academic", "discipline", "regularity", "communication", "participation", "teamwork", "leadership", "creativity"];
-    currentData.teacherRatings = currentData.teacherRatings || {};
-    trKeys.forEach(k => {
-      currentData.teacherRatings[k] = getVal("f_tr_" + k, "Excellent");
-    });
+  // Read Teacher Ratings
+  const trKeys = ["academic", "discipline", "regularity", "communication", "participation", "teamwork", "leadership", "creativity"];
+  currentData.teacherRatings = currentData.teacherRatings || {};
+  trKeys.forEach(k => {
+    currentData.teacherRatings[k] = getVal("f_tr_" + k, "Excellent");
+  });
 
-    // Read skills
-    const skillKeys = ["communication", "reading", "writing", "creativity", "problemSolving", "teamwork", "leadership", "timeManagement", "digitalSkills"];
-    currentData.skills = currentData.skills || {};
-    skillKeys.forEach(k => {
-      currentData.skills[k] = getVal("f_skill_" + k, "5.0");
-    });
-
-    // Read Academics Table
-    const rows = document.querySelectorAll("#academicsInputBody tr");
-    const newAcademics = [];
-    rows.forEach(tr => {
-      const subj = tr.querySelector(".subj-name")?.value.trim();
-      const t1 = tr.querySelector(".subj-t1")?.value.trim();
-      const mid = tr.querySelector(".subj-mid")?.value.trim();
-      const t2 = tr.querySelector(".subj-t2")?.value.trim();
-      const rem = tr.querySelector(".subj-rem")?.value.trim();
-      if (subj) {
-        newAcademics.push({ subject: subj, t1: t1, mid: mid, t2: t2, remarks: rem });
-      }
-    });
-    if (newAcademics.length > 0) currentData.academics = newAcademics;
-  }
+  // Read skills
+  const skillKeys = ["communication", "reading", "writing", "creativity", "problemSolving", "teamwork", "leadership", "timeManagement", "digitalSkills"];
+  currentData.skills = currentData.skills || {};
+  skillKeys.forEach(k => {
+    currentData.skills[k] = getVal("f_skill_" + k, "5.0");
+  });
 }
 
 // Render Academics inputs
@@ -1642,86 +1522,121 @@ function ensureSubjectPortfoliosData() {
     currentData.overallPerformance = JSON.parse(JSON.stringify(DEFAULT_OVERALL_PERFORMANCE));
   }
 
-  // Ensure active subject exists in dictionary
-  const activeId = currentData.selectedSubjectId;
-  if (!currentData.subjectPortfolios[activeId]) {
-    const meta = currentData.subjectsList.find(s => s.id === activeId) || { name: activeId, code: "--", icon: "📚" };
-    currentData.subjectPortfolios[activeId] = {
-      id: activeId,
-      subject: meta.name || activeId,
-      subjectCode: meta.code || "--",
-      subjectIcon: meta.icon || "📚",
-      subjectTeacher: meta.teacher || (currentData.classTeacher || "Class Teacher"),
-      subjectTeacherRole: meta.role || "Subject Faculty",
-      evalPhases: [
-        { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
-        { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
-        { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
-        { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
-        { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
-      ],
-      totalScore: "92.0",
-      grade: "A1",
-      teacherRemarks: `Demonstrates commendable dedication and intellectual curiosity in ${meta.name}.`,
-      teacherSignDate: currentData.teacherSignDate || "15 March 2027",
-      favTopic: "Key curriculum topics",
-      subjectGoal: `Score 95%+ in ${meta.name} and represent school in academic symposiums.`,
-      subjectReflection: `Deepened subject concepts, applied practical methodologies, and mastered key problem types.`,
-      proj1Title: `${meta.name} Practical Project 1`,
-      proj1Did: "Completed hands-on practical assignment and investigative study.",
-      proj1Learned: "Applied subject principles to practical problem solving.",
-      proj2Title: `${meta.name} Project / Lab Work 2`,
-      proj2Did: "Formulated data models and conducted laboratory experiments.",
-      proj2Learned: "Analytical synthesis, documentation, and error reduction.",
-      competencies: {
-        conceptClarity: "4.8",
-        problemSolving: "4.8",
-        practicalLabWork: "4.8",
-        portfolioRegularity: "5.0",
-        regularityHomework: "4.9",
-        vivaCommunication: "4.7"
-      },
-      improvementPlan: {
-        area: "Timed Practice and Complex Problem Speed",
-        plan: "Practice weekly past exam questions",
-        target: "Term 2",
-        progress: "In Progress"
-      }
-    };
-  }
+  // Ensure all subjects exist in dictionary
+  (currentData.subjectsList || DEFAULT_SUBJECTS).forEach(s => {
+    if (!currentData.subjectPortfolios[s.id]) {
+      currentData.subjectPortfolios[s.id] = {
+        id: s.id,
+        subject: s.name || s.id,
+        subjectCode: s.code || "--",
+        subjectIcon: s.icon || "📚",
+        subjectTeacher: s.teacher || (currentData.classTeacher || "Class Teacher"),
+        subjectTeacherRole: s.role || "Subject Faculty",
+        evalPhases: [
+          { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
+          { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
+          { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
+          { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
+          { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
+        ],
+        totalScore: "92.0",
+        grade: "A1",
+        teacherRemarks: `Demonstrates commendable dedication and intellectual curiosity in ${s.name}.`,
+        teacherSignDate: currentData.teacherSignDate || "15 March 2027",
+        favTopic: "Key curriculum topics",
+        subjectGoal: `Score 95%+ in ${s.name} and represent school in academic symposiums.`,
+        subjectReflection: `Deepened subject concepts, applied practical methodologies, and mastered key problem types.`,
+        proj1Title: `${s.name} Practical Project 1`,
+        proj1Did: "Completed hands-on practical assignment and investigative study.",
+        proj1Learned: "Applied subject principles to practical problem solving.",
+        proj2Title: `${s.name} Project / Lab Work 2`,
+        proj2Did: "Formulated data models and conducted laboratory experiments.",
+        proj2Learned: "Analytical synthesis, documentation, and error reduction.",
+        competencies: {
+          conceptClarity: "4.8",
+          problemSolving: "4.8",
+          practicalLabWork: "4.8",
+          portfolioRegularity: "5.0",
+          regularityHomework: "4.9",
+          vivaCommunication: "4.7"
+        },
+        improvementPlan: {
+          area: "Timed Practice and Complex Problem Speed",
+          plan: "Practice weekly past exam questions",
+          target: "Term 2",
+          progress: "In Progress"
+        }
+      };
+    }
+  });
 }
 
 function getActiveSubjectData() {
   ensureSubjectPortfoliosData();
-  const id = currentData.selectedSubjectId;
+  const id = currentData.selectedSubjectId || "mathematics";
   return currentData.subjectPortfolios[id] || currentData.subjectPortfolios["mathematics"];
 }
 
-function renderSubjectSwitcher() {
+function syncPrintSubjectDropdowns() {
   ensureSubjectPortfoliosData();
-  const container = document.getElementById("subjectTabsContainer");
-  if (!container) return;
+  const subjects = currentData.subjectsList || DEFAULT_SUBJECTS;
+  const currentId = currentData.selectedSubjectId || "mathematics";
 
-  container.innerHTML = "";
-  const activeId = currentData.selectedSubjectId;
+  const topSel = document.getElementById("topbarPrintSubjectSelect");
+  if (topSel) {
+    topSel.innerHTML = "";
+    subjects.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      const subData = currentData.subjectPortfolios[s.id] || {};
+      const teacherName = subData.subjectTeacher || s.teacher || "";
+      opt.textContent = `${s.icon || "📚"} ${s.name}${teacherName ? " (" + teacherName + ")" : ""}`;
+      if (s.id === currentId) opt.selected = true;
+      topSel.appendChild(opt);
+    });
+  }
 
-  currentData.subjectsList.forEach(subj => {
-    const subData = currentData.subjectPortfolios[subj.id] || {};
-    const isActive = subj.id === activeId;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = `subject-tab-btn ${isActive ? "active" : ""}`;
-    btn.setAttribute("data-subject-id", subj.id);
-    btn.onclick = () => switchSubject(subj.id);
-    btn.innerHTML = `
-      <span>${subj.icon || "📚"}</span>
-      <span>${escapeHtml(subj.name)}</span>
-      <span class="subject-pill-badge">${escapeHtml(subData.grade || "A1")}</span>
-    `;
-    container.appendChild(btn);
-  });
+  const prevSel = document.getElementById("selectPrintSubject");
+  if (prevSel) {
+    prevSel.innerHTML = "";
+    subjects.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      opt.textContent = `${s.icon || "📚"} ${s.name}`;
+      if (s.id === currentId) opt.selected = true;
+      prevSel.appendChild(opt);
+    });
+  }
 
   updateSubjectIndicator();
+}
+
+function onTeacherPrintSubjectChange(subjectId) {
+  switchPrintSubject(subjectId);
+}
+
+function switchPrintSubject(subjectId) {
+  if (!subjectId) return;
+  currentData.selectedSubjectId = subjectId;
+  ensureSubjectPortfoliosData();
+
+  const topSel = document.getElementById("topbarPrintSubjectSelect");
+  if (topSel && topSel.value !== subjectId) topSel.value = subjectId;
+
+  const prevSel = document.getElementById("selectPrintSubject");
+  if (prevSel && prevSel.value !== subjectId) prevSel.value = subjectId;
+
+  updateSubjectIndicator();
+
+  const sub = getActiveSubjectData();
+  const subName = sub ? sub.subject : "Subject";
+  const btnTop = document.getElementById("btnTopbarPrintSelectedSubject");
+  if (btnTop) btnTop.innerHTML = `🖨️ Print ${subName}`;
+  const btnPrev = document.getElementById("btnPrintSelectedSubject");
+  if (btnPrev) btnPrev.innerHTML = `🖨️ Print ${subName} Portfolio`;
+
+  renderPreview(currentData);
+  saveToLocalStorage();
 }
 
 function updateSubjectIndicator() {
@@ -1732,76 +1647,273 @@ function updateSubjectIndicator() {
   }
 }
 
-function switchSubject(subjectId) {
-  readActiveSubjectForm();
-  currentData.selectedSubjectId = subjectId;
+function printSubjectDirect(subjectId) {
+  switchPrintSubject(subjectId);
+  printSinglePage();
+}
+
+function previewSubjectDirect(subjectId) {
+  switchPrintSubject(subjectId);
+  setViewMode("preview");
+}
+
+function jumpToSubjectCard(subjectId) {
+  const card = document.getElementById("subject_card_" + subjectId);
+  if (card) {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.style.borderColor = "#4338ca";
+    card.style.boxShadow = "0 0 0 3px rgba(99, 102, 241, 0.35)";
+    setTimeout(() => {
+      card.style.borderColor = "";
+      card.style.boxShadow = "";
+    }, 1800);
+  }
+}
+
+function renderSubjectQuickJumpChips() {
+  const container = document.getElementById("subjectQuickJumpChips");
+  if (!container) return;
   ensureSubjectPortfoliosData();
-  renderSubjectSwitcher();
-  populateActiveSubjectForm();
-  renderBuilderPerformanceGraph();
-  renderPreview(currentData);
+
+  container.innerHTML = "";
+  (currentData.subjectsList || DEFAULT_SUBJECTS).forEach(s => {
+    const sub = currentData.subjectPortfolios[s.id] || {};
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "btn btn-secondary btn-sm";
+    chip.style.cssText = "font-size: 0.78rem; padding: 0.3rem 0.6rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600;";
+    chip.onclick = () => jumpToSubjectCard(s.id);
+    chip.innerHTML = `
+      <span>${s.icon || "📚"}</span>
+      <span>${escapeHtml(s.name)}</span>
+      <span id="chip_grade_${s.id}" style="background: #4338ca; color: #fff; font-size: 0.68rem; font-weight: 800; padding: 0.1rem 0.35rem; border-radius: 10px;">${escapeHtml(sub.grade || "A1")}</span>
+    `;
+    container.appendChild(chip);
+  });
+}
+
+function renderAllSubjectsForm() {
+  const container = document.getElementById("allSubjectsContainer");
+  if (!container) return;
+  ensureSubjectPortfoliosData();
+
+  const subjects = currentData.subjectsList || DEFAULT_SUBJECTS;
+  let html = "";
+
+  subjects.forEach(s => {
+    const sub = currentData.subjectPortfolios[s.id] || {};
+    const evalPhases = Array.isArray(sub.evalPhases) ? sub.evalPhases : [
+      { phase: "Term 1 Examination", maxMarks: "100", marksScored: "90", remarks: "Good conceptual understanding" },
+      { phase: "Mid Term Examination", maxMarks: "100", marksScored: "92", remarks: "Consistent performance" },
+      { phase: "Term 2 Examination", maxMarks: "100", marksScored: "94", remarks: "Exemplary subject mastery" },
+      { phase: "Portfolio / Notebook Submission", maxMarks: "20", marksScored: "19", remarks: "Verified and complete" },
+      { phase: "Practical / Lab Assessment", maxMarks: "10", marksScored: "10", remarks: "Active demonstration and participation" }
+    ];
+
+    let rowsHtml = "";
+    evalPhases.forEach((p, idx) => {
+      const maxVal = Number(p.maxMarks) || 100;
+      const scoredVal = Number(p.marksScored) || 0;
+      const pct = maxVal > 0 ? Math.round((scoredVal / maxVal) * 100) : 0;
+      rowsHtml += `
+        <tr>
+          <td style="font-weight: 700; color: #1e1b4b; font-size: 0.82rem; padding: 0.45rem 0.5rem;">${escapeHtml(p.phase)}</td>
+          <td style="text-align: center; padding: 0.45rem 0.3rem;">
+            <input type="number" value="${escapeHtml(p.maxMarks)}" style="width: 55px; text-align: center; font-size: 0.82rem; padding: 0.3rem;" oninput="updateSubjectPhaseMarks('${s.id}', ${idx}, 'maxMarks', this.value)">
+          </td>
+          <td style="text-align: center; padding: 0.45rem 0.3rem;">
+            <input type="number" value="${escapeHtml(p.marksScored)}" style="width: 55px; text-align: center; font-weight: 800; color: #1e1b4b; font-size: 0.82rem; padding: 0.3rem;" oninput="updateSubjectPhaseMarks('${s.id}', ${idx}, 'marksScored', this.value)">
+          </td>
+          <td id="pct_${s.id}_${idx}" style="text-align: center; font-weight: 800; color: #4338ca; font-size: 0.82rem; padding: 0.45rem 0.3rem;">${pct}%</td>
+          <td style="padding: 0.45rem 0.3rem;">
+            <input type="text" value="${escapeHtml(p.remarks || '')}" placeholder="Evaluation feedback..." style="width: 100%; font-size: 0.8rem; padding: 0.3rem;" oninput="updateSubjectPhaseMarks('${s.id}', ${idx}, 'remarks', this.value)">
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `
+      <div class="subject-unified-card" id="subject_card_${s.id}" style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.25rem; transition: border-color 0.2s, box-shadow 0.2s;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="font-size: 1.4rem;">${s.icon || "📚"}</span>
+            <div>
+              <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #1e1b4b;">${escapeHtml(s.name)}</h3>
+              <span style="font-size: 0.75rem; color: #64748b;">Code: ${escapeHtml(sub.subjectCode || s.code || "--")}</span>
+            </div>
+            <span id="grade_badge_${s.id}" class="badge badge-success" style="font-size: 0.76rem; font-weight: 800; background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; margin-left: 0.3rem;">
+              Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "95")}%)
+            </span>
+          </div>
+          <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap;">
+            <button type="button" onclick="previewSubjectDirect('${s.id}')" class="btn btn-secondary btn-sm" style="font-size: 0.78rem; font-weight: 700;">
+              👁️ View A4 Sheet
+            </button>
+            <button type="button" onclick="printSubjectDirect('${s.id}')" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-size: 0.78rem; font-weight: 800;">
+              🖨️ Print ${escapeHtml(s.name)} (1 Page)
+            </button>
+          </div>
+        </div>
+
+        <div class="field-grid-3" style="margin-bottom: 0.75rem; background: #f8fafc; padding: 0.65rem 0.75rem; border-radius: 8px;">
+          <div class="form-field" style="margin-bottom: 0;">
+            <label style="font-size: 0.76rem;">Subject Teacher Name</label>
+            <input type="text" value="${escapeHtml(sub.subjectTeacher || s.teacher || '')}" placeholder="Teacher Name" style="font-size: 0.82rem;" oninput="updateSubjectProp('${s.id}', 'subjectTeacher', this.value)">
+          </div>
+          <div class="form-field" style="margin-bottom: 0;">
+            <label style="font-size: 0.76rem;">Teacher Role / Designation</label>
+            <input type="text" value="${escapeHtml(sub.subjectTeacherRole || s.role || '')}" placeholder="e.g. PGT ${escapeHtml(s.name)}" style="font-size: 0.82rem;" oninput="updateSubjectProp('${s.id}', 'subjectTeacherRole', this.value)">
+          </div>
+          <div class="form-field" style="margin-bottom: 0;">
+            <label style="font-size: 0.76rem;">Subject Code</label>
+            <input type="text" value="${escapeHtml(sub.subjectCode || s.code || '')}" placeholder="e.g. ${escapeHtml(s.code || '')}" style="font-size: 0.82rem;" oninput="updateSubjectProp('${s.id}', 'subjectCode', this.value)">
+          </div>
+        </div>
+
+        <label style="display: block; font-size: 0.8rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.35rem;">
+          📊 Evaluation Marks & Continuous Assessment (5 Phases)
+        </label>
+        <div class="table-responsive" style="margin-bottom: 0.85rem; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem;">
+            <thead>
+              <tr style="background: #f1f5f9; text-align: left; color: #475569; font-size: 0.75rem;">
+                <th style="padding: 0.45rem 0.5rem;">Assessment Component</th>
+                <th style="padding: 0.45rem 0.3rem; text-align: center; width: 65px;">Max</th>
+                <th style="padding: 0.45rem 0.3rem; text-align: center; width: 65px;">Scored</th>
+                <th style="padding: 0.45rem 0.3rem; text-align: center; width: 55px;">%</th>
+                <th style="padding: 0.45rem 0.3rem;">Teacher Observation / Feedback</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem;">
+          <strong style="display: block; font-size: 0.8rem; color: #1e1b4b; margin-bottom: 0.5rem;">🔬 Subject Projects & Practical Lab Work</strong>
+          <div class="field-grid-2">
+            <div>
+              <div class="form-field" style="margin-bottom: 0.4rem;">
+                <label style="font-size: 0.74rem;">Project 1 Title</label>
+                <input type="text" value="${escapeHtml(sub.proj1Title || '')}" placeholder="Project 1 Title" style="font-size: 0.8rem;" oninput="updateSubjectProp('${s.id}', 'proj1Title', this.value)">
+              </div>
+              <div class="form-field" style="margin-bottom: 0.4rem;">
+                <label style="font-size: 0.74rem;">What I Did</label>
+                <textarea rows="2" placeholder="What did you build/investigate?" style="font-size: 0.78rem;" oninput="updateSubjectProp('${s.id}', 'proj1Did', this.value)">${escapeHtml(sub.proj1Did || '')}</textarea>
+              </div>
+              <div class="form-field" style="margin-bottom: 0;">
+                <label style="font-size: 0.74rem;">What I Learned</label>
+                <textarea rows="2" placeholder="Key concepts learned" style="font-size: 0.78rem;" oninput="updateSubjectProp('${s.id}', 'proj1Learned', this.value)">${escapeHtml(sub.proj1Learned || '')}</textarea>
+              </div>
+            </div>
+            <div>
+              <div class="form-field" style="margin-bottom: 0.4rem;">
+                <label style="font-size: 0.74rem;">Project 2 Title</label>
+                <input type="text" value="${escapeHtml(sub.proj2Title || '')}" placeholder="Project 2 Title" style="font-size: 0.8rem;" oninput="updateSubjectProp('${s.id}', 'proj2Title', this.value)">
+              </div>
+              <div class="form-field" style="margin-bottom: 0.4rem;">
+                <label style="font-size: 0.74rem;">What I Did</label>
+                <textarea rows="2" placeholder="What did you build/investigate?" style="font-size: 0.78rem;" oninput="updateSubjectProp('${s.id}', 'proj2Did', this.value)">${escapeHtml(sub.proj2Did || '')}</textarea>
+              </div>
+              <div class="form-field" style="margin-bottom: 0;">
+                <label style="font-size: 0.74rem;">What I Learned</label>
+                <textarea rows="2" placeholder="Key concepts learned" style="font-size: 0.78rem;" oninput="updateSubjectProp('${s.id}', 'proj2Learned', this.value)">${escapeHtml(sub.proj2Learned || '')}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-grid-2">
+          <div class="form-field" style="margin-bottom: 0;">
+            <label style="font-size: 0.76rem;">Subject Teacher's Observation & Remarks</label>
+            <textarea rows="2" placeholder="Teacher feedback..." style="font-size: 0.8rem;" oninput="updateSubjectProp('${s.id}', 'teacherRemarks', this.value)">${escapeHtml(sub.teacherRemarks || '')}</textarea>
+          </div>
+          <div>
+            <div class="form-field" style="margin-bottom: 0.4rem;">
+              <label style="font-size: 0.74rem;">Favorite Topic / Reflection</label>
+              <input type="text" value="${escapeHtml(sub.favTopic || '')}" placeholder="Favorite topic or reflection" style="font-size: 0.8rem;" oninput="updateSubjectProp('${s.id}', 'favTopic', this.value)">
+            </div>
+            <div class="form-field" style="margin-bottom: 0;">
+              <label style="font-size: 0.74rem;">Subject Learning Goal</label>
+              <input type="text" value="${escapeHtml(sub.subjectGoal || '')}" placeholder="Goal for this subject" style="font-size: 0.8rem;" oninput="updateSubjectProp('${s.id}', 'subjectGoal', this.value)">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function updateSubjectProp(subjectId, prop, val) {
+  ensureSubjectPortfoliosData();
+  const sub = currentData.subjectPortfolios[subjectId];
+  if (!sub) return;
+  sub[prop] = val;
+
+  if (prop === "subjectTeacher") {
+    const meta = (currentData.subjectsList || []).find(s => s.id === subjectId);
+    if (meta) meta.teacher = val;
+    syncPrintSubjectDropdowns();
+  }
+
+  if (currentData.selectedSubjectId === subjectId) {
+    renderPreview(currentData);
+  }
   saveToLocalStorage();
 }
 
-function updateActiveSubjectField(field, val) {
-  const sub = getActiveSubjectData();
-  if (!sub) return;
-  sub[field] = val;
+function updateSubjectPhaseMarks(subjectId, phaseIdx, field, val) {
+  ensureSubjectPortfoliosData();
+  const sub = currentData.subjectPortfolios[subjectId];
+  if (!sub || !sub.evalPhases || !sub.evalPhases[phaseIdx]) return;
 
-  if (field === "subjectTeacher") {
-    const badge = document.getElementById("activeSubjectTeacherBadge");
-    if (badge) badge.textContent = `Teacher: ${val || "Not assigned"}`;
-  }
+  sub.evalPhases[phaseIdx][field] = val;
+  calculateSubjectGrade(sub);
 
-  renderPreview(currentData);
-  saveToLocalStorage();
-}
+  const maxVal = Number(sub.evalPhases[phaseIdx].maxMarks) || 100;
+  const scoredVal = Number(sub.evalPhases[phaseIdx].marksScored) || 0;
+  const pct = maxVal > 0 ? Math.round((scoredVal / maxVal) * 100) : 0;
+  const pctCell = document.getElementById(`pct_${subjectId}_${phaseIdx}`);
+  if (pctCell) pctCell.textContent = `${pct}%`;
 
-function readActiveSubjectForm() {
-  const sub = getActiveSubjectData();
-  if (!sub) return;
-
-  const tName = document.getElementById("f_activeSubjectTeacher");
-  if (tName) sub.subjectTeacher = tName.value.trim();
-
-  const tRole = document.getElementById("f_activeSubjectTeacherRole");
-  if (tRole) sub.subjectTeacherRole = tRole.value.trim();
-
-  const sCode = document.getElementById("f_activeSubjectCode");
-  if (sCode) sub.subjectCode = sCode.value.trim();
-
-  const tRemarks = document.getElementById("f_activeSubjectTeacherRemarks");
-  if (tRemarks) sub.teacherRemarks = tRemarks.value.trim();
-}
-
-function populateActiveSubjectForm() {
-  const sub = getActiveSubjectData();
-  if (!sub) return;
-
-  const heading = document.getElementById("activeSubjectCardHeading");
-  if (heading) {
-    heading.textContent = `${sub.subjectIcon || "📚"} ${sub.subject} (Code: ${sub.subjectCode || "--"})`;
-  }
-
-  const badge = document.getElementById("activeSubjectTeacherBadge");
+  const badge = document.getElementById(`grade_badge_${subjectId}`);
   if (badge) {
-    badge.textContent = `Teacher: ${sub.subjectTeacher || "Not assigned"}`;
+    badge.textContent = `Grade: ${sub.grade} (${sub.totalScore}%)`;
   }
 
-  const gradeBadge = document.getElementById("activeSubjectCalculatedGrade");
-  if (gradeBadge) {
-    gradeBadge.textContent = `Final Grade: ${sub.grade || "A1"} (${sub.totalScore || "98"}%)`;
+  const chipBadge = document.getElementById(`chip_grade_${subjectId}`);
+  if (chipBadge) {
+    chipBadge.textContent = sub.grade;
   }
 
-  setVal("f_activeSubjectTeacher", sub.subjectTeacher);
-  setVal("f_activeSubjectTeacherRole", sub.subjectTeacherRole);
-  setVal("f_activeSubjectCode", sub.subjectCode);
-  setVal("f_activeSubjectTeacherRemarks", sub.teacherRemarks);
+  if (currentData.overallPerformance && Array.isArray(currentData.overallPerformance.subjectScores)) {
+    const match = currentData.overallPerformance.subjectScores.find(s => s.id === subjectId || (s.name && s.name.toLowerCase() === sub.subject.toLowerCase()));
+    if (match) {
+      match.score = Math.round(Number(sub.totalScore) || 90);
+      if (phaseIdx === 0) match.t1 = scoredVal;
+      else if (phaseIdx === 1) match.mid = scoredVal;
+      else if (phaseIdx === 2) match.t2 = scoredVal;
+    }
+    recalculateOverallAverages();
+  }
 
-  renderSubject1to1Table();
-  renderAllSubjectBenchmarkTable();
   renderBuilderPerformanceGraph();
+
+  if (currentData.selectedSubjectId === subjectId) {
+    renderPreview(currentData);
+  }
+  saveToLocalStorage();
 }
+
+// Backwards compatibility helpers
+function renderSubjectSwitcher() { syncPrintSubjectDropdowns(); }
+function switchSubject(subjectId) { switchPrintSubject(subjectId); }
+function populateActiveSubjectForm() { renderAllSubjectsForm(); }
+function updateSubjectEvalPhase(idx, field, val) { updateSubjectPhaseMarks(currentData.selectedSubjectId, idx, field, val); }
 
 function renderSubject1to1Table() {
   const tbody = document.getElementById("subject1to1TableBody");

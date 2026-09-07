@@ -1365,6 +1365,21 @@ html, body {
   .section-tab-btn {
     flex: 1 1 calc(50% - 0.3rem) !important;
     font-size: 0.72rem !important;
+    padding: 0.45rem 0.4rem !important;
+  }
+  .topbar-print-subject-selector,
+  .teacher-preview-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.4rem !important;
+  }
+  .topbar-print-subject-selector select,
+  .teacher-preview-bar select {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .subject-unified-card {
+    padding: 0.75rem !important;
   }
 }
 

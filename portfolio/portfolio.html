@@ -89,21 +89,13 @@
     </div>
   </section>
 
-  <!-- Sticky In-Page Navigation -->
+  <!-- Sticky In-Page Navigation (4 Clear Sections) -->
   <nav class="portfolio-nav-bar">
     <div class="container portfolio-nav-links">
       <a href="#performance-graph" class="p-nav-btn active">📈 Performance Graph</a>
-      <a href="#subject-portfolio" class="p-nav-btn">📚 Subject Portfolio</a>
-      <a href="#activity-cycle" class="p-nav-btn">⭐ Activity Cycle</a>
-      <a href="#deliverables-checklist" class="p-nav-btn">🎯 Output Verification</a>
-      <a href="#intro-video" class="p-nav-btn">🎬 1-Min Video Demo</a>
-      <a href="#projects" class="p-nav-btn">🚀 Project Works</a>
-      <a href="#growth" class="p-nav-btn">📈 Before → After Growth</a>
-      <a href="#scorecard" class="p-nav-btn">⭐ 360° Scorecard</a>
-      <a href="#achievements" class="p-nav-btn">🏆 Achievements</a>
-      <a href="#gallery" class="p-nav-btn">📸 Gallery</a>
-      <a href="#observations" class="p-nav-btn">👩‍🏫 Remarks</a>
-      <a href="#goals" class="p-nav-btn">🎯 Goals</a>
+      <a href="#subject-portfolio" class="p-nav-btn">📚 Subject Portfolios</a>
+      <a href="#projects-showcase" class="p-nav-btn">🚀 Projects & Skills</a>
+      <a href="#observations" class="p-nav-btn">👩‍🏫 Remarks & Feedback</a>
     </div>
   </nav>
 
@@ -167,117 +159,28 @@
       </div>
     </section>
 
-    <!-- 1. TEAM ACTIVITY CYCLE (Learn -> Make -> Show -> Record) -->
-    <section id="activity-cycle" class="portfolio-section">
+    <!-- 3. FEATURED PROJECTS, 360° SKILLS & HONORS -->
+    <section id="projects-showcase" class="portfolio-section">
       <div class="section-header">
-        <span class="tag">Execution Roadmap</span>
-        <h2>Team Activity Cycle (Learn → Make → Show → Record)</h2>
-        <p id="activityCycleSub">How this student executed their core technology project through the practical 4-step framework.</p>
+        <span class="tag">Hands-On Works & Honors</span>
+        <h2>Featured Projects, Skills & Awards</h2>
+        <p>Interactive student projects, core competency evaluations, achievements, and practical demonstrations.</p>
       </div>
 
-      <div class="activity-cycle-project-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;">
-          <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <span style="font-size: 1.5rem;" id="activityProjectIcon">⚡</span>
-            <h3 style="font-size: 1.35rem; font-weight: 800;" id="activityProjectTitle">Featured Project Cycle</h3>
-          </div>
-          <span class="badge badge-success" id="activityTeamPill">Verified Cycle Completion</span>
-        </div>
+      <!-- Projects Grid -->
+      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">🚀 Practical Projects & Digital Deliverables</h3>
+      <div id="projectsContainer" class="projects-grid" style="margin-bottom: 2rem;"></div>
 
-        <div class="cycle-timeline-grid" id="activityTimelineGrid">
-          <!-- Populated dynamically via portfolio.js -->
-        </div>
-      </div>
-    </section>
+      <!-- 360 Competency Scorecard -->
+      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">⭐ 360° Skills & Competency Matrix</h3>
+      <div id="scorecardContainer" class="scorecard-grid" style="margin-bottom: 2rem;"></div>
 
-    <!-- 2. FINAL OUTPUT DELIVERABLES CHECKLIST -->
-    <section id="deliverables-checklist" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Target Verification</span>
-        <h2>Final Output Verification</h2>
-        <p>Verified tangible outputs according to the student's technology team requirements.</p>
-      </div>
+      <!-- Achievements -->
+      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">🏆 Honors, Certifications & Milestones</h3>
+      <div id="achievementsContainer" class="achievements-grid" style="margin-bottom: 2rem;"></div>
 
-      <div class="deliverables-box" id="deliverablesBox">
-        <!-- Populated dynamically via portfolio.js -->
-      </div>
-    </section>
-
-    <!-- 3. 1-MINUTE DEMO / JOURNEY VIDEO -->
-    <section id="intro-video" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Cycle Step 4: Record</span>
-        <h2>1-Minute Demonstration & Showcase Video</h2>
-        <p>A concise, recorded demonstration capturing the working project, poster design, or live AI model.</p>
-      </div>
-
-      <div class="video-showcase-card">
-        <div class="video-frame-wrap">
-          <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
-        </div>
-        <div class="video-details">
-          <span class="badge badge-warning" style="align-self: flex-start; margin-bottom: 0.8rem;">📹 1-Minute Demo</span>
-          <h3 id="videoTitle">Demonstration & Activity Reflection</h3>
-          <p id="videoDesc">Watch the live demonstration and walkthrough of this academic year's featured technology project.</p>
-          <div style="display: flex; gap: 0.5rem;">
-            <a href="#projects" class="btn btn-primary btn-sm">Explore Project Files ↓</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. STUDENT PROJECTS & WORKS SHOWCASE -->
-    <section id="projects" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Hands-On Output</span>
-        <h2 id="projectsSectionTitle">Featured Projects & Digital Deliverables</h2>
-        <p id="projectsSectionSub">Interactive software, working hardware circuits, AI models, posters, slide decks, and spreadsheets.</p>
-      </div>
-
-      <div id="projectsContainer" class="projects-grid"></div>
-    </section>
-
-    <!-- 5. BEFORE -> AFTER GROWTH -->
-    <section id="growth" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Demonstrated Progress</span>
-        <h2>Before → After Growth</h2>
-        <p>Real learning is about personal evolution throughout the academic year, not just static grades.</p>
-      </div>
-
-      <div id="growthContainer" class="growth-grid"></div>
-    </section>
-
-    <!-- 6. 360° COMPETENCY SCORECARD -->
-    <section id="scorecard" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Comprehensive Assessment</span>
-        <h2>360° Skills & Competency Matrix</h2>
-        <p>Holistic evaluation of technical aptitude, creative thinking, collaboration, and leadership.</p>
-      </div>
-
-      <div id="scorecardContainer" class="scorecard-grid"></div>
-    </section>
-
-    <!-- 7. ACHIEVEMENTS & BADGES -->
-    <section id="achievements" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">Honors & Milestones</span>
-        <h2>Achievements & Certifications</h2>
-        <p>Olympiads, science expo medals, coding distinctions, and leadership commendations.</p>
-      </div>
-
-      <div id="achievementsContainer" class="achievements-grid"></div>
-    </section>
-
-    <!-- 8. CO-CURRICULAR & MEDIA GALLERY -->
-    <section id="gallery" class="portfolio-section">
-      <div class="section-header">
-        <span class="tag">School Activities</span>
-        <h2>Activity & Demonstration Gallery</h2>
-        <p>Photos and evidence captured during live demonstrations, lab builds, and school exhibitions.</p>
-      </div>
-
+      <!-- Gallery -->
+      <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e1b4b; margin-bottom: 0.85rem;">📸 Demonstration & Activity Gallery</h3>
       <div id="galleryContainer" class="gallery-grid"></div>
     </section>
 
@@ -319,17 +222,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- 10. FUTURE GOALS -->
-    <section id="goals" class="portfolio-section" style="border-bottom: none;">
-      <div class="section-header">
-        <span class="tag">Vision & Roadmap</span>
-        <h2>Future Learning Goals</h2>
-        <p>Aspirations and targets set for the upcoming academic terms.</p>
-      </div>
-
-      <div id="goalsContainer" class="goals-list"></div>
     </section>
 
   </main>
