@@ -1192,11 +1192,24 @@ function applySheetScale() {
     scale = parseFloat(currentZoom) || 1;
   }
 
-  scaler.style.transform = `scale(${scale})`;
-  scaler.style.transformOrigin = "top center";
-  scaler.style.width = `${sheetPxWidth}px`;
-  scaler.style.height = `${sheetPxHeight * scale}px`;
+  const scaledWidth = Math.round(sheetPxWidth * scale);
+  const scaledHeight = Math.round(sheetPxHeight * scale);
+
+  scaler.style.width = `${scaledWidth}px`;
+  scaler.style.height = `${scaledHeight}px`;
+  scaler.style.position = "relative";
+  scaler.style.overflow = "visible";
+  scaler.style.margin = "0 auto";
   scaler.style.marginBottom = `${Math.max(16, 20 * scale)}px`;
+  scaler.style.transform = "none";
+
+  sheet.style.position = "absolute";
+  sheet.style.top = "0";
+  sheet.style.left = "0";
+  sheet.style.width = `${sheetPxWidth}px`;
+  sheet.style.height = `${sheetPxHeight}px`;
+  sheet.style.transformOrigin = "top left";
+  sheet.style.transform = `scale(${scale})`;
 }
 // Bind all inputs
 function bindFormInputs() {
@@ -2357,27 +2370,25 @@ function printAllSubjectPortfolios() {
 
 window.addEventListener("beforeprint", function() {
   const scaler = document.getElementById("sheetScaler");
+  const sheet = document.getElementById("singlePageSheet");
   if (scaler) {
-    scaler.dataset.prevTransform = scaler.style.transform || "";
-    scaler.dataset.prevWidth = scaler.style.width || "";
-    scaler.dataset.prevHeight = scaler.style.height || "";
     scaler.style.transform = "none";
     scaler.style.width = "100%";
     scaler.style.height = "auto";
     scaler.style.margin = "0 auto";
+    scaler.style.position = "static";
+  }
+  if (sheet) {
+    sheet.style.position = "relative";
+    sheet.style.top = "auto";
+    sheet.style.left = "auto";
+    sheet.style.transform = "none";
+    sheet.style.width = "194mm";
+    sheet.style.height = "281mm";
   }
 });
 
 window.addEventListener("afterprint", function() {
-  const scaler = document.getElementById("sheetScaler");
-  if (scaler) {
-    if (scaler.dataset.prevTransform) scaler.style.transform = scaler.dataset.prevTransform;
-    if (scaler.dataset.prevWidth) scaler.style.width = scaler.dataset.prevWidth;
-    if (scaler.dataset.prevHeight) scaler.style.height = scaler.dataset.prevHeight;
-    delete scaler.dataset.prevTransform;
-    delete scaler.dataset.prevWidth;
-    delete scaler.dataset.prevHeight;
-  }
   applySheetScale();
 });
 

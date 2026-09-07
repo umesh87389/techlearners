@@ -377,48 +377,50 @@ document.addEventListener("DOMContentLoaded", () => {
     `).join("");
 
     card.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 1.5px solid #e2e8f0;">
+      <div class="subject-details-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 1.5px solid #e2e8f0;">
         <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <span style="font-size: 2rem;">${sub.subjectIcon || "📚"}</span>
+          <span style="font-size: 2rem; flex-shrink: 0;">${sub.subjectIcon || "📚"}</span>
           <div>
-            <h3 style="margin: 0; font-size: 1.4rem; font-weight: 900; color: #0f172a;">${sub.subject} Individual Portfolio</h3>
-            <span style="font-size: 0.82rem; color: #475569;">Subject Code: <strong>${sub.subjectCode}</strong> • Teacher: <strong>${sub.subjectTeacher}</strong> (${sub.subjectTeacherRole})</span>
+            <h3 style="margin: 0; font-size: clamp(1.1rem, 2.8vw, 1.4rem); font-weight: 900; color: #0f172a; line-height: 1.25;">${sub.subject} Individual Portfolio</h3>
+            <span style="font-size: 0.82rem; color: #475569; display: block; margin-top: 2px;">Subject Code: <strong>${sub.subjectCode}</strong> • Teacher: <strong>${sub.subjectTeacher}</strong> (${sub.subjectTeacherRole})</span>
           </div>
         </div>
-        <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
           <span class="badge badge-success" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;">Final Grade: ${sub.grade} (${sub.totalScore}%)</span>
-          <a href="builder.html" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700;">
+          <a href="builder.html" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700; white-space: nowrap;">
             🖨️ Print 1-Page ${sub.subject} Portfolio
           </a>
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
         <!-- Left: Academic Marks Table -->
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: clamp(0.75rem, 2.5vw, 1rem); min-width: 0; overflow: hidden;">
           <h4 style="margin: 0 0 0.75rem; font-size: 0.95rem; font-weight: 800; color: #1e1b4b;">📊 1-1 Subject Evaluation Record</h4>
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; background: #ffffff; border-radius: 6px; overflow: hidden;">
-            <thead>
-              <tr style="background: #eef2ff; color: #312e81; text-align: left;">
-                <th style="padding: 6px 10px;">Phase</th>
-                <th style="padding: 6px 10px; text-align: center;">Max</th>
-                <th style="padding: 6px 10px; text-align: center;">Scored</th>
-                <th style="padding: 6px 10px; text-align: center;">%</th>
-                <th style="padding: 6px 10px;">Teacher Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${evalRows}
-            </tbody>
-          </table>
-          <div style="margin-top: 0.75rem; font-size: 0.78rem; color: #475569; display: flex; justify-content: space-between;">
+          <div class="table-responsive" style="width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 0.65rem; background: #ffffff;">
+            <table style="width: 100%; min-width: 440px; border-collapse: collapse; font-size: 0.82rem;">
+              <thead>
+                <tr style="background: #eef2ff; color: #312e81; text-align: left;">
+                  <th style="padding: 6px 10px;">Phase</th>
+                  <th style="padding: 6px 10px; text-align: center;">Max</th>
+                  <th style="padding: 6px 10px; text-align: center;">Scored</th>
+                  <th style="padding: 6px 10px; text-align: center;">%</th>
+                  <th style="padding: 6px 10px;">Teacher Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${evalRows}
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size: 0.78rem; color: #475569; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.35rem;">
             <span>Evaluated by: <strong>${sub.subjectTeacher}</strong></span>
             <span>Date: <strong>${sub.teacherSignDate || "15 March 2027"}</strong></span>
           </div>
         </div>
 
         <!-- Right: Projects & Learning Reflections -->
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: clamp(0.75rem, 2.5vw, 1rem); min-width: 0;">
           <h4 style="margin: 0 0 0.75rem; font-size: 0.95rem; font-weight: 800; color: #1e1b4b;">💡 Subject Projects & Practical Lab Work</h4>
           <div style="margin-bottom: 0.85rem; padding: 0.65rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px;">
             <strong style="color: #4338ca; font-size: 0.88rem; display: block;">1. ${sub.proj1Title}</strong>

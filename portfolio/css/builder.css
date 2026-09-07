@@ -595,20 +595,23 @@
 /* Viewport for Scaler */
 .sheet-viewport {
   width: 100%;
-  display: flex;
-  justify-content: center;
+  display: block;
+  text-align: center;
   overflow-x: auto;
   overflow-y: visible;
-  padding: 4px 0 16px;
+  padding: 6px 0 20px;
   -webkit-overflow-scrolling: touch;
 }
 
 /* Scaler Container with Dynamic Transform */
 .sheet-scaler {
-  transform-origin: top center;
+  display: inline-block;
+  text-align: left;
+  margin: 0 auto;
+  vertical-align: top;
+  position: relative;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
-  display: block;
 }
 
 /* =============================================================
@@ -1024,31 +1027,111 @@
     display: none !important;
   }
   .builder-topbar {
-    padding: 0.5rem 0.75rem;
+    position: relative;
+    padding: 0.45rem 0.65rem;
   }
   .builder-topbar-content {
     justify-content: space-between;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .topbar-brand {
+    gap: 0.35rem;
   }
   .topbar-brand-title {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
   }
   .topbar-brand span.badge {
     display: none;
   }
+  .topbar-subject-indicator {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.4rem;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .view-mode-switch {
+    padding: 2px;
+    flex-shrink: 0;
+  }
+  .mode-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.74rem;
+  }
   .topbar-actions {
-    gap: 0.25rem;
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    padding: 0.25rem 0 0.1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .topbar-actions::-webkit-scrollbar {
+    display: none;
   }
   .topbar-actions .btn {
-    padding: 0.35rem 0.55rem;
-    font-size: 0.76rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.32rem 0.55rem;
+    font-size: 0.74rem;
   }
   .builder-form-card {
-    padding: 1rem 0.85rem;
+    padding: 0.85rem 0.65rem;
     border-radius: 12px;
   }
   .form-header-bar {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .teacher-status-pill {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .subject-switcher-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+  .subject-switcher-header > div:last-child {
+    display: flex;
+    gap: 0.4rem;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .subject-switcher-header > div:last-child .btn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.74rem;
+    padding: 0.35rem 0.5rem;
+  }
+  .subject-tabs-scroll {
+    gap: 0.35rem;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .subject-tab-btn {
+    padding: 0.38rem 0.65rem;
+    font-size: 0.76rem;
+    flex-shrink: 0;
+  }
+  .subject-1to1-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .child-perf-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .child-perf-header .btn {
+    width: 100%;
+    font-size: 0.76rem;
   }
   .form-field input[type="text"],
   .form-field input[type="date"],
@@ -1058,11 +1141,14 @@
   .form-field select,
   .form-field textarea {
     font-size: 16px; /* Prevents auto-zoom on mobile browser */
-    padding: 0.65rem 0.75rem;
+    padding: 0.6rem 0.65rem;
   }
   .preview-wrapper {
-    padding: 0.75rem 0.5rem;
-    border-radius: 12px;
+    padding: 0.5rem 0.25rem;
+    border-radius: 8px;
+  }
+  .sheet-viewport {
+    padding: 4px 0 12px;
   }
 }
 
@@ -1387,6 +1473,7 @@ textarea.field-locked {
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 4px;
   scrollbar-width: thin;
 }
