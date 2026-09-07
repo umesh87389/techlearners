@@ -17,7 +17,7 @@
       "Class XI": "shm-xi",
       "Class XII": "shm-xii"
     },
-    backupPins: ["shm2026", "teacher2026", "shm@2026", "techlearners", "admin"]
+    backupPins: ["shm2026", "teacher2026", "shm@2026", "techlearners", "admin", "shm", "teacher", "faculty", "faculty2026"]
   };
 
   const TeacherPINStore = {

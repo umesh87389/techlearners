@@ -734,11 +734,11 @@ function updateTeacherLockUI() {
 
   if (btnTeachersTab) {
     if (isTeacherMode) {
-      btnTeachersTab.innerHTML = `<span class="mode-icon">👨‍🏫</span> <span class="mode-text">Teachers Tab</span> <span class="badge" id="teachersRosterCountBadge" style="background: #e0e7ff; color: #3730a3; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">${students.length}</span>`;
-      btnTeachersTab.title = "Teachers Tab: Unlocked (Faculty Mode)";
+      btnTeachersTab.innerHTML = `<span class="mode-icon">👨‍🏫</span> <span class="mode-text">Faculty Portal</span> <span class="badge" id="teachersRosterCountBadge" style="background: #e0e7ff; color: #3730a3; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">${students.length}</span>`;
+      btnTeachersTab.title = "Faculty Portal: Unlocked";
     } else {
-      btnTeachersTab.innerHTML = `<span class="mode-icon">🔒</span> <span class="mode-text">Teachers Tab</span> <span class="badge" id="teachersRosterCountBadge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">PIN Locked</span>`;
-      btnTeachersTab.title = "Teachers Tab: Locked with faculty PIN";
+      btnTeachersTab.innerHTML = `<span class="mode-icon">🔒</span> <span class="mode-text">Faculty Portal</span> <span class="badge" id="teachersRosterCountBadge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">PIN Locked</span>`;
+      btnTeachersTab.title = "Faculty Portal: Protected by faculty PIN";
     }
   }
 
@@ -912,11 +912,11 @@ function handleTeacherPasscodeSubmit(e) {
     verification = window.TeacherPINStore.verify(code, studentCls);
   } else {
     // Fallback if script not loaded
-    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026", "faculty", "faculty2026"];
     if (validCodes.includes(code.toLowerCase())) {
-      verification = { valid: true, role: "Teacher/Staff", isMaster: true, message: "Verified as School Teacher" };
+      verification = { valid: true, role: "Faculty / Teacher", isMaster: true, message: "Verified as School Faculty" };
     } else {
-      verification = { valid: false, message: "Incorrect teacher passcode. Please verify or ask school admin." };
+      verification = { valid: false, message: "Incorrect faculty passcode. Please verify or ask school admin." };
     }
   }
 
@@ -3703,7 +3703,10 @@ function lockTeachersTab() {
 window.lockTeachersTab = lockTeachersTab;
 
 function handlePortalPinSubmit(e) {
-  if (e && e.preventDefault) e.preventDefault();
+  if (e) {
+    if (e.preventDefault) e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
+  }
   const input = document.getElementById("portalPinInput");
   const feedback = document.getElementById("portalPinFeedback");
   const code = (input && input.value ? input.value : "").trim();
@@ -3712,11 +3715,11 @@ function handlePortalPinSubmit(e) {
   if (window.TeacherPINStore && typeof window.TeacherPINStore.verify === "function") {
     verification = window.TeacherPINStore.verify(code, "");
   } else {
-    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026"];
+    const validCodes = ["shm2026", "shm", "teacher2026", "teacher", "admin", "techlearners", "shm@2026", "faculty", "faculty2026"];
     if (validCodes.includes(code.toLowerCase())) {
-      verification = { valid: true, role: "Teacher/Staff", isMaster: true, message: "Verified as School Teacher" };
+      verification = { valid: true, role: "Faculty / Teacher", isMaster: true, message: "Verified as School Faculty" };
     } else {
-      verification = { valid: false, message: "Incorrect teacher passcode. Please use 'shm2026'." };
+      verification = { valid: false, message: "Incorrect faculty PIN. Please check with administration." };
     }
   }
 
@@ -3726,22 +3729,28 @@ function handlePortalPinSubmit(e) {
     if (verification.isMaster) {
       sessionStorage.setItem("portfolio_is_master_admin", "true");
     }
-    sessionStorage.setItem("portfolio_teacher_role", verification.role || "Teacher");
+    sessionStorage.setItem("portfolio_teacher_role", verification.role || "Faculty");
 
     if (feedback) {
       feedback.style.color = "#16a34a";
-      feedback.textContent = `✅ ${verification.message || "Teacher verified!"} Unlocking portal...`;
+      feedback.textContent = `✅ ${verification.message || "Faculty verified!"} Opening portal...`;
     }
-    setTimeout(function() {
-      updateTeacherLockUI();
-      renderTeachersPortal();
-    }, 300);
+    updateTeacherLockUI();
+    renderTeachersPortal();
+    if (typeof showSaveToast === "function") {
+      showSaveToast("🔓 Faculty Portal unlocked successfully!");
+    }
   } else {
     if (feedback) {
       feedback.style.color = "#dc2626";
-      feedback.textContent = "❌ Incorrect teacher PIN. Please verify or use 'shm2026'.";
+      feedback.textContent = `❌ ${verification && verification.message ? verification.message : "Incorrect faculty PIN. Please check with administration."}`;
+    }
+    if (input) {
+      input.focus();
+      input.select();
     }
   }
+  return false;
 }
 window.handlePortalPinSubmit = handlePortalPinSubmit;
 
@@ -3761,16 +3770,13 @@ function renderTeachersPortal() {
       <div class="teachers-auth-lock-card">
         <div class="teachers-lock-icon">🔒</div>
         <span class="teachers-lock-badge">Faculty Authorization Required</span>
-        <h2 class="teachers-lock-title">Teachers Portal is Locked</h2>
-        <p class="teachers-lock-desc">This portal contains confidential student records, continuous marks evaluation, and review requests. Enter the official faculty PIN (<strong>shm2026</strong>) to access.</p>
-        <form class="teachers-pin-form" onsubmit="handlePortalPinSubmit(event)">
-          <input type="password" id="portalPinInput" class="teachers-pin-input" placeholder="Enter Teacher PIN (shm2026)" autofocus autocomplete="off">
+        <h2 class="teachers-lock-title">Faculty Portal is Locked</h2>
+        <p class="teachers-lock-desc">This portal contains confidential student records, continuous marks evaluation, and review requests. Enter your authorized faculty PIN to access.</p>
+        <form class="teachers-pin-form" onsubmit="handlePortalPinSubmit(event); return false;">
+          <input type="password" id="portalPinInput" class="teachers-pin-input" placeholder="Enter Faculty PIN" autofocus autocomplete="off">
           <button type="submit" class="teachers-pin-submit-btn">
-            🔑 Unlock Teachers Portal
+            🔑 Unlock Faculty Portal
           </button>
-          <div class="teachers-pin-hint-chip" onclick="document.getElementById('portalPinInput').value='shm2026'; handlePortalPinSubmit();" title="Click to auto-fill default PIN">
-            💡 Quick Fill Faculty PIN: <strong>shm2026</strong>
-          </div>
           <div id="portalPinFeedback" class="teachers-pin-feedback"></div>
         </form>
       </div>
@@ -4105,7 +4111,7 @@ function renderTeachersPortal() {
       <!-- Top Portal Header -->
       <div class="teachers-portal-header">
         <div class="teachers-portal-titles">
-          <h2><span>👨‍🏫</span> <span>Teachers Evaluation Portal &amp; Student Roster</span></h2>
+          <h2><span>👨‍🏫</span> <span>Faculty Evaluation Portal &amp; Student Roster</span></h2>
           <p>Official SHM Academy Student Roster • Edit student particulars &amp; marks in Teacher Mode, review student requests, or generate verified 2-page prints.</p>
         </div>
         <div class="teachers-portal-actions">
@@ -4118,8 +4124,8 @@ function renderTeachersPortal() {
           <button type="button" onclick="exportTeacherRosterCsv()" class="btn btn-secondary btn-sm" style="font-weight: 700;">
             📊 Export Marks (CSV)
           </button>
-          <button type="button" onclick="lockTeachersTab()" class="btn btn-sm" style="background: #991b1b; color: #ffffff; border-color: #991b1b; font-weight: 800;" title="Lock the Teachers Portal and return to secure mode">
-            🔒 Lock Teachers Tab
+          <button type="button" onclick="lockTeachersTab()" class="btn btn-sm" style="background: #991b1b; color: #ffffff; border-color: #991b1b; font-weight: 800;" title="Lock the Faculty Portal and return to secure mode">
+            🔒 Lock Faculty Portal
           </button>
         </div>
       </div>

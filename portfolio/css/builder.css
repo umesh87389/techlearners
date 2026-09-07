@@ -98,6 +98,25 @@ html, body {
   }
 }
 
+/* 4. Mode: Faculty Portal (Dedicated Full-Width Student Roster & Evaluation) */
+.builder-layout.mode-teachers {
+  display: block !important;
+  max-width: 1400px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.builder-layout.mode-teachers .builder-form-card {
+  display: none !important;
+}
+.builder-layout.mode-teachers .preview-wrapper {
+  display: none !important;
+}
+.builder-layout.mode-teachers .teachers-portal-view {
+  display: block !important;
+  width: 100%;
+}
+
 /* =============================================================
    TOP ACTIONS & VIEW SWITCHER BAR
    ============================================================= */

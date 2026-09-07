@@ -24,7 +24,7 @@
         <ul class="nav-links">
           <li><a href="../index.html" class="nav-link">← Return to Home</a></li>
           <li><a href="builder.html" class="nav-link active">🎓 Portfolio</a></li>
-          <li><a href="teachers.html" class="nav-link" title="Teachers Portal: View saved students, edit details & print">👨‍🏫 Teachers</a></li>
+          <li><a href="teachers.html" class="nav-link" title="Faculty Portal: View saved students roster, edit marks & print">👨‍🏫 Faculty Portal</a></li>
           <li><a href="template.html" class="nav-link">📄 Document Template</a></li>
         </ul>
       </nav>
@@ -58,8 +58,8 @@
         <button type="button" class="mode-btn d-desktop-only" id="btnModeSplit" onclick="setViewMode('split')" title="Side-by-side editing and live preview">
           <span class="mode-icon">📑</span> <span class="mode-text">Side-by-Side</span>
         </button>
-        <button type="button" class="mode-btn" id="btnModeTeachers" onclick="openTeachersTab()" title="Teachers Tab: Protected by faculty PIN">
-          <span class="mode-icon">🔒</span> <span class="mode-text">Teachers Tab</span>
+        <button type="button" class="mode-btn" id="btnModeTeachers" onclick="openTeachersTab()" title="Faculty Portal: Protected by faculty PIN">
+          <span class="mode-icon">🔒</span> <span class="mode-text">Faculty Portal</span>
           <span class="badge" id="teachersRosterCountBadge" style="background: #fef3c7; color: #92400e; font-size: 0.72rem; padding: 1px 6px; border-radius: 9999px; margin-left: 2px;">PIN Locked</span>
         </button>
       </div>
@@ -685,9 +685,9 @@
 
       <form id="teacherPasscodeForm" onsubmit="return handleTeacherPasscodeSubmit(event)">
         <div class="form-field">
-          <label for="inputTeacherCode">Teacher Passcode / School PIN</label>
-          <input type="password" id="inputTeacherCode" placeholder="Enter Master PIN or Class PIN (e.g. shm2026 or shm-viii)" required autofocus style="font-size: 1rem; padding: 0.75rem 0.85rem;">
-          <small style="color: #64748b; font-size: 0.74rem; margin-top: 0.3rem; display: block;">Authorized staff can unlock using School Master PIN or class-specific PIN.</small>
+          <label for="inputTeacherCode">Faculty Passcode / School PIN</label>
+          <input type="password" id="inputTeacherCode" placeholder="Enter Master PIN or Class PIN" required autofocus style="font-size: 1rem; padding: 0.75rem 0.85rem;">
+          <small style="color: #64748b; font-size: 0.74rem; margin-top: 0.3rem; display: block;">Authorized faculty can unlock using School Master PIN or class-specific PIN.</small>
         </div>
         <div id="teacherAuthFeedback" style="font-size: 0.82rem; font-weight: 600; min-height: 20px; margin-bottom: 0.75rem;"></div>
 
@@ -736,7 +736,7 @@
           <label style="display: block; font-weight: 800; font-size: 0.85rem; color: #1e1b4b; margin-bottom: 0.35rem;">
             ⭐ Master School PIN (All Classes & Admin)
           </label>
-          <input type="text" id="cfgMasterPin" class="form-control" placeholder="e.g. shm2026" required style="font-weight: 700;">
+          <input type="text" id="cfgMasterPin" class="form-control" placeholder="Enter Master PIN" required style="font-weight: 700;">
           <span style="font-size: 0.72rem; color: #4338ca; display: block; margin-top: 0.25rem;">Grants full unlocking and access across all classes.</span>
         </div>
 
