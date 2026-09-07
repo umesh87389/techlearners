@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Portfolio | TechLearners</title>
-  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/builder.css">
 </head>
@@ -14,10 +14,10 @@
   <header class="navbar no-print">
     <div class="container nav-wrapper">
       <a href="builder.html" class="brand">
-        <img src="assets/logo.svg" alt="Logo" class="brand-logo">
+        <img src="assets/school-logo.jpg" alt="Logo" class="brand-logo" style="border-radius: 6px; object-fit: cover;">
         <div class="brand-text">
           <h1 class="school-name-text">Techlearners Portfolio</h1>
-          <p class="school-motto-text">Student Portfolio & Single-Page Print • <span class="school-year-text">2026–2027</span></p>
+          <p class="school-motto-text">Knowledge Infinite • <span class="school-year-text">2026–2027</span></p>
         </div>
       </a>
       <nav>
@@ -75,7 +75,7 @@
             <option value="ai">🤖 Artificial Intelligence (Mr. Umesh Tripathi)</option>
           </select>
           <button type="button" id="btnTopbarPrintSelectedSubject" onclick="printSinglePage()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; white-space: nowrap;">
-            🖨️ Print Subject Portfolio
+            🖨️ Print Subject Portfolio (2 Pages)
           </button>
         </div>
         <button type="button" id="btnSaveAndSendReview" onclick="openSaveAndSendModal()" class="btn btn-sm btn-save-send" title="Save and send your portfolio profile for teacher's review & grading">
@@ -199,7 +199,7 @@
             </div>
             <div class="form-field">
               <label for="f_schoolMotto">School Motto / Tagline</label>
-              <input type="text" id="f_schoolMotto" placeholder="“Infinite Knowledge Through Education”">
+              <input type="text" id="f_schoolMotto" value="Knowledge Infinite" readonly style="background: #f1f5f9; color: #334155; font-weight: 700; cursor: not-allowed;" title="Permanent School Motto: Knowledge Infinite">
             </div>
             <div class="form-field">
               <label for="f_academicSession">Academic Session</label>
@@ -559,13 +559,13 @@
             <button type="button" class="btn btn-secondary" onclick="prevStep()">⬅️ Back: 3. Skills</button>
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
               <button type="button" onclick="setViewMode('preview')" class="btn btn-secondary">
-                👁️ View A4 Sheet Preview
+                👁️ View 2-Page Sheet Preview
               </button>
               <button type="button" onclick="openSaveAndSendModal()" class="btn btn-success" style="background: #15803d; border-color: #15803d; color: #fff; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;" title="Save profile and send for teacher review">
                 <span>📨</span> Save & Send for Teacher Review
               </button>
               <button type="button" onclick="printSinglePage()" class="btn btn-primary" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800;">
-                🖨️ Print Subject Portfolio (A4)
+                🖨️ Print Subject Portfolio (2 Pages)
               </button>
             </div>
           </div>
@@ -573,8 +573,8 @@
 
       </section>
 
-      <!-- RIGHT COLUMN: LIVE SINGLE-PAGE PRINT CANVAS -->
-      <section class="preview-wrapper" id="previewWrapper" aria-label="Live Single-Page Print Canvas">
+      <!-- RIGHT COLUMN: LIVE 2-PAGE PRINT CANVAS -->
+      <section class="preview-wrapper" id="previewWrapper" aria-label="Live 2-Page Print Canvas">
         
         <!-- Teacher Print Subject Selector Bar in Preview Column -->
         <div class="teacher-preview-bar no-print" style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: #eef2ff; border-bottom: 2px solid #c7d2fe; padding: 0.5rem 0.85rem; flex-wrap: wrap;">
@@ -594,10 +594,10 @@
           </div>
           <div style="display: flex; gap: 0.4rem; align-items: center;">
             <button type="button" id="btnPrintSelectedSubject" onclick="printSinglePage()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 800; white-space: nowrap;">
-              🖨️ Print Subject Portfolio
+              🖨️ Print Subject (2 Pages)
             </button>
             <button type="button" onclick="printAllSubjectPortfolios()" class="btn btn-secondary btn-sm" style="font-weight: 700; white-space: nowrap;" title="Print all 7 subjects in batch">
-              📑 Print All 7
+              📑 Print All (14 Pages)
             </button>
           </div>
         </div>
@@ -605,8 +605,8 @@
         <!-- Zoom & Viewport Bar -->
         <div class="sheet-zoom-bar no-print">
           <div class="zoom-controls">
-            <span style="font-weight: 700; color: #1e1b4b; margin-right: 0.2rem;">Zoom:</span>
-            <button type="button" class="zoom-btn active" data-zoom="fit" onclick="setPreviewZoom('fit')">🔍 Fit Screen</button>
+            <span class="zoom-label">Canvas Zoom:</span>
+            <button type="button" class="zoom-btn active" data-zoom="fit" onclick="setPreviewZoom('fit')">Fit</button>
             <button type="button" class="zoom-btn" data-zoom="0.5" onclick="setPreviewZoom(0.5)">50%</button>
             <button type="button" class="zoom-btn" data-zoom="0.75" onclick="setPreviewZoom(0.75)">75%</button>
             <button type="button" class="zoom-btn" data-zoom="1" onclick="setPreviewZoom(1)">100%</button>
@@ -616,7 +616,7 @@
               ← Edit Form
             </button>
             <button type="button" onclick="printSinglePage()" class="btn btn-primary btn-sm" style="background: #1e1b4b; border-color: #1e1b4b; font-weight: 700;">
-              🖨️ Print A4
+              🖨️ Print 2 Pages
             </button>
           </div>
         </div>

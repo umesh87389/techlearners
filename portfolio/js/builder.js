@@ -480,7 +480,7 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
 
 const SAMPLE_SHM_STUDENT = {
   schoolName: "SHM ACADEMY",
-  schoolMotto: "“Infinite Knowledge Through Education”",
+  schoolMotto: "Knowledge Infinite",
   academicSession: "2026–2027",
   
   // Individual Subject Portfolios & Child Overall Performance
@@ -1177,7 +1177,7 @@ function applySheetScale() {
   if (viewportWidth <= 0) viewportWidth = Math.max(280, (window.innerWidth || 360) - 32);
 
   const sheetPxWidth = 794; // 210mm in px at 96dpi
-  const sheetPxHeight = 1123; // 297mm in px at 96dpi
+  const sheetPxHeight = 2270; // 2 A4 pages (1123 * 2 + 24 gap) in px at 96dpi
 
   let scale = 1;
   if (currentZoom === "fit") {
@@ -1249,7 +1249,7 @@ function bindFormInputs() {
 // Sync currentData into form inputs
 function syncDataToForm(d) {
   setVal("f_schoolName", d.schoolName);
-  setVal("f_schoolMotto", d.schoolMotto);
+  setVal("f_schoolMotto", "Knowledge Infinite");
   setVal("f_academicSession", d.academicSession);
   
   setVal("f_studentName", d.studentName);
@@ -1352,7 +1352,7 @@ function readActiveSubjectForm() {
 function readFormToData() {
   readActiveSubjectForm();
   currentData.schoolName = getVal("f_schoolName", "SHM ACADEMY");
-  currentData.schoolMotto = getVal("f_schoolMotto", "“Infinite Knowledge Through Education”");
+  currentData.schoolMotto = "Knowledge Infinite";
   currentData.academicSession = getVal("f_academicSession", "2026–2027");
 
   currentData.studentName = getVal("f_studentName");
@@ -2244,7 +2244,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
   const sub = (d.subjectPortfolios && d.subjectPortfolios[subjectId]) || (d.subjectPortfolios && d.subjectPortfolios["mathematics"]) || getActiveSubjectData();
 
   const school = escapeHtml(d.schoolName || "SHM ACADEMY");
-  const motto = escapeHtml(d.schoolMotto || "“Infinite Knowledge Through Education”");
+  const motto = "Knowledge Infinite"; // Permanent School Motto
   const session = escapeHtml(d.academicSession || "2026–2027");
   const name = escapeHtml(d.studentName || "Student Name");
   const cls = escapeHtml(d.classSection || "Class VIII");
@@ -2253,7 +2253,7 @@ function generateSinglePageSheetHtml(d, subjectId) {
   const dob = escapeHtml(d.dob || "--");
   const father = escapeHtml(d.fatherName || "--");
   const mother = escapeHtml(d.motherName || "--");
-  const photo = d.photoUrl || "assets/logo.svg";
+  const photo = d.photoUrl || "assets/school-logo.jpg";
 
   const subjectName = sub.subject || "Mathematics";
   const subjectCode = sub.subjectCode || "041";
@@ -2267,11 +2267,11 @@ function generateSinglePageSheetHtml(d, subjectId) {
     const pct = Math.round((scoredVal / maxVal) * 100);
     return `
       <tr>
-        <td><strong>${escapeHtml(p.phase)}</strong></td>
-        <td class="center">${escapeHtml(p.maxMarks)}</td>
-        <td class="center"><strong>${escapeHtml(p.marksScored)}</strong></td>
-        <td class="center">${pct}%</td>
-        <td>${escapeHtml(p.remarks || "Certified")}</td>
+        <td class="sp-eval-phase-cell"><strong>${escapeHtml(p.phase)}</strong></td>
+        <td class="center"><strong>${escapeHtml(p.maxMarks)}</strong></td>
+        <td class="center"><strong class="sp-score-highlight">${escapeHtml(p.marksScored)}</strong></td>
+        <td class="center"><span class="sp-pct-pill">${pct}%</span></td>
+        <td class="sp-eval-remark-cell">${escapeHtml(p.remarks || "Certified & Verified")}</td>
       </tr>
     `;
   }).join("");
@@ -2288,206 +2288,313 @@ function generateSinglePageSheetHtml(d, subjectId) {
   const perfSvg = generateOverallPerformanceSvg(d.overallPerformance, subjectName);
 
   return `
-    <!-- 1. Header & Student Meta -->
-    <div class="sp-header">
-      <div class="sp-brand-header-col">
-        <img src="assets/logo.svg" alt="TechLearners" class="sp-techlearners-logo">
-        <span class="sp-techlearners-label">TechLearners</span>
-      </div>
-      <div class="sp-school-block">
-        <div class="sp-school-title">${school}</div>
-        <div class="sp-school-motto">${motto}</div>
-        <div class="sp-doc-title-row" style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-          <span class="sp-doc-title-badge">STUDENT PORTFOLIO</span>
-          <span class="sp-doc-subject-banner">${subjectIcon} ${escapeHtml(subjectName.toUpperCase())} <span class="sp-subject-code-tag">CODE: ${escapeHtml(subjectCode)}</span></span>
-          <span class="sp-doc-session-text">Session: ${session}</span>
-        </div>
-      </div>
-      <div class="sp-photo-wrapper">
-        <img src="${photo}" alt="Student Photograph" class="sp-photo-img" onerror="this.src='assets/logo.svg'">
-      </div>
-    </div>
-
-    <!-- Student Profile Strip & Subject Teacher -->
-    <div class="sp-profile-meta-grid">
-      <div class="sp-meta-item"><strong>Student:</strong> <span>${name}</span></div>
-      <div class="sp-meta-item"><strong>Class & Sec:</strong> <span>${cls}</span></div>
-      <div class="sp-meta-item"><strong>Roll No:</strong> <span>${roll}</span></div>
-      <div class="sp-meta-item"><strong>Adm No:</strong> <span>${adm}</span></div>
-      <div class="sp-meta-item"><strong>DOB:</strong> <span>${dob}</span></div>
-      <div class="sp-meta-item"><strong>Parents:</strong> <span>${father} / ${mother}</span></div>
-      <div class="sp-meta-item" style="grid-column: span 2;"><strong>Subject Teacher:</strong> <span class="sp-teacher-badge">👩‍🏫 ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span></div>
-    </div>
-
-    <!-- 2. Ribbon: MY SUBJECT PORTFOLIO IN ONE PAGE -->
-    <div class="sp-year-ribbon">
-      <div class="sp-ribbon-title">
-        <span>⭐ MY ${escapeHtml(subjectName.toUpperCase())} PORTFOLIO IN ONE PAGE</span>
-        <span style="font-size: 7.8pt; color: #b45309; text-transform: none; font-weight: 700;">Official Individual Subject Record • Evaluated by ${escapeHtml(subjectTeacher)}</span>
-      </div>
-      <div class="sp-ribbon-grid">
-        <div class="sp-ribbon-pill"><strong>📚 Subject Target:</strong> ${escapeHtml(sub.subjectGoal || "Academic Excellence & Distinction")}</div>
-        <div class="sp-ribbon-pill"><strong>💡 Key Topic:</strong> ${escapeHtml(sub.favTopic || "Core Theorems & Concepts")}</div>
-        <div class="sp-ribbon-pill"><strong>🔬 Practical/Lab:</strong> ${escapeHtml(sub.proj1Title || "Practical Project Completed")}</div>
-        <div class="sp-ribbon-pill"><strong>⭐ Subject Grade:</strong> <strong>${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</strong></div>
-      </div>
-    </div>
-
-    <!-- 3. Main Split Body -->
-    <div class="sp-body-split">
+    <!-- ==========================================
+         PAGE 1 OF 2: ACADEMIC FOCUS & TRAJECTORY
+         ========================================== -->
+    <div class="sp-page sp-page-1">
       
-      <!-- LEFT COLUMN -->
-      <div class="sp-col">
-        
-        <!-- 1-1 Subject Academic Progress Table -->
-        <div class="sp-card">
+      <!-- Top School Header -->
+      <div class="sp-header">
+        <div class="sp-school-logo-col">
+          <img src="assets/school-logo.jpg" alt="School Logo" class="sp-school-logo-img">
+        </div>
+        <div class="sp-school-block">
+          <div class="sp-school-title">${school}</div>
+          <div class="sp-school-motto">“Knowledge Infinite”</div>
+          <div class="sp-doc-title-row">
+            <span class="sp-doc-title-badge">STUDENT DIGITAL PORTFOLIO</span>
+            <span class="sp-doc-subject-banner">${subjectIcon} ${escapeHtml(subjectName.toUpperCase())} <span class="sp-subject-code-tag">CODE: ${escapeHtml(subjectCode)}</span></span>
+            <span class="sp-doc-session-text">Session: ${session}</span>
+          </div>
+        </div>
+        <div class="sp-photo-wrapper">
+          <img src="${photo}" alt="Student Photograph" class="sp-photo-img" onerror="this.src='assets/school-logo.jpg'">
+        </div>
+      </div>
+
+      <!-- Student Profile Particulars Strip -->
+      <div class="sp-profile-meta-grid">
+        <div class="sp-meta-item"><strong>Student Name:</strong> <span>${name}</span></div>
+        <div class="sp-meta-item"><strong>Class &amp; Section:</strong> <span>${cls}</span></div>
+        <div class="sp-meta-item"><strong>Roll Number:</strong> <span>${roll}</span></div>
+        <div class="sp-meta-item"><strong>Admission No:</strong> <span>${adm}</span></div>
+        <div class="sp-meta-item"><strong>Date of Birth:</strong> <span>${dob}</span></div>
+        <div class="sp-meta-item"><strong>Father\'s Name:</strong> <span>${father}</span></div>
+        <div class="sp-meta-item"><strong>Mother\'s Name:</strong> <span>${mother}</span></div>
+        <div class="sp-meta-item"><strong>Subject Faculty:</strong> <span class="sp-teacher-badge">👩‍🏫 ${escapeHtml(subjectTeacher)}</span></div>
+      </div>
+
+      <!-- Subject Focus & Highlights Ribbon -->
+      <div class="sp-year-ribbon">
+        <div class="sp-ribbon-title">
+          <span>⭐ ${escapeHtml(subjectName.toUpperCase())} — INDIVIDUAL SUBJECT RECORD &amp; EVALUATION</span>
+          <span class="sp-ribbon-subtag">Official Academic Record • Evaluated by ${escapeHtml(subjectTeacher)}</span>
+        </div>
+        <div class="sp-ribbon-grid">
+          <div class="sp-ribbon-pill"><strong>🎯 Subject Goal:</strong> ${escapeHtml(sub.subjectGoal || "Academic Excellence & Conceptual Distinction")}</div>
+          <div class="sp-ribbon-pill"><strong>💡 Key Topic:</strong> ${escapeHtml(sub.favTopic || "Core Concepts & Exemplar Application")}</div>
+          <div class="sp-ribbon-pill"><strong>🔬 Lab/Practical:</strong> ${escapeHtml(sub.proj1Title || "Practical Portfolio Activity")}</div>
+          <div class="sp-ribbon-pill"><strong>🏆 Subject Grade:</strong> <strong>${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</strong></div>
+        </div>
+      </div>
+
+      <!-- Section A: Continuous Academic Evaluation & Progress Record -->
+      <div class="sp-card sp-section-card">
+        <div class="sp-card-title">
+          <span>📊 Section A: Continuous Academic Progress &amp; Evaluation (${escapeHtml(subjectName)})</span>
+          <span class="sp-card-status-badge">Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%) • Certified ✓</span>
+        </div>
+        <table class="sp-table sp-eval-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Evaluation Assessment Phase</th>
+              <th class="center" style="width: 14%;">Max Marks</th>
+              <th class="center" style="width: 14%;">Marks Scored</th>
+              <th class="center" style="width: 14%;">Percentage %</th>
+              <th style="width: 28%;">Teacher Remarks &amp; Competency Verification</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${evalRowsHtml}
+          </tbody>
+          <tfoot>
+            <tr class="sp-table-total-row">
+              <td><strong>Cumulative Subject Assessment</strong></td>
+              <td class="center"><strong>100</strong></td>
+              <td class="center"><strong>${escapeHtml(sub.totalScore || "98")}</strong></td>
+              <td class="center"><strong>${escapeHtml(sub.totalScore || "98")}%</strong></td>
+              <td><strong>Performance Band: Grade ${escapeHtml(sub.grade || "A1")} (Distinction)</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="sp-table-summary-strip">
+          <span><strong>Evaluation Status:</strong> All assessment criteria completed and verified</span>
+          <span><strong>Evaluator:</strong> ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span>
+        </div>
+      </div>
+
+      <!-- Section B: Child Overall Academic Performance & Trajectory Graph -->
+      <div class="sp-card sp-section-card sp-perf-card">
+        <div class="sp-card-title">
+          <span>📈 Section B: Child Overall Academic Performance &amp; Trajectory Graph</span>
+          <span class="sp-card-subbadge">Cross-Subject Trajectory (Term-1 → Term-2 → Target)</span>
+        </div>
+        <div class="sp-perf-graph-wrapper">
+          ${perfSvg}
+        </div>
+        <div class="sp-perf-analysis-strip">
+          <div class="sp-perf-bullet"><strong>Trajectory Analysis:</strong> Positive growth trend observed across evaluation cycles. Consistent mastery demonstrated in core subject areas.</div>
+          <div class="sp-perf-bullet"><strong>Benchmark Standing:</strong> Student ranks in top tier of class cohort, maintaining high academic rigor above institutional averages.</div>
+        </div>
+      </div>
+
+      <!-- Page 1 Footer -->
+      <div class="sp-page-footer">
+        <div class="sp-page-footer-left">${school} • Continuous Comprehensive Subject Evaluation • Academic Session ${session}</div>
+        <div class="sp-page-footer-right"><span class="sp-page-pill">Page 1 of 2</span></div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         PAGE 2 OF 2: COMPETENCIES, PROJECTS & SIGS
+         ========================================== -->
+    <div class="sp-page sp-page-2">
+      
+      <!-- Page 2 Running Header -->
+      <div class="sp-running-header">
+        <div class="sp-running-left">
+          <img src="assets/school-logo.jpg" alt="School Logo" class="sp-running-logo">
+          <div class="sp-running-titles">
+            <span class="sp-running-school">${school}</span>
+            <span class="sp-running-motto">“Knowledge Infinite”</span>
+          </div>
+        </div>
+        <div class="sp-running-center">
+          <span class="sp-running-doc-badge">STUDENT PORTFOLIO • PART II</span>
+        </div>
+        <div class="sp-running-right">
+          <span class="sp-running-student">${name} • ${cls} (Roll: ${roll})</span>
+          <span class="sp-running-subject">${subjectIcon} ${escapeHtml(subjectName)} <span class="sp-subject-code-tag">CODE: ${escapeHtml(subjectCode)}</span></span>
+          <span class="sp-page-pill">Page 2 of 2</span>
+        </div>
+      </div>
+
+      <!-- Section C: Subject Core Competencies Matrix -->
+      <div class="sp-card sp-section-card">
+        <div class="sp-card-title">
+          <span>⚡ Section C: Subject Core Competency &amp; Skills Rubric (Rating 1.0 – 5.0)</span>
+          <span class="sp-card-subbadge">Evaluated on Comprehensive Board Rubrics</span>
+        </div>
+        <div class="sp-competencies-grid">
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">🧠 Concept Clarity &amp; Foundations</span>
+              <span class="sp-comp-score">${comp.conceptClarity || "5.0"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Demonstrates deep theoretical understanding of core curriculum concepts and fundamental principles.</p>
+          </div>
+
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">🔍 Problem Solving &amp; Reasoning</span>
+              <span class="sp-comp-score">${comp.problemSolving || "5.0"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Applies logical methodology to solve multi-step problems, complex calculations, and conceptual questions.</p>
+          </div>
+
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">🔬 Practical &amp; Experimental Lab</span>
+              <span class="sp-comp-score">${comp.practicalLabWork || "4.8"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Executes hands-on laboratory investigations, records experimental data with precision and accuracy.</p>
+          </div>
+
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">📁 Portfolio Documentation</span>
+              <span class="sp-comp-score">${comp.portfolioRegularity || "5.0"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Maintains neat, structured, and comprehensive portfolio records with timely submission of authentic artifacts.</p>
+          </div>
+
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">📅 Regularity &amp; Assignment Delivery</span>
+              <span class="sp-comp-score">${comp.regularityHomework || "4.9"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Consistently punctual with homework, classroom participation, notebook submission, and daily revisions.</p>
+          </div>
+
+          <div class="sp-comp-box">
+            <div class="sp-comp-header">
+              <span class="sp-comp-title">🗣️ Viva Voce &amp; Subject Defense</span>
+              <span class="sp-comp-score">${comp.vivaCommunication || "4.7"} / 5.0</span>
+            </div>
+            <p class="sp-comp-desc">Articulates concepts confidently during oral quizzes, discussions, viva assessments, and peer reviews.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split Row: Section D (Target & Plan) + Section F (Honors & Reflections) -->
+      <div class="sp-split-row">
+        <!-- Section D: Target & Action Plan -->
+        <div class="sp-card sp-section-card" style="flex: 1;">
           <div class="sp-card-title">
-            <span>📊 1-1 Subject Evaluation: ${escapeHtml(subjectName)}</span>
-            <span style="font-size: 7.8pt; color: #16a34a; font-weight: 800;">Grade: ${escapeHtml(sub.grade || "A1")} (${escapeHtml(sub.totalScore || "98")}%)</span>
+            <span>🌱 Section D: Subject Improvement Plan</span>
           </div>
-          <table class="sp-table">
-            <thead>
-              <tr>
-                <th>Evaluation Phase</th>
-                <th class="center" style="width: 28px;">Max</th>
-                <th class="center" style="width: 28px;">Scored</th>
-                <th class="center" style="width: 32px;">Score %</th>
-                <th>Teacher Remark / Verification</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${evalRowsHtml}
-            </tbody>
-          </table>
-          <div style="font-size: 7.8pt; color: #334155; margin-top: 2px; padding: 2px 4px; background: #f8fafc; border-radius: 3px; display: flex; justify-content: space-between;">
-            <span><strong>Final Subject Score:</strong> ${escapeHtml(sub.totalScore || "98")}% (Grade ${escapeHtml(sub.grade || "A1")})</span>
-            <span><strong>Certified By:</strong> ${escapeHtml(subjectTeacher)}</span>
-          </div>
-        </div>
-
-        <!-- Child Overall Performance Graph -->
-        <div class="sp-card sp-perf-graph-card">
-          <div class="sp-card-title">
-            <span>📈 Child Overall Academic Performance Graph</span>
-            <span style="font-size: 7.5pt; color: #4338ca; font-weight: 700;">Trajectory & Benchmark</span>
-          </div>
-          <div class="sp-perf-graph-wrapper">
-            ${perfSvg}
-          </div>
-        </div>
-
-        <!-- Subject Core Competency Matrix -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>⚡ ${escapeHtml(subjectName)} Competency Matrix (Rate 1–5)</span></div>
-          <div class="sp-skills-grid">
-            <div class="sp-skill-badge"><span>Concept Clarity</span><span class="score">${comp.conceptClarity || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Problem Solving</span><span class="score">${comp.problemSolving || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Practical/Lab</span><span class="score">${comp.practicalLabWork || "4.8"}/5</span></div>
-            <div class="sp-skill-badge"><span>Portfolio Sub</span><span class="score">${comp.portfolioRegularity || "5.0"}/5</span></div>
-            <div class="sp-skill-badge"><span>Class Regularity</span><span class="score">${comp.regularityHomework || "4.9"}/5</span></div>
-            <div class="sp-skill-badge"><span>Viva/Oral</span><span class="score">${comp.vivaCommunication || "4.7"}/5</span></div>
-          </div>
-        </div>
-
-        <!-- Subject Improvement Roadmap -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>🌱 ${escapeHtml(subjectName)} Target & Action Plan</span></div>
-          <div style="font-size: 8pt; line-height: 1.35;">
-            <strong>Focus Area:</strong> ${escapeHtml(sub.improvementPlan?.area || "Advanced problem speed and proofs")}<br>
-            <strong>Action Plan:</strong> ${escapeHtml(sub.improvementPlan?.plan || "Daily exemplar practice under timer")}<br>
-            <div style="display: flex; justify-content: space-between; margin-top: 1px;">
-              <span><strong>Target:</strong> ${escapeHtml(sub.improvementPlan?.target || "Term 2")}</span>
-              <span><strong>Status:</strong> <strong style="color: #16a34a;">${escapeHtml(sub.improvementPlan?.progress || "In Progress")}</strong></span>
+          <div class="sp-plan-body">
+            <div class="sp-plan-row"><strong>Focus Area:</strong> <span>${escapeHtml(sub.improvementPlan?.area || "Advanced problem speed & exemplar proofs")}</span></div>
+            <div class="sp-plan-row"><strong>Action Strategy:</strong> <span>${escapeHtml(sub.improvementPlan?.plan || "Daily exemplar practice under timer with self-analysis")}</span></div>
+            <div class="sp-plan-meta">
+              <span><strong>Target Timeline:</strong> ${escapeHtml(sub.improvementPlan?.target || "Term 2 Evaluation")}</span>
+              <span><strong>Status:</strong> <strong style="color: #16a34a;">${escapeHtml(sub.improvementPlan?.progress || "In Progress (On Track)")}</strong></span>
             </div>
           </div>
         </div>
 
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="sp-col">
-        
-        <!-- Subject Projects & Practical Work -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>💡 ${escapeHtml(subjectName)} Projects & Practical Work</span></div>
-          <div style="font-size: 8.2pt; line-height: 1.35; margin-bottom: 2.5px;">
-            <strong>1. ${escapeHtml(sub.proj1Title || "Subject Practical Project 1")}:</strong>
-            ${escapeHtml(sub.proj1Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj1Learned || "")}
-          </div>
-          <div style="font-size: 8.2pt; line-height: 1.35;">
-            <strong>2. ${escapeHtml(sub.proj2Title || "Lab Experiment / Project 2")}:</strong>
-            ${escapeHtml(sub.proj2Did || "")}. <em>Learned:</em> ${escapeHtml(sub.proj2Learned || "")}
-          </div>
-        </div>
-
-        <!-- Subject Achievements & Honors -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>🏆 ${escapeHtml(subjectName)} Honors & Achievements</span></div>
-          <div style="font-size: 8.2pt; line-height: 1.35;">
-            <strong>Olympiad / Competition:</strong> ${escapeHtml(d.achievements && d.achievements[0] ? d.achievements[0].title : "Subject Olympiad Distinction")}<br>
-            <strong>Award / Distinction:</strong> ${escapeHtml(d.academicAchievement || "Ranked 1st in Annual Honors & STEM Distinction")}
-          </div>
-        </div>
-
-        <!-- Student Subject Self-Reflection -->
-        <div class="sp-card">
-          <div class="sp-card-title"><span>✍️ Student Reflection on ${escapeHtml(subjectName)}</span></div>
-          <div style="font-size: 8.2pt; line-height: 1.35; color: #334155;">
-            <strong>Learning:</strong> ${escapeHtml(sub.subjectReflection || "Mastered curriculum concepts and applied logical principles.")}<br>
-            <strong>Challenge Overcome:</strong> ${escapeHtml(d.refChallenge || "Balanced examination revision alongside practical project work.")}
-          </div>
-        </div>
-
-        <!-- Subject Teacher's Assessment -->
-        <div class="sp-card">
+        <!-- Section F: Subject Honors & Reflections -->
+        <div class="sp-card sp-section-card" style="flex: 1;">
           <div class="sp-card-title">
-            <span>👩‍🏫 Subject Teacher's Assessment (${escapeHtml(subjectName)})</span>
-            <span style="font-size: 7.8pt; color: #16a34a; font-weight: 800;">Official Certified ✓</span>
+            <span>🏆 Section F: Honors &amp; Reflection</span>
           </div>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 4px; font-size: 7.8pt; background: #f8fafc; padding: 2.5px 4px; border-radius: 3px; margin-bottom: 2px;">
-            <div>Concept: <strong>Excellent</strong></div>
-            <div>Practical: <strong>Excellent</strong></div>
-            <div>Regularity: <strong>Excellent</strong></div>
-            <div>Portfolio: <strong>Excellent</strong></div>
-          </div>
-          <div style="font-size: 8.2pt; font-style: italic; color: #1e293b; line-height: 1.3; margin-bottom: 2px;">
-            “${escapeHtml(sub.teacherRemarks || "Demonstrates remarkable conceptual clarity, diligence, and intellectual curiosity.")}”
-          </div>
-          <div style="font-size: 7.8pt; color: #475569; display: flex; justify-content: space-between;">
-            <span><strong>Evaluator:</strong> ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span>
-            <span><strong>Date:</strong> ${escapeHtml(sub.teacherSignDate || "15 March 2027")}</span>
+          <div class="sp-reflection-body">
+            <div class="sp-refl-row"><strong>Olympiad / Honor:</strong> <span>${escapeHtml(d.achievements && d.achievements[0] ? d.achievements[0].title : "Subject Olympiad Distinction")}</span></div>
+            <div class="sp-refl-row"><strong>Key Learning:</strong> <span>${escapeHtml(sub.subjectReflection || "Mastered analytical thinking and disciplined study routines.")}</span></div>
+            <div class="sp-refl-row"><strong>Challenge Overcome:</strong> <span>${escapeHtml(d.refChallenge || "Balanced examination revision alongside practical project work.")}</span></div>
           </div>
         </div>
-
       </div>
 
-    </div>
+      <!-- Section E: Practical Projects & Lab Evidence -->
+      <div class="sp-card sp-section-card">
+        <div class="sp-card-title">
+          <span>💡 Section E: Subject Practical Projects &amp; Experimental Lab Evidence</span>
+          <span class="sp-card-subbadge">Verified Hands-on Artifacts</span>
+        </div>
+        <div class="sp-projects-grid">
+          <div class="sp-project-card">
+            <div class="sp-project-header">
+              <span class="sp-project-num">Project 1</span>
+              <strong class="sp-project-title">${escapeHtml(sub.proj1Title || "Subject Practical Project 1")}</strong>
+            </div>
+            <p class="sp-project-line"><strong>Methodology / Work Done:</strong> ${escapeHtml(sub.proj1Did || "Formulated hypotheses, designed procedure, gathered observations, and synthesized findings.")}</p>
+            <p class="sp-project-line"><strong>Learning &amp; Outcome:</strong> ${escapeHtml(sub.proj1Learned || "Acquired deep insight into real-world applications and validated empirical conclusions.")}</p>
+          </div>
 
-    <!-- 4. Bottom Signatures Strip -->
-    <div class="sp-footer">
-      <div class="sp-declaration-quote">
-        “I have completed this ${escapeHtml(subjectName)} portfolio with sincere effort, recording all practical activities, lab evidence, and learning reflections.”
-      </div>
-      <div class="sp-signatures-grid">
-        <div class="sp-sig-col">
-          <div class="sp-sig-line"></div>
-          <strong>${name}</strong>
-          <p>Student Signature • ${escapeHtml(d.studentSignDate || "2027")}</p>
-        </div>
-        <div class="sp-sig-col">
-          <div class="sp-sig-line"></div>
-          <strong>${escapeHtml(subjectTeacher)}</strong>
-          <p>Subject Teacher (${escapeHtml(subjectName)}) • ${escapeHtml(sub.teacherSignDate || "2027")}</p>
-        </div>
-        <div class="sp-sig-col">
-          <div class="sp-sig-line"></div>
-          <strong>Principal / Seal</strong>
-          <p>${school} • Verified Academic Record</p>
+          <div class="sp-project-card">
+            <div class="sp-project-header">
+              <span class="sp-project-num">Project 2</span>
+              <strong class="sp-project-title">${escapeHtml(sub.proj2Title || "Lab Experiment & Analytical Study 2")}</strong>
+            </div>
+            <p class="sp-project-line"><strong>Methodology / Work Done:</strong> ${escapeHtml(sub.proj2Did || "Executed experimental trials, recorded sensor and data points, and constructed graphical models.")}</p>
+            <p class="sp-project-line"><strong>Learning &amp; Outcome:</strong> ${escapeHtml(sub.proj2Learned || "Developed rigorous data analysis techniques and verified theoretical mathematical relations.")}</p>
+          </div>
         </div>
       </div>
-      <div class="sp-watermark-strip">
-        <img src="assets/logo.svg" alt="TechLearners" class="sp-footer-logo">
-        <span>Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform • Individual Subject Portfolio Engine</span>
+
+      <!-- Section G: Subject Teacher's Assessment & Qualitative Remarks -->
+      <div class="sp-card sp-section-card">
+        <div class="sp-card-title">
+          <span>👩‍🏫 Section G: Subject Teacher's Qualitative Assessment &amp; Endorsement</span>
+          <span class="sp-card-status-badge">Official Faculty Verification ✓</span>
+        </div>
+        <div class="sp-teacher-rubric-strip">
+          <div class="sp-rubric-item">Conceptual Clarity: <strong>Exemplary (Grade A1)</strong></div>
+          <div class="sp-rubric-item">Practical Skills: <strong>Exemplary (Grade A1)</strong></div>
+          <div class="sp-rubric-item">Class Regularity: <strong>Outstanding (100%)</strong></div>
+          <div class="sp-rubric-item">Portfolio Quality: <strong>Exceptional</strong></div>
+        </div>
+        <div class="sp-teacher-quote-box">
+          “${escapeHtml(sub.teacherRemarks || "Demonstrates remarkable conceptual clarity, diligence, and intellectual curiosity. Consistently produces thorough, high-quality work in both theoretical and practical domains.")}”
+        </div>
+        <div class="sp-teacher-sign-meta">
+          <span><strong>Faculty Evaluator:</strong> ${escapeHtml(subjectTeacher)} (${escapeHtml(subjectTeacherRole)})</span>
+          <span><strong>Evaluation Date:</strong> ${escapeHtml(sub.teacherSignDate || "15 March 2027")}</span>
+        </div>
+      </div>
+
+      <!-- Section H: Official 4-Column Authentication Signatures Strip -->
+      <div class="sp-card sp-signatures-card">
+        <div class="sp-declaration-quote">
+          “I hereby certify that all entries, practical lab recordings, and self-reflections contained in this subject portfolio are authentic and verified.”
+        </div>
+        <div class="sp-signatures-grid-4">
+          <div class="sp-sig-box">
+            <div class="sp-sig-line"></div>
+            <strong class="sp-sig-name">${name}</strong>
+            <p class="sp-sig-role">Student Signature</p>
+            <span class="sp-sig-date">Date: ${escapeHtml(d.studentSignDate || "2027")}</span>
+          </div>
+          <div class="sp-sig-box">
+            <div class="sp-sig-line"></div>
+            <strong class="sp-sig-name">${father}</strong>
+            <p class="sp-sig-role">Parent / Guardian</p>
+            <span class="sp-sig-date">Date: ${escapeHtml(d.parentSignDate || "2027")}</span>
+          </div>
+          <div class="sp-sig-box">
+            <div class="sp-sig-line"></div>
+            <strong class="sp-sig-name">${escapeHtml(subjectTeacher)}</strong>
+            <p class="sp-sig-role">Subject Faculty Mentor</p>
+            <span class="sp-sig-date">Date: ${escapeHtml(sub.teacherSignDate || "2027")}</span>
+          </div>
+          <div class="sp-sig-box sp-sig-seal-box">
+            <div class="sp-sig-line"></div>
+            <strong class="sp-sig-name">Principal / Seal</strong>
+            <p class="sp-sig-role">${school}</p>
+            <span class="sp-sig-date">Verified Academic Record</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 2 Footer: Techlearners attribution ONLY in footer -->
+      <div class="sp-page-footer sp-page-2-footer">
+        <div class="sp-watermark-strip">
+          <img src="assets/logo.svg" alt="TechLearners" class="sp-footer-logo">
+          <span>Powered by <strong>TechLearners</strong> Student Digital Portfolio Platform • www.techlearners.in</span>
+        </div>
+        <div class="sp-page-footer-right"><span class="sp-page-pill">Page 2 of 2</span></div>
       </div>
     </div>
   `;
@@ -2546,14 +2653,12 @@ function printAllSubjectPortfolios() {
   const subjects = currentData.subjectsList || DEFAULT_SUBJECTS;
   const originalSubjectId = currentData.selectedSubjectId;
 
-  // Render all subject sheets in printable multi-page wrapper
+  // Render all subject sheets in printable multi-page wrapper (2 pages per subject)
   let multiHtml = "";
   subjects.forEach(s => {
     multiHtml += `
-      <div class="multi-subject-print-page" style="page-break-after: always; break-after: page;">
-        <div class="single-page-sheet-print" style="width: 194mm; height: 281mm; max-height: 281mm; margin: 0 auto; padding: 5mm 6mm; border: 1.5px solid #000000; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; background: #ffffff;">
-          ${generateSinglePageSheetHtml(currentData, s.id)}
-        </div>
+      <div class="multi-subject-print-container">
+        ${generateSinglePageSheetHtml(currentData, s.id)}
       </div>
     `;
   });
@@ -2572,13 +2677,17 @@ function printAllSubjectPortfolios() {
       }
       #allSubjectsPrintWrapper {
         display: block !important;
+        width: 100% !important;
       }
-      .multi-subject-print-page {
+      .multi-subject-print-container {
+        display: block !important;
+        width: 100% !important;
+      }
+      .multi-subject-print-container .sp-page {
         page-break-after: always !important;
         break-after: page !important;
-        height: 281mm !important;
-        max-height: 281mm !important;
-        overflow: hidden !important;
+        height: 279mm !important;
+        max-height: 279mm !important;
       }
     }
   `;
@@ -2609,12 +2718,12 @@ window.addEventListener("beforeprint", function() {
     scaler.style.position = "static";
   }
   if (sheet) {
-    sheet.style.position = "relative";
+    sheet.style.position = "static";
     sheet.style.top = "auto";
     sheet.style.left = "auto";
     sheet.style.transform = "none";
-    sheet.style.width = "194mm";
-    sheet.style.height = "281mm";
+    sheet.style.width = "100%";
+    sheet.style.height = "auto";
   }
 });
 
@@ -2644,7 +2753,7 @@ function clearForm() {
 
     currentData = {
       schoolName: "SHM ACADEMY",
-      schoolMotto: "“Infinite Knowledge Through Education”",
+      schoolMotto: "Knowledge Infinite",
       academicSession: "2026–2027",
       studentName: "",
       classSection: "",
@@ -2656,7 +2765,7 @@ function clearForm() {
       contactNo: "",
       house: "",
       classTeacher: "",
-      photoUrl: "assets/logo.svg",
+      photoUrl: "assets/school-logo.jpg",
       aboutSentence: "",
       interests: "",
       hobbies: "",
@@ -3159,7 +3268,7 @@ function syncStudentToDatabase(options = {}) {
     coverImage: (existingStudent && existingStudent.coverImage) || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1200",
     tagline: currentData.interests ? `${currentData.interests} • ${currentData.schoolName || "SHM Academy"}` : ((existingStudent && existingStudent.tagline) || "Student Portfolio Builder"),
     bio: currentData.aboutSentence || (existingStudent && existingStudent.bio) || "Dedicated student portfolio profile.",
-    motto: currentData.schoolMotto || (existingStudent && existingStudent.motto) || "“Infinite Knowledge Through Education.”",
+    motto: "Knowledge Infinite",
     attendance: (existingStudent && existingStudent.attendance) || "97.5%",
     academicScore: academicScoreStr,
     activityCycle: (existingStudent && existingStudent.activityCycle) || {

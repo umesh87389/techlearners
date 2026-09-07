@@ -10,9 +10,9 @@
 
 const DEFAULT_SCHOOL_CONFIG = {
   schoolName: "Techlearners Digital Portfolio",
-  schoolMotto: "Inspiring Innovation, Excellence & Character",
+  schoolMotto: "Knowledge Infinite",
   academicYear: "2026–2027",
-  logoUrl: "assets/logo.svg",
+  logoUrl: "assets/school-logo.jpg",
   contactEmail: "portfolios@techlearners.edu.in",
   portalUrl: "https://techlearners.in/portfolio/"
 };
@@ -89,7 +89,7 @@ const DEFAULT_STUDENTS = [
     teamRole: "SHM Academy STEM & Robotics Scholar",
     tagline: "Robotics Builder • Microcontroller & AI Explorer • SHM Academy",
     bio: "Class VIII student at SHM Academy. Highly dedicated to circuit prototyping, sensor automation, and algorithmic problem solving. Winner of Inter-School STEM Hackathon.",
-    motto: "“Infinite Knowledge Through Education.”",
+    motto: "“Knowledge Infinite”",
     attendance: "98.2%",
     academicScore: "96.5%",
 
