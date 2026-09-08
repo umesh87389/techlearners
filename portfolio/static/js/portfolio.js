@@ -234,8 +234,8 @@
 
     if (tabName === 'teacher') {
       document.body.classList.add('teacher-mode');
-      if (studentBtn) studentBtn.classList.remove('active');
-      if (teacherBtn) teacherBtn.classList.add('active');
+      if (studentBtn) studentBtn.classList.remove('active', 'active-student');
+      if (teacherBtn) teacherBtn.classList.add('active', 'active-teacher');
       if (studentView) studentView.style.display = 'none';
       if (teacherView) teacherView.style.display = 'block';
       if (floatingBar) floatingBar.style.display = 'none';
@@ -243,8 +243,8 @@
       checkTeacherAuthState();
     } else {
       document.body.classList.remove('teacher-mode');
-      if (studentBtn) studentBtn.classList.add('active');
-      if (teacherBtn) teacherBtn.classList.remove('active');
+      if (studentBtn) studentBtn.classList.add('active', 'active-student');
+      if (teacherBtn) teacherBtn.classList.remove('active', 'active-teacher');
       if (studentView) studentView.style.display = 'block';
       if (teacherView) teacherView.style.display = 'none';
       if (quickLockBtn) quickLockBtn.style.display = 'none';
@@ -286,7 +286,9 @@
     const pill = document.getElementById('teacherTabLockBadge');
     if (!pill) return;
 
-    if (isAuth) {
+    const authenticated = typeof isAuth === 'boolean' ? isAuth : (sessionStorage.getItem(AUTH_SESSION_KEY) !== 'locked');
+
+    if (authenticated) {
       pill.className = 'teacher-lock-status-pill status-pill-unlocked';
       pill.innerHTML = '🟢 Faculty Active';
     } else {
@@ -911,14 +913,18 @@
     const classSection = (payload.profile.class_section || '').trim();
 
     if (!studentName) {
-      alert('Please enter Student’s Name in the Student Profile section.');
-      document.getElementById('profile_student_name')?.focus();
+      if (source === 'send') {
+        alert('Please enter Student’s Name in the Student Profile section.');
+        document.getElementById('profile_student_name')?.focus();
+      }
       return null;
     }
 
     if (!classSection) {
-      alert('Please select Class & Section from the dropdown menu.');
-      document.getElementById('profile_class_section')?.focus();
+      if (source === 'send') {
+        alert('Please select Class & Section from the dropdown menu.');
+        document.getElementById('profile_class_section')?.focus();
+      }
       return null;
     }
 
@@ -1005,12 +1011,18 @@
   let pendingPrintPayload = null;
 
   async function handleStudentPrint() {
-    // Automatically save & record before printing
-    updateStatusBadge('Auto-saving record to Teacher Dashboard before printing...');
-    await submitAndSyncRecord('print');
+    // Automatically save & record before printing (if name/class present)
+    try {
+      updateStatusBadge('Auto-saving record to Teacher Dashboard before printing...');
+      await submitAndSyncRecord('print');
+    } catch (e) {
+      console.warn('Auto-save on print:', e);
+    }
 
     // Make sure graph is updated on screen
-    updatePerformanceGraph();
+    try {
+      updatePerformanceGraph();
+    } catch (e) {}
 
     // Prepare print payload from current student form
     const currentData = getFormData('print');
@@ -1019,6 +1031,9 @@
     // Prompt teacher and student for specific subject scope
     openPrintSubjectModal(currentData);
   }
+
+  window.handleStudentPrint = handleStudentPrint;
+  window.handleStudentSend = handleStudentSend;
 
   // =========================================================
   // 6. TEACHER DASHBOARD & EVALUATION (ON SAME PAGE)
@@ -1649,19 +1664,6 @@
 
     // Performance Graph SVG (as per selected subject!)
     renderPrintGraph(scoresMap, overallAvg, grade, selectedSubject);
-
-    // Skills Table (9 Skills formatted into 3-column rows)
-    const skillList = [
-      { key: 'communication', name: 'Communication Skills' },
-      { key: 'reading', name: 'Reading Skills' },
-      { key: 'writing', name: 'Writing Skills' },
-      { key: 'creativity', name: 'Creativity & Innovation' },
-      { key: 'problem_solving', name: 'Problem Solving' },
-      { key: 'teamwork', name: 'Teamwork & Collaboration' },
-      { key: 'leadership', name: 'Leadership' },
-      { key: 'time_management', name: 'Time Management' },
-      { key: 'digital_skills', name: 'Digital / ICT Skills' }
-    ];
 
     // Skills Table (9 Skills formatted cleanly into 2-column rows to prevent word overlaps)
     const skillList = [

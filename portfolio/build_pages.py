@@ -861,10 +861,10 @@ def generate_html(is_jinja=False):
           </span>
         </div>
         <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
+          <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" onclick="handleStudentPrint()" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
             <span>🖨️</span> Print Portfolio (Single A4 Page)
           </button>
-          <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" title="Transmit completed portfolio to Teacher Dashboard">
+          <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" onclick="handleStudentSend()" title="Transmit completed portfolio to Teacher Dashboard">
             <span>🚀</span> Send Portfolio
           </button>
         </div>
@@ -1446,15 +1446,19 @@ def generate_html(is_jinja=False):
 </html>'''
 
 # Write templates/portfolio.html
+import os
+base_dir = os.path.dirname(os.path.abspath(__file__))
+os.makedirs(os.path.join(base_dir, 'templates'), exist_ok=True)
+
 template_content = generate_html(is_jinja=True)
-with open('/data/data/com.termux/files/home/school-portfolio/templates/portfolio.html', 'w', encoding='utf-8') as f:
+with open(os.path.join(base_dir, 'templates/portfolio.html'), 'w', encoding='utf-8') as f:
     f.write(template_content)
 
 # Write static index.html and portfolio.html
 static_content = generate_html(is_jinja=False)
-with open('/data/data/com.termux/files/home/school-portfolio/index.html', 'w', encoding='utf-8') as f:
+with open(os.path.join(base_dir, 'index.html'), 'w', encoding='utf-8') as f:
     f.write(static_content)
-with open('/data/data/com.termux/files/home/school-portfolio/portfolio.html', 'w', encoding='utf-8') as f:
+with open(os.path.join(base_dir, 'portfolio.html'), 'w', encoding='utf-8') as f:
     f.write(static_content)
 
 print("HTML generation successful!")

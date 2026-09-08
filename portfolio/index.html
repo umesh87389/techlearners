@@ -830,10 +830,10 @@
           </span>
         </div>
         <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
+          <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" onclick="handleStudentPrint()" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
             <span>🖨️</span> Print Portfolio (Single A4 Page)
           </button>
-          <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" title="Transmit completed portfolio to Teacher Dashboard">
+          <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" onclick="handleStudentSend()" title="Transmit completed portfolio to Teacher Dashboard">
             <span>🚀</span> Send Portfolio
           </button>
         </div>
