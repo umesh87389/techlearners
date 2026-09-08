@@ -23,20 +23,24 @@
       </div>
 
       <!-- Segmented Tab Controls on Same Page -->
-      <div class="segmented-tab-control">
-        <button type="button" id="tabBtnStudent" class="seg-tab-btn active-student" onclick="switchMainTab('student')">
-          <span>🎓</span> Student Portfolio
-        </button>
-        <button type="button" id="tabBtnTeacher" class="seg-tab-btn" onclick="switchMainTab('teacher')">
-          <span>👨‍🏫</span> Teacher’s Dashboard
-          <span id="teacherTabLockBadge" class="status-pill pill-evaluated" style="font-size:0.7rem; padding: 2px 6px;">🟢 Faculty Active</span>
-        </button>
-      </div>
+      <div class="nav-tab-container">
+        <div class="segmented-tab-control" role="tablist" aria-label="Main Navigation Tabs">
+          <button type="button" id="tabBtnStudent" class="seg-tab-btn active-student" onclick="switchMainTab('student')" role="tab" aria-selected="true">
+            <span class="seg-tab-icon">🎓</span>
+            <span class="seg-tab-label">Student Portfolio</span>
+          </button>
+          <button type="button" id="tabBtnTeacher" class="seg-tab-btn" onclick="switchMainTab('teacher')" role="tab" aria-selected="false">
+            <span class="seg-tab-icon">👨‍🏫</span>
+            <span class="seg-tab-label">Teacher’s Dashboard</span>
+            <span id="teacherTabLockBadge" class="teacher-lock-status-pill status-pill-locked">🔒 Locked</span>
+          </button>
+        </div>
 
-      <div id="teacherQuickLockContainer" style="display: none;">
-        <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.82rem;">
-          🔒 Lock Tab
-        </button>
+        <div id="teacherQuickLockContainer" style="display: none;">
+          <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.45rem 0.9rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+            🔒 Lock Tab
+          </button>
+        </div>
       </div>
     </div>
   </nav>
@@ -846,8 +850,8 @@
   <!-- ========================================================= -->
   <div id="teacherViewContainer" style="display: none;">
 
-    <!-- A. Teacher PIN Gate (Shown only when explicitly locked) -->
-    <div id="teacherAuthGate" class="teacher-auth-gate" style="display: none;">
+    <!-- A. Teacher PIN Gate (Shown by default when not authenticated) -->
+    <div id="teacherAuthGate" class="teacher-auth-gate" style="display: flex;">
       <div class="auth-card">
         <img src="assets/school-logo.jpg" alt="Logo" style="height: 54px; border-radius: 8px; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <div style="margin-bottom: 0.75rem;">
@@ -879,8 +883,8 @@
       </div>
     </div>
 
-    <!-- B. Teacher Dashboard (Default Active & Fully Visible) -->
-    <div id="teacherDashboardContent" style="display: block;" class="teacher-dashboard-view">
+    <!-- B. Teacher Dashboard (Shown only after successful authentication) -->
+    <div id="teacherDashboardContent" style="display: none;" class="teacher-dashboard-view">
       
       <!-- Executive Dashboard Header -->
       <header style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; background: #ffffff; padding: 1.25rem 1.75rem; border-radius: 14px; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); margin-bottom: 1.5rem;">

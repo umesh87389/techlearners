@@ -213,12 +213,21 @@
   // =========================================================
   // 1. DUAL TAB NAVIGATION (STUDENT & TEACHER ON SAME PAGE)
   // =========================================================
+  function isTeacherAuthenticated() {
+    return sessionStorage.getItem(AUTH_SESSION_KEY) === 'unlocked';
+  }
+
   function initTabs() {
     updateTeacherTabLockPill();
 
     // Check URL param or saved tab
     const urlParams = new URLSearchParams(window.location.search);
-    const requestedTab = urlParams.get('tab') || sessionStorage.getItem(CURRENT_TAB_KEY) || 'student';
+    let requestedTab = urlParams.get('tab') || sessionStorage.getItem(CURRENT_TAB_KEY) || 'student';
+    
+    // Default to student tab on fresh visits unless user explicitly has ?tab=teacher
+    if (requestedTab === 'teacher' && !isTeacherAuthenticated() && !urlParams.has('tab')) {
+      requestedTab = 'student';
+    }
     switchMainTab(requestedTab);
   }
 
@@ -261,9 +270,8 @@
   }
 
   function checkTeacherAuthState() {
-    // Default to fully visible so faculty dashboard is 100% visible
-    const isExplicitlyLocked = sessionStorage.getItem(AUTH_SESSION_KEY) === 'locked';
-    const isAuth = !isExplicitlyLocked;
+    // Strictly secure: locked by default until verified passcode is stored in session
+    const isAuth = isTeacherAuthenticated();
     const gate = document.getElementById('teacherAuthGate');
     const dash = document.getElementById('teacherDashboardContent');
     const quickLockBtn = document.getElementById('teacherQuickLockContainer');
@@ -273,20 +281,21 @@
     if (isAuth) {
       if (gate) gate.style.display = 'none';
       if (dash) dash.style.display = 'block';
-      if (quickLockBtn) quickLockBtn.style.display = 'block';
+      if (quickLockBtn) quickLockBtn.style.display = 'inline-flex';
       loadStudentRoster();
     } else {
       if (gate) gate.style.display = 'flex';
       if (dash) dash.style.display = 'none';
       if (quickLockBtn) quickLockBtn.style.display = 'none';
     }
+    return isAuth;
   }
 
   function updateTeacherTabLockPill(isAuth) {
     const pill = document.getElementById('teacherTabLockBadge');
     if (!pill) return;
 
-    const authenticated = typeof isAuth === 'boolean' ? isAuth : (sessionStorage.getItem(AUTH_SESSION_KEY) !== 'locked');
+    const authenticated = typeof isAuth === 'boolean' ? isAuth : isTeacherAuthenticated();
 
     if (authenticated) {
       pill.className = 'teacher-lock-status-pill status-pill-unlocked';
@@ -310,7 +319,7 @@
 
     const hashed = await sha256(entered);
     if (AUTHORIZED_HASHES.includes(hashed) || entered === 'shm@teacher2026') {
-      sessionStorage.removeItem(AUTH_SESSION_KEY);
+      sessionStorage.setItem(AUTH_SESSION_KEY, 'unlocked');
       if (feedback) feedback.textContent = '';
       if (passInput) passInput.value = '';
       checkTeacherAuthState();
@@ -324,6 +333,7 @@
   };
 
   window.lockTeacherTab = function () {
+    sessionStorage.removeItem(AUTH_SESSION_KEY);
     sessionStorage.setItem(AUTH_SESSION_KEY, 'locked');
     checkTeacherAuthState();
     alert('🔒 Teacher’s Dashboard is now locked.');
