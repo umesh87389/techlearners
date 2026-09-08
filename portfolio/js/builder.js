@@ -417,7 +417,7 @@ function generateOverallPerformanceSvg(overallData, activeSubjectName) {
       <!-- Header Strip -->
       <path d="M 1,1 L 457,1 L 457,25 L 1,25 Z" fill="#f8fafc"/>
       <line x1="1" y1="25" x2="457" y2="25" stroke="#e2e8f0" stroke-width="1"/>
-      <text x="10" y="16.5" font-size="8.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
+      <text x="10" y="16.5" font-size="7.6pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 OVERALL PERFORMANCE GRAPH</text>
 
       <!-- Header KPI Badges -->
       <rect x="235" y="5" width="70" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.8"/>

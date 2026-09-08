@@ -1000,8 +1000,8 @@ body.teacher-mode .student-floating-bar {
     padding: 0 !important;
     background: #ffffff !important;
     color: #000000 !important;
-    font-size: 8pt !important;
-    line-height: 1.2 !important;
+    font-size: 7.5pt !important;
+    line-height: 1.25 !important;
     overflow: hidden !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -1033,12 +1033,13 @@ body.teacher-mode .student-floating-bar {
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
+    box-sizing: border-box !important;
     width: 198mm !important;
     max-width: 198mm !important;
-    height: 283mm !important;
-    max-height: 283mm !important;
+    height: 282mm !important;
+    max-height: 282mm !important;
     margin: 0 auto !important;
-    padding: 4mm 5mm !important;
+    padding: 3.5mm 4.5mm !important;
     border: 1.5px solid #0f172a !important;
     border-radius: 4px !important;
     position: relative !important;
@@ -1049,6 +1050,11 @@ body.teacher-mode .student-floating-bar {
     page-break-before: avoid !important;
     page-break-after: avoid !important;
     break-after: avoid !important;
+  }
+
+  .single-page-a4-sheet > * {
+    flex-shrink: 0 !important;
+    min-height: 0 !important;
   }
 
   /* Elegant double certificate border */
@@ -1069,13 +1075,14 @@ body.teacher-mode .student-floating-bar {
     align-items: center !important;
     justify-content: space-between !important;
     border-bottom: 2px double #0f172a !important;
-    padding-bottom: 2mm !important;
-    margin-bottom: 2mm !important;
+    padding-bottom: 1.5mm !important;
+    margin-bottom: 1.5mm !important;
   }
 
   .print-header-brand {
     text-align: center !important;
     flex: 1 !important;
+    line-height: 1.22 !important;
   }
 
   .print-header-logo {
@@ -1088,34 +1095,84 @@ body.teacher-mode .student-floating-bar {
     background: #f1f5f9 !important;
     border-left: 3.5px solid #1e3a8a !important;
     padding: 1.5px 4px !important;
-    font-size: 7.8pt !important;
+    font-size: 7.6pt !important;
     font-weight: 900 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.04em !important;
-    margin-bottom: 1.5mm !important;
+    letter-spacing: 0.03em !important;
+    margin-bottom: 1.2mm !important;
     display: flex !important;
     justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
   }
 
   /* Compact Tables for 1-Page Fit */
   .print-table {
     width: 100% !important;
+    table-layout: fixed !important;
     border-collapse: collapse !important;
-    margin-bottom: 2mm !important;
-    font-size: 7.4pt !important;
+    margin-bottom: 1.5mm !important;
+    font-size: 7.2pt !important;
+    line-height: 1.22 !important;
   }
 
   .print-table th,
   .print-table td {
     border: 0.8px solid #334155 !important;
-    padding: 2px 3.5px !important;
+    padding: 1.8px 3px !important;
     vertical-align: middle !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
   }
 
   .print-table th {
     background: #f1f5f9 !important;
     font-weight: 800 !important;
     color: #000000 !important;
+    white-space: nowrap !important;
+  }
+
+  .print-skills-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+    font-size: 6.6pt !important;
+    margin-bottom: 0 !important;
+  }
+
+  .print-skills-table td {
+    padding: 1.5px 2.5px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Academic Summary Bar */
+  .print-academic-summary-bar {
+    font-size: 6.8pt !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    padding: 1.5px 4px !important;
+    border: 0.8px solid #cbd5e1 !important;
+    border-radius: 2px !important;
+  }
+
+  .print-distinction-col {
+    flex: 1 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .print-aggregate-col {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    text-align: right !important;
   }
 
   /* Two Column Row Layout in Print */
@@ -1123,7 +1180,13 @@ body.teacher-mode .student-floating-bar {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 3mm !important;
-    margin-bottom: 2mm !important;
+    margin-bottom: 1.5mm !important;
+    min-width: 0 !important;
+  }
+
+  .print-row-2col > * {
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
 
   .print-photo-box {
@@ -1146,12 +1209,15 @@ body.teacher-mode .student-floating-bar {
   /* Performance Graph in Print */
   .print-graph-container {
     border: 0.8px solid #334155 !important;
-    padding: 1mm !important;
-    margin-bottom: 2mm !important;
+    padding: 0.8mm !important;
+    margin-bottom: 1.5mm !important;
+    border-radius: 3px !important;
+    background: #ffffff !important;
+    overflow: hidden !important;
   }
 
   .print-graph-container svg {
-    max-height: 48mm !important;
+    max-height: 26mm !important;
     width: 100% !important;
     display: block !important;
   }
@@ -1160,10 +1226,11 @@ body.teacher-mode .student-floating-bar {
   .print-signatures-row {
     display: flex !important;
     justify-content: space-between !important;
+    align-items: flex-end !important;
     border-top: 1px dashed #334155 !important;
-    padding-top: 2mm !important;
+    padding-top: 1.5mm !important;
     margin-top: 1mm !important;
-    font-size: 7.2pt !important;
+    font-size: 7pt !important;
     font-weight: 700 !important;
   }
 }

@@ -295,11 +295,6 @@
     }
   }
 
-  window.unlockTeacherTab = function () {
-    sessionStorage.removeItem(AUTH_SESSION_KEY);
-    checkTeacherAuthState();
-  };
-
   window.handleTeacherLogin = async function (e) {
     if (e) e.preventDefault();
     const passInput = document.getElementById('teacherPasscodeInput');
@@ -307,7 +302,7 @@
     const entered = passInput ? passInput.value.trim() : '';
 
     if (!entered) {
-      if (feedback) feedback.textContent = 'Please enter teacher passcode or click Quick Unlock.';
+      if (feedback) feedback.textContent = 'Please enter teacher passcode.';
       return;
     }
 
@@ -329,7 +324,7 @@
   window.lockTeacherTab = function () {
     sessionStorage.setItem(AUTH_SESSION_KEY, 'locked');
     checkTeacherAuthState();
-    alert('🔒 Teacher’s Dashboard is now locked. You can click Quick Unlock anytime.');
+    alert('🔒 Teacher’s Dashboard is now locked.');
   };
 
   // =========================================================
@@ -1668,28 +1663,38 @@
       { key: 'digital_skills', name: 'Digital / ICT Skills' }
     ];
 
+    // Skills Table (9 Skills formatted cleanly into 2-column rows to prevent word overlaps)
+    const skillList = [
+      { key: 'communication', name: 'Communication Skills' },
+      { key: 'reading', name: 'Reading Skills' },
+      { key: 'writing', name: 'Writing Skills' },
+      { key: 'creativity', name: 'Creativity & Innovation' },
+      { key: 'problem_solving', name: 'Problem Solving' },
+      { key: 'teamwork', name: 'Teamwork & Collaboration' },
+      { key: 'leadership', name: 'Leadership' },
+      { key: 'time_management', name: 'Time Management' },
+      { key: 'digital_skills', name: 'Digital / ICT Skills' }
+    ];
+
     let skillsRowsHtml = '';
-    for (let i = 0; i < skillList.length; i += 3) {
+    for (let i = 0; i < skillList.length; i += 2) {
       const s1 = skillList[i];
       const s2 = skillList[i + 1];
-      const s3 = skillList[i + 2];
 
       const r1 = skills[s1.key] || '5';
-      const r2 = s2 ? (skills[s2.key] || '4') : null;
-      const r3 = s3 ? (skills[s3.key] || '5') : null;
+      const r2 = s2 ? (skills[s2.key] || '5') : null;
 
       skillsRowsHtml += `
         <tr>
-          <td style="font-weight: 700; width: 23%; background: #f8fafc;">${s1.name}</td>
-          <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r1} / 5</td>
+          <td style="font-weight: 700; width: 36%; background: #f8fafc;">${s1.name}</td>
+          <td style="text-align: center; width: 14%; font-weight: 800; color: #1e3a8a;">${r1} / 5</td>
           ${s2 ? `
-            <td style="font-weight: 700; width: 23%; background: #f8fafc;">${s2.name}</td>
-            <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r2} / 5</td>
-          ` : '<td colspan="2"></td>'}
-          ${s3 ? `
-            <td style="font-weight: 700; width: 24%; background: #f8fafc;">${s3.name}</td>
-            <td style="text-align: center; width: 10%; font-weight: 800; color: #1e3a8a;">${r3} / 5</td>
-          ` : '<td colspan="2"></td>'}
+            <td style="font-weight: 700; width: 36%; background: #f8fafc;">${s2.name}</td>
+            <td style="text-align: center; width: 14%; font-weight: 800; color: #1e3a8a;">${r2} / 5</td>
+          ` : `
+            <td style="font-weight: 700; width: 36%; background: #f8fafc; color: #166534; font-size: 6.2pt;">Evaluation Status</td>
+            <td style="text-align: center; width: 14%; font-weight: 800; color: #166534; font-size: 6.2pt;">Verified ✓</td>
+          `}
         </tr>
       `;
     }
@@ -1745,7 +1750,7 @@
       const minVal = 60;
       const maxVal = 100;
       const chartBottom = 135;
-      const chartTop = 45;
+      const chartTop = 50;
       const chartHeight = chartBottom - chartTop;
 
       function getY(val) {
@@ -1753,25 +1758,25 @@
         return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
       }
 
-      const p1 = { x: 50, y: getY(s.t1) };
-      const p2 = { x: 110, y: getY(s.mid) };
-      const p3 = { x: 170, y: getY(s.t2) };
+      const p1 = { x: 45, y: getY(s.t1) };
+      const p2 = { x: 105, y: getY(s.mid) };
+      const p3 = { x: 165, y: getY(s.t2) };
 
       const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
       const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
 
       // 5 comparative bars on the right side
       const termBars = [
-        { label: 'Term-1', val: s.t1, fill: '#3b82f6', stroke: '#1d4ed8' },
+        { label: 'Term 1', val: s.t1, fill: '#3b82f6', stroke: '#1d4ed8' },
         { label: 'Mid-Term', val: s.mid, fill: '#2563eb', stroke: '#1e40af' },
-        { label: 'Term-2', val: s.t2, fill: '#10b981', stroke: '#047857' },
+        { label: 'Term 2', val: s.t2, fill: '#10b981', stroke: '#047857' },
         { label: 'Aggregate', val: s.avg, fill: '#1e3a8a', stroke: '#0f172a' },
         { label: 'Benchmark', val: 90, fill: '#f59e0b', stroke: '#b45309' }
       ];
 
       const barChartBottom = 135;
-      const barMaxHeight = 85;
-      const barStartX = 210;
+      const barMaxHeight = 70;
+      const barStartX = 208;
       const barWidth = 34;
       const barGap = 13;
 
@@ -1783,9 +1788,9 @@
 
         barsSvg += `
           <g class="bar-group">
-            <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="${item.stroke}">${item.val}%</text>
+            <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7pt" font-weight="800" fill="${item.stroke}">${item.val}%</text>
             <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${item.fill}" stroke="${item.stroke}" stroke-width="0.8"/>
-            <text x="${bx + barWidth/2}" y="${barChartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#334155">${item.label}</text>
+            <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#334155">${item.label}</text>
           </g>
         `;
       });
@@ -1793,40 +1798,45 @@
       const svgHtml = `
         <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
           <!-- Header Strip -->
-          <rect x="0" y="0" width="450" height="26" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
-          <text x="12" y="17" font-size="8.8pt" font-weight="900" fill="#1e3a8a" letter-spacing="0.02em">📈 ${subCfg.name.toUpperCase()} PERFORMANCE GRAPH (INDIVIDUAL SUBJECT)</text>
+          <rect x="0" y="0" width="450" height="24" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
+          <text x="10" y="16" font-size="7.8pt" font-weight="900" fill="#1e3a8a" letter-spacing="0.02em">📈 ${escapeHtml(subCfg.name.toUpperCase())} PERFORMANCE</text>
 
-          <!-- Badges -->
-          <text x="265" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Subject Avg: ${s.avg}%</text>
-          <text x="345" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e3a8a">Grade: ${subGrade}</text>
-          <text x="415" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Growth: ↗ ${growthSign}</text>
+          <!-- Badges (Cleanly Spaced) -->
+          <rect x="238" y="4.5" width="68" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.7"/>
+          <text x="272" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#166534">Avg: ${s.avg}%</text>
+
+          <rect x="312" y="4.5" width="60" height="15" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.7"/>
+          <text x="342" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#1e3a8a">Grade: ${subGrade}</text>
+
+          <rect x="378" y="4.5" width="64" height="15" rx="3" fill="#fef3c7" stroke="#fde68a" stroke-width="0.7"/>
+          <text x="410" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
 
           <!-- Left Chart: Term Progression -->
-          <text x="12" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM PROGRESSION (${subCfg.short.toUpperCase()})</text>
-          <line x1="32" y1="${getY(70)}" x2="190" y2="${getY(70)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="28" y="${getY(70) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">70%</text>
-          <line x1="32" y1="${getY(85)}" x2="190" y2="${getY(85)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="28" y="${getY(85) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">85%</text>
-          <line x1="32" y1="${getY(100)}" x2="190" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="28" y="${getY(100) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">100%</text>
+          <text x="10" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
+          <line x1="30" y1="${getY(70)}" x2="185" y2="${getY(70)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="26" y="${getY(70) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">70%</text>
+          <line x1="30" y1="${getY(85)}" x2="185" y2="${getY(85)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="26" y="${getY(85) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">85%</text>
+          <line x1="30" y1="${getY(100)}" x2="185" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+          <text x="26" y="${getY(100) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">100%</text>
 
           <path d="${areaPath}" fill="#dbeafe" opacity="0.75"/>
           <path d="${linePathSolid}" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-          <circle cx="${p1.x}" cy="${p1.y}" r="3.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
-          <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${s.t1}%</text>
-          <text x="${p1.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-1</text>
+          <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="${p1.x}" y="${p1.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${s.t1}%</text>
+          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-1</text>
 
-          <circle cx="${p2.x}" cy="${p2.y}" r="3.2" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
-          <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${s.mid}%</text>
-          <text x="${p2.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Mid-Term</text>
+          <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="${p2.x}" y="${p2.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${s.mid}%</text>
+          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Mid-Term</text>
 
-          <circle cx="${p3.x}" cy="${p3.y}" r="3.2" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
-          <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#15803d">${s.t2}%</text>
-          <text x="${p3.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-2</text>
+          <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+          <text x="${p3.x}" y="${p3.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#15803d">${s.t2}%</text>
+          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-2</text>
 
           <!-- Right Chart: Term Comparison & Benchmark Bars -->
-          <text x="210" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM EVALUATION &amp; BENCHMARK COMPARISON</text>
+          <text x="208" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM &amp; BENCHMARK COMPARISON</text>
           ${barsSvg}
         </svg>
       `;
@@ -1846,7 +1856,7 @@
     const minVal = 70;
     const maxVal = 100;
     const chartBottom = 135;
-    const chartTop = 45;
+    const chartTop = 50;
     const chartHeight = chartBottom - chartTop;
 
     function getY(val) {
@@ -1854,15 +1864,15 @@
       return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
     }
 
-    const p1 = { x: 45, y: getY(t1Avg) };
-    const p2 = { x: 105, y: getY(midAvg) };
-    const p3 = { x: 165, y: getY(t2Avg) };
+    const p1 = { x: 42, y: getY(t1Avg) };
+    const p2 = { x: 102, y: getY(midAvg) };
+    const p3 = { x: 162, y: getY(t2Avg) };
 
     const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
     const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
 
     const barChartBottom = 135;
-    const barMaxHeight = 85;
+    const barMaxHeight = 70;
     const barStartX = 205;
     const barWidth = 24;
     const barGap = 9;
@@ -1876,9 +1886,9 @@
 
       barsSvg += `
         <g class="bar-group">
-          <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7.5pt" font-weight="800" fill="#1e3a8a">${scoreVal}%</text>
+          <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#1e3a8a">${scoreVal}%</text>
           <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="#1e3a8a" stroke="#0f172a" stroke-width="0.8"/>
-          <text x="${bx + barWidth/2}" y="${barChartBottom + 13}" text-anchor="middle" font-size="7pt" font-weight="700" fill="#334155">${escapeHtml(s.short)}</text>
+          <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#334155">${escapeHtml(s.short)}</text>
         </g>
       `;
     });
@@ -1886,40 +1896,45 @@
     const svgHtml = `
       <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
         <!-- Header Strip -->
-        <rect x="0" y="0" width="450" height="26" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
-        <text x="12" y="17" font-size="8.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH (ALL SUBJECTS)</text>
+        <rect x="0" y="0" width="450" height="24" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
+        <text x="10" y="16" font-size="7.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 PERFORMANCE TRAJECTORY</text>
 
-        <!-- Badges -->
-        <text x="270" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Cumulative Avg: ${cumulative}%</text>
-        <text x="350" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e3a8a">Grade: ${grade}</text>
-        <text x="415" y="17" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
+        <!-- Badges (Cleanly Spaced) -->
+        <rect x="238" y="4.5" width="68" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.7"/>
+        <text x="272" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#166534">Avg: ${cumulative}%</text>
+
+        <rect x="312" y="4.5" width="60" height="15" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.7"/>
+        <text x="342" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#1e3a8a">Grade: ${grade}</text>
+
+        <rect x="378" y="4.5" width="64" height="15" rx="3" fill="#fef3c7" stroke="#fde68a" stroke-width="0.7"/>
+        <text x="410" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
 
         <!-- Left Chart: Term Progression -->
-        <text x="12" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
-        <line x1="32" y1="${getY(80)}" x2="185" y2="${getY(80)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(80) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">80%</text>
-        <line x1="32" y1="${getY(90)}" x2="185" y2="${getY(90)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(90) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">90%</text>
-        <line x1="32" y1="${getY(100)}" x2="185" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(100) + 2}" text-anchor="end" font-size="6pt" fill="#64748b">100%</text>
+        <text x="10" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
+        <line x1="28" y1="${getY(80)}" x2="182" y2="${getY(80)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="24" y="${getY(80) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">80%</text>
+        <line x1="28" y1="${getY(90)}" x2="182" y2="${getY(90)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="24" y="${getY(90) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">90%</text>
+        <line x1="28" y1="${getY(100)}" x2="182" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
+        <text x="24" y="${getY(100) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">100%</text>
 
         <path d="${areaPath}" fill="#e0e7ff" opacity="0.6"/>
         <path d="${linePathSolid}" fill="none" stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 
         <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t1Avg}%</text>
-        <text x="${p1.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-1</text>
+        <text x="${p1.x}" y="${p1.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${t1Avg}%</text>
+        <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-1</text>
 
         <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${midAvg}%</text>
-        <text x="${p2.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Mid-Term</text>
+        <text x="${p2.x}" y="${p2.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${midAvg}%</text>
+        <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Mid-Term</text>
 
         <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t2Avg}%</text>
-        <text x="${p3.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-2</text>
+        <text x="${p3.x}" y="${p3.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${t2Avg}%</text>
+        <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-2</text>
 
         <!-- Right Chart: Subject Comparative Bars -->
-        <text x="205" y="40" font-size="7.2pt" font-weight="800" fill="#475569">SUBJECT COMPARATIVE PERFORMANCE</text>
+        <text x="205" y="36" font-size="6.5pt" font-weight="800" fill="#475569">SUBJECT COMPARATIVE PERFORMANCE</text>
         ${barsSvg}
       </svg>
     `;

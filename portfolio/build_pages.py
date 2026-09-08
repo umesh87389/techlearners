@@ -894,14 +894,11 @@ def generate_html(is_jinja=False):
             <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.4rem;">
               Teacher Access Passcode
             </label>
-            <input type="password" id="teacherPasscodeInput" class="form-control" placeholder="Enter passcode or click Quick Unlock" autocomplete="off">
+            <input type="password" id="teacherPasscodeInput" class="form-control" placeholder="Enter teacher passcode" required autocomplete="off">
           </div>
           <div id="loginErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem;"></div>
           <button type="submit" class="btn-vibrant btn-send-gradient" style="width: 100%; justify-content: center; padding: 0.75rem; font-size: 0.95rem;">
             🔒 Verify &amp; Unlock Dashboard
-          </button>
-          <button type="button" onclick="unlockTeacherTab()" class="btn-vibrant btn-outline" style="width: 100%; justify-content: center; margin-top: 0.6rem; font-size: 0.9rem; border-color: #93c5fd; color: #1e3a8a; background: #f0f9ff;">
-            🔓 1-Click Faculty Quick Unlock
           </button>
         </form>
 
@@ -1383,9 +1380,9 @@ def generate_html(is_jinja=False):
           <!-- Dynamically populated -->
         </tbody>
       </table>
-      <div style="font-size: 6.8pt; display: flex; justify-content: space-between; background: #f8fafc; padding: 1.5px 4px; border: 0.8px solid #cbd5e1; border-radius: 2px;">
-        <div><strong>Academic Distinction:</strong> <span id="print_academic_achievement">Consistent performance</span></div>
-        <div><strong>Cumulative Aggregate:</strong> <span id="print_overall_avg" style="font-weight: 900; color: #1e3a8a;">—</span></div>
+      <div class="print-academic-summary-bar">
+        <div class="print-distinction-col"><strong>Academic Distinction:</strong> <span id="print_academic_achievement">Consistent performance</span></div>
+        <div class="print-aggregate-col"><strong>Cumulative Aggregate:</strong> <span id="print_overall_avg" style="font-weight: 900; color: #1e3a8a;">—</span></div>
       </div>
     </div>
 
@@ -1400,9 +1397,9 @@ def generate_html(is_jinja=False):
     <div class="print-row-2col" style="margin-bottom: 1.5mm;">
       <div>
         <div class="print-section-header">5. SKILLS EVALUATION (RATED 1–5)</div>
-        <table class="print-table" style="margin-bottom: 0;">
+        <table class="print-table print-skills-table" style="margin-bottom: 0;">
           <tbody id="printSkillsTableBody">
-            <!-- 9 skills formatted into 2-column or 3-column rows -->
+            <!-- 9 skills formatted into 2-column rows -->
           </tbody>
         </table>
       </div>
@@ -1419,25 +1416,25 @@ def generate_html(is_jinja=False):
     <!-- G. Row 6: Assessment, Declaration & Official Signatures -->
     <div style="border-top: 1px solid #0f172a; padding-top: 1mm;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin-bottom: 1mm; font-size: 6.6pt;">
-        <div>
+        <div style="min-width: 0; word-break: break-word;">
           <strong>Teacher’s Assessment:</strong> <span id="print_teacher_remarks">Conscientious, courteous, and positive attitude towards learning.</span>
         </div>
-        <div>
+        <div style="min-width: 0; word-break: break-word;">
           <strong>Student Declaration:</strong> <em>“I have completed this portfolio with honesty and reflection upon my learning.”</em>
         </div>
       </div>
       <div class="print-signatures-row">
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_student_name" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;"></div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Student’s Signature &amp; Date</div>
+          <div id="print_sig_student_name" style="font-size: 6.8pt; font-weight: 800; min-height: 12px; line-height: 1.2; padding-bottom: 2px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt; white-space: nowrap;">Student’s Signature &amp; Date</div>
         </div>
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_teacher_name" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;"></div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Class Teacher’s Signature &amp; Date</div>
+          <div id="print_sig_teacher_name" style="font-size: 6.8pt; font-weight: 800; min-height: 12px; line-height: 1.2; padding-bottom: 2px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt; white-space: nowrap;">Class Teacher’s Signature &amp; Date</div>
         </div>
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_principal" style="font-size: 6.8pt; font-weight: 800; min-height: 11px;">SHM Academy Office</div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt;">Principal’s Signature &amp; Stamp</div>
+          <div id="print_sig_principal" style="font-size: 6.8pt; font-weight: 800; min-height: 12px; line-height: 1.2; padding-bottom: 2px;">SHM Academy Office</div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 6.3pt; white-space: nowrap;">Principal’s Signature &amp; Stamp</div>
         </div>
       </div>
     </div>
