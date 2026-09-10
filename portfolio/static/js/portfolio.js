@@ -193,6 +193,9 @@
   let currentEvaluatingStudent = null;
 
   document.addEventListener('DOMContentLoaded', () => {
+    const legacyPrint = document.getElementById('btnPrintPortfolio');
+    if (legacyPrint) legacyPrint.remove();
+
     initTabs();
     initPhotoUpload();
     initClassSync();
@@ -907,14 +910,16 @@
   }
 
   // =========================================================
-  // 5. AUTOMATIC SYNC ON SEND & PRINT BUTTONS
+  // 5. AUTOMATIC SYNC ON SEND BUTTON
   // =========================================================
   function initActionHandlers() {
-    const sendBtn = document.getElementById('btnSendPortfolio');
     const printBtn = document.getElementById('btnPrintPortfolio');
+    if (printBtn) {
+      printBtn.remove();
+    }
 
+    const sendBtn = document.getElementById('btnSendPortfolio');
     if (sendBtn) sendBtn.addEventListener('click', () => handleStudentSend());
-    if (printBtn) printBtn.addEventListener('click', () => handleStudentPrint());
   }
 
   async function submitAndSyncRecord(source = 'send') {
