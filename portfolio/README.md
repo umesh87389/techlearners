@@ -28,9 +28,8 @@ An official digital recreation of the **SHM Academy Student Portfolio** based di
    - No teacher dashboard links, buttons, or PINs appear in the student UI or client-side JavaScript.
    - The Teacher Dashboard is protected by server-side session authentication.
 
-5. **Automated Save on "Send" and "Print"**:
+5. **Automated Save on "Send"**:
    - Clicking **🚀 Send Portfolio**: Automatically validates, saves to the database, and sends the record to the Teacher's Dashboard.
-   - Clicking **🖨️ Print Portfolio**: **Automatically saves and sends the record to the Teacher's Dashboard first**, and then opens the clean A4 print preview.
 
 6. **Teacher Evaluation & Reporting**:
    - Dedicated Faculty Portal (`/teacher`) protected by server-verified passcode.

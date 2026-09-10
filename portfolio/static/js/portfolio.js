@@ -3,7 +3,7 @@
  * - Dual Tabs on the Same Page: Student Portfolio & Teacher Dashboard
  * - Dynamic SVG Child Overall Performance Graph
  * - Attractive Multi-Subject Compilation (All Subjects Together)
- * - Auto-Save and Sync to Teacher Dashboard on Send & Print
+ * - Auto-Save and Sync to Teacher Dashboard on Send
  * - Secure Teacher PIN Gate (SHA-256)
  */
 

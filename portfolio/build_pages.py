@@ -865,9 +865,6 @@ def generate_html(is_jinja=False):
           </span>
         </div>
         <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-          <button type="button" id="btnPrintPortfolio" class="btn-vibrant btn-print-gradient" onclick="handleStudentPrint()" title="Auto-save to Teacher Dashboard and Print 1-Page Portfolio">
-            <span>🖨️</span> Print Portfolio (Single A4 Page)
-          </button>
           <button type="button" id="btnSendPortfolio" class="btn-vibrant btn-send-gradient" onclick="handleStudentSend()" title="Transmit completed portfolio to Teacher Dashboard">
             <span>🚀</span> Send Portfolio
           </button>
@@ -1006,7 +1003,7 @@ def generate_html(is_jinja=False):
           <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">📋</div>
           <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem;">No Student Submissions Found</h3>
           <p style="font-size: 0.9rem; max-width: 480px; margin: 0 auto; color: #64748b;">
-            When a student fills out their portfolio and clicks <strong>Send Portfolio</strong> or <strong>Print Portfolio</strong>, their complete submission will automatically appear here for your review and evaluation.
+            When a student fills out their portfolio and clicks <strong>Send Portfolio</strong>, their complete submission will automatically appear here for your review and evaluation.
           </p>
         </div>
       </main>
