@@ -105,12 +105,16 @@ body {
 .segmented-tab-control {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  row-gap: 4px;
   background: #f1f5f9;
   padding: 4px;
   border-radius: 12px;
   border: 1px solid #cbd5e1;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 .seg-tab-btn {
@@ -118,9 +122,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  padding: 0.55rem 1.15rem;
+  padding: 0.55rem 1rem;
   border-radius: 8px;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
   border: none;
   background: transparent;
@@ -129,6 +133,9 @@ body {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   line-height: 1.25;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 1 auto;
 }
 
 .seg-tab-btn:hover {
@@ -165,11 +172,17 @@ body {
   line-height: 1;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .seg-tab-label {
   font-weight: 800;
   display: inline-block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
 }
 
 /* Teacher Tab Lock Badge inside Seg Tab Button */
@@ -332,12 +345,14 @@ body {
     box-sizing: border-box;
   }
   .seg-tab-btn {
-    flex: 1 1 50%;
+    flex: 1 1 calc(50% - 4px);
     min-width: 0;
+    max-width: calc(50% - 4px);
     padding: 0.5rem 0.45rem;
     font-size: 0.84rem;
     gap: 0.35rem;
     justify-content: center;
+    overflow: hidden;
   }
   .seg-tab-icon {
     font-size: 0.95rem;
@@ -373,19 +388,21 @@ body {
   .segmented-tab-control {
     padding: 3px;
     border-radius: 10px;
+    gap: 3px;
   }
   .seg-tab-btn {
     padding: 0.45rem 0.3rem;
     font-size: 0.78rem;
     gap: 0.25rem;
+    flex: 1 1 calc(50% - 3px);
+    max-width: calc(50% - 3px);
+    overflow: hidden;
   }
   .seg-tab-icon {
     font-size: 0.88rem;
   }
-  .teacher-lock-status-pill {
-    font-size: 0.62rem;
-    padding: 1px 5px;
-    letter-spacing: 0;
+  .seg-tab-btn .teacher-lock-status-pill {
+    display: none;
   }
 }
 
