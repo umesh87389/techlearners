@@ -235,59 +235,10 @@
         </div>
       </section>
 
-      <!-- 4. ACADEMIC PROGRESS (UNLOCKED & EDITABLE FOR TEACHER) -->
-      <section class="doc-section teacher-active-section">
-        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
-          <span style="color: #1e3a8a;">4. Academic Progress</span>
-          <span class="teacher-active-badge">✏️ Faculty Marks Evaluation</span>
-        </h2>
-        
-        <p style="font-size: 0.85rem; color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 600;">
-          Enter marks / grades and remarks for Term 1, Mid Term, and Term 2 for each subject:
-        </p>
-
-        {% set existing_acad = student.data.academic_progress if student.data.academic_progress else {} %}
-        {% set existing_subjects = existing_acad.subjects if existing_acad and existing_acad.subjects else [] %}
-
-        <table class="doc-table" id="academicTable" style="border-color: #93c5fd;">
-          <thead>
-            <tr>
-              <th style="width: 25%; background: #dbeafe;">Subject</th>
-              <th class="center" style="width: 18%; background: #dbeafe;">Term 1</th>
-              <th class="center" style="width: 18%; background: #dbeafe;">Mid Term</th>
-              <th class="center" style="width: 18%; background: #dbeafe;">Term 2</th>
-              <th style="background: #dbeafe;">Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for sub_name in ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'] %}
-            {% set matched_sub = {'term1': '', 'midterm': '', 'term2': '', 'remarks': ''} %}
-            {% for s in existing_subjects %}
-              {% if s.subject == sub_name %}
-                {% set _ = matched_sub.update({'term1': s.term1, 'midterm': s.midterm, 'term2': s.term2, 'remarks': s.remarks}) %}
-              {% endif %}
-            {% endfor %}
-            <tr data-subject="{{ sub_name }}">
-              <td><strong>{{ sub_name }}</strong></td>
-              <td><input type="text" class="eval-term1" value="{{ matched_sub.term1 }}" placeholder="Marks / Grade"></td>
-              <td><input type="text" class="eval-midterm" value="{{ matched_sub.midterm }}" placeholder="Marks / Grade"></td>
-              <td><input type="text" class="eval-term2" value="{{ matched_sub.term2 }}" placeholder="Marks / Grade"></td>
-              <td><input type="text" class="eval-remarks" value="{{ matched_sub.remarks }}" placeholder="Subject Teacher Remarks"></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div class="form-field-group" style="margin-top: 1rem;">
-          <label class="form-field-label">My Academic Achievement</label>
-          <textarea id="eval_academic_achievement" class="form-textarea" rows="2" placeholder="Record the student's academic highlights, awards, or distinctions...">{{ existing_acad.academic_achievement if existing_acad.academic_achievement else '' }}</textarea>
-        </div>
-      </section>
-
-      <!-- 5. MY SKILLS (UNLOCKED & EDITABLE FOR TEACHER) -->
+<!-- 4. MY SKILLS (UNLOCKED & EDITABLE FOR TEACHER) -->
       <section class="doc-section teacher-active-section" style="margin-top: 1.5rem;">
         <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
-          <span style="color: #1e3a8a;">5. My Skills Evaluation</span>
+          <span style="color: #1e3a8a;">4. My Skills Evaluation</span>
           <span class="teacher-active-badge">✏️ Faculty Skill Assessment (1–5)</span>
         </h2>
         <p style="font-size: 0.85rem; color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 600;">
@@ -324,7 +275,7 @@
         </table>
       </section>
 
-      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <!-- 5. CO-CURRICULAR ACTIVITIES -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Co-Curricular Activities</span></h2>
         <table class="doc-table">
@@ -353,7 +304,7 @@
         </table>
       </section>
 
-      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
+      <!-- 6. ACHIEVEMENTS & CERTIFICATES -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Achievements &amp; Certificates</span></h2>
         <table class="doc-table">
@@ -384,7 +335,7 @@
         </div>
       </section>
 
-      <!-- 8. PROJECTS & CREATIVE WORK -->
+      <!-- 7. PROJECTS & CREATIVE WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Projects &amp; Creative Work</span></h2>
         
@@ -422,7 +373,7 @@
         </div>
       </section>
 
-      <!-- 9. MY SCHOOL PARTICIPATION -->
+      <!-- 8. MY SCHOOL PARTICIPATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My School Participation</span></h2>
         <div class="checkbox-grid">
@@ -444,7 +395,7 @@
         </div>
       </section>
 
-      <!-- 10. MY REFLECTION -->
+      <!-- 9. MY REFLECTION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Reflection</span></h2>
         <div class="form-field-group"><label class="form-field-label">What did I learn this year?</label><div class="student-view-field">{{ student.data.reflection.learned if student.data.reflection and student.data.reflection.learned else '—' }}</div></div>
@@ -454,16 +405,16 @@
         <div class="form-field-group"><label class="form-field-label">What will I do better next year?</label><div class="student-view-field">{{ student.data.reflection.next_year if student.data.reflection and student.data.reflection.next_year else '—' }}</div></div>
       </section>
 
-      <!-- 11. MY BEST WORK -->
+      <!-- 10. MY BEST WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Best Work</span></h2>
         <div class="student-view-field" style="min-height: 70px;">{{ student.data.best_work.description if student.data.best_work and student.data.best_work.description else '—' }}</div>
       </section>
 
-      <!-- 12. TEACHER’S ASSESSMENT (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <!-- 11. TEACHER’S ASSESSMENT (UNLOCKED & EDITABLE FOR TEACHER) -->
       <section class="doc-section teacher-active-section">
         <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
-          <span style="color: #1e3a8a;">12. Teacher’s Assessment</span>
+          <span style="color: #1e3a8a;">11. Teacher’s Assessment</span>
           <span class="teacher-active-badge">✏️ Faculty Grading</span>
         </h2>
 
@@ -510,7 +461,7 @@
         </div>
       </section>
 
-      <!-- 13. PARENT’S FEEDBACK -->
+      <!-- 12. PARENT’S FEEDBACK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Parent’s Feedback</span></h2>
         <div class="form-field-group"><label class="form-field-label">My child’s strengths:</label><div class="student-view-field">{{ student.data.parent_feedback.child_strengths if student.data.parent_feedback and student.data.parent_feedback.child_strengths else '—' }}</div></div>
@@ -522,7 +473,7 @@
         </div>
       </section>
 
-      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
+      <!-- 13. PERSONAL IMPROVEMENT PLAN -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Personal Improvement Plan</span></h2>
         <table class="doc-table">
@@ -549,7 +500,7 @@
         </table>
       </section>
 
-      <!-- 15. MY YEAR IN ONE PAGE -->
+      <!-- 14. MY YEAR IN ONE PAGE -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Year in One Page</span></h2>
         <div class="year-one-page-grid">
@@ -563,7 +514,7 @@
         <div class="year-card" style="margin-top: 1rem;"><div class="year-card-title">🚀 My Goal for Next Year</div><div class="student-view-field">{{ student.data.year_in_one_page.goal_next_year if student.data.year_in_one_page and student.data.year_in_one_page.goal_next_year else '—' }}</div></div>
       </section>
 
-      <!-- 16. STUDENT’S DECLARATION -->
+      <!-- 15. STUDENT’S DECLARATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Student’s Declaration</span></h2>
         <div class="declaration-box">
@@ -576,10 +527,10 @@
         </div>
       </section>
 
-      <!-- 17. TEACHER’S FINAL REMARK (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <!-- 16. TEACHER’S FINAL REMARK (UNLOCKED & EDITABLE FOR TEACHER) -->
       <section class="doc-section teacher-active-section">
         <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
-          <span style="color: #1e3a8a;">17. Teacher’s Final Remark</span>
+          <span style="color: #1e3a8a;">16. Teacher’s Final Remark</span>
           <span class="teacher-active-badge">✏️ Faculty &amp; Principal Sign-off</span>
         </h2>
 
@@ -609,19 +560,7 @@
 
   <script>
     async function saveTeacherEvaluationForm() {
-      // 1. Gather Academic Progress
-      const subjectsData = [];
-      document.querySelectorAll('#academicTable tbody tr').forEach(tr => {
-        const subName = tr.getAttribute('data-subject');
-        const term1 = tr.querySelector('.eval-term1')?.value || '';
-        const midterm = tr.querySelector('.eval-midterm')?.value || '';
-        const term2 = tr.querySelector('.eval-term2')?.value || '';
-        const remarks = tr.querySelector('.eval-remarks')?.value || '';
-        subjectsData.push({ subject: subName, term1, midterm, term2, remarks });
-      });
-
-      const academicAchievement = document.getElementById('eval_academic_achievement')?.value || '';
-
+      // 1. Academic Progress removed
       // 2. Gather Skills
       const skillsData = {
         communication: document.getElementById('skill_communication')?.value || '',
@@ -670,10 +609,6 @@
       };
 
       const payload = {
-        academic_progress: {
-          subjects: subjectsData,
-          academic_achievement: academicAchievement
-        },
         skills: skillsData,
         co_curricular_remarks: coRemarks,
         teacher_assessment: assessmentData,

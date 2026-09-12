@@ -1,8 +1,8 @@
 /**
  * SHM ACADEMY - UNIFIED PORTFOLIO & TEACHER SYSTEM
  * - Dual Tabs on the Same Page: Student Portfolio & Teacher Dashboard
- * - Dynamic SVG Child Overall Performance Graph
- * - Attractive Multi-Subject Compilation (All Subjects Together)
+ * - Skills & Assessment Compilation
+ * - Clean Single-Page Portfolio (Academic Section Removed)
  * - Auto-Save and Sync to Teacher Dashboard on Send
  * - Secure Teacher PIN Gate (SHA-256)
  */
@@ -54,18 +54,6 @@
         contact_no: '9876543210',
         house: 'Tagore',
         class_teacher: 'Mr. S. Verma'
-      },
-      academic_progress: {
-        academic_achievement: 'Secured 1st rank in Class 8-A with overall 95.8% aggregate.',
-        subjects: [
-          { subject: 'English', term1: '92', midterm: '94', term2: '95', remarks: 'Excellent comprehension & vocabulary' },
-          { subject: 'Hindi', term1: '88', midterm: '90', term2: '92', remarks: 'Good creative writing' },
-          { subject: 'Mathematics', term1: '96', midterm: '98', term2: '99', remarks: 'Outstanding problem solving' },
-          { subject: 'Science', term1: '95', midterm: '97', term2: '98', remarks: 'Deep conceptual clarity & practical skill' },
-          { subject: 'Social Science', term1: '90', midterm: '92', term2: '94', remarks: 'Very good analytical answers' },
-          { subject: 'Computer / IT', term1: '98', midterm: '99', term2: '100', remarks: 'Exemplary coding and logic' },
-          { subject: 'Other Subject', term1: 'A', midterm: 'A', term2: 'A+', remarks: 'Active participant' }
-        ]
       },
       skills: {
         communication: '5', reading: '5', writing: '4', creativity: '5',
@@ -159,18 +147,6 @@
         house: 'Ashoka',
         class_teacher: 'Dr. R. K. Gupta'
       },
-      academic_progress: {
-        academic_achievement: 'Class Topper with distinction in Mathematics & Computer Science',
-        subjects: [
-          { subject: 'English', term1: '94', midterm: '95', term2: '97', remarks: 'Excellent communication' },
-          { subject: 'Hindi', term1: '90', midterm: '92', term2: '94', remarks: 'Very good expression' },
-          { subject: 'Mathematics', term1: '98', midterm: '99', term2: '100', remarks: 'Flawless problem solving' },
-          { subject: 'Science', term1: '96', midterm: '97', term2: '99', remarks: 'Exceptional scientific inquiry' },
-          { subject: 'Social Science', term1: '91', midterm: '93', term2: '95', remarks: 'Thorough analytical answers' },
-          { subject: 'Computer / IT', term1: '99', midterm: '100', term2: '100', remarks: 'Outstanding coding skills' },
-          { subject: 'Other Subject', term1: 'A+', midterm: 'A+', term2: 'A+', remarks: 'Active participation' }
-        ]
-      },
       skills: {
         communication: '5', reading: '5', writing: '5', creativity: '5',
         problem_solving: '5', teamwork: '5', leadership: '5', time_management: '5', digital_skills: '5'
@@ -202,12 +178,11 @@
     initDraftPersistence();
     initActionHandlers();
     initTeacherFilters();
-    updatePerformanceGraph();
+    /* Academic graph removed */
     populateSinglePagePrintSheet();
 
     window.addEventListener('beforeprint', () => {
-      const sel = document.getElementById('printSubjectSelect');
-      const selectedSubject = sel ? sel.value : 'all';
+      const selectedSubject = 'all';
       const studentData = pendingPrintPayload ? pendingPrintPayload.data : null;
       populateSinglePagePrintSheet(studentData, selectedSubject);
     });
@@ -261,7 +236,7 @@
       if (teacherView) teacherView.style.display = 'none';
       if (quickLockBtn) quickLockBtn.style.display = 'none';
       if (floatingBar) floatingBar.style.display = 'block';
-      updatePerformanceGraph();
+    /* Academic graph removed */
     }
   };
 
@@ -343,172 +318,10 @@
   };
 
   // =========================================================
-  // 2. CHILD OVERALL PERFORMANCE GRAPH (DYNAMIC VECTOR SVG)
+  // 2. PERFORMANCE GRAPH REMOVED (Academic Progress section deleted)
   // =========================================================
-  function getSubjectScores() {
-    const currentData = getFormData('graph');
-    const acad = currentData.academic_progress || {};
-    const subs = acad.subjects || [];
-
-    const result = {};
-    SUBJECTS_CONFIG.forEach(cfg => {
-      const match = subs.find(s => s.subject === cfg.name || s.subject === cfg.id) || {};
-      const t1 = parseFloat(match.term1) || null;
-      const mid = parseFloat(match.midterm) || null;
-      const t2 = parseFloat(match.term2) || null;
-
-      // If entered by teacher, use real marks; otherwise, standard benchmark baseline
-      const defaultScore = cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 98 : 91));
-      const validNums = [t1, mid, t2].filter(v => v !== null && !isNaN(v));
-      const avg = validNums.length > 0 ? (validNums.reduce((a, b) => a + b, 0) / validNums.length) : defaultScore;
-
-      result[cfg.name] = {
-        name: cfg.name,
-        short: cfg.short,
-        avg: Math.round(avg * 10) / 10,
-        t1: t1 !== null ? t1 : (defaultScore - 3),
-        mid: mid !== null ? mid : (defaultScore - 1),
-        t2: t2 !== null ? t2 : defaultScore,
-        remarks: match.remarks || ''
-      };
-    });
-
-    return result;
-  }
-
-  function updatePerformanceGraph() {
-    const container = document.getElementById('perfGraphSvgContainer');
-    if (!container) return;
-
-    const scoresMap = getSubjectScores();
-    const scoresList = Object.values(scoresMap);
-
-    const t1Avg = Math.round((scoresList.reduce((a, s) => a + s.t1, 0) / scoresList.length) * 10) / 10;
-    const midAvg = Math.round((scoresList.reduce((a, s) => a + s.mid, 0) / scoresList.length) * 10) / 10;
-    const t2Avg = Math.round((scoresList.reduce((a, s) => a + s.t2, 0) / scoresList.length) * 10) / 10;
-    const cumulative = Math.round(((t1Avg + midAvg + t2Avg) / 3) * 10) / 10;
-
-    let grade = 'A1';
-    let band = 'Outstanding';
-    if (cumulative < 60) { grade = 'C'; band = 'Developing'; }
-    else if (cumulative < 70) { grade = 'B2'; band = 'Good'; }
-    else if (cumulative < 80) { grade = 'B1'; band = 'Very Good'; }
-    else if (cumulative < 90) { grade = 'A2'; band = 'Excellent'; }
-
-    const growth = Math.round((t2Avg - t1Avg) * 10) / 10;
-    const growthSign = growth >= 0 ? `+${growth}%` : `${growth}%`;
-
-    // Coordinates mapping for Left Line Chart
-    const minVal = 70;
-    const maxVal = 100;
-    const chartBottom = 135;
-    const chartTop = 45;
-    const chartHeight = chartBottom - chartTop;
-
-    function getY(val) {
-      const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
-      return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
-    }
-
-    const p1 = { x: 45, y: getY(t1Avg) };
-    const p2 = { x: 105, y: getY(midAvg) };
-    const p3 = { x: 165, y: getY(t2Avg) };
-
-    const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
-    const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
-
-    // Bar Chart coordinates (Right side)
-    const barChartBottom = 135;
-    const barMaxHeight = 85;
-    const barStartX = 205;
-    const barWidth = 24;
-    const barGap = 9;
-
-    let barsSvg = '';
-    scoresList.slice(0, 7).forEach((s, idx) => {
-      const bx = barStartX + idx * (barWidth + barGap);
-      const scoreVal = s.avg;
-      const bHeight = Math.max(8, (scoreVal / 100) * barMaxHeight);
-      const by = barChartBottom - bHeight;
-
-      barsSvg += `
-        <g class="bar-group">
-          <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7.5pt" font-weight="800" fill="#1e3a8a">${scoreVal}%</text>
-          <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="url(#barGrad)" stroke="#1e3a8a" stroke-width="1"/>
-          <text x="${bx + barWidth/2}" y="${barChartBottom + 13}" text-anchor="middle" font-size="7pt" font-weight="700" fill="#334155">${escapeHtml(s.short)}</text>
-        </g>
-      `;
-    });
-
-    const svgHtml = `
-      <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" class="perf-graph-svg" style="width:100%; height:auto; display:block; border-radius:8px;">
-        <defs>
-          <linearGradient id="termAreaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#1e3a8a" stop-opacity="0.02"/>
-          </linearGradient>
-          <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2563eb"/>
-            <stop offset="100%" stop-color="#1e3a8a"/>
-          </linearGradient>
-        </defs>
-
-        <!-- Card Outline -->
-        <rect x="1" y="1" width="448" height="163" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-
-        <!-- Header Strip -->
-        <path d="M 1,1 L 449,1 L 449,26 L 1,26 Z" fill="#f8fafc"/>
-        <line x1="1" y1="26" x2="449" y2="26" stroke="#e2e8f0" stroke-width="1"/>
-        <text x="12" y="17" font-size="8.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 CHILD OVERALL PERFORMANCE GRAPH</text>
-
-        <!-- Badges -->
-        <rect x="238" y="5" width="64" height="16" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.8"/>
-        <text x="270" y="16.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#166534">Avg: ${cumulative}%</text>
-
-        <rect x="307" y="5" width="66" height="16" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
-        <text x="340" y="16.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#1e3a8a">Grade: ${grade}</text>
-
-        <rect x="378" y="5" width="64" height="16" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.8"/>
-        <text x="410" y="16.5" text-anchor="middle" font-size="7.2pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
-
-        <!-- Left Chart: Term Progression -->
-        <text x="12" y="40" font-size="7.2pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
-        
-        <!-- Gridlines -->
-        <line x1="32" y1="${getY(80)}" x2="185" y2="${getY(80)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(80) + 2}" text-anchor="end" font-size="6pt" fill="#94a3b8">80%</text>
-
-        <line x1="32" y1="${getY(90)}" x2="185" y2="${getY(90)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(90) + 2}" text-anchor="end" font-size="6pt" fill="#94a3b8">90%</text>
-
-        <line x1="32" y1="${getY(100)}" x2="185" y2="${getY(100)}" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="28" y="${getY(100) + 2}" text-anchor="end" font-size="6pt" fill="#94a3b8">100%</text>
-
-        <!-- Area & line -->
-        <path d="${areaPath}" fill="url(#termAreaGrad)"/>
-        <path d="${linePathSolid}" fill="none" stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <!-- Points -->
-        <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p1.x}" y="${p1.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t1Avg}%</text>
-        <text x="${p1.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-1</text>
-
-        <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p2.x}" y="${p2.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${midAvg}%</text>
-        <text x="${p2.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Mid-Term</text>
-
-        <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p3.x}" y="${p3.y - 5}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#0f172a">${t2Avg}%</text>
-        <text x="${p3.x}" y="${chartBottom + 13}" text-anchor="middle" font-size="6.8pt" font-weight="700" fill="#64748b">Term-2</text>
-
-        <!-- Right Chart: Subject Comparative Bars -->
-        <text x="205" y="40" font-size="7.2pt" font-weight="800" fill="#475569">SUBJECT COMPARATIVE PERFORMANCE</text>
-        ${barsSvg}
-      </svg>
-    `;
-
-    container.innerHTML = svgHtml;
-  }
+  function getSubjectScores() { return {}; }
+  function updatePerformanceGraph() { return; }
 
   // =========================================================
   // 3. PHOTOGRAPH UPLOAD & ABOUT ME CLASS SYNC
@@ -981,7 +794,6 @@
       };
 
       if (existingIdx !== -1) {
-        if (roster[existingIdx].academic_progress) studentRecord.academic_progress = roster[existingIdx].academic_progress;
         if (roster[existingIdx].skills) studentRecord.skills = roster[existingIdx].skills;
         if (roster[existingIdx].teacher_assessment) studentRecord.teacher_assessment = roster[existingIdx].teacher_assessment;
         if (roster[existingIdx].teacher_final_remark) studentRecord.teacher_final_remark = roster[existingIdx].teacher_final_remark;
@@ -1018,7 +830,7 @@
     if (result && result.success) {
       showSuccessModal(
         'Portfolio Sent to Teacher!',
-        'Your portfolio has been recorded and transmitted to the Teacher’s Dashboard. The teacher will now review your submission and complete the Academic Progress & Skills Evaluation.'
+        'Your portfolio has been recorded and transmitted to the Teacher’s Dashboard. The teacher will now review your submission and complete the Skills Evaluation.'
       );
     }
   }
@@ -1036,7 +848,7 @@
 
     // Make sure graph is updated on screen
     try {
-      updatePerformanceGraph();
+    /* Academic graph removed */
     } catch (e) {}
 
     // Prepare print payload from current student form
@@ -1213,22 +1025,8 @@
 
     document.getElementById('modalStudentTitle').textContent = `Faculty Evaluation: ${student.student_name || student.profile?.student_name}`;
     document.getElementById('modalStudentSubtitle').textContent = `${student.class_section || student.profile?.class_section} • Roll No: ${student.roll_no || student.profile?.roll_no}`;
-
-    // Populate Academic Progress Table
-    const existingAcad = student.academic_progress || student.data?.academic_progress || {};
-    const existingSubjects = existingAcad.subjects || [];
-
-    SUBJECTS_CONFIG.forEach((sub, i) => {
-      const match = existingSubjects.find(s => s.subject === sub.name || s.subject === sub.id) || {};
-      const prefix = `modal_sub_${i}`;
-      setElVal(`${prefix}_term1`, match.term1 || '');
-      setElVal(`${prefix}_midterm`, match.midterm || '');
-      setElVal(`${prefix}_term2`, match.term2 || '');
-      setElVal(`${prefix}_remarks`, match.remarks || '');
-    });
-    setElVal('modal_academic_achievement', existingAcad.academic_achievement || '');
-
-    // Populate Skills
+    // Academic Progress removed — no academic inputs to populate
+// Populate Skills
     const existingSkills = student.skills || student.data?.skills || {};
     const skillKeys = ['communication', 'reading', 'writing', 'creativity', 'problem_solving', 'teamwork', 'leadership', 'time_management', 'digital_skills'];
     skillKeys.forEach(k => {
@@ -1275,16 +1073,7 @@
   window.saveModalEvaluation = async function () {
     if (!currentEvaluatingStudent) return;
 
-    const subjectsData = SUBJECTS_CONFIG.map((sub, i) => {
-      const prefix = `modal_sub_${i}`;
-      return {
-        subject: sub.name,
-        term1: getElVal(`${prefix}_term1`),
-        midterm: getElVal(`${prefix}_midterm`),
-        term2: getElVal(`${prefix}_term2`),
-        remarks: getElVal(`${prefix}_remarks`)
-      };
-    });
+    // Academic Progress removed — no subjects data collected
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -1330,10 +1119,6 @@
     };
 
     const evalPayload = {
-      academic_progress: {
-        subjects: subjectsData,
-        academic_achievement: getElVal('modal_academic_achievement')
-      },
       skills: skillsData,
       co_curricular_remarks: coRemarks,
       teacher_assessment: assessmentData,
@@ -1346,7 +1131,6 @@
     if (idx !== -1) {
       list[idx].status = 'evaluated';
       list[idx].updated_at = new Date().toLocaleString();
-      list[idx].academic_progress = evalPayload.academic_progress;
       list[idx].skills = evalPayload.skills;
       list[idx].teacher_assessment = evalPayload.teacher_assessment;
       list[idx].teacher_final_remark = evalPayload.teacher_final_remark;
@@ -1374,7 +1158,7 @@
     alert('✓ Teacher Evaluation saved successfully! Status updated to Evaluated.');
     closeEvaluationModal();
     loadStudentRoster();
-    updatePerformanceGraph();
+    /* Academic graph removed */
   };
 
   // 8. Print Complete Student Portfolio with Performance Graph & All Subjects Together
@@ -1392,26 +1176,10 @@
 
   // Modal handlers for subject-specific print selection
   window.openPrintSubjectModal = function (studentData) {
-    const modal = document.getElementById('printSubjectModal');
-    if (!modal) {
-      populateSinglePagePrintSheet(studentData, 'all');
-      setTimeout(() => window.print(), 300);
-      return;
-    }
-
-    const s = studentData || {};
-    const p = s.profile || (s.data && s.data.profile) || s;
-    const nameEl = document.getElementById('printModalStudentName');
-    const classEl = document.getElementById('printModalStudentClass');
-    if (nameEl) nameEl.textContent = `Student: ${p.student_name || 'Portfolio Record'}`;
-    if (classEl) classEl.textContent = `${p.class_section || 'Class 6 - 12'}${p.roll_no ? ` • Roll: ${p.roll_no}` : ''}`;
-
-    const sel = document.getElementById('printSubjectSelect');
-    if (sel) sel.value = 'all';
-    updatePrintSubjectModalPreview();
-
-    modal.style.display = 'flex';
-    setTimeout(() => modal.classList.add('active'), 20);
+    // Academic subject-scope modal removed — print directly
+    const s = studentData || (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload ? pendingPrintPayload.data : null);
+    populateSinglePagePrintSheet(s, 'all');
+    setTimeout(() => window.print(), 300);
   };
 
   window.closePrintSubjectModal = function () {
@@ -1422,37 +1190,13 @@
     }
   };
 
-  window.updatePrintSubjectModalPreview = function () {
-    const sel = document.getElementById('printSubjectSelect');
-    const info = document.getElementById('printSubjectInfoBox');
-    if (!sel || !info) return;
-
-    const val = sel.value;
-    if (val === 'all') {
-      info.style.background = '#f0fdf4';
-      info.style.borderColor = '#86efac';
-      info.style.color = '#166534';
-      info.innerHTML = `<strong>🌟 All Subjects Scope:</strong> Prints the complete 1-page official portfolio with all 7 curriculum subjects compiled together and the comprehensive comparative performance graph.`;
-    } else {
-      const cfg = SUBJECTS_CONFIG.find(c => c.id === val) || { name: val, icon: '📚' };
-      info.style.background = '#eff6ff';
-      info.style.borderColor = '#93c5fd';
-      info.style.color = '#1e3a8a';
-      info.innerHTML = `<strong>${cfg.icon || '📚'} Individual Subject: ${escapeHtml(cfg.name)}:</strong> Prints the official portfolio featuring <strong>${escapeHtml(cfg.name)}</strong> with its Term 1, Mid Term, and Term 2 evaluations, faculty remarks, and a dedicated <strong>${escapeHtml(cfg.name)} Performance Graph</strong> showing term progression and benchmark analysis.`;
-    }
-  };
+  window.updatePrintSubjectModalPreview = function () { return; };
 
   window.executeSubjectPrint = function () {
-    const sel = document.getElementById('printSubjectSelect');
-    const selectedSubject = sel ? sel.value : 'all';
-    closePrintSubjectModal();
-
-    const studentData = pendingPrintPayload ? pendingPrintPayload.data : null;
-    populateSinglePagePrintSheet(studentData, selectedSubject);
-
-    setTimeout(() => {
-      window.print();
-    }, 300);
+    try { closePrintSubjectModal(); } catch (e) {}
+    const studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
+    populateSinglePagePrintSheet(studentData, 'all');
+    setTimeout(() => { window.print(); }, 300);
   };
 
   window.deleteStudentRecord = async function (id, name) {
@@ -1493,7 +1237,7 @@
         const list = getLocalStudentList();
         const saved = list.find(item => item.id === s.id || (item.profile?.student_name && item.profile?.student_name === s.profile?.student_name));
         if (saved) {
-          s.academic_progress = s.academic_progress || saved.academic_progress || saved.data?.academic_progress;
+          // Academic Progress removed
           s.skills = s.skills || saved.skills || saved.data?.skills;
           s.teacher_assessment = s.teacher_assessment || saved.teacher_assessment || saved.data?.teacher_assessment;
           s.teacher_final_remark = s.teacher_final_remark || saved.teacher_final_remark || saved.data?.teacher_final_remark;
@@ -1504,22 +1248,15 @@
     const p = s.profile || (s.data && s.data.profile) || s;
     const about = s.about_me || (s.data && s.data.about_me) || {};
     const goals = s.goals || (s.data && s.data.goals) || {};
-    const acad = s.academic_progress || (s.data && s.data.academic_progress) || {};
-    const subs = acad.subjects || [];
+    // Academic Progress removed — no acad/subs
     const skills = s.skills || (s.data && s.data.skills) || {};
     const ta = s.teacher_assessment || (s.data && s.data.teacher_assessment) || {};
     const tfr = s.teacher_final_remark || (s.data && s.data.teacher_final_remark) || {};
 
     // Header Info
     setElText('print_session_text', s.header?.academic_session || '2026–2027');
-    if (selectedSubject === 'all') {
-      setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
-      setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'} • All Subjects`);
-    } else {
-      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
-      setElText('print_record_id', `Subject: ${targetConfig.name}`);
-      setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'} • ${targetConfig.name} Only`);
-    }
+    setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
+    setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'}`);
 
     // Profile table
     setElText('print_name', p.student_name || '—');
@@ -1552,12 +1289,7 @@
     // About Me & Strengths
     const aboutSnippetParts = [];
     if (about.student_type) aboutSnippetParts.push(`Learner Type: ${about.student_type}`);
-    if (selectedSubject === 'all') {
-      if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
-    } else {
-      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
-      aboutSnippetParts.push(`Evaluated Subject: ${targetConfig.name}`);
-    }
+    if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
     if (about.one_improvement) aboutSnippetParts.push(`Target: ${about.one_improvement}`);
     setElText('print_about_snippet', aboutSnippetParts.join(' • ') || 'Dedicated, curious student committed to academic excellence.');
 
@@ -1573,112 +1305,7 @@
     setElText('print_short_goal', goals.short_term_goal || goals.short_term || 'Achieve 90%+ aggregate in all subjects in Term 2');
     setElText('print_long_goal', goals.long_term_goal || goals.long_term || 'Pursue STEM stream and lead innovative technology solutions');
     const goalsList = Array.isArray(goals.this_year_goals) ? goals.this_year_goals : [];
-    setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');
-
-    // Compute baseline scores for all subjects
-    const scoresMap = {};
-    let totalScore = 0;
-
-    SUBJECTS_CONFIG.forEach(cfg => {
-      const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
-      const t1 = (m.term1 !== undefined && m.term1 !== '') ? parseFloat(m.term1) : (cfg.id === 'mathematics' ? 95 : (cfg.id === 'science' ? 94 : (cfg.id === 'computer_it' ? 98 : 92)));
-      const mid = (m.midterm !== undefined && m.midterm !== '') ? parseFloat(m.midterm) : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
-      const t2 = (m.term2 !== undefined && m.term2 !== '') ? parseFloat(m.term2) : (cfg.id === 'mathematics' ? 98 : (cfg.id === 'science' ? 96 : (cfg.id === 'computer_it' ? 99 : 94)));
-      const avg = Math.round(((t1 + mid + t2) / 3) * 10) / 10;
-      const remarks = m.remarks || 'Consistent academic commitment, regular submissions, and positive conceptual understanding.';
-
-      scoresMap[cfg.name] = {
-        name: cfg.name,
-        short: cfg.short,
-        avg, t1, mid, t2, remarks
-      };
-      totalScore += avg;
-    });
-
-    // Academic Section Title & Badge
-    const titleEl = document.getElementById('printAcademicSectionTitle');
-    const badgeEl = document.getElementById('printAcademicBadge');
-    const isIndividual = (selectedSubject !== 'all');
-
-    if (!isIndividual) {
-      if (titleEl) titleEl.textContent = '4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED';
-      if (badgeEl) badgeEl.textContent = 'Verified Faculty Evaluation';
-    } else {
-      const targetConfig = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || { name: selectedSubject };
-      if (titleEl) titleEl.textContent = `4. ACADEMIC EVALUATION — ${targetConfig.name.toUpperCase()} (INDIVIDUAL SUBJECT)`;
-      if (badgeEl) badgeEl.textContent = `Focus Subject: ${targetConfig.name} Only`;
-    }
-
-    // Filter subjects: if an individual subject is selected, HIDE ALL OTHER SUBJECTS
-    const subjectsToDisplay = isIndividual
-      ? SUBJECTS_CONFIG.filter(cfg => cfg.id === selectedSubject)
-      : SUBJECTS_CONFIG;
-
-    const acadRowsHtml = subjectsToDisplay.map(cfg => {
-      const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
-      const t1 = (m.term1 !== undefined && m.term1 !== '') ? m.term1 : (cfg.id === 'mathematics' ? 95 : (cfg.id === 'science' ? 94 : (cfg.id === 'computer_it' ? 98 : 92)));
-      const mid = (m.midterm !== undefined && m.midterm !== '') ? m.midterm : (cfg.id === 'mathematics' ? 96 : (cfg.id === 'science' ? 95 : (cfg.id === 'computer_it' ? 97 : 93)));
-      const t2 = (m.term2 !== undefined && m.term2 !== '') ? m.term2 : (cfg.id === 'mathematics' ? 98 : (cfg.id === 'science' ? 96 : (cfg.id === 'computer_it' ? 99 : 94)));
-      const subScore = scoresMap[cfg.name] || {};
-      const avg = subScore.avg;
-      const remarks = m.remarks || subScore.remarks;
-
-      if (isIndividual) {
-        return `
-          <tr style="background: #eff6ff; font-weight: 700;">
-            <td style="vertical-align: middle; padding: 4px 6px;">
-              <div style="font-weight: 900; font-size: 8.5pt; color: #1e3a8a;">${cfg.icon || '📘'} ${escapeHtml(cfg.name)}</div>
-              <div style="font-size: 6.2pt; color: #64748b; margin-top: 1px;">Subject Faculty: ${escapeHtml(cfg.teacher || 'Subject Teacher')}</div>
-            </td>
-            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${t1} / ${cfg.maxMarks}</td>
-            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${mid} / ${cfg.maxMarks}</td>
-            <td style="text-align: center; vertical-align: middle; font-weight: 800; font-size: 8pt; color: #1e3a8a; padding: 4px;">${t2} / ${cfg.maxMarks}</td>
-            <td style="text-align: center; vertical-align: middle; font-weight: 900; font-size: 8.8pt; color: #15803d; background: #f0fdf4; padding: 4px;">${avg}%</td>
-            <td style="vertical-align: middle; font-size: 7.2pt; line-height: 1.3; color: #1e293b; padding: 4px 6px;">${escapeHtml(remarks)}</td>
-          </tr>
-        `;
-      }
-
-      return `
-        <tr>
-          <td style="font-weight: 700; color: #0f172a;">${escapeHtml(cfg.name)}</td>
-          <td style="text-align: center; font-weight: 600;">${t1} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: 600;">${mid} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: 600;">${t2} / ${cfg.maxMarks}</td>
-          <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${avg}%</td>
-          <td style="font-size: 6.8pt; color: #334155;">${escapeHtml(remarks)}</td>
-        </tr>
-      `;
-    }).join('');
-
-    const acadTableBody = document.getElementById('printAcademicTableBody');
-    if (acadTableBody) acadTableBody.innerHTML = acadRowsHtml;
-
-    const overallAvg = Math.round((totalScore / SUBJECTS_CONFIG.length) * 10) / 10;
-    let grade = 'A1';
-    if (overallAvg < 60) grade = 'C';
-    else if (overallAvg < 70) grade = 'B2';
-    else if (overallAvg < 80) grade = 'B1';
-    else if (overallAvg < 90) grade = 'A2';
-
-    if (!isIndividual) {
-      setElText('print_overall_avg', `${overallAvg}% (Grade ${grade})`);
-      setElText('print_academic_achievement', acad.academic_achievement || 'Exemplary academic effort and proactive participation across subjects.');
-    } else {
-      const targetCfg = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || SUBJECTS_CONFIG[0];
-      const targetData = scoresMap[targetCfg.name] || {};
-      let subGrade = 'A1';
-      if (targetData.avg < 60) subGrade = 'C';
-      else if (targetData.avg < 70) subGrade = 'B2';
-      else if (targetData.avg < 80) subGrade = 'B1';
-      else if (targetData.avg < 90) subGrade = 'A2';
-
-      setElText('print_overall_avg', `${targetCfg.name} Aggregate: ${targetData.avg}% (${subGrade})`);
-      setElText('print_academic_achievement', `Focus Subject (${targetCfg.name}): ${targetData.remarks || 'Consistent academic dedication and mastery.'}`);
-    }
-
-    // Performance Graph SVG (as per selected subject!)
-    renderPrintGraph(scoresMap, overallAvg, grade, selectedSubject);
+    setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');    // Academic Progress & Performance Graph removed — skills only
 
     // Skills Table (9 Skills formatted cleanly into 2-column rows to prevent word overlaps)
     const skillList = [
@@ -1738,296 +1365,16 @@
     setElText('print_sig_principal', tfr.principal || 'SHM Academy Office');
   }
 
-  function renderPrintGraph(scoresMap, cumulative, grade, selectedSubject = 'all') {
-    const container = document.getElementById('printGraphSvgContainer');
-    if (!container) return;
-
-    if (selectedSubject !== 'all') {
-      // RENDER INDIVIDUAL SUBJECT PERFORMANCE GRAPH
-      const subCfg = SUBJECTS_CONFIG.find(c => c.id === selectedSubject) || SUBJECTS_CONFIG[0];
-      const s = scoresMap[subCfg.name] || {
-        name: subCfg.name,
-        short: subCfg.short,
-        avg: 96,
-        t1: 94,
-        mid: 96,
-        t2: 98,
-        remarks: ''
-      };
-
-      const growth = Math.round((s.t2 - s.t1) * 10) / 10;
-      const growthSign = growth >= 0 ? `+${growth}%` : `${growth}%`;
-
-      let subGrade = 'A1';
-      if (s.avg < 60) subGrade = 'C';
-      else if (s.avg < 70) subGrade = 'B2';
-      else if (s.avg < 80) subGrade = 'B1';
-      else if (s.avg < 90) subGrade = 'A2';
-
-      const minVal = 60;
-      const maxVal = 100;
-      const chartBottom = 135;
-      const chartTop = 50;
-      const chartHeight = chartBottom - chartTop;
-
-      function getY(val) {
-        const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
-        return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
-      }
-
-      const p1 = { x: 45, y: getY(s.t1) };
-      const p2 = { x: 105, y: getY(s.mid) };
-      const p3 = { x: 165, y: getY(s.t2) };
-
-      const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
-      const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
-
-      // 5 comparative bars on the right side
-      const termBars = [
-        { label: 'Term 1', val: s.t1, fill: '#3b82f6', stroke: '#1d4ed8' },
-        { label: 'Mid-Term', val: s.mid, fill: '#2563eb', stroke: '#1e40af' },
-        { label: 'Term 2', val: s.t2, fill: '#10b981', stroke: '#047857' },
-        { label: 'Aggregate', val: s.avg, fill: '#1e3a8a', stroke: '#0f172a' },
-        { label: 'Benchmark', val: 90, fill: '#f59e0b', stroke: '#b45309' }
-      ];
-
-      const barChartBottom = 135;
-      const barMaxHeight = 70;
-      const barStartX = 208;
-      const barWidth = 34;
-      const barGap = 13;
-
-      let barsSvg = '';
-      termBars.forEach((item, idx) => {
-        const bx = barStartX + idx * (barWidth + barGap);
-        const bHeight = Math.max(8, (item.val / 100) * barMaxHeight);
-        const by = barChartBottom - bHeight;
-
-        barsSvg += `
-          <g class="bar-group">
-            <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7pt" font-weight="800" fill="${item.stroke}">${item.val}%</text>
-            <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="${item.fill}" stroke="${item.stroke}" stroke-width="0.8"/>
-            <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#334155">${item.label}</text>
-          </g>
-        `;
-      });
-
-      const svgHtml = `
-        <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
-          <!-- Header Strip -->
-          <rect x="0" y="0" width="450" height="24" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.8"/>
-          <text x="10" y="16" font-size="7.8pt" font-weight="900" fill="#1e3a8a" letter-spacing="0.02em">📈 ${escapeHtml(subCfg.name.toUpperCase())} PERFORMANCE</text>
-
-          <!-- Badges (Cleanly Spaced) -->
-          <rect x="238" y="4.5" width="68" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.7"/>
-          <text x="272" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#166534">Avg: ${s.avg}%</text>
-
-          <rect x="312" y="4.5" width="60" height="15" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.7"/>
-          <text x="342" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#1e3a8a">Grade: ${subGrade}</text>
-
-          <rect x="378" y="4.5" width="64" height="15" rx="3" fill="#fef3c7" stroke="#fde68a" stroke-width="0.7"/>
-          <text x="410" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
-
-          <!-- Left Chart: Term Progression -->
-          <text x="10" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
-          <line x1="30" y1="${getY(70)}" x2="185" y2="${getY(70)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="26" y="${getY(70) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">70%</text>
-          <line x1="30" y1="${getY(85)}" x2="185" y2="${getY(85)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="26" y="${getY(85) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">85%</text>
-          <line x1="30" y1="${getY(100)}" x2="185" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-          <text x="26" y="${getY(100) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">100%</text>
-
-          <path d="${areaPath}" fill="#dbeafe" opacity="0.75"/>
-          <path d="${linePathSolid}" fill="none" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-          <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
-          <text x="${p1.x}" y="${p1.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${s.t1}%</text>
-          <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-1</text>
-
-          <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1d4ed8" stroke-width="2"/>
-          <text x="${p2.x}" y="${p2.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${s.mid}%</text>
-          <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Mid-Term</text>
-
-          <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
-          <text x="${p3.x}" y="${p3.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#15803d">${s.t2}%</text>
-          <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-2</text>
-
-          <!-- Right Chart: Term Comparison & Benchmark Bars -->
-          <text x="208" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM &amp; BENCHMARK COMPARISON</text>
-          ${barsSvg}
-        </svg>
-      `;
-
-      container.innerHTML = svgHtml;
-      return;
-    }
-
-    // MULTI-SUBJECT COMPLETE GRAPH (STANDARD)
-    const scoresList = Object.values(scoresMap);
-    const t1Avg = Math.round((scoresList.reduce((a, s) => a + s.t1, 0) / scoresList.length) * 10) / 10;
-    const midAvg = Math.round((scoresList.reduce((a, s) => a + s.mid, 0) / scoresList.length) * 10) / 10;
-    const t2Avg = Math.round((scoresList.reduce((a, s) => a + s.t2, 0) / scoresList.length) * 10) / 10;
-    const growth = Math.round((t2Avg - t1Avg) * 10) / 10;
-    const growthSign = growth >= 0 ? `+${growth}%` : `${growth}%`;
-
-    const minVal = 70;
-    const maxVal = 100;
-    const chartBottom = 135;
-    const chartTop = 50;
-    const chartHeight = chartBottom - chartTop;
-
-    function getY(val) {
-      const clamped = Math.max(minVal, Math.min(maxVal, Number(val) || 80));
-      return chartBottom - ((clamped - minVal) / (maxVal - minVal)) * chartHeight;
-    }
-
-    const p1 = { x: 42, y: getY(t1Avg) };
-    const p2 = { x: 102, y: getY(midAvg) };
-    const p3 = { x: 162, y: getY(t2Avg) };
-
-    const areaPath = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y} L ${p3.x},${chartBottom} L ${p1.x},${chartBottom} Z`;
-    const linePathSolid = `M ${p1.x},${p1.y} L ${p2.x},${p2.y} L ${p3.x},${p3.y}`;
-
-    const barChartBottom = 135;
-    const barMaxHeight = 70;
-    const barStartX = 205;
-    const barWidth = 24;
-    const barGap = 9;
-
-    let barsSvg = '';
-    scoresList.slice(0, 7).forEach((s, idx) => {
-      const bx = barStartX + idx * (barWidth + barGap);
-      const scoreVal = s.avg;
-      const bHeight = Math.max(8, (scoreVal / 100) * barMaxHeight);
-      const by = barChartBottom - bHeight;
-
-      barsSvg += `
-        <g class="bar-group">
-          <text x="${bx + barWidth/2}" y="${by - 4}" text-anchor="middle" font-size="7pt" font-weight="800" fill="#1e3a8a">${scoreVal}%</text>
-          <rect x="${bx}" y="${by}" width="${barWidth}" height="${bHeight}" rx="3" fill="#1e3a8a" stroke="#0f172a" stroke-width="0.8"/>
-          <text x="${bx + barWidth/2}" y="${barChartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#334155">${escapeHtml(s.short)}</text>
-        </g>
-      `;
-    });
-
-    const svgHtml = `
-      <svg viewBox="0 0 450 165" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; max-height:26mm; display:block;">
-        <!-- Header Strip -->
-        <rect x="0" y="0" width="450" height="24" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8"/>
-        <text x="10" y="16" font-size="7.8pt" font-weight="800" fill="#0f172a" letter-spacing="0.02em">📈 PERFORMANCE TRAJECTORY</text>
-
-        <!-- Badges (Cleanly Spaced) -->
-        <rect x="238" y="4.5" width="68" height="15" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="0.7"/>
-        <text x="272" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#166534">Avg: ${cumulative}%</text>
-
-        <rect x="312" y="4.5" width="60" height="15" rx="3" fill="#eff6ff" stroke="#bfdbfe" stroke-width="0.7"/>
-        <text x="342" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#1e3a8a">Grade: ${grade}</text>
-
-        <rect x="378" y="4.5" width="64" height="15" rx="3" fill="#fef3c7" stroke="#fde68a" stroke-width="0.7"/>
-        <text x="410" y="15" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#92400e">Trend: ↗ ${growthSign}</text>
-
-        <!-- Left Chart: Term Progression -->
-        <text x="10" y="36" font-size="6.5pt" font-weight="800" fill="#475569">TERM PROGRESSION</text>
-        <line x1="28" y1="${getY(80)}" x2="182" y2="${getY(80)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="24" y="${getY(80) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">80%</text>
-        <line x1="28" y1="${getY(90)}" x2="182" y2="${getY(90)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="24" y="${getY(90) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">90%</text>
-        <line x1="28" y1="${getY(100)}" x2="182" y2="${getY(100)}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2,2"/>
-        <text x="24" y="${getY(100) + 2}" text-anchor="end" font-size="5.8pt" fill="#64748b">100%</text>
-
-        <path d="${areaPath}" fill="#e0e7ff" opacity="0.6"/>
-        <path d="${linePathSolid}" fill="none" stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-
-        <circle cx="${p1.x}" cy="${p1.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p1.x}" y="${p1.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${t1Avg}%</text>
-        <text x="${p1.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-1</text>
-
-        <circle cx="${p2.x}" cy="${p2.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p2.x}" y="${p2.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${midAvg}%</text>
-        <text x="${p2.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Mid-Term</text>
-
-        <circle cx="${p3.x}" cy="${p3.y}" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-        <text x="${p3.x}" y="${p3.y - 4}" text-anchor="middle" font-size="6.8pt" font-weight="800" fill="#0f172a">${t2Avg}%</text>
-        <text x="${p3.x}" y="${chartBottom + 12}" text-anchor="middle" font-size="6.5pt" font-weight="700" fill="#64748b">Term-2</text>
-
-        <!-- Right Chart: Subject Comparative Bars -->
-        <text x="205" y="36" font-size="6.5pt" font-weight="800" fill="#475569">SUBJECT COMPARATIVE PERFORMANCE</text>
-        ${barsSvg}
-      </svg>
-    `;
-
-    container.innerHTML = svgHtml;
-  }
+  function renderPrintGraph() { return; }
 
   // =========================================================
   // 10. COMPLETE MULTI-SUBJECT COMPILED PRINT DOCUMENT (FALLBACK)
   // =========================================================
   function generateFullPrintDocument(s) {
     const p = s.profile || s;
-    const acad = s.academic_progress || s.data?.academic_progress || {};
-    const subs = acad.subjects || [];
     const skills = s.skills || s.data?.skills || {};
     const ta = s.teacher_assessment || s.data?.teacher_assessment || {};
     const tfr = s.teacher_final_remark || s.data?.teacher_final_remark || {};
-
-    // Generate Performance Graph SVG for this student
-    const scoresMap = {};
-    SUBJECTS_CONFIG.forEach(cfg => {
-      const match = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
-      const t1 = parseFloat(match.term1) || 92;
-      const mid = parseFloat(match.midterm) || 94;
-      const t2 = parseFloat(match.term2) || 96;
-      scoresMap[cfg.name] = {
-        name: cfg.name,
-        short: cfg.short,
-        avg: Math.round(((t1 + mid + t2) / 3) * 10) / 10,
-        t1, mid, t2,
-        remarks: match.remarks || ''
-      };
-    });
-    const scoresList = Object.values(scoresMap);
-    const t1Avg = Math.round((scoresList.reduce((a, b) => a + b.t1, 0) / scoresList.length) * 10) / 10;
-    const midAvg = Math.round((scoresList.reduce((a, b) => a + b.mid, 0) / scoresList.length) * 10) / 10;
-    const t2Avg = Math.round((scoresList.reduce((a, b) => a + b.t2, 0) / scoresList.length) * 10) / 10;
-    const cum = Math.round(((t1Avg + midAvg + t2Avg) / 3) * 10) / 10;
-
-    // Compiled Individual Subjects Cards (All Subjects Together)
-    const allSubjectsCardsHtml = SUBJECTS_CONFIG.map(cfg => {
-      const m = subs.find(item => item.subject === cfg.name || item.subject === cfg.id) || {};
-      return `
-        <div class="subject-item-card">
-          <div class="subject-item-header">
-            <div class="subject-item-title">
-              <span>${cfg.icon}</span> <span>${cfg.name}</span>
-            </div>
-            <span class="subject-item-badge">Faculty: ${escapeHtml(cfg.teacher)}</span>
-          </div>
-          <div class="subject-item-body">
-            <table class="doc-table" style="margin: 0 0 0.75rem 0;">
-              <thead>
-                <tr>
-                  <th style="text-align: center; width: 25%;">Term 1</th>
-                  <th style="text-align: center; width: 25%;">Mid Term</th>
-                  <th style="text-align: center; width: 25%;">Term 2</th>
-                  <th style="width: 25%;">Grade / Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="text-align: center; font-weight: 700;">${m.term1 || '—'} / ${cfg.maxMarks}</td>
-                  <td style="text-align: center; font-weight: 700;">${m.midterm || '—'} / ${cfg.maxMarks}</td>
-                  <td style="text-align: center; font-weight: 700;">${m.term2 || '—'} / ${cfg.maxMarks}</td>
-                  <td style="font-weight: 700; color: #166534;">Verified</td>
-                </tr>
-              </tbody>
-            </table>
-            <div style="font-size: 9pt; color: #334155;">
-              <strong>Teacher’s Subject Remark:</strong> ${escapeHtml(m.remarks || 'Shows consistent academic commitment, regular submissions, and positive conceptual understanding.')}
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
 
     return `
       <!DOCTYPE html>
@@ -2042,9 +1389,6 @@
           .doc-table th { background: #f1f5f9; }
           .doc-header { text-align: center; border-bottom: 2px double #000; padding-bottom: 1rem; margin-bottom: 1.25rem; }
           .doc-section { margin-bottom: 1.25rem; page-break-inside: avoid; }
-          .subject-item-card { border: 1px solid #333; margin-bottom: 0.85rem; page-break-inside: avoid; }
-          .subject-item-header { background: #f1f5f9; padding: 6px 10px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; font-weight: 700; font-size: 10pt; }
-          .subject-item-body { padding: 8px 10px; }
         </style>
       </head>
       <body>
@@ -2078,40 +1422,9 @@
           </div>
         </section>
 
-        <!-- 2. Performance Graph -->
-        <section class="doc-section" style="margin-top: 1rem;">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">📈 OVERALL PERFORMANCE GRAPH (ALL SUBJECTS)</h3>
-          <div style="border: 1px solid #333; padding: 6px; background: #fff;">
-            <div style="font-size: 9pt; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between;">
-              <span>Cumulative Average: ${cum}%</span>
-              <span>Grade: A1 / Outstanding</span>
-              <span>Progression: Term 1 (${t1Avg}%) ➔ Mid Term (${midAvg}%) ➔ Term 2 (${t2Avg}%)</span>
-            </div>
-            <table class="doc-table">
-              <thead>
-                <tr>
-                  ${scoresList.map(item => `<th style="text-align:center;">${escapeHtml(item.short)}</th>`).join('')}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  ${scoresList.map(item => `<td style="text-align:center; font-weight:700;">${item.avg}%</td>`).join('')}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- 3. Individual Subjects Portfolio (All Subjects Together) -->
-        <section class="doc-section" style="margin-top: 1rem;">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">📚 INDIVIDUAL SUBJECT PORTFOLIOS (ALL SUBJECTS COMPILED)</h3>
-          ${allSubjectsCardsHtml}
-          ${acad.academic_achievement ? `<div style="margin-top: 0.5rem; font-size: 9pt;"><strong>My Academic Achievement:</strong> ${escapeHtml(acad.academic_achievement)}</div>` : ''}
-        </section>
-
-        <!-- 4. Teacher Assessment -->
+        <!-- Teacher Assessment -->
         <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">12. TEACHER’S ASSESSMENT</h3>
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">11. TEACHER’S ASSESSMENT</h3>
           <p style="font-size: 9pt;"><strong>Teacher’s Remarks:</strong> ${escapeHtml(ta.teacher_remarks || 'A diligent, courteous, and conscientious student.')}</p>
           <div style="display:flex; justify-content:space-between; margin-top:0.85rem; font-size: 9pt;">
             <div>Class Teacher’s Signature: <strong>${escapeHtml(ta.teacher_signature || '___________________')}</strong></div>
@@ -2119,9 +1432,9 @@
           </div>
         </section>
 
-        <!-- 5. Declaration & Final Remark -->
+        <!-- Declaration & Final Remark -->
         <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">16. STUDENT’S DECLARATION &amp; FINAL SIGN-OFF</h3>
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.4rem; font-size: 10pt;">15. STUDENT’S DECLARATION &amp; FINAL SIGN-OFF</h3>
           <p style="font-style: italic; font-size: 9pt; margin-bottom: 0.5rem;">“I have completed this portfolio with honesty and have reflected upon my learning, achievements, strengths and areas for improvement.”</p>
           <div style="display:flex; justify-content:space-between; font-size: 9pt;">
             <div>Student: <strong>${escapeHtml(p.student_name || s.student_name)}</strong></div>

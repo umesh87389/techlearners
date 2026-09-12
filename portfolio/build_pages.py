@@ -86,21 +86,19 @@ def generate_html(is_jinja=False):
     <a href="#sec-profile" class="jump-chip">1. Profile</a>
     <a href="#sec-about" class="jump-chip">2. About Me</a>
     <a href="#sec-goals" class="jump-chip">3. Goals</a>
-    <a href="#sec-graph" class="jump-chip" style="color: #1e3a8a; border-color: #93c5fd; background: #eff6ff;">📈 Performance Graph</a>
-    <a href="#sec-academic" class="jump-chip">4. Academic (Locked)</a>
-    <a href="#sec-skills" class="jump-chip">5. Skills (Locked)</a>
-    <a href="#sec-cocurricular" class="jump-chip">6. Co-Curricular</a>
-    <a href="#sec-awards" class="jump-chip">7. Awards</a>
-    <a href="#sec-projects" class="jump-chip">8. Projects</a>
-    <a href="#sec-pip" class="jump-chip">9. PIP Plan</a>
-    <a href="#sec-reading" class="jump-chip">10. Reading Log</a>
-    <a href="#sec-bestwork" class="jump-chip">11. Best Work</a>
-    <a href="#sec-assessment" class="jump-chip">12. Teacher Assessment</a>
-    <a href="#sec-parent" class="jump-chip">13. Parent Feedback</a>
-    <a href="#sec-reflection" class="jump-chip">14. Self-Reflection</a>
-    <a href="#sec-year-review" class="jump-chip">15. Year Review</a>
-    <a href="#sec-declaration" class="jump-chip">16. Declaration</a>
-    <a href="#sec-final-remark" class="jump-chip">17. Final Remark</a>
+    <a href="#sec-skills" class="jump-chip">4. Skills (Locked)</a>
+    <a href="#sec-cocurricular" class="jump-chip">5. Co-Curricular</a>
+    <a href="#sec-awards" class="jump-chip">6. Awards</a>
+    <a href="#sec-projects" class="jump-chip">7. Projects</a>
+    <a href="#sec-pip" class="jump-chip">8. PIP Plan</a>
+    <a href="#sec-reading" class="jump-chip">9. Reading Log</a>
+    <a href="#sec-bestwork" class="jump-chip">10. Best Work</a>
+    <a href="#sec-assessment" class="jump-chip">11. Teacher Assessment</a>
+    <a href="#sec-parent" class="jump-chip">12. Parent Feedback</a>
+    <a href="#sec-reflection" class="jump-chip">13. Self-Reflection</a>
+    <a href="#sec-year-review" class="jump-chip">14. Year Review</a>
+    <a href="#sec-declaration" class="jump-chip">15. Declaration</a>
+    <a href="#sec-final-remark" class="jump-chip">16. Final Remark</a>
   </nav>
 
   <!-- ========================================================= -->
@@ -299,75 +297,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- DYNAMIC VISUAL PERFORMANCE GRAPH CARD -->
-      <section class="doc-card" id="sec-graph" style="border-left: 5px solid #3b82f6;">
-        <div class="doc-card-header" style="background: #eff6ff;">
-          <div class="doc-card-title" style="color: #1e3a8a;">
-            <span>📈</span> Child Overall Performance Graph
-          </div>
-          <span class="status-pill" style="background:#dbeafe; color:#1e3a8a; border: 1px solid #bfdbfe;">All Subjects Compiled &amp; Progression</span>
-        </div>
-        <div class="doc-card-body" style="background: #ffffff; padding: 1.25rem;">
-          <div id="perfGraphSvgContainer">
-            <!-- Dynamic vector SVG graph generated via portfolio.js -->
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. ACADEMIC PROGRESS (LOCKED FOR STUDENTS) -->
-      <section class="doc-card" id="sec-academic">
-        <div class="doc-card-header">
-          <div class="doc-card-title">
-            <span>📚</span> 4. Academic Progress
-          </div>
-          <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
-        </div>
-        <div class="doc-card-body">
-          <div class="faculty-locked-vault">
-            <div class="faculty-vault-banner">
-              <span style="font-size: 1.25rem;">🔒</span>
-              <div>
-                <strong>Academic marks and faculty remarks are locked for students.</strong>
-                <p style="margin: 2px 0 0; font-size: 0.8rem; font-weight: 500;">
-                  Verified term scores and individual subject remarks will be entered and certified exclusively by your teacher in the Teacher’s Dashboard.
-                </p>
-              </div>
-            </div>
-
-            <table class="modern-table">
-              <thead>
-                <tr>
-                  <th style="width: 25%;">Subject</th>
-                  <th style="width: 18%; text-align: center;">Term 1</th>
-                  <th style="width: 18%; text-align: center;">Mid Term</th>
-                  <th style="width: 18%; text-align: center;">Term 2</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>English</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Hindi</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Mathematics</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Science</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Social Science</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Computer/IT</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-                <tr><td><strong>Other</strong></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td><td><input type="text" class="form-control locked-input-pill" disabled placeholder="Teacher Entry"></td></tr>
-              </tbody>
-            </table>
-
-            <div style="margin-top: 1rem;">
-              <label style="font-weight: 700; font-size: 0.88rem; color: #92400e; display: block; margin-bottom: 0.35rem;">My Academic Achievement</label>
-              <textarea class="form-control locked-input-pill" disabled rows="2" placeholder="Recorded and verified by Teacher"></textarea>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. MY SKILLS (LOCKED FOR STUDENTS) -->
+<!-- 4. MY SKILLS (LOCKED FOR STUDENTS) -->
       <section class="doc-card" id="sec-skills">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>✨</span> 5. My Skills
+            <span>✨</span> 4. My Skills
           </div>
           <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
         </div>
@@ -406,11 +340,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <!-- 5. CO-CURRICULAR ACTIVITIES -->
       <section class="doc-card" id="sec-cocurricular">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🎭</span> 6. Co-Curricular Activities
+            <span>🎭</span> 5. Co-Curricular Activities
           </div>
         </div>
         <div class="doc-card-body">
@@ -453,11 +387,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 7. ACHIEVEMENTS & AWARDS -->
+      <!-- 6. ACHIEVEMENTS & AWARDS -->
       <section class="doc-card" id="sec-awards">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🏆</span> 7. Achievements &amp; Awards
+            <span>🏆</span> 6. Achievements &amp; Awards
           </div>
         </div>
         <div class="doc-card-body">
@@ -500,11 +434,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 8. PROJECTS & PRACTICAL WORK -->
+      <!-- 7. PROJECTS & PRACTICAL WORK -->
       <section class="doc-card" id="sec-projects">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🔬</span> 8. Projects &amp; Practical Work
+            <span>🔬</span> 7. Projects &amp; Practical Work
           </div>
         </div>
         <div class="doc-card-body">
@@ -547,11 +481,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 9. PERSONAL IMPROVEMENT PLAN (PIP) -->
+      <!-- 8. PERSONAL IMPROVEMENT PLAN (PIP) -->
       <section class="doc-card" id="sec-pip">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📈</span> 9. Personal Improvement Plan (PIP)
+            <span>📈</span> 8. Personal Improvement Plan (PIP)
           </div>
         </div>
         <div class="doc-card-body">
@@ -594,11 +528,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 10. BOOK / READING LOG -->
+      <!-- 9. BOOK / READING LOG -->
       <section class="doc-card" id="sec-reading">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📖</span> 10. Book / Reading Log
+            <span>📖</span> 9. Book / Reading Log
           </div>
         </div>
         <div class="doc-card-body">
@@ -641,11 +575,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 11. MY BEST WORK -->
+      <!-- 10. MY BEST WORK -->
       <section class="doc-card" id="sec-bestwork">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🎨</span> 11. My Best Work
+            <span>🎨</span> 10. My Best Work
           </div>
         </div>
         <div class="doc-card-body">
@@ -662,11 +596,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 12. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
+      <!-- 11. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
       <section class="doc-card" id="sec-assessment">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>👨‍🏫</span> 12. Teacher’s Assessment
+            <span>👨‍🏫</span> 11. Teacher’s Assessment
           </div>
           <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
         </div>
@@ -712,11 +646,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 13. PARENT’S FEEDBACK -->
+      <!-- 12. PARENT’S FEEDBACK -->
       <section class="doc-card" id="sec-parent">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>👪</span> 13. Parent’s Feedback
+            <span>👪</span> 12. Parent’s Feedback
           </div>
         </div>
         <div class="doc-card-body">
@@ -737,11 +671,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 14. STUDENT’S SELF-REFLECTION -->
+      <!-- 13. STUDENT’S SELF-REFLECTION -->
       <section class="doc-card" id="sec-reflection">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>💡</span> 14. Student’s Self-Reflection
+            <span>💡</span> 13. Student’s Self-Reflection
           </div>
         </div>
         <div class="doc-card-body">
@@ -762,11 +696,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 15. END OF YEAR REVIEW -->
+      <!-- 14. END OF YEAR REVIEW -->
       <section class="doc-card" id="sec-year-review">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🎉</span> 15. End of Year Review
+            <span>🎉</span> 14. End of Year Review
           </div>
         </div>
         <div class="doc-card-body">
@@ -795,11 +729,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 16. STUDENT’S DECLARATION -->
+      <!-- 15. STUDENT’S DECLARATION -->
       <section class="doc-card" id="sec-declaration">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>✍️</span> 16. Student’s Declaration
+            <span>✍️</span> 15. Student’s Declaration
           </div>
         </div>
         <div class="doc-card-body">
@@ -823,11 +757,11 @@ def generate_html(is_jinja=False):
         </div>
       </section>
 
-      <!-- 17. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
+      <!-- 16. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
       <section class="doc-card" id="sec-final-remark">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📜</span> 17. Teacher’s Final Remark
+            <span>📜</span> 16. Teacher’s Final Remark
           </div>
           <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
         </div>
@@ -1029,85 +963,9 @@ def generate_html(is_jinja=False):
 
       <div class="eval-modal-body">
         
-        <!-- 4. Academic Progress Evaluation -->
+<!-- 4. Skills Evaluation -->
         <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-            <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin: 0;">4. Academic Progress (Marks &amp; Remarks)</h3>
-            <span style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; background: #dbeafe; padding: 2px 8px; border-radius: 4px;">Faculty Entry</span>
-          </div>
-          
-          <table class="modern-table">
-            <thead>
-              <tr>
-                <th style="width: 24%;">Subject</th>
-                <th style="width: 18%; text-align: center;">Term 1</th>
-                <th style="width: 18%; text-align: center;">Mid Term</th>
-                <th style="width: 18%; text-align: center;">Term 2</th>
-                <th>Subject Teacher Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>English</strong></td>
-                <td><input type="text" id="modal_sub_0_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_0_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_0_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_0_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Hindi</strong></td>
-                <td><input type="text" id="modal_sub_1_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_1_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_1_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_1_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Mathematics</strong></td>
-                <td><input type="text" id="modal_sub_2_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_2_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_2_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_2_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Science</strong></td>
-                <td><input type="text" id="modal_sub_3_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_3_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_3_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_3_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Social Science</strong></td>
-                <td><input type="text" id="modal_sub_4_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_4_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_4_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_4_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Computer/IT</strong></td>
-                <td><input type="text" id="modal_sub_5_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_5_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_5_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_5_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-              <tr>
-                <td><strong>Other</strong></td>
-                <td><input type="text" id="modal_sub_6_term1" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_6_midterm" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_6_term2" class="form-control" placeholder="Marks"></td>
-                <td><input type="text" id="modal_sub_6_remarks" class="form-control" placeholder="Remarks"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div style="margin-top: 1rem;">
-            <label style="font-weight: 700; font-size: 0.88rem; color: #1e3a8a; display: block; margin-bottom: 0.35rem;">My Academic Achievement</label>
-            <textarea id="modal_academic_achievement" class="form-control" rows="2" placeholder="Highlights, distinctions, or awards recorded by teacher..."></textarea>
-          </div>
-        </div>
-
-        <!-- 5. Skills Evaluation -->
-        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">5. My Skills (Rating 1–5)</h3>
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">4. My Skills (Rating 1–5)</h3>
           <table class="modern-table">
             <thead>
               <tr>
@@ -1129,9 +987,9 @@ def generate_html(is_jinja=False):
           </table>
         </div>
 
-        <!-- 6. Co-Curricular Remarks -->
+        <!-- 5. Co-Curricular Remarks -->
         <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">6. Co-Curricular Activities: Teacher’s Remarks</h3>
+          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">5. Co-Curricular Activities: Teacher’s Remarks</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.85rem;">
             <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 1 Remark</label><input type="text" id="modal_co_rem_1" class="form-control"></div>
             <div><label style="font-size: 0.82rem; font-weight: 700; color: #475569; display: block; margin-bottom: 0.25rem;">Activity 2 Remark</label><input type="text" id="modal_co_rem_2" class="form-control"></div>
@@ -1140,9 +998,9 @@ def generate_html(is_jinja=False):
           </div>
         </div>
 
-        <!-- 12. Teacher's Assessment -->
+        <!-- 11. Teacher's Assessment -->
         <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">12. Teacher’s Assessment</h3>
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">11. Teacher’s Assessment</h3>
           <table class="modern-table">
             <thead>
               <tr>
@@ -1182,9 +1040,9 @@ def generate_html(is_jinja=False):
           </div>
         </div>
 
-        <!-- 17. Teacher's Final Remark -->
+        <!-- 16. Teacher's Final Remark -->
         <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">17. Teacher’s Final Remark</h3>
+          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">16. Teacher’s Final Remark</h3>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
             <div>
               <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 0.25rem;">Class Teacher Final Remark</label>
@@ -1211,66 +1069,7 @@ def generate_html(is_jinja=False):
     </div>
   </div>
 
-  <!-- ========================================================= -->
-  <!-- PRINT SUBJECT SELECTION MODAL (TEACHER & STUDENT PROMPT)   -->
-  <!-- ========================================================= -->
-  <div id="printSubjectModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card print-modal-box">
-      <!-- Modal Header -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; border-bottom: 1.5px solid #e2e8f0; padding-bottom: 0.85rem;">
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <div style="width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 1px solid #bfdbfe;">
-            🖨️
-          </div>
-          <div>
-            <h3 style="margin: 0; font-size: 1.2rem; font-weight: 900; color: #0f172a;">Print Student Portfolio</h3>
-            <p style="margin: 0.15rem 0 0; font-size: 0.82rem; color: #64748b;">SHM Academy Official Single-Page A4 Assessment</p>
-          </div>
-        </div>
-        <button type="button" onclick="closePrintSubjectModal()" style="background: none; border: none; font-size: 1.6rem; line-height: 1; color: #94a3b8; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 6px;" title="Close">&times;</button>
-      </div>
-
-      <!-- Student Badge -->
-      <div id="printModalStudentBadge" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0.55rem 0.85rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
-        <span style="font-weight: 800; color: #1e3a8a;" id="printModalStudentName">Student: Portfolio Record</span>
-        <span style="font-weight: 700; color: #64748b;" id="printModalStudentClass">Class 6 - 12</span>
-      </div>
-
-      <!-- Subject Selection Input -->
-      <div style="margin-bottom: 1.25rem;">
-        <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #0f172a; margin-bottom: 0.5rem;">
-          📚 Select Subject Scope for Printing:
-        </label>
-        <select id="printSubjectSelect" class="form-control" onchange="updatePrintSubjectModalPreview()" style="font-weight: 700; font-size: 0.95rem; padding: 0.7rem 0.85rem; border-radius: 10px; border: 1.5px solid #3b82f6;">
-          <option value="all">🌟 All Subjects (Complete Portfolio Compiled)</option>
-          <option value="english">📖 English</option>
-          <option value="hindi">🇮🇳 Hindi</option>
-          <option value="mathematics">📐 Mathematics</option>
-          <option value="science">🔬 Science</option>
-          <option value="social_science">🌍 Social Science</option>
-          <option value="computer_it">💻 Computer / IT</option>
-          <option value="other">🎨 Other Subject</option>
-        </select>
-      </div>
-
-      <!-- Dynamic Scope Explanation Box -->
-      <div id="printSubjectInfoBox" style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1.5rem; font-size: 0.83rem; color: #166534; line-height: 1.45;">
-        <strong>🌟 All Subjects Scope:</strong> Prints the complete 1-page official portfolio with all 7 curriculum subjects compiled together and the comprehensive comparative performance graph.
-      </div>
-
-      <!-- Action Buttons -->
-      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; align-items: center;">
-        <button type="button" onclick="closePrintSubjectModal()" class="btn-vibrant btn-outline" style="padding: 0.6rem 1.25rem; font-size: 0.9rem;">
-          Cancel
-        </button>
-        <button type="button" onclick="executeSubjectPrint()" class="btn-vibrant btn-print-gradient" style="padding: 0.65rem 1.5rem; font-size: 0.95rem;">
-          <span>🖨️</span> Confirm &amp; Print (1-Page A4)
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================= -->
+<!-- ========================================================= -->
   <!-- 3. DEDICATED 1-PAGE A4 MASTER PRINT SHEET (HIDDEN ON SCREEN)-->
   <!-- FITS 100% OF ALL STUDENT INFORMATION ON EXACTLY 1 A4 PAGE! -->
   <!-- ========================================================= -->
@@ -1363,44 +1162,10 @@ def generate_html(is_jinja=False):
       </div>
     </div>
 
-    <!-- D. Row 3: All Subjects Academic Progress -->
-    <div style="margin-bottom: 1.5mm;">
-      <div class="print-section-header">
-        <span id="printAcademicSectionTitle">4. ACADEMIC PROGRESS — ALL SUBJECTS COMPILED</span>
-        <span style="font-size: 6.5pt; color: #1e3a8a; font-weight: 700;" id="printAcademicBadge">Verified Faculty Evaluation</span>
-      </div>
-      <table class="print-table" style="margin-bottom: 1mm;">
-        <thead>
-          <tr>
-            <th style="width: 22%; text-align: left;">Subject</th>
-            <th style="width: 12%; text-align: center;">Term 1</th>
-            <th style="width: 12%; text-align: center;">Mid Term</th>
-            <th style="width: 12%; text-align: center;">Term 2</th>
-            <th style="width: 12%; text-align: center;">Aggregate</th>
-            <th style="width: 30%; text-align: left;">Subject Teacher Remarks</th>
-          </tr>
-        </thead>
-        <tbody id="printAcademicTableBody">
-          <!-- Dynamically populated -->
-        </tbody>
-      </table>
-      <div class="print-academic-summary-bar">
-        <div class="print-distinction-col"><strong>Academic Distinction:</strong> <span id="print_academic_achievement">Consistent performance</span></div>
-        <div class="print-aggregate-col"><strong>Cumulative Aggregate:</strong> <span id="print_overall_avg" style="font-weight: 900; color: #1e3a8a;">—</span></div>
-      </div>
-    </div>
-
-    <!-- E. Row 4: Performance Graph -->
-    <div class="print-graph-container" style="margin-bottom: 1.5mm;">
-      <div id="printGraphSvgContainer">
-        <!-- SVG graph dynamically rendered -->
-      </div>
-    </div>
-
-    <!-- F. Row 5: Skills Evaluation & Co-Curricular Summary -->
+    <!-- D. Row 3: Skills Evaluation & Co-Curricular Summary -->
     <div class="print-row-2col" style="margin-bottom: 1.5mm;">
       <div>
-        <div class="print-section-header">5. SKILLS EVALUATION (RATED 1–5)</div>
+        <div class="print-section-header">4. SKILLS EVALUATION (RATED 1–5)</div>
         <table class="print-table print-skills-table" style="margin-bottom: 0;">
           <tbody id="printSkillsTableBody">
             <!-- 9 skills formatted into 2-column rows -->
@@ -1408,7 +1173,7 @@ def generate_html(is_jinja=False):
         </table>
       </div>
       <div>
-        <div class="print-section-header">6, 7 &amp; 9. ACTIVITIES &amp; PIP PLAN</div>
+        <div class="print-section-header">5, 6 &amp; 8. ACTIVITIES &amp; PIP PLAN</div>
         <div style="font-size: 6.6pt; line-height: 1.25; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm; background: #fbfcfe;">
           <div style="margin-bottom: 1.5px;"><strong>Activities:</strong> <span id="print_cocurricular_snippet">—</span></div>
           <div style="margin-bottom: 1.5px;"><strong>Awards &amp; Honors:</strong> <span id="print_awards_snippet">—</span></div>

@@ -58,8 +58,8 @@ def save_student_submission(student_id, data, source='send'):
         except Exception:
             pass
         
-        # Preserve teacher sections if already evaluated
-        for teacher_sec in ['academic_progress', 'skills', 'teacher_assessment', 'teacher_final_remark']:
+        # Preserve teacher sections if already evaluated (Academic Progress removed)
+        for teacher_sec in ['skills', 'teacher_assessment', 'teacher_final_remark']:
             if teacher_sec in current_data and teacher_sec not in data:
                 data[teacher_sec] = current_data[teacher_sec]
             elif teacher_sec in current_data and teacher_sec in data:
@@ -104,9 +104,7 @@ def save_teacher_evaluation(student_id, teacher_data):
     except Exception:
         pass
     
-    # Merge teacher evaluations
-    if 'academic_progress' in teacher_data:
-        data['academic_progress'] = teacher_data['academic_progress']
+    # Merge teacher evaluations (Academic Progress removed)
     if 'skills' in teacher_data:
         data['skills'] = teacher_data['skills']
     if 'teacher_assessment' in teacher_data:

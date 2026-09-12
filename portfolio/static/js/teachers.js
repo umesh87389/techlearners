@@ -241,23 +241,8 @@
 
     document.getElementById('modalStudentTitle').textContent = `Faculty Evaluation: ${student.student_name || student.profile?.student_name}`;
     document.getElementById('modalStudentSubtitle').textContent = `${student.class_section || student.profile?.class_section} • Roll No: ${student.roll_no || student.profile?.roll_no}`;
-
-    // Populate Academic Progress
-    const subjects = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
-    const existingAcad = student.academic_progress || student.data?.academic_progress || {};
-    const existingSubjects = existingAcad.subjects || [];
-
-    subjects.forEach((sub, i) => {
-      const match = existingSubjects.find(s => s.subject === sub) || {};
-      const prefix = `modal_sub_${i}`;
-      setElVal(`${prefix}_term1`, match.term1 || '');
-      setElVal(`${prefix}_midterm`, match.midterm || '');
-      setElVal(`${prefix}_term2`, match.term2 || '');
-      setElVal(`${prefix}_remarks`, match.remarks || '');
-    });
-    setElVal('modal_academic_achievement', existingAcad.academic_achievement || '');
-
-    // Populate Skills
+    // Academic Progress removed
+// Populate Skills
     const existingSkills = student.skills || student.data?.skills || {};
     const skillKeys = ['communication', 'reading', 'writing', 'creativity', 'problem_solving', 'teamwork', 'leadership', 'time_management', 'digital_skills'];
     skillKeys.forEach(k => {
@@ -303,19 +288,7 @@
 
   window.saveModalEvaluation = async function () {
     if (!currentEvaluatingStudent) return;
-
-    // Collect academic progress
-    const subjects = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
-    const subjectsData = subjects.map((sub, i) => {
-      const prefix = `modal_sub_${i}`;
-      return {
-        subject: sub,
-        term1: getElVal(`${prefix}_term1`),
-        midterm: getElVal(`${prefix}_midterm`),
-        term2: getElVal(`${prefix}_term2`),
-        remarks: getElVal(`${prefix}_remarks`)
-      };
-    });
+    // Academic Progress removed — no subjects collection
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -361,10 +334,6 @@
     };
 
     const evalPayload = {
-      academic_progress: {
-        subjects: subjectsData,
-        academic_achievement: getElVal('modal_academic_achievement')
-      },
       skills: skillsData,
       co_curricular_remarks: coRemarks,
       teacher_assessment: assessmentData,
@@ -377,7 +346,6 @@
     if (idx !== -1) {
       list[idx].status = 'evaluated';
       list[idx].updated_at = new Date().toLocaleString();
-      list[idx].academic_progress = evalPayload.academic_progress;
       list[idx].skills = evalPayload.skills;
       list[idx].teacher_assessment = evalPayload.teacher_assessment;
       list[idx].teacher_final_remark = evalPayload.teacher_final_remark;
@@ -477,17 +445,11 @@
 
   function generatePrintHtml(s) {
     const p = s.profile || s;
-    const acad = s.academic_progress || s.data?.academic_progress || {};
-    const subs = acad.subjects || [];
+    // Academic Progress removed
     const skills = s.skills || s.data?.skills || {};
     const ta = s.teacher_assessment || s.data?.teacher_assessment || {};
     const tfr = s.teacher_final_remark || s.data?.teacher_final_remark || {};
-
-    const subjectsList = ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'];
-    const acadRowsHtml = subjectsList.map(subName => {
-      const m = subs.find(item => item.subject === subName) || {};
-      return `<tr><td><strong>${subName}</strong></td><td style="text-align:center;">${m.term1 || '—'}</td><td style="text-align:center;">${m.midterm || '—'}</td><td style="text-align:center;">${m.term2 || '—'}</td><td>${m.remarks || '—'}</td></tr>`;
-    }).join('');
+    // Academic rows removed
 
     const skillList = [
       ['Communication', 'communication'], ['Reading', 'reading'], ['Writing', 'writing'],
@@ -536,20 +498,10 @@
             <tr><td>Class Teacher</td><td>${escapeHtml(p.class_teacher || '—')}</td></tr>
           </table>
         </section>
+        <!-- Academic Progress section removed -->
 
         <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">4. ACADEMIC PROGRESS</h3>
-          <table class="doc-table">
-            <thead>
-              <tr><th>Subject</th><th style="text-align:center;">Term 1</th><th style="text-align:center;">Mid Term</th><th style="text-align:center;">Term 2</th><th>Remarks</th></tr>
-            </thead>
-            <tbody>${acadRowsHtml}</tbody>
-          </table>
-          <p><strong>My Academic Achievement:</strong> ${escapeHtml(acad.academic_achievement || '—')}</p>
-        </section>
-
-        <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">5. MY SKILLS</h3>
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">4. MY SKILLS</h3>
           <table class="doc-table">
             <thead><tr><th>Skill</th><th style="text-align:center; width:150px;">Rating</th></tr></thead>
             <tbody>${skillsRowsHtml}</tbody>
@@ -557,7 +509,7 @@
         </section>
 
         <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">12. TEACHER’S ASSESSMENT</h3>
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">11. TEACHER’S ASSESSMENT</h3>
           <p><strong>Teacher’s Remarks:</strong> ${escapeHtml(ta.teacher_remarks || '—')}</p>
           <div style="display:flex; justify-content:space-between; margin-top:1rem;">
             <div>Class Teacher’s Signature: <strong>${escapeHtml(ta.teacher_signature || '___________________')}</strong></div>
@@ -566,7 +518,7 @@
         </section>
 
         <section class="doc-section">
-          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">17. TEACHER’S FINAL REMARK</h3>
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">16. TEACHER’S FINAL REMARK</h3>
           <div style="display:flex; justify-content:space-between; margin-top:1rem;">
             <div>Class Teacher: <strong>${escapeHtml(tfr.class_teacher || '___________________')}</strong></div>
             <div>Principal: <strong>${escapeHtml(tfr.principal || '___________________')}</strong></div>

@@ -151,48 +151,9 @@
           </div>
         </div>
       </section>
+      <!-- Academic Progress section removed -->
 
-      <!-- 4. ACADEMIC PROGRESS -->
-      <section class="doc-section">
-        <h2 class="doc-section-title"><span>Academic Progress</span></h2>
-        {% set acad = student.data.academic_progress if student.data.academic_progress else {} %}
-        {% set subs = acad.subjects if acad and acad.subjects else [] %}
-        <table class="doc-table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">Subject</th>
-              <th class="center" style="width: 18%;">Term 1</th>
-              <th class="center" style="width: 18%;">Mid Term</th>
-              <th class="center" style="width: 18%;">Term 2</th>
-              <th>Remarks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for sub_name in ['English', 'Hindi', 'Mathematics', 'Science', 'Social Science', 'Computer/IT', 'Other'] %}
-            {% set matched = {'term1': '', 'midterm': '', 'term2': '', 'remarks': ''} %}
-            {% for s in subs %}
-              {% if s.subject == sub_name %}
-                {% set _ = matched.update({'term1': s.term1, 'midterm': s.midterm, 'term2': s.term2, 'remarks': s.remarks}) %}
-              {% endif %}
-            {% endfor %}
-            <tr>
-              <td><strong>{{ sub_name }}</strong></td>
-              <td class="center">{{ matched.term1 or '—' }}</td>
-              <td class="center">{{ matched.midterm or '—' }}</td>
-              <td class="center">{{ matched.term2 or '—' }}</td>
-              <td>{{ matched.remarks or '—' }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div style="margin-top: 0.5rem;">
-          <strong>My Academic Achievement:</strong>
-          <p style="margin-top: 0.25rem;">{{ acad.academic_achievement if acad.academic_achievement else '—' }}</p>
-        </div>
-      </section>
-
-      <!-- 5. MY SKILLS -->
+      <!-- 4. MY SKILLS -->
       <section class="doc-section">
         <h2 class="doc-section-title">
           <span>My Skills</span>
@@ -219,7 +180,7 @@
         </table>
       </section>
 
-      <!-- 6. CO-CURRICULAR ACTIVITIES -->
+      <!-- 5. CO-CURRICULAR ACTIVITIES -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Co-Curricular Activities</span></h2>
         <table class="doc-table">
@@ -246,7 +207,7 @@
         </table>
       </section>
 
-      <!-- 7. ACHIEVEMENTS & CERTIFICATES -->
+      <!-- 6. ACHIEVEMENTS & CERTIFICATES -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Achievements &amp; Certificates</span></h2>
         <table class="doc-table">
@@ -277,7 +238,7 @@
         </div>
       </section>
 
-      <!-- 8. PROJECTS & CREATIVE WORK -->
+      <!-- 7. PROJECTS & CREATIVE WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Projects &amp; Creative Work</span></h2>
         <div style="margin-bottom: 0.75rem;">
@@ -297,7 +258,7 @@
         </div>
       </section>
 
-      <!-- 9. MY SCHOOL PARTICIPATION -->
+      <!-- 8. MY SCHOOL PARTICIPATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My School Participation</span></h2>
         <strong>I participated in:</strong>
@@ -319,7 +280,7 @@
         </div>
       </section>
 
-      <!-- 10. MY REFLECTION -->
+      <!-- 9. MY REFLECTION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Reflection</span></h2>
         <p><strong>What did I learn this year?</strong> {{ student.data.reflection.learned if student.data.reflection and student.data.reflection.learned else '—' }}</p>
@@ -329,13 +290,13 @@
         <p style="margin-top: 0.35rem;"><strong>What will I do better next year?</strong> {{ student.data.reflection.next_year if student.data.reflection and student.data.reflection.next_year else '—' }}</p>
       </section>
 
-      <!-- 11. MY BEST WORK -->
+      <!-- 10. MY BEST WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Best Work</span></h2>
         <p>{{ student.data.best_work.description if student.data.best_work and student.data.best_work.description else '—' }}</p>
       </section>
 
-      <!-- 12. TEACHER’S ASSESSMENT -->
+      <!-- 11. TEACHER’S ASSESSMENT -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Teacher’s Assessment</span></h2>
         {% set ta = student.data.teacher_assessment if student.data.teacher_assessment else {} %}
@@ -374,7 +335,7 @@
         </div>
       </section>
 
-      <!-- 13. PARENT’S FEEDBACK -->
+      <!-- 12. PARENT’S FEEDBACK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Parent’s Feedback</span></h2>
         <p><strong>My child’s strengths:</strong> {{ student.data.parent_feedback.child_strengths if student.data.parent_feedback and student.data.parent_feedback.child_strengths else '—' }}</p>
@@ -386,7 +347,7 @@
         </div>
       </section>
 
-      <!-- 14. PERSONAL IMPROVEMENT PLAN -->
+      <!-- 13. PERSONAL IMPROVEMENT PLAN -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Personal Improvement Plan</span></h2>
         <table class="doc-table">
@@ -413,7 +374,7 @@
         </table>
       </section>
 
-      <!-- 15. MY YEAR IN ONE PAGE -->
+      <!-- 14. MY YEAR IN ONE PAGE -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Year in One Page</span></h2>
         <p>⭐ <strong>My Best Achievement:</strong> {{ student.data.year_in_one_page.best_achievement if student.data.year_in_one_page and student.data.year_in_one_page.best_achievement else '—' }}</p>
@@ -425,7 +386,7 @@
         <p style="margin-top: 0.35rem;">🚀 <strong>My Goal for Next Year:</strong> {{ student.data.year_in_one_page.goal_next_year if student.data.year_in_one_page and student.data.year_in_one_page.goal_next_year else '—' }}</p>
       </section>
 
-      <!-- 16. STUDENT’S DECLARATION -->
+      <!-- 15. STUDENT’S DECLARATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Student’s Declaration</span></h2>
         <div class="declaration-box" style="margin-bottom: 0.75rem;">
@@ -438,7 +399,7 @@
         </div>
       </section>
 
-      <!-- 17. TEACHER’S FINAL REMARK -->
+      <!-- 16. TEACHER’S FINAL REMARK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Teacher’s Final Remark</span></h2>
         {% set tfr = student.data.teacher_final_remark if student.data.teacher_final_remark else {} %}
