@@ -1282,7 +1282,7 @@
       grid.innerHTML = allBtn + EVAL_SUBJECTS.map((cfg) => {
         const ev = evals[cfg.id] || {};
         const done = ev.marks || ev.grade ? '✓ Evaluated' : 'Pending';
-        return `<button type="button" class="print-subject-btn" onclick="executeSubjectPrint('${cfg.id}')"><span>${cfg.icon}</span><span>${escapeHtml(cfg.name)}<small>${escapeHtml(cfg.teacher)} • ${done}</small></span></button>`;
+        return `<button type="button" class="print-subject-btn" onclick="executeSubjectPrint('${cfg.id}')"><span>${cfg.icon}</span><span>${escapeHtml(cfg.name)}<small>${done}</small></span></button>`;
       }).join('');
     }
     pendingPrintSubject = 'all';
@@ -1460,13 +1460,13 @@
         const pct = Math.round((v / 5) * 100);
         const label = v > 0 ? `${v} / 5` : 'Pending';
         return `
-          <td style="font-weight: 700; width: 22%; background: #f8fafc; font-size: 7.4pt;">${sk.name}</td>
+          <td style="font-weight: 700; width: 22%; background: #f8fafc; font-size: 7.8pt;">${sk.name}</td>
           <td style="width: 28%;">
             <div style="display: flex; align-items: center; gap: 4px;">
               <div class="print-progress-track" style="flex: 1;">
                 <div class="print-progress-fill" style="width: ${pct}%;"></div>
               </div>
-              <span style="font-size: 7.2pt; font-weight: 800; color: #1e3a8a; white-space: nowrap;">${label}</span>
+              <span style="font-size: 7.6pt; font-weight: 800; color: #1e3a8a; white-space: nowrap;">${label}</span>
             </div>
           </td>`;
       }).join('') + '</tr>';
@@ -1554,11 +1554,11 @@
           if (focusTitle) focusTitle.textContent = `6. SUBJECT EVALUATION — ${r.cfg.name.toUpperCase()}`;
           focusBody.innerHTML = `
             <tr style="background: #eff6ff;">
-              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 7.2pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
+              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 7.6pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
               <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) + ' / 100' : 'Pending'}</td>
               <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
             </tr>
-            <tr><td colspan="3" style="font-size: 7.6pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
+            <tr><td colspan="3" style="font-size: 8pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
         }
       }
       if (graphBox) graphBox.innerHTML = buildPerfGraphSvg(rows, avg, sel);
