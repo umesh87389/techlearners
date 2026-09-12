@@ -1502,13 +1502,13 @@
         const pct = Math.round((v / 5) * 100);
         const label = v > 0 ? `${v} / 5` : 'Pending';
         return `
-          <td style="font-weight: 700; width: 22%; background: #f8fafc; font-size: 7.8pt;">${sk.name}</td>
+          <td style="font-weight: 700; width: 22%; background: #f8fafc; font-size: 8.2pt;">${sk.name}</td>
           <td style="width: 28%;">
             <div style="display: flex; align-items: center; gap: 4px;">
               <div class="print-progress-track" style="flex: 1;">
                 <div class="print-progress-fill" style="width: ${pct}%;"></div>
               </div>
-              <span style="font-size: 7.6pt; font-weight: 800; color: #1e3a8a; white-space: nowrap;">${label}</span>
+              <span style="font-size: 8pt; font-weight: 800; color: #1e3a8a; white-space: nowrap;">${label}</span>
             </div>
           </td>`;
       }).join('') + '</tr>';
@@ -1599,11 +1599,11 @@
           if (focusTitle) focusTitle.textContent = `6. SUBJECT EVALUATION — ${r.cfg.name.toUpperCase()}`;
           focusBody.innerHTML = `
             <tr style="background: #eff6ff;">
-              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 7.6pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
+              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 8pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
               <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) + ' / 100' : 'Pending'}</td>
               <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
             </tr>
-            <tr><td colspan="3" style="font-size: 8pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
+            <tr><td colspan="3" style="font-size: 8.4pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
         }
       }
       if (graphBox) graphBox.innerHTML = buildPerfGraphSvg(rows, avg, sel);
@@ -1618,7 +1618,7 @@
 
   // Overall performance graph: one bar per evaluated subject (SVG, print-safe)
   function buildPerfGraphSvg(rows, avg, highlightId) {
-    const W = 460, H = 96, padL = 30, padB = 16, padT = 8;
+    const W = 460, H = 108, padL = 30, padB = 16, padT = 8;
     const n = rows.length || 1;
     const slot = (W - padL - 8) / n;
     const bw = Math.min(34, slot * 0.55);

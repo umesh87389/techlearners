@@ -1178,18 +1178,18 @@ def generate_html(is_jinja=False):
       <div class="print-header-brand">
         <div style="font-size: 12pt; font-weight: 900; letter-spacing: 0.04em; color: #0f172a; line-height: 1.15;">STUDENT PORTFOLIO &amp; OFFICIAL ASSESSMENT RECORD</div>
         <div style="font-size: 15pt; font-weight: 900; color: #1e3a8a; letter-spacing: 0.02em; line-height: 1.15; margin: 1px 0;">SHM ACADEMY</div>
-        <div style="font-size: 8.4pt; font-style: italic; color: #475569;">“Infinite Knowledge Through Education” • Academic Session: <span id="print_session_text">2026–2027</span></div>
+        <div style="font-size: 8.8pt; font-style: italic; color: #475569;">“Infinite Knowledge Through Education” • Academic Session: <span id="print_session_text">2026–2027</span></div>
       </div>
       <div style="text-align: right; min-width: 90px;">
-        <span style="display: inline-block; background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 8pt; font-weight: 800; padding: 2px 5px; border-radius: 3px; text-transform: uppercase;">
+        <span style="display: inline-block; background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 8.4pt; font-weight: 800; padding: 2px 5px; border-radius: 3px; text-transform: uppercase;">
           Official Record
         </span>
-        <div id="print_record_id" style="font-size: 7.5pt; color: #64748b; margin-top: 2px;">Verified Record</div>
+        <div id="print_record_id" style="font-size: 8pt; color: #64748b; margin-top: 2px;">Verified Record</div>
       </div>
     </div>
 
     <!-- B. Row 1: Profile & Photo -->
-    <div style="display: grid; grid-template-columns: 1fr 34mm; gap: 2mm; margin-bottom: 1mm;">
+    <div style="display: grid; grid-template-columns: 1fr 36mm; gap: 2mm; margin-bottom: 1mm;">
       <div>
         <div class="print-section-header">
           <span>1. STUDENT PROFILE</span>
@@ -1199,7 +1199,7 @@ def generate_html(is_jinja=False):
           <span>📚 Overall Portfolio — all 6 subjects</span>
         </div>
         <!-- Portfolio completion progress (attractive one-page indicator) -->
-        <div style="display: flex; align-items: center; gap: 2mm; margin-bottom: 1mm; font-size: 8.2pt; font-weight: 800; color: #1e3a8a;">
+        <div style="display: flex; align-items: center; gap: 2mm; margin-bottom: 1mm; font-size: 8.6pt; font-weight: 800; color: #1e3a8a;">
           <span style="white-space: nowrap;">Portfolio Completion</span>
           <div class="print-overall-bar" style="flex: 1;">
             <div id="print_overall_fill" class="print-overall-fill" style="width: 0%;"></div>
@@ -1243,7 +1243,7 @@ def generate_html(is_jinja=False):
       </div>
       <div class="print-photo-box" id="printPhotoContainer">
         <img id="printPhotoImg" src="" alt="Student Photo" class="print-photo-img" style="display: none;">
-        <div id="printPhotoPlaceholder" style="text-align: center; color: #94a3b8; font-size: 8pt; padding: 2px;">
+        <div id="printPhotoPlaceholder" style="text-align: center; color: #94a3b8; font-size: 8.4pt; padding: 2px;">
           <div style="font-size: 1.7rem;">👤</div>
           Photograph
         </div>
@@ -1254,7 +1254,7 @@ def generate_html(is_jinja=False):
     <div class="print-row-2col" style="margin-bottom: 1mm;">
       <div>
         <div class="print-section-header">2. ABOUT ME &amp; STRENGTHS</div>
-        <div style="font-size: 8.3pt; line-height: 1.34; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
+        <div style="font-size: 8.7pt; line-height: 1.36; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
           <div><strong>Profile:</strong> <span id="print_about_snippet">—</span></div>
           <div style="margin-top: 1px;"><strong>Interests &amp; Hobbies:</strong> <span id="print_interests_hobbies">—</span></div>
           <div style="margin-top: 1px;"><strong>Strengths:</strong> <span id="print_strengths">—</span></div>
@@ -1262,7 +1262,7 @@ def generate_html(is_jinja=False):
       </div>
       <div>
         <div class="print-section-header">3. MY GOALS &amp; PRIORITIES</div>
-        <div style="font-size: 8.3pt; line-height: 1.34; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
+        <div style="font-size: 8.7pt; line-height: 1.36; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
           <div><strong>Short-Term Goal:</strong> <span id="print_short_goal">—</span></div>
           <div style="margin-top: 1px;"><strong>Long-Term Goal:</strong> <span id="print_long_goal">—</span></div>
           <div style="margin-top: 1px;"><strong>Key Priorities:</strong> <span id="print_goals_checklist">—</span></div>
@@ -1282,7 +1282,7 @@ def generate_html(is_jinja=False):
       </div>
       <div>
         <div class="print-section-header">5, 6 &amp; 9. ACTIVITIES &amp; PIP PLAN</div>
-        <div style="font-size: 8.2pt; line-height: 1.36; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm; background: #fbfcfe;">
+        <div style="font-size: 8.6pt; line-height: 1.38; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm; background: #fbfcfe;">
           <div style="margin-bottom: 1.5px;"><strong>Activities:</strong> <span id="print_cocurricular_snippet">—</span></div>
           <div style="margin-bottom: 1.5px;"><strong>Awards &amp; Honors:</strong> <span id="print_awards_snippet">—</span></div>
           <div style="margin-bottom: 1.5px;"><strong>Personal Improvement Plan (PIP):</strong> <span id="print_pip_snippet">—</span></div>
@@ -1295,7 +1295,7 @@ def generate_html(is_jinja=False):
     <div style="margin-bottom: 1mm;">
       <div class="print-section-header">
         <span id="printSubjectFocusTitle">6. SUBJECT EVALUATION — ALL SUBJECTS</span>
-        <span id="print_overall_avg" style="font-size: 8pt; color: #065f46; font-weight: 800;">Awaiting subject evaluation</span>
+        <span id="print_overall_avg" style="font-size: 8.4pt; color: #065f46; font-weight: 800;">Awaiting subject evaluation</span>
       </div>
       <div class="print-row-2col" style="margin-bottom: 1mm;">
         <div>
@@ -1311,7 +1311,7 @@ def generate_html(is_jinja=False):
           </table>
         </div>
         <div>
-          <div style="font-size: 8.2pt; font-weight: 800; color: #1e3a8a; margin-bottom: 1mm;">📊 OVERALL PERFORMANCE GRAPH</div>
+          <div style="font-size: 8.6pt; font-weight: 800; color: #1e3a8a; margin-bottom: 1mm;">📊 OVERALL PERFORMANCE GRAPH</div>
           <div id="printPerfGraph" class="print-graph-box"></div>
         </div>
       </div>
@@ -1319,7 +1319,7 @@ def generate_html(is_jinja=False):
 
     <!-- G. Footer: Assessment, Declaration & Official Signatures (pinned to page bottom) -->
     <div class="print-footer">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-bottom: 1.5mm; font-size: 8.6pt;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-bottom: 1.5mm; font-size: 9pt;">
         <div style="min-width: 0; word-break: break-word;">
           <strong>Teacher’s Assessment:</strong> <span id="print_teacher_remarks">Conscientious, courteous, and positive attitude towards learning.</span>
         </div>
@@ -1329,16 +1329,16 @@ def generate_html(is_jinja=False):
       </div>
       <div class="print-signatures-row">
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_student_name" style="font-size: 9.2pt; font-weight: 800; min-height: 16px; line-height: 1.2; padding-bottom: 2px;"></div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8pt; white-space: nowrap;">Student’s Signature &amp; Date</div>
+          <div id="print_sig_student_name" style="font-size: 9.6pt; font-weight: 800; min-height: 17px; line-height: 1.2; padding-bottom: 2px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8.4pt; white-space: nowrap;">Student’s Signature &amp; Date</div>
         </div>
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_teacher_name" style="font-size: 9.2pt; font-weight: 800; min-height: 16px; line-height: 1.2; padding-bottom: 2px;"></div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8pt; white-space: nowrap;">Class Teacher’s Signature &amp; Date</div>
+          <div id="print_sig_teacher_name" style="font-size: 9.6pt; font-weight: 800; min-height: 17px; line-height: 1.2; padding-bottom: 2px;"></div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8.4pt; white-space: nowrap;">Class Teacher’s Signature &amp; Date</div>
         </div>
         <div style="text-align: center; width: 30%;">
-          <div id="print_sig_principal" style="font-size: 9.2pt; font-weight: 800; min-height: 16px; line-height: 1.2; padding-bottom: 2px;">SHM Academy Office</div>
-          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8pt; white-space: nowrap;">Principal’s Signature &amp; Stamp</div>
+          <div id="print_sig_principal" style="font-size: 9.6pt; font-weight: 800; min-height: 17px; line-height: 1.2; padding-bottom: 2px;">SHM Academy Office</div>
+          <div style="border-top: 0.8px solid #0f172a; padding-top: 1px; font-size: 8.4pt; white-space: nowrap;">Principal’s Signature &amp; Stamp</div>
         </div>
       </div>
     </div>
