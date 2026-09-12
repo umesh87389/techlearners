@@ -306,10 +306,17 @@
         teacher: getElVal(`modal_subj_${sid}_teacher`),
         marks: getElVal(`modal_subj_${sid}_marks`),
         grade: getElVal(`modal_subj_${sid}_grade`),
-        remarks: getElVal(`modal_subj_${sid}_remarks`),
-        teacher: __SUBJ_TEACHERS[sid] || ''
+        remarks: getElVal(`modal_subj_${sid}_remarks`)
       };
     });
+    const __SUBJ_NAMES = { english: 'English', hindi: 'Hindi', mathematics: 'Mathematics', science: 'Science', social_science: 'Social Science', computer_it: 'Computer' };
+    for (const sid of ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it']) {
+      if (subjectEvals[sid].marks && !subjectEvals[sid].grade) {
+        alert(`Please select a grade (A to E) for ${__SUBJ_NAMES[sid]} — marks were entered without a grade.`);
+        document.getElementById(`modal_subj_${sid}_grade`)?.focus();
+        return;
+      }
+    }
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),

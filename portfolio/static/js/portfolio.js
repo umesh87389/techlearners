@@ -1187,6 +1187,16 @@
       };
     });
 
+    // Grade is compulsory (A–E) wherever marks are entered
+    for (const cfg of EVAL_SUBJECTS) {
+      const ev = subjectEvals[cfg.id];
+      if (ev.marks && !ev.grade) {
+        alert(`Please select a grade (A to E) for ${cfg.name} — marks were entered without a grade.`);
+        document.getElementById(`modal_subj_${cfg.id}_grade`)?.focus();
+        return;
+      }
+    }
+
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
       reading: getElVal('modal_skill_reading'),
