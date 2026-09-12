@@ -22,13 +22,13 @@
   ];
 
   const SUBJECTS_CONFIG = [
-    { id: 'english', name: 'English', short: 'Eng', icon: '📖', teacher: 'Mrs. Ritu Verma', maxMarks: 100 },
-    { id: 'hindi', name: 'Hindi', short: 'Hin', icon: '🇮🇳', teacher: 'Mrs. Shashi Prabha', maxMarks: 100 },
-    { id: 'mathematics', name: 'Mathematics', short: 'Math', icon: '📐', teacher: 'Mrs. Sunita Roy', maxMarks: 100 },
-    { id: 'science', name: 'Science', short: 'Sci', icon: '🔬', teacher: 'Dr. Amit Saxena', maxMarks: 100 },
-    { id: 'social_science', name: 'Social Science', short: 'SST', icon: '🌍', teacher: 'Mr. Rajeshwar Pandey', maxMarks: 100 },
-    { id: 'computer_it', name: 'Computer / IT', short: 'IT', icon: '💻', teacher: 'Mr. Umesh Tripathi', maxMarks: 100 },
-    { id: 'other', name: 'Other', short: 'Oth', icon: '🎨', teacher: 'Faculty Head', maxMarks: 100 }
+    { id: 'english', name: 'English', short: 'Eng', icon: '📖', teacher: '', maxMarks: 100 },
+    { id: 'hindi', name: 'Hindi', short: 'Hin', icon: '🇮🇳', teacher: '', maxMarks: 100 },
+    { id: 'mathematics', name: 'Mathematics', short: 'Math', icon: '📐', teacher: '', maxMarks: 100 },
+    { id: 'science', name: 'Science', short: 'Sci', icon: '🔬', teacher: '', maxMarks: 100 },
+    { id: 'social_science', name: 'Social Science', short: 'SST', icon: '🌍', teacher: '', maxMarks: 100 },
+    { id: 'computer_it', name: 'Computer / IT', short: 'IT', icon: '💻', teacher: '', maxMarks: 100 },
+    { id: 'other', name: 'Other', short: 'Oth', icon: '🎨', teacher: '', maxMarks: 100 }
   ];
 
   // Subjects evaluated separately by their subject teachers
@@ -94,12 +94,12 @@
         problem_solving: '5', teamwork: '5', leadership: '4', time_management: '5', digital_skills: '5'
       },
       subject_evaluations: {
-        english: { marks: '92', grade: 'A+', remarks: 'Excellent comprehension', teacher: 'Mrs. Ritu Verma' },
-        hindi: { marks: '88', grade: 'A', remarks: 'Good expression', teacher: 'Mrs. Shashi Prabha' },
-        mathematics: { marks: '96', grade: 'A+', remarks: 'Outstanding problem solving', teacher: 'Mrs. Sunita Roy' },
-        science: { marks: '94', grade: 'A+', remarks: 'Strong concepts', teacher: 'Dr. Amit Saxena' },
-        social_science: { marks: '90', grade: 'A+', remarks: 'Well-structured answers', teacher: 'Mr. Rajeshwar Pandey' },
-        computer_it: { marks: '98', grade: 'A+', remarks: 'Excellent coding logic', teacher: 'Mr. Umesh Tripathi' }
+        english: { marks: '92', grade: 'A+', remarks: 'Excellent comprehension', teacher: '' },
+        hindi: { marks: '88', grade: 'A', remarks: 'Good expression', teacher: '' },
+        mathematics: { marks: '96', grade: 'A+', remarks: 'Outstanding problem solving', teacher: '' },
+        science: { marks: '94', grade: 'A+', remarks: 'Strong concepts', teacher: '' },
+        social_science: { marks: '90', grade: 'A+', remarks: 'Well-structured answers', teacher: '' },
+        computer_it: { marks: '98', grade: 'A+', remarks: 'Excellent coding logic', teacher: '' }
       },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
@@ -194,12 +194,12 @@
         problem_solving: '5', teamwork: '5', leadership: '5', time_management: '5', digital_skills: '5'
       },
       subject_evaluations: {
-        english: { marks: '94', grade: 'A+', remarks: 'Excellent communication', teacher: 'Mrs. Ritu Verma' },
-        hindi: { marks: '90', grade: 'A+', remarks: 'Very good expression', teacher: 'Mrs. Shashi Prabha' },
-        mathematics: { marks: '98', grade: 'A+', remarks: 'Flawless problem solving', teacher: 'Mrs. Sunita Roy' },
-        science: { marks: '96', grade: 'A+', remarks: 'Exceptional inquiry', teacher: 'Dr. Amit Saxena' },
-        social_science: { marks: '91', grade: 'A+', remarks: 'Thorough analysis', teacher: 'Mr. Rajeshwar Pandey' },
-        computer_it: { marks: '99', grade: 'A+', remarks: 'Outstanding coding', teacher: 'Mr. Umesh Tripathi' }
+        english: { marks: '94', grade: 'A+', remarks: 'Excellent communication', teacher: '' },
+        hindi: { marks: '90', grade: 'A+', remarks: 'Very good expression', teacher: '' },
+        mathematics: { marks: '98', grade: 'A+', remarks: 'Flawless problem solving', teacher: '' },
+        science: { marks: '96', grade: 'A+', remarks: 'Exceptional inquiry', teacher: '' },
+        social_science: { marks: '91', grade: 'A+', remarks: 'Thorough analysis', teacher: '' },
+        computer_it: { marks: '99', grade: 'A+', remarks: 'Outstanding coding', teacher: '' }
       },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
@@ -1123,6 +1123,7 @@
     const existingSubj = getSubjectEvaluations(student);
     EVAL_SUBJECTS.forEach((cfg) => {
       const ev = existingSubj[cfg.id] || {};
+      setElVal(`modal_subj_${cfg.id}_teacher`, ev.teacher || '');
       setElVal(`modal_subj_${cfg.id}_marks`, ev.marks || '');
       const gradeEl = document.getElementById(`modal_subj_${cfg.id}_grade`);
       if (gradeEl) gradeEl.value = ev.grade || '';
@@ -1179,10 +1180,10 @@
     const subjectEvals = {};
     EVAL_SUBJECTS.forEach((cfg) => {
       subjectEvals[cfg.id] = {
+        teacher: getElVal(`modal_subj_${cfg.id}_teacher`),
         marks: getElVal(`modal_subj_${cfg.id}_marks`),
         grade: getElVal(`modal_subj_${cfg.id}_grade`),
-        remarks: getElVal(`modal_subj_${cfg.id}_remarks`),
-        teacher: cfg.teacher
+        remarks: getElVal(`modal_subj_${cfg.id}_remarks`)
       };
     });
 
@@ -1423,7 +1424,8 @@
       const ev = subjEvals[sel] || {};
       const marks = ev.marks ? `${escapeHtml(ev.marks)}${hasNum(ev.marks) && !hasSlash(ev.marks) ? ' / 100' : ''}` : 'Pending';
       const grade = ev.grade || gradeForScore(parseMarksToScore(ev.marks, ev.grade));
-      banner.innerHTML = `<span>${cfg.icon || '📘'} Subject: <strong>${escapeHtml(cfg.name)}</strong> • ${escapeHtml(cfg.teacher || '')}</span><span>Marks: <strong>${marks}</strong> • Grade: <strong>${escapeHtml(grade)}</strong></span>`;
+      const teacherBit = ev.teacher ? ` • ${escapeHtml(ev.teacher)}` : '';
+      banner.innerHTML = `<span>${cfg.icon || '📘'} Subject: <strong>${escapeHtml(cfg.name)}</strong>${teacherBit}</span><span>Marks: <strong>${marks}</strong> • Grade: <strong>${escapeHtml(grade)}</strong></span>`;
     })();
 
     // Profile table
@@ -1599,7 +1601,7 @@
           if (focusTitle) focusTitle.textContent = `6. SUBJECT EVALUATION — ${r.cfg.name.toUpperCase()}`;
           focusBody.innerHTML = `
             <tr style="background: #eff6ff;">
-              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 8pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
+              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}${r.ev.teacher ? `<div style="font-size: 8pt; font-weight: 600; color: #475569;">${escapeHtml(r.ev.teacher)}</div>` : ''}</td>
               <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) + ' / 100' : 'Pending'}</td>
               <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
             </tr>

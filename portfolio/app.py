@@ -154,12 +154,12 @@ def teacher_print(student_id):
 
     import re as _re
     EVAL_SUBJECT_DEFS = [
-        ('english', 'English', 'Mrs. Ritu Verma'),
-        ('hindi', 'Hindi', 'Mrs. Shashi Prabha'),
-        ('mathematics', 'Mathematics', 'Mrs. Sunita Roy'),
-        ('science', 'Science', 'Dr. Amit Saxena'),
-        ('social_science', 'Social Science', 'Mr. Rajeshwar Pandey'),
-        ('computer_it', 'Computer', 'Mr. Umesh Tripathi'),
+        ('english', 'English'),
+        ('hindi', 'Hindi'),
+        ('mathematics', 'Mathematics'),
+        ('science', 'Science'),
+        ('social_science', 'Social Science'),
+        ('computer_it', 'Computer'),
     ]
     GRADE_MID = {'A+': 95, 'A': 85, 'B+': 75, 'B': 65, 'C': 55, 'D': 45, 'E': 30}
 
@@ -194,14 +194,14 @@ def teacher_print(student_id):
     data = student.get('data') or {}
     evals = data.get('subject_evaluations') or {}
     subject_rows = []
-    for sid, name, teacher in EVAL_SUBJECT_DEFS:
+    for sid, name in EVAL_SUBJECT_DEFS:
         ev = evals.get(sid) or {}
         marks = (ev.get('marks') or '').strip()
         grade = (ev.get('grade') or '').strip() or _grade_for(_score(marks, ''))
         if grade == '—':
             grade = ''
         subject_rows.append({
-            'id': sid, 'name': name, 'teacher': teacher,
+            'id': sid, 'name': name, 'teacher': (ev.get('teacher') or '').strip(),
             'marks': marks, 'grade': grade,
             'remarks': (ev.get('remarks') or '').strip(),
         })

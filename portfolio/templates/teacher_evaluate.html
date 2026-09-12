@@ -255,10 +255,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for sub in [('English', 'english', 'Mrs. Ritu Verma'), ('Hindi', 'hindi', 'Mrs. Shashi Prabha'), ('Mathematics', 'mathematics', 'Mrs. Sunita Roy'), ('Science', 'science', 'Dr. Amit Saxena'), ('Social Science', 'social_science', 'Mr. Rajeshwar Pandey'), ('Computer', 'computer_it', 'Mr. Umesh Tripathi')] %}
+            {% for sub in [('English', 'english'), ('Hindi', 'hindi'), ('Mathematics', 'mathematics'), ('Science', 'science'), ('Social Science', 'social_science'), ('Computer', 'computer_it')] %}
             {% set ev = existing_subj[sub[1]] if existing_subj[sub[1]] is defined else {} %}
             <tr>
-              <td><strong>{{ sub[0] }}</strong><div style="font-size: 0.75rem; color: #64748b;">{{ sub[2] }}</div></td>
+              <td><strong>{{ sub[0] }}</strong><div style="margin-top: 4px;"><input type="text" id="eval_subj_{{ sub[1] }}_teacher" value="{{ ev.teacher if ev.teacher is defined else '' }}" placeholder="Subject teacher name"></div></td>
               <td class="center"><input type="text" id="eval_subj_{{ sub[1] }}_marks" value="{{ ev.marks if ev.marks is defined else '' }}" placeholder="e.g. 92" style="text-align: center;"></td>
               <td class="center">
                 <select id="eval_subj_{{ sub[1] }}_grade">
@@ -590,14 +590,13 @@
     async function saveTeacherEvaluationForm() {
       // 1. Subject-wise evaluation (6 subjects, evaluated separately)
       const SUBJ_IDS = ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'];
-      const SUBJ_TEACHERS = { english: 'Mrs. Ritu Verma', hindi: 'Mrs. Shashi Prabha', mathematics: 'Mrs. Sunita Roy', science: 'Dr. Amit Saxena', social_science: 'Mr. Rajeshwar Pandey', computer_it: 'Mr. Umesh Tripathi' };
       const subjectEvals = {};
       SUBJ_IDS.forEach((sid) => {
         subjectEvals[sid] = {
+          teacher: document.getElementById('eval_subj_' + sid + '_teacher')?.value || '',
           marks: document.getElementById('eval_subj_' + sid + '_marks')?.value || '',
           grade: document.getElementById('eval_subj_' + sid + '_grade')?.value || '',
-          remarks: document.getElementById('eval_subj_' + sid + '_remarks')?.value || '',
-          teacher: SUBJ_TEACHERS[sid] || ''
+          remarks: document.getElementById('eval_subj_' + sid + '_remarks')?.value || ''
         };
       });
       // 2. Gather Skills

@@ -246,6 +246,7 @@
       const __evals = (student.subject_evaluations || (student.data && student.data.subject_evaluations)) || {};
       ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
         const ev = __evals[sid] || {};
+        setElVal(`modal_subj_${sid}_teacher`, ev.teacher || '');
         setElVal(`modal_subj_${sid}_marks`, ev.marks || '');
         const __g = document.getElementById(`modal_subj_${sid}_grade`);
         if (__g) __g.value = ev.grade || '';
@@ -299,10 +300,10 @@
   window.saveModalEvaluation = async function () {
     if (!currentEvaluatingStudent) return;
     // Subject-wise evaluation (6 subjects, evaluated separately)
-    const __SUBJ_TEACHERS = { english: 'Mrs. Ritu Verma', hindi: 'Mrs. Shashi Prabha', mathematics: 'Mrs. Sunita Roy', science: 'Dr. Amit Saxena', social_science: 'Mr. Rajeshwar Pandey', computer_it: 'Mr. Umesh Tripathi' };
     const subjectEvals = {};
     ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
       subjectEvals[sid] = {
+        teacher: getElVal(`modal_subj_${sid}_teacher`),
         marks: getElVal(`modal_subj_${sid}_marks`),
         grade: getElVal(`modal_subj_${sid}_grade`),
         remarks: getElVal(`modal_subj_${sid}_remarks`),
