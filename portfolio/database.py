@@ -65,6 +65,13 @@ def save_student_submission(student_id, data, source='send'):
             elif teacher_sec in current_data and teacher_sec in data:
                 if not data[teacher_sec] and current_data[teacher_sec]:
                     data[teacher_sec] = current_data[teacher_sec]
+
+        # Preserve Admin download-release state across student re-submissions
+        # (only the Admin section may change it)
+        if current_data.get('released_for_download'):
+            data['released_for_download'] = True
+            if current_data.get('released_at'):
+                data['released_at'] = current_data['released_at']
         
         if 'co_curricular' in current_data and 'co_curricular' in data:
             old_rows = current_data.get('co_curricular', [])
@@ -130,6 +137,46 @@ def save_teacher_evaluation(student_id, teacher_data):
     conn.commit()
     conn.close()
     return True
+
+def set_release_status(student_id, released):
+    """Admin-only: push a portfolio to (or recall it from) the Download section.
+
+    Only evaluated portfolios may be released.
+    """
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT data_json, status FROM students WHERE id = ?', (student_id,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return (False, 'Student not found')
+    if (row['status'] or 'pending_evaluation') != 'evaluated':
+        conn.close()
+        return (False, 'Only evaluated portfolios can be released')
+
+    data = {}
+    try:
+        data = json.loads(row['data_json'])
+    except Exception:
+        pass
+
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if released:
+        data['released_for_download'] = True
+        data['released_at'] = now
+    else:
+        data['released_for_download'] = False
+        data.pop('released_at', None)
+
+    cursor.execute('''
+        UPDATE students
+        SET updated_at = ?, data_json = ?
+        WHERE id = ?
+    ''', (now, json.dumps(data), student_id))
+
+    conn.commit()
+    conn.close()
+    return (True, 'ok')
 
 def get_all_students(class_filter=None, status_filter=None, search_query=None):
     conn = get_db()

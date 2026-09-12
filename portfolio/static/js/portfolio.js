@@ -21,6 +21,15 @@
     '01d58c1ac3df6d023d869e50bf78e2f9185332c281f665fd53f6dbd7592df45e'
   ];
 
+  // Admin passkey gate ("SHM#Admin@2026!") — SHA-256 hash only, never plaintext.
+  // NOTE: client-side gates deter casual access only; the Flask backend
+  // re-verifies the passkey server-side on every admin API call.
+  const ADMIN_AUTH_KEY = 'shm_admin_session_auth';
+  const ADMIN_PASSKEY_KEY = 'shm_admin_passkey';
+  const ADMIN_HASHES = [
+    '174538aa65362cf76560eed992dc5850546d638c3c3b594396ca3503420fa867'
+  ];
+
   const SUBJECTS_CONFIG = [
     { id: 'english', name: 'English', short: 'Eng', icon: '📖', teacher: '', maxMarks: 100 },
     { id: 'hindi', name: 'Hindi', short: 'Hin', icon: '🇮🇳', teacher: '', maxMarks: 100 },
@@ -227,6 +236,7 @@
     initDraftPersistence();
     initActionHandlers();
     initTeacherFilters();
+    initAdminFilters();
     /* Academic graph removed */
     populateSinglePagePrintSheet();
 
@@ -243,46 +253,67 @@
     return sessionStorage.getItem(AUTH_SESSION_KEY) === 'unlocked';
   }
 
+  const MAIN_TABS = ['student', 'teacher', 'download', 'admin'];
+
   function initTabs() {
     updateTeacherTabLockPill();
+    updateAdminTabLockPill();
 
     // Check URL param or saved tab
     const urlParams = new URLSearchParams(window.location.search);
     let requestedTab = urlParams.get('tab') || sessionStorage.getItem(CURRENT_TAB_KEY) || 'student';
-    
-    // Default to student tab on fresh visits unless user explicitly has ?tab=teacher
-    if (requestedTab === 'teacher' && !isTeacherAuthenticated() && !urlParams.has('tab')) {
+    if (!MAIN_TABS.includes(requestedTab)) requestedTab = 'student';
+
+    // Default to student tab on fresh visits unless user explicitly picked a tab via URL
+    if ((requestedTab === 'teacher' && !isTeacherAuthenticated() && !urlParams.has('tab')) ||
+        (requestedTab === 'admin' && !isAdminAuthenticated() && !urlParams.has('tab'))) {
       requestedTab = 'student';
     }
     switchMainTab(requestedTab);
   }
 
   window.switchMainTab = function (tabName) {
+    if (!MAIN_TABS.includes(tabName)) tabName = 'student';
     const studentBtn = document.getElementById('tabBtnStudent');
     const teacherBtn = document.getElementById('tabBtnTeacher');
+    const downloadBtn = document.getElementById('tabBtnDownload');
+    const adminBtn = document.getElementById('tabBtnAdmin');
     const studentView = document.getElementById('studentViewContainer');
     const teacherView = document.getElementById('teacherViewContainer');
+    const downloadView = document.getElementById('downloadViewContainer');
+    const adminView = document.getElementById('adminViewContainer');
     const quickLockBtn = document.getElementById('teacherQuickLockContainer');
     const floatingBar = document.querySelector('.student-floating-bar');
 
     sessionStorage.setItem(CURRENT_TAB_KEY, tabName);
 
+    document.body.classList.remove('teacher-mode', 'download-mode', 'admin-mode');
+    [
+      [studentBtn, 'active-student'], [teacherBtn, 'active-teacher'],
+      [downloadBtn, 'active-download'], [adminBtn, 'active-admin']
+    ].forEach(([btn, cls]) => { if (btn) btn.classList.remove('active', cls); });
+    [studentView, teacherView, downloadView, adminView].forEach((v) => { if (v) v.style.display = 'none'; });
+    if (quickLockBtn) quickLockBtn.style.display = 'none';
+    if (floatingBar) floatingBar.style.display = 'none';
+
     if (tabName === 'teacher') {
       document.body.classList.add('teacher-mode');
-      if (studentBtn) studentBtn.classList.remove('active', 'active-student');
       if (teacherBtn) teacherBtn.classList.add('active', 'active-teacher');
-      if (studentView) studentView.style.display = 'none';
       if (teacherView) teacherView.style.display = 'block';
-      if (floatingBar) floatingBar.style.display = 'none';
-
       checkTeacherAuthState();
+    } else if (tabName === 'download') {
+      document.body.classList.add('download-mode');
+      if (downloadBtn) downloadBtn.classList.add('active', 'active-download');
+      if (downloadView) downloadView.style.display = 'block';
+      loadDownloadList();
+    } else if (tabName === 'admin') {
+      document.body.classList.add('admin-mode');
+      if (adminBtn) adminBtn.classList.add('active', 'active-admin');
+      if (adminView) adminView.style.display = 'block';
+      checkAdminAuthState();
     } else {
-      document.body.classList.remove('teacher-mode');
       if (studentBtn) studentBtn.classList.add('active', 'active-student');
-      if (teacherBtn) teacherBtn.classList.remove('active', 'active-teacher');
       if (studentView) studentView.style.display = 'block';
-      if (teacherView) teacherView.style.display = 'none';
-      if (quickLockBtn) quickLockBtn.style.display = 'none';
       if (floatingBar) floatingBar.style.display = 'block';
     /* Academic graph removed */
     }
@@ -363,6 +394,272 @@
     sessionStorage.setItem(AUTH_SESSION_KEY, 'locked');
     checkTeacherAuthState();
     alert('🔒 Teacher’s Dashboard is now locked.');
+  };
+
+  // =========================================================
+  // 1B. ADMIN SECTION — PASSKEY GATE + RELEASE DASHBOARD
+  // Only Admin can push evaluated portfolios to Download.
+  // =========================================================
+  function isAdminAuthenticated() {
+    return sessionStorage.getItem(ADMIN_AUTH_KEY) === 'unlocked';
+  }
+
+  function getAdminPasskey() {
+    return sessionStorage.getItem(ADMIN_PASSKEY_KEY) || '';
+  }
+
+  function updateAdminTabLockPill(isAuth) {
+    const pill = document.getElementById('adminTabLockBadge');
+    if (!pill) return;
+    const authenticated = typeof isAuth === 'boolean' ? isAuth : isAdminAuthenticated();
+    if (authenticated) {
+      pill.className = 'teacher-lock-status-pill status-pill-unlocked';
+      pill.innerHTML = '🟢 Admin Active';
+    } else {
+      pill.className = 'teacher-lock-status-pill status-pill-locked';
+      pill.innerHTML = '🔒 Locked';
+    }
+  }
+
+  function checkAdminAuthState() {
+    const isAuth = isAdminAuthenticated();
+    const gate = document.getElementById('adminAuthGate');
+    const dash = document.getElementById('adminDashboardContent');
+    updateAdminTabLockPill(isAuth);
+    if (isAuth) {
+      if (gate) gate.style.display = 'none';
+      if (dash) dash.style.display = 'block';
+      loadAdminRoster();
+    } else {
+      if (gate) gate.style.display = 'flex';
+      if (dash) dash.style.display = 'none';
+    }
+    return isAuth;
+  }
+
+  window.handleAdminLogin = async function (e) {
+    if (e) e.preventDefault();
+    const passInput = document.getElementById('adminPasscodeInput');
+    const feedback = document.getElementById('adminLoginErrorFeedback');
+    const entered = passInput ? passInput.value.trim() : '';
+    if (!entered) {
+      if (feedback) feedback.textContent = 'Please enter the admin passkey.';
+      return;
+    }
+    const hashed = await sha256(entered);
+    if (ADMIN_HASHES.includes(hashed)) {
+      sessionStorage.setItem(ADMIN_AUTH_KEY, 'unlocked');
+      sessionStorage.setItem(ADMIN_PASSKEY_KEY, entered);
+      if (feedback) feedback.textContent = '';
+      if (passInput) passInput.value = '';
+      checkAdminAuthState();
+    } else {
+      if (feedback) feedback.textContent = 'Invalid admin passkey. Access denied.';
+      if (passInput) { passInput.value = ''; passInput.focus(); }
+    }
+  };
+
+  window.lockAdminTab = function () {
+    sessionStorage.removeItem(ADMIN_AUTH_KEY);
+    sessionStorage.removeItem(ADMIN_PASSKEY_KEY);
+    checkAdminAuthState();
+    alert('🔒 Admin section is now locked.');
+  };
+
+  function isReleased(s) {
+    return !!(s.released_for_download || (s.data && s.data.released_for_download));
+  }
+
+  async function loadAdminRoster() {
+    let list = getLocalStudentList();
+    try {
+      const resp = await fetch('/api/students');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data) && data.length) list = data;
+      }
+    } catch (e) {}
+    const total = list.length;
+    const evaluated = list.filter(s => (s.status || 'pending_evaluation') === 'evaluated');
+    const released = evaluated.filter(s => isReleased(s));
+    const awaiting = evaluated.length - released.length;
+    const setNum = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setNum('adminStatTotal', total);
+    setNum('adminStatAwaiting', awaiting);
+    setNum('adminStatReleased', released.length);
+    renderAdminRoster(list);
+  }
+
+  function adminReleaseFilter(s) {
+    const f = (document.getElementById('adminFilterStatusSelect') || {}).value || 'all';
+    const status = s.status || 'pending_evaluation';
+    if (f === 'awaiting') return status === 'evaluated' && !isReleased(s);
+    if (f === 'released') return isReleased(s);
+    if (f === 'pending_evaluation') return status !== 'evaluated';
+    return true;
+  }
+
+  function renderAdminRoster(list) {
+    const tbody = document.getElementById('adminRosterTableBody');
+    const emptyState = document.getElementById('emptyAdminRosterState');
+    const searchVal = ((document.getElementById('adminSearchInput') || {}).value || '').trim().toLowerCase();
+    if (!tbody) return;
+    const filtered = list.filter(s => {
+      if (!adminReleaseFilter(s)) return false;
+      if (!searchVal) return true;
+      const hay = `${s.student_name || ''} ${s.profile?.student_name || ''} ${s.roll_no || ''} ${s.admission_no || ''}`.toLowerCase();
+      return hay.includes(searchVal);
+    });
+    if (!filtered.length) {
+      tbody.innerHTML = '';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
+    }
+    if (emptyState) emptyState.style.display = 'none';
+    tbody.innerHTML = filtered.map(s => {
+      const id = s.id;
+      const name = escapeHtml(s.student_name || s.profile?.student_name || 'Unnamed Student');
+      const cls = escapeHtml(s.class_section || s.profile?.class_section || '—');
+      const roll = escapeHtml(s.roll_no || s.profile?.roll_no || '—');
+      const photo = s.photo_url || s.profile?.photo_data || '';
+      const photoHtml = photo
+        ? `<img src="${photo}" class="student-thumb" alt="Photo">`
+        : `<div class="student-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#94a3b8;">👤</div>`;
+      const evaluated = (s.status || 'pending_evaluation') === 'evaluated';
+      const released = isReleased(s);
+      const relAt = s.released_at || (s.data && s.data.released_at) || '';
+      const statusBadge = !evaluated
+        ? `<span class="status-badge status-pending"><span>⏳</span> Pending Evaluation</span>`
+        : (released
+          ? `<span class="status-badge status-evaluated"><span>✓</span> Evaluated</span>`
+          : `<span class="status-badge status-pending"><span>✏️</span> Evaluated — Not Released</span>`);
+      const releaseCell = !evaluated
+        ? `<span style="font-size:0.8rem;color:#94a3b8;">—</span>`
+        : (released
+          ? `<span class="release-badge">⬇️ Released${relAt ? ' • ' + escapeHtml(relAt) : ''}</span>`
+          : `<span style="font-size:0.8rem;color:#b45309;font-weight:700;">Awaiting release</span>`);
+      const action = !evaluated
+        ? `<span style="font-size:0.78rem;color:#94a3b8;">Teacher must evaluate first</span>`
+        : (released
+          ? `<button type="button" class="btn-action btn-recall" onclick="recallFromDownload('${escapeHtml(id)}')"><span>↩</span> Recall</button>`
+          : `<button type="button" class="btn-action btn-release" onclick="pushToDownload('${escapeHtml(id)}')"><span>⬆️</span> Push to Download</button>`);
+      return `<tr><td>${photoHtml}</td><td><strong style="color:#0f172a;font-size:0.95rem;">${name}</strong></td><td><span style="font-weight:600;color:#1e3a8a;">${cls}</span></td><td><span style="font-weight:600;">${roll}</span></td><td>${statusBadge}</td><td>${releaseCell}</td><td style="text-align:right;">${action}</td></tr>`;
+    }).join('');
+  }
+
+  function setReleaseFlag(id, released) {
+    const list = getLocalStudentList();
+    const idx = list.findIndex(s => s.id === id);
+    if (idx === -1) { alert('Student record not found.'); return null; }
+    if (released) {
+      list[idx].released_for_download = true;
+      list[idx].released_at = new Date().toLocaleString();
+      list[idx].status = 'evaluated';
+    } else {
+      list[idx].released_for_download = false;
+      delete list[idx].released_at;
+    }
+    try { localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(list)); } catch (e) {}
+    return list[idx];
+  }
+
+  window.pushToDownload = async function (id) {
+    const rec = getLocalStudentList().find(s => s.id === id);
+    if (!rec) { alert('Student record not found.'); return; }
+    if ((rec.status || 'pending_evaluation') !== 'evaluated') {
+      alert('Only evaluated portfolios can be pushed to Download. The teacher must evaluate this student first.');
+      return;
+    }
+    if (!confirm(`Release "${rec.student_name || rec.profile?.student_name || 'this student'}" portfolio to the student Download section?`)) return;
+    setReleaseFlag(id, true);
+    try {
+      await fetch(`/api/admin/release/${encodeURIComponent(id)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Passkey': getAdminPasskey() }
+      });
+    } catch (e) {}
+    alert('✓ Portfolio released. Students can now download it from the Download Portfolio tab.');
+    loadAdminRoster();
+    loadDownloadList();
+  };
+
+  window.recallFromDownload = async function (id) {
+    if (!confirm('Recall this portfolio from the Download section? Students will no longer see it.')) return;
+    setReleaseFlag(id, false);
+    try {
+      await fetch(`/api/admin/unpublish/${encodeURIComponent(id)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Passkey': getAdminPasskey() }
+      });
+    } catch (e) {}
+    alert('Portfolio recalled from Download.');
+    loadAdminRoster();
+    loadDownloadList();
+  };
+
+  function initAdminFilters() {
+    const statusSel = document.getElementById('adminFilterStatusSelect');
+    const searchInp = document.getElementById('adminSearchInput');
+    const dlSearch = document.getElementById('downloadSearchInput');
+    if (statusSel) statusSel.addEventListener('change', () => loadAdminRoster());
+    if (searchInp) searchInp.addEventListener('input', () => loadAdminRoster());
+    if (dlSearch) dlSearch.addEventListener('input', () => loadDownloadList());
+  }
+
+  // =========================================================
+  // 1C. STUDENT DOWNLOAD TAB — released portfolios only
+  // =========================================================
+  function loadDownloadList() {
+    const grid = document.getElementById('downloadListBody');
+    const emptyState = document.getElementById('emptyDownloadState');
+    if (!grid) return;
+    const searchVal = ((document.getElementById('downloadSearchInput') || {}).value || '').trim().toLowerCase();
+    const released = getLocalStudentList().filter(s => {
+      if (!isReleased(s) || (s.status || 'pending_evaluation') !== 'evaluated') return false;
+      if (!searchVal) return true;
+      const hay = `${s.student_name || ''} ${s.profile?.student_name || ''} ${s.roll_no || ''} ${s.admission_no || ''} ${s.class_section || ''}`.toLowerCase();
+      return hay.includes(searchVal);
+    });
+    if (!released.length) {
+      grid.innerHTML = '';
+      if (emptyState) emptyState.style.display = 'block';
+      return;
+    }
+    if (emptyState) emptyState.style.display = 'none';
+    grid.innerHTML = released.map(s => {
+      const id = s.id;
+      const name = escapeHtml(s.student_name || s.profile?.student_name || 'Unnamed Student');
+      const cls = escapeHtml(s.class_section || s.profile?.class_section || '—');
+      const roll = escapeHtml(s.roll_no || s.profile?.roll_no || '—');
+      const photo = s.photo_url || s.profile?.photo_data || '';
+      const relAt = escapeHtml(s.released_at || (s.data && s.data.released_at) || '');
+      const photoHtml = photo
+        ? `<img src="${photo}" class="student-thumb" style="width:52px;height:52px;" alt="Photo">`
+        : `<div class="student-thumb" style="width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#94a3b8;">👤</div>`;
+      return `<div class="dl-card">
+        <div class="dl-card-top">${photoHtml}
+          <div><div class="dl-card-name">${name}</div>
+          <div class="dl-card-meta">${cls} • Roll ${roll}</div></div>
+        </div>
+        <div><span class="status-badge status-evaluated"><span>✓</span> Evaluated</span>
+        <span class="release-badge">⬇️ Released${relAt ? ' • ' + relAt : ''}</span></div>
+        <div class="dl-card-actions">
+          <button type="button" class="btn-action btn-print-sm" onclick="downloadReleasedPortfolio('${escapeHtml(id)}')"><span>⬇️</span> Download Portfolio</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  window.downloadReleasedPortfolio = function (id) {
+    const s = getLocalStudentList().find(x => x.id === id);
+    if (!s) { alert('Portfolio not found.'); return; }
+    if (!isReleased(s) || (s.status || 'pending_evaluation') !== 'evaluated') {
+      alert('This portfolio has not been released by the Admin yet.');
+      loadDownloadList();
+      return;
+    }
+    pendingPrintPayload = { type: 'download', data: s };
+    openPrintSubjectModal(s);
   };
 
   // =========================================================
@@ -886,6 +1183,10 @@
       };
 
       if (existingIdx !== -1) {
+        if (roster[existingIdx].released_for_download) {
+          studentRecord.released_for_download = true;
+          studentRecord.released_at = roster[existingIdx].released_at;
+        }
         if (roster[existingIdx].subject_evaluations) studentRecord.subject_evaluations = roster[existingIdx].subject_evaluations;
         if (roster[existingIdx].skills) studentRecord.skills = roster[existingIdx].skills;
         if (roster[existingIdx].teacher_assessment) studentRecord.teacher_assessment = roster[existingIdx].teacher_assessment;
@@ -1065,8 +1366,9 @@
         ? `<img src="${photo}" class="student-thumb" alt="Photo">`
         : `<div class="student-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#94a3b8;">👤</div>`;
 
+      const releasedFlag = !!(s.released_for_download || (s.data && s.data.released_for_download));
       const statusBadge = isEvaluated
-        ? `<span class="status-badge status-evaluated"><span>✓</span> Evaluated</span>`
+        ? `<span class="status-badge status-evaluated"><span>✓</span> Evaluated</span>${releasedFlag ? ' <span class="release-badge">⬇️ Released</span>' : ''}`
         : `<span class="status-badge status-pending"><span>⏳</span> Pending</span>`;
 
       const sourceBadge = source === 'print'

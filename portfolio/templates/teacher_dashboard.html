@@ -369,6 +369,13 @@
               <span class="status-badge status-evaluated">
                 <span>✓</span> Evaluated
               </span>
+              {% if s.data and s.data.released_for_download %}
+              <div style="margin-top: 4px;">
+                <span class="status-badge" style="background: #e0f2fe; color: #0c4a6e; border: 1px solid #7dd3fc;">
+                  <span>⬇️</span> Released
+                </span>
+              </div>
+              {% endif %}
               {% else %}
               <span class="status-badge status-pending">
                 <span>⏳</span> Pending Evaluation

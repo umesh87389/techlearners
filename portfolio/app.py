@@ -11,6 +11,15 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'shm_academy_secure_key_9281
 # Teacher access credential (kept strictly on server side; students have zero access to this)
 TEACHER_PASSWORD = os.environ.get('TEACHER_PASSWORD', 'shm@teacher2026')
 
+# Admin passkey — ONLY the Admin section may push portfolios to Download.
+# Verified server-side on every admin API call. Change via ADMIN_PASSWORD env var.
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'SHM#Admin@2026!')
+
+def _admin_authorized():
+    if session.get('admin_auth'):
+        return True
+    return (request.headers.get('X-Admin-Passkey') or '') == ADMIN_PASSWORD
+
 database.init_db()
 
 CLASSES_SECTIONS = [
@@ -238,6 +247,26 @@ def api_teacher_delete(student_id):
     session['teacher_auth'] = True
     database.delete_student(student_id)
     return jsonify({'success': True, 'message': 'Student record deleted'})
+
+@app.route('/api/admin/release/<student_id>', methods=['POST'])
+def api_admin_release(student_id):
+    if not _admin_authorized():
+        return jsonify({'success': False, 'error': 'Admin passkey required'}), 403
+    session['admin_auth'] = True
+    ok, msg = database.set_release_status(student_id, True)
+    if ok:
+        return jsonify({'success': True, 'message': 'Portfolio released for download'})
+    return jsonify({'success': False, 'error': msg}), 400
+
+@app.route('/api/admin/unpublish/<student_id>', methods=['POST'])
+def api_admin_unpublish(student_id):
+    if not _admin_authorized():
+        return jsonify({'success': False, 'error': 'Admin passkey required'}), 403
+    session['admin_auth'] = True
+    ok, msg = database.set_release_status(student_id, False)
+    if ok:
+        return jsonify({'success': True, 'message': 'Portfolio recalled from download'})
+    return jsonify({'success': False, 'error': msg}), 400
 
 # Static file serving compatibility
 @app.route('/assets/<path:filename>')

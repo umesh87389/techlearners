@@ -148,6 +148,18 @@ body {
   box-shadow: 0 4px 12px rgba(6, 95, 70, 0.3);
 }
 
+.seg-tab-btn.active-download {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.seg-tab-btn.active-admin {
+  background: linear-gradient(135deg, #431407 0%, #c2410c 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(194, 65, 12, 0.35);
+}
+
 .seg-tab-icon {
   font-size: 1.05rem;
   line-height: 1;
@@ -685,12 +697,33 @@ body.teacher-mode .student-floating-bar,
 }
 
 /* Hide student navigation chips when in teacher dashboard */
-body.teacher-mode .section-jump-bar {
+body.teacher-mode .section-jump-bar,
+body.download-mode .section-jump-bar,
+body.admin-mode .section-jump-bar {
   display: none !important;
 }
 
-body.teacher-mode .student-floating-bar {
+body.teacher-mode .student-floating-bar,
+body.download-mode .student-floating-bar,
+body.admin-mode .student-floating-bar {
   display: none !important;
+}
+
+/* Contrast adjustments when Download/Admin Tab is actively selected */
+.seg-tab-btn.active-download .teacher-lock-status-pill.status-pill-locked,
+.seg-tab-btn.active-admin .teacher-lock-status-pill.status-pill-locked {
+  background: #ffffff;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.seg-tab-btn.active-download .teacher-lock-status-pill.status-pill-unlocked,
+.seg-tab-btn.active-admin .teacher-lock-status-pill.status-pill-unlocked {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
 }
 
 .kpi-stat-grid {
@@ -1081,6 +1114,106 @@ body.teacher-mode .student-floating-bar {
 }
 .btn-del:hover {
   background: #fecaca;
+}
+
+/* Admin release / recall buttons */
+.btn-release {
+  background: #15803d;
+  color: #ffffff;
+}
+.btn-release:hover {
+  background: #166534;
+  transform: translateY(-1px);
+}
+
+.btn-recall {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+.btn-recall:hover {
+  background: #fef3c7;
+}
+
+.release-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #e0f2fe;
+  color: #0c4a6e;
+  border: 1px solid #7dd3fc;
+  white-space: nowrap;
+}
+
+/* Download Portfolio cards (student download tab) */
+.download-view {
+  width: 100%;
+  max-width: 1000px;
+  margin: 1.25rem auto 4rem;
+  padding: 0 1rem 6rem;
+  box-sizing: border-box;
+}
+
+.dl-search {
+  width: 100%;
+  max-width: 460px;
+}
+
+.dl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.dl-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.dl-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.dl-card-name {
+  font-weight: 900;
+  color: #0f172a;
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.dl-card-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.dl-card-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.dl-empty {
+  text-align: center;
+  color: #64748b;
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 3rem 1.5rem;
+  margin-top: 1.25rem;
 }
 
 /* Success Modal Overlay */

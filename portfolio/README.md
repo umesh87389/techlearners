@@ -58,6 +58,8 @@ python3 app.py
 * **Student Portfolio**: `http://localhost:8080/`
 * **Teacher Dashboard**: `http://localhost:8080/teacher`
 * **Default Teacher Passcode**: `shm@teacher2026` (configurable via `TEACHER_PASSWORD` environment variable)
+* **Download Portfolio tab**: shows only evaluated portfolios released by the Admin.
+* **Admin section + Default Admin Passkey**: `SHM#Admin@2026!` (configurable via `ADMIN_PASSWORD` environment variable). Only the Admin can push evaluated portfolios to the Download section (or recall them).
 
 ---
 
