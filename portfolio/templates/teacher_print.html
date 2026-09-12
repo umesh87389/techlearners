@@ -265,7 +265,7 @@
           </thead>
           <tbody>
             {% set ach_rows = student.data.achievements if student.data.achievements else [] %}
-            {% for i in range(1, 4) %}
+            {% for i in range(1, 5) %}
             {% set r = ach_rows[i-1] if i-1 < ach_rows|length else {} %}
             <tr>
               <td>{{ r.achievement or '—' }}</td>
@@ -278,36 +278,31 @@
         </table>
         <div style="margin-top: 0.5rem;">
           <strong>Certificates / Awards may be attached here:</strong>
-          <p style="margin-top: 0.25rem;">{{ student.data.certificates_evidence if student.data.certificates_evidence else '—' }}</p>
+          <p style="margin-top: 0.25rem;">{{ student.data.achievements_evidence if student.data.achievements_evidence else '—' }}</p>
         </div>
       </section>
 
       <!-- 7. PROJECTS & CREATIVE WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Projects &amp; Creative Work</span></h2>
+        {% set proj_rows = student.data.projects if student.data.projects is sequence and student.data.projects is not string else [] %}
+        {% for r in proj_rows[:4] %}
         <div style="margin-bottom: 0.75rem;">
-          <strong>Project 1</strong><br>
-          Title: <strong>{{ student.data.projects.proj1_title if student.data.projects and student.data.projects.proj1_title else '—' }}</strong><br>
-          What I did: {{ student.data.projects.proj1_did if student.data.projects and student.data.projects.proj1_did else '—' }}<br>
-          What I learned: {{ student.data.projects.proj1_learned if student.data.projects and student.data.projects.proj1_learned else '—' }}
+          <strong>Project {{ loop.index }}</strong><br>
+          Subject: <strong>{{ r.subject or '—' }}</strong><br>
+          Title: <strong>{{ r.title or '—' }}</strong><br>
+          What I learned: {{ r.learning or '—' }}
         </div>
-        <div style="margin-bottom: 0.75rem;">
-          <strong>Project 2</strong><br>
-          Title: <strong>{{ student.data.projects.proj2_title if student.data.projects and student.data.projects.proj2_title else '—' }}</strong><br>
-          What I learned: {{ student.data.projects.proj2_learned if student.data.projects and student.data.projects.proj2_learned else '—' }}
-        </div>
-        <div>
-          <strong>Photographs / Drawings / Project Evidence:</strong>
-          <p style="margin-top: 0.25rem;">{{ student.data.projects.evidence if student.data.projects and student.data.projects.evidence else '—' }}</p>
-        </div>
+        {% endfor %}
       </section>
 
       <!-- 8. MY SCHOOL PARTICIPATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My School Participation</span></h2>
+        {% set sp = student.data.school_participation if student.data.school_participation else {} %}
         <strong>I participated in:</strong>
         <div class="checkbox-grid" style="margin-top: 0.35rem;">
-          {% set part_checked = student.data.participation.activities if student.data.participation and student.data.participation.activities else [] %}
+          {% set part_checked = sp.activities if sp.activities else [] %}
           {% for p in ['Sports', 'Cultural Activities', 'Art & Craft', 'Debate / Speech', 'Quiz', 'Science / Maths Activities', 'Literary Activities', 'School Assembly', 'Community Service'] %}
           <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem;">
             <span>{% if p in part_checked %}☑{% else %}☐{% endif %}</span>
@@ -315,29 +310,33 @@
           </div>
           {% endfor %}
         </div>
-        {% if student.data.participation and student.data.participation.other %}
-        <div style="margin-top: 0.5rem;">Other: {{ student.data.participation.other }}</div>
+        {% if sp.other %}
+        <div style="margin-top: 0.5rem;">Other: {{ sp.other }}</div>
         {% endif %}
         <div style="margin-top: 0.5rem;">
           <strong>My most memorable school activity:</strong>
-          <p style="margin-top: 0.25rem;">{{ student.data.participation.memorable_activity if student.data.participation and student.data.participation.memorable_activity else '—' }}</p>
+          <p style="margin-top: 0.25rem;">{{ sp.memorable_activity or '—' }}</p>
         </div>
       </section>
 
       <!-- 9. MY REFLECTION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Reflection</span></h2>
-        <p><strong>What did I learn this year?</strong> {{ student.data.reflection.learned if student.data.reflection and student.data.reflection.learned else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>What was my biggest achievement?</strong> {{ student.data.reflection.achievement if student.data.reflection and student.data.reflection.achievement else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>What challenge did I face?</strong> {{ student.data.reflection.challenge if student.data.reflection and student.data.reflection.challenge else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>How did I overcome it?</strong> {{ student.data.reflection.overcome if student.data.reflection and student.data.reflection.overcome else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>What will I do better next year?</strong> {{ student.data.reflection.next_year if student.data.reflection and student.data.reflection.next_year else '—' }}</p>
+        {% set sr = student.data.self_reflection if student.data.self_reflection else {} %}
+        <p><strong>What did I learn this year?</strong> {{ sr.learned or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>What was my biggest achievement?</strong> {{ sr.achievement or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>What challenge did I face?</strong> {{ sr.challenge or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>How did I overcome it?</strong> {{ sr.overcome or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>What will I do better next year?</strong> {{ sr.next_year or '—' }}</p>
       </section>
 
       <!-- 10. MY BEST WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Best Work</span></h2>
-        <p>{{ student.data.best_work.description if student.data.best_work and student.data.best_work.description else '—' }}</p>
+        {% set bw = student.data.best_work if student.data.best_work else {} %}
+        <p><strong>Why I chose this piece:</strong> {{ bw.why or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>What I learned:</strong> {{ bw.learned or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>Evidence:</strong> {{ bw.evidence or '—' }}</p>
       </section>
 
       <!-- 11. TEACHER’S ASSESSMENT -->
@@ -382,9 +381,10 @@
       <!-- 12. PARENT’S FEEDBACK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Parent’s Feedback</span></h2>
-        <p><strong>My child’s strengths:</strong> {{ student.data.parent_feedback.child_strengths if student.data.parent_feedback and student.data.parent_feedback.child_strengths else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>Areas where my child can improve:</strong> {{ student.data.parent_feedback.child_improve if student.data.parent_feedback and student.data.parent_feedback.child_improve else '—' }}</p>
-        <p style="margin-top: 0.35rem;"><strong>Parent’s Suggestions:</strong> {{ student.data.parent_feedback.parent_suggestions if student.data.parent_feedback and student.data.parent_feedback.parent_suggestions else '—' }}</p>
+        {% set pf = student.data.parent_feedback if student.data.parent_feedback else {} %}
+        <p><strong>My child’s strengths:</strong> {{ pf.child_strengths or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>Areas where my child can improve:</strong> {{ pf.child_improve or '—' }}</p>
+        <p style="margin-top: 0.35rem;"><strong>Parent’s Suggestions:</strong> {{ pf.parent_suggestions or '—' }}</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem;">
           <div>Parent’s Signature: <strong>{{ student.data.parent_feedback.parent_signature if student.data.parent_feedback and student.data.parent_feedback.parent_signature else '___________________' }}</strong></div>
           <div>Date: <strong>{{ student.data.parent_feedback.parent_date if student.data.parent_feedback and student.data.parent_feedback.parent_date else '___________________' }}</strong></div>
@@ -405,7 +405,7 @@
           </thead>
           <tbody>
             {% set pip_rows = student.data.personal_improvement_plan if student.data.personal_improvement_plan else [] %}
-            {% for i in range(1, 4) %}
+            {% for i in range(1, 5) %}
             {% set r = pip_rows[i-1] if i-1 < pip_rows|length else {} %}
             <tr>
               <td>{{ r.area or '—' }}</td>
@@ -421,13 +421,14 @@
       <!-- 14. MY YEAR IN ONE PAGE -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Year in One Page</span></h2>
-        <p>⭐ <strong>My Best Achievement:</strong> {{ student.data.year_in_one_page.best_achievement if student.data.year_in_one_page and student.data.year_in_one_page.best_achievement else '—' }}</p>
-        <p style="margin-top: 0.35rem;">📚 <strong>My Favourite Subject:</strong> {{ student.data.year_in_one_page.favourite_subject if student.data.year_in_one_page and student.data.year_in_one_page.favourite_subject else '—' }}</p>
-        <p style="margin-top: 0.35rem;">🎨 <strong>My Favourite Activity:</strong> {{ student.data.year_in_one_page.favourite_activity if student.data.year_in_one_page and student.data.year_in_one_page.favourite_activity else '—' }}</p>
-        <p style="margin-top: 0.35rem;">🏆 <strong>An Award I Received:</strong> {{ student.data.year_in_one_page.award_received if student.data.year_in_one_page and student.data.year_in_one_page.award_received else '—' }}</p>
-        <p style="margin-top: 0.35rem;">💡 <strong>Something New I Learned:</strong> {{ student.data.year_in_one_page.new_learned if student.data.year_in_one_page and student.data.year_in_one_page.new_learned else '—' }}</p>
-        <p style="margin-top: 0.35rem;">❤️ <strong>Something I Am Proud Of:</strong> {{ student.data.year_in_one_page.proud_of if student.data.year_in_one_page and student.data.year_in_one_page.proud_of else '—' }}</p>
-        <p style="margin-top: 0.35rem;">🚀 <strong>My Goal for Next Year:</strong> {{ student.data.year_in_one_page.goal_next_year if student.data.year_in_one_page and student.data.year_in_one_page.goal_next_year else '—' }}</p>
+        {% set yr = student.data.year_review if student.data.year_review else {} %}
+        <p>⭐ <strong>My Best Achievement:</strong> {{ yr.best_achievement or '—' }}</p>
+        <p style="margin-top: 0.35rem;">📚 <strong>My Favourite Subject:</strong> {{ yr.favourite_subject or '—' }}</p>
+        <p style="margin-top: 0.35rem;">🎨 <strong>My Favourite Activity:</strong> {{ yr.favourite_activity or '—' }}</p>
+        <p style="margin-top: 0.35rem;">🏆 <strong>An Award I Received:</strong> {{ yr.award_received or '—' }}</p>
+        <p style="margin-top: 0.35rem;">💡 <strong>Something New I Learned:</strong> {{ yr.new_learned or '—' }}</p>
+        <p style="margin-top: 0.35rem;">❤️ <strong>Something I Am Proud Of:</strong> {{ yr.proud_of or '—' }}</p>
+        <p style="margin-top: 0.35rem;">🚀 <strong>My Goal for Next Year:</strong> {{ yr.goal_next_year or '—' }}</p>
       </section>
 
       <!-- 15. STUDENT’S DECLARATION -->

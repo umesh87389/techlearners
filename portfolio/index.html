@@ -59,15 +59,16 @@
     <a href="#sec-cocurricular" class="jump-chip">5. Co-Curricular</a>
     <a href="#sec-awards" class="jump-chip">6. Awards</a>
     <a href="#sec-projects" class="jump-chip">7. Projects</a>
-    <a href="#sec-pip" class="jump-chip">8. PIP Plan</a>
-    <a href="#sec-reading" class="jump-chip">9. Reading Log</a>
-    <a href="#sec-bestwork" class="jump-chip">10. Best Work</a>
-    <a href="#sec-assessment" class="jump-chip">11. Teacher Assessment</a>
-    <a href="#sec-parent" class="jump-chip">12. Parent Feedback</a>
-    <a href="#sec-reflection" class="jump-chip">13. Self-Reflection</a>
-    <a href="#sec-year-review" class="jump-chip">14. Year Review</a>
-    <a href="#sec-declaration" class="jump-chip">15. Declaration</a>
-    <a href="#sec-final-remark" class="jump-chip">16. Final Remark</a>
+    <a href="#sec-participation" class="jump-chip">8. Participation</a>
+    <a href="#sec-pip" class="jump-chip">9. PIP Plan</a>
+    <a href="#sec-reading" class="jump-chip">10. Reading Log</a>
+    <a href="#sec-bestwork" class="jump-chip">11. Best Work</a>
+    <a href="#sec-assessment" class="jump-chip">12. Teacher Assessment</a>
+    <a href="#sec-parent" class="jump-chip">13. Parent Feedback</a>
+    <a href="#sec-reflection" class="jump-chip">14. Self-Reflection</a>
+    <a href="#sec-year-review" class="jump-chip">15. Year Review</a>
+    <a href="#sec-declaration" class="jump-chip">16. Declaration</a>
+    <a href="#sec-final-remark" class="jump-chip">17. Final Remark</a>
   </nav>
 
   <!-- ========================================================= -->
@@ -135,11 +136,11 @@
                 </tr>
                 <tr>
                   <td><strong>Father’s Name</strong></td>
-                  <td><input type="text" id="profile_father_name" class="form-control" placeholder="Father\'s Full Name"></td>
+                  <td><input type="text" id="profile_father_name" class="form-control" placeholder="Father's Full Name"></td>
                 </tr>
                 <tr>
                   <td><strong>Mother’s Name</strong></td>
-                  <td><input type="text" id="profile_mother_name" class="form-control" placeholder="Mother\'s Full Name"></td>
+                  <td><input type="text" id="profile_mother_name" class="form-control" placeholder="Mother's Full Name"></td>
                 </tr>
                 <tr>
                   <td><strong>Contact Number</strong></td>
@@ -151,7 +152,7 @@
                 </tr>
                 <tr>
                   <td><strong>Class Teacher</strong></td>
-                  <td><input type="text" id="profile_class_teacher" class="form-control" placeholder="Class Teacher\'s Name"></td>
+                  <td><input type="text" id="profile_class_teacher" class="form-control" placeholder="Class Teacher's Name"></td>
                 </tr>
               </tbody>
             </table>
@@ -400,6 +401,10 @@
               </tr>
             </tbody>
           </table>
+          <div style="margin-top: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Certificates / Awards may be attached here</label>
+            <textarea id="ach_evidence" class="form-control" rows="2" placeholder="List attached certificates or awards..."></textarea>
+          </div>
         </div>
       </section>
 
@@ -450,11 +455,42 @@
         </div>
       </section>
 
-      <!-- 8. PERSONAL IMPROVEMENT PLAN (PIP) -->
+      <!-- 8. MY SCHOOL PARTICIPATION -->
+      <section class="doc-card" id="sec-participation">
+        <div class="doc-card-header">
+          <div class="doc-card-title">
+            <span>🏫</span> 8. My School Participation
+          </div>
+        </div>
+        <div class="doc-card-body">
+          <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.75rem; display: block;">I participated in (check all that apply):</label>
+          <div class="checklist-grid" style="margin-bottom: 1.25rem;">
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Sports"><span>Sports</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Cultural Activities"><span>Cultural Activities</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Art & Craft"><span>Art &amp; Craft</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Debate / Speech"><span>Debate / Speech</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Quiz"><span>Quiz</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Science / Maths Activities"><span>Science / Maths Activities</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Literary Activities"><span>Literary Activities</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="School Assembly"><span>School Assembly</span></label>
+            <label class="checklist-label"><input type="checkbox" name="part_checkbox" value="Community Service"><span>Community Service</span></label>
+          </div>
+          <div style="margin-bottom: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Other</label>
+            <input type="text" id="part_other_text" class="form-control" placeholder="Other activity...">
+          </div>
+          <div>
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My most memorable school activity</label>
+            <textarea id="part_memorable" class="form-control" rows="2" placeholder="Describe your most memorable school activity..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. PERSONAL IMPROVEMENT PLAN (PIP) -->
       <section class="doc-card" id="sec-pip">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📈</span> 8. Personal Improvement Plan (PIP)
+            <span>📈</span> 9. Personal Improvement Plan (PIP)
           </div>
         </div>
         <div class="doc-card-body">
@@ -497,11 +533,11 @@
         </div>
       </section>
 
-      <!-- 9. BOOK / READING LOG -->
+      <!-- 10. BOOK / READING LOG -->
       <section class="doc-card" id="sec-reading">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📖</span> 9. Book / Reading Log
+            <span>📖</span> 10. Book / Reading Log
           </div>
         </div>
         <div class="doc-card-body">
@@ -544,11 +580,11 @@
         </div>
       </section>
 
-      <!-- 10. MY BEST WORK -->
+      <!-- 11. MY BEST WORK -->
       <section class="doc-card" id="sec-bestwork">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🎨</span> 10. My Best Work
+            <span>🎨</span> 11. My Best Work
           </div>
         </div>
         <div class="doc-card-body">
@@ -562,14 +598,19 @@
               <textarea id="best_learned" class="form-control" rows="3" placeholder="Describe key insights, skills, or learnings gained..."></textarea>
             </div>
           </div>
+          <div style="margin-top: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Paste or attach your best work here</label>
+            <textarea id="best_evidence" class="form-control" rows="3" placeholder="Paste best written work, creative writing, or describe artwork / project / certificate / photograph of participation..."></textarea>
+            <p style="font-size: 0.78rem; color: #64748b; margin-top: 0.5rem;">Examples: best written work • artwork • project • certificate • creative writing • photograph of participation</p>
+          </div>
         </div>
       </section>
 
-      <!-- 11. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
+      <!-- 12. TEACHER’S ASSESSMENT (LOCKED FOR STUDENTS) -->
       <section class="doc-card" id="sec-assessment">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>👨‍🏫</span> 11. Teacher’s Assessment
+            <span>👨‍🏫</span> 12. Teacher’s Assessment
           </div>
           <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
         </div>
@@ -615,17 +656,25 @@
         </div>
       </section>
 
-      <!-- 12. PARENT’S FEEDBACK -->
+      <!-- 13. PARENT’S FEEDBACK -->
       <section class="doc-card" id="sec-parent">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>👪</span> 12. Parent’s Feedback
+            <span>👪</span> 13. Parent’s Feedback
           </div>
         </div>
         <div class="doc-card-body">
           <div style="margin-bottom: 1.25rem;">
-            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Parent’s Remarks</label>
-            <textarea id="parent_remarks" class="form-control" rows="3" placeholder="Parent observations, appreciation, and expectations..."></textarea>
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My child’s strengths</label>
+            <textarea id="parent_strengths" class="form-control" rows="2" placeholder="Parent observations on the child’s strengths..."></textarea>
+          </div>
+          <div style="margin-bottom: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Areas where my child can improve</label>
+            <textarea id="parent_improve" class="form-control" rows="2" placeholder="Areas needing attention or support..."></textarea>
+          </div>
+          <div style="margin-bottom: 1.25rem;">
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Parent’s Suggestions</label>
+            <textarea id="parent_suggestions" class="form-control" rows="2" placeholder="Suggestions for the child and school..."></textarea>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
             <div>
@@ -640,69 +689,85 @@
         </div>
       </section>
 
-      <!-- 13. STUDENT’S SELF-REFLECTION -->
+      <!-- 14. STUDENT’S SELF-REFLECTION -->
       <section class="doc-card" id="sec-reflection">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>💡</span> 13. Student’s Self-Reflection
+            <span>💡</span> 14. Student’s Self-Reflection
           </div>
         </div>
         <div class="doc-card-body">
           <div style="display: flex; flex-direction: column; gap: 1.25rem;">
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What I enjoyed most this term</label>
-              <textarea id="reflect_enjoyed" class="form-control" rows="2" placeholder="Projects, topics, or school events you loved most..."></textarea>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What did I learn this year?</label>
+              <textarea id="reflect_learned" class="form-control" rows="2" placeholder="Key knowledge and skills you gained..."></textarea>
             </div>
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What was challenging for me</label>
-              <textarea id="reflect_challenging" class="form-control" rows="2" placeholder="Difficult concepts or challenges you encountered..."></textarea>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What was my biggest achievement?</label>
+              <textarea id="reflect_achievement" class="form-control" rows="2" placeholder="Your proudest accomplishment this year..."></textarea>
             </div>
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What I would do differently next time</label>
-              <textarea id="reflect_differently" class="form-control" rows="2" placeholder="Strategies to achieve even better outcomes..."></textarea>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What challenge did I face?</label>
+              <textarea id="reflect_challenge" class="form-control" rows="2" placeholder="Difficulties you encountered..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">How did I overcome it?</label>
+              <textarea id="reflect_overcome" class="form-control" rows="2" placeholder="How you dealt with the challenge..."></textarea>
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">What will I do better next year?</label>
+              <textarea id="reflect_next_year" class="form-control" rows="2" placeholder="Your plan for next year..."></textarea>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- 14. END OF YEAR REVIEW -->
+      <!-- 15. END OF YEAR REVIEW -->
       <section class="doc-card" id="sec-year-review">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>🎉</span> 14. End of Year Review
+            <span>🎉</span> 15. End of Year Review
           </div>
         </div>
         <div class="doc-card-body">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;">
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Highlights of the Year</label>
-              <textarea id="year_highlights" class="form-control" rows="2" placeholder="Key memorable moments..."></textarea>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">⭐ My Best Achievement</label>
+              <textarea id="year_best" class="form-control" rows="2" placeholder="Your best achievement this year..."></textarea>
             </div>
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">An Award I Received</label>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">📚 My Favourite Subject</label>
+              <input type="text" id="year_subject" class="form-control" placeholder="Favourite subject">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">🎨 My Favourite Activity</label>
+              <input type="text" id="year_activity" class="form-control" placeholder="Favourite activity">
+            </div>
+            <div>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">🏆 An Award I Received</label>
               <input type="text" id="year_award" class="form-control" placeholder="Award title or honor">
             </div>
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Something New I Learned</label>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">💡 Something New I Learned</label>
               <textarea id="year_learned" class="form-control" rows="2" placeholder="New knowledge or skill..."></textarea>
             </div>
             <div>
-              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">Something I Am Proud Of</label>
+              <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">❤️ Something I Am Proud Of</label>
               <textarea id="year_proud" class="form-control" rows="2" placeholder="Personal or team achievement..."></textarea>
             </div>
           </div>
           <div style="margin-top: 1.25rem;">
-            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">My Goal for Next Year</label>
+            <label class="form-field-label" style="font-weight: 700; font-size: 0.88rem; color: #334155; margin-bottom: 0.35rem; display: block;">🚀 My Goal for Next Year</label>
             <textarea id="year_goal" class="form-control" rows="2" placeholder="Your major goal for the upcoming academic year..."></textarea>
           </div>
         </div>
       </section>
 
-      <!-- 15. STUDENT’S DECLARATION -->
+      <!-- 16. STUDENT’S DECLARATION -->
       <section class="doc-card" id="sec-declaration">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>✍️</span> 15. Student’s Declaration
+            <span>✍️</span> 16. Student’s Declaration
           </div>
         </div>
         <div class="doc-card-body">
@@ -726,11 +791,11 @@
         </div>
       </section>
 
-      <!-- 16. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
+      <!-- 17. TEACHER’S FINAL REMARK (LOCKED FOR STUDENTS) -->
       <section class="doc-card" id="sec-final-remark">
         <div class="doc-card-header">
           <div class="doc-card-title">
-            <span>📜</span> 16. Teacher’s Final Remark
+            <span>📜</span> 17. Teacher’s Final Remark
           </div>
           <span class="status-pill pill-pending">🔒 Locked — Teacher Evaluation Only</span>
         </div>
@@ -999,9 +1064,9 @@
           </div>
         </div>
 
-        <!-- 11. Teacher's Assessment -->
+        <!-- 12. Teacher's Assessment -->
         <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">11. Teacher’s Assessment</h3>
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">12. Teacher’s Assessment</h3>
           <table class="modern-table">
             <thead>
               <tr>
@@ -1041,9 +1106,9 @@
           </div>
         </div>
 
-        <!-- 16. Teacher's Final Remark -->
+        <!-- 17. Teacher's Final Remark -->
         <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">16. Teacher’s Final Remark</h3>
+          <h3 style="font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.75rem;">17. Teacher’s Final Remark</h3>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
             <div>
               <label style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 0.25rem;">Class Teacher Final Remark</label>
@@ -1185,7 +1250,7 @@
         </table>
       </div>
       <div>
-        <div class="print-section-header">5, 6 &amp; 8. ACTIVITIES &amp; PIP PLAN</div>
+        <div class="print-section-header">5, 6 &amp; 9. ACTIVITIES &amp; PIP PLAN</div>
         <div style="font-size: 8.2pt; line-height: 1.36; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm; background: #fbfcfe;">
           <div style="margin-bottom: 1.5px;"><strong>Activities:</strong> <span id="print_cocurricular_snippet">—</span></div>
           <div style="margin-bottom: 1.5px;"><strong>Awards &amp; Honors:</strong> <span id="print_awards_snippet">—</span></div>

@@ -458,6 +458,12 @@
       goalsChecked.push(cb.value);
     });
 
+    // Collect school participation checklist (matches sec-participation)
+    const partChecked = [];
+    document.querySelectorAll('input[name="part_checkbox"]:checked').forEach((cb) => {
+      partChecked.push(cb.value);
+    });
+
     // Collect Co-Curricular 4 rows
     const coCurricular = [];
     for (let i = 1; i <= 4; i++) {
@@ -551,25 +557,38 @@
       },
       co_curricular: coCurricular,
       achievements: achievements,
+      achievements_evidence: (document.getElementById('ach_evidence') || {}).value || '',
       projects: projects,
       reading_log: reading_log,
+      school_participation: {
+        activities: partChecked,
+        other: (document.getElementById('part_other_text') || {}).value || '',
+        memorable_activity: (document.getElementById('part_memorable') || {}).value || ''
+      },
       best_work: {
         why: (document.getElementById('best_why') || {}).value || '',
-        learned: (document.getElementById('best_learned') || {}).value || ''
+        learned: (document.getElementById('best_learned') || {}).value || '',
+        evidence: (document.getElementById('best_evidence') || {}).value || ''
       },
       parent_feedback: {
-        remarks: (document.getElementById('parent_remarks') || {}).value || '',
+        child_strengths: (document.getElementById('parent_strengths') || {}).value || '',
+        child_improve: (document.getElementById('parent_improve') || {}).value || '',
+        parent_suggestions: (document.getElementById('parent_suggestions') || {}).value || '',
         parent_signature: (document.getElementById('parent_signature') || {}).value || '',
         parent_date: (document.getElementById('parent_date') || {}).value || ''
       },
       self_reflection: {
-        enjoyed: (document.getElementById('reflect_enjoyed') || {}).value || '',
-        challenging: (document.getElementById('reflect_challenging') || {}).value || '',
-        differently: (document.getElementById('reflect_differently') || {}).value || ''
+        learned: (document.getElementById('reflect_learned') || {}).value || '',
+        achievement: (document.getElementById('reflect_achievement') || {}).value || '',
+        challenge: (document.getElementById('reflect_challenge') || {}).value || '',
+        overcome: (document.getElementById('reflect_overcome') || {}).value || '',
+        next_year: (document.getElementById('reflect_next_year') || {}).value || ''
       },
       personal_improvement_plan: pip,
       year_review: {
-        highlights: (document.getElementById('year_highlights') || {}).value || '',
+        best_achievement: (document.getElementById('year_best') || {}).value || '',
+        favourite_subject: (document.getElementById('year_subject') || {}).value || '',
+        favourite_activity: (document.getElementById('year_activity') || {}).value || '',
         award_received: (document.getElementById('year_award') || {}).value || '',
         new_learned: (document.getElementById('year_learned') || {}).value || '',
         proud_of: (document.getElementById('year_proud') || {}).value || '',
@@ -684,7 +703,7 @@
         setVal(`ach_award_${i}`, r.award);
       });
     }
-    setVal('certificates_evidence', d.certificates_evidence);
+    setVal('ach_evidence', d.achievements_evidence ?? d.certificates_evidence ?? '');
 
     if (Array.isArray(d.projects)) {
       d.projects.forEach((r, idx) => {
@@ -714,22 +733,41 @@
       });
     }
 
+    if (d.school_participation) {
+      if (Array.isArray(d.school_participation.activities)) {
+        document.querySelectorAll('input[name="part_checkbox"]').forEach((cb) => {
+          cb.checked = d.school_participation.activities.includes(cb.value);
+        });
+      }
+      setVal('part_other_text', d.school_participation.other);
+      setVal('part_memorable', d.school_participation.memorable_activity);
+    }
+
     if (d.best_work) {
       setVal('best_why', d.best_work.why ?? d.best_work.description ?? '');
       setVal('best_learned', d.best_work.learned ?? '');
+      setVal('best_evidence', d.best_work.evidence ?? '');
     }
 
     if (d.parent_feedback) {
-      setVal('parent_remarks', d.parent_feedback.remarks ?? d.parent_feedback.parent_suggestions ?? '');
+      setVal('parent_strengths', d.parent_feedback.child_strengths ?? '');
+      setVal('parent_improve', d.parent_feedback.child_improve ?? '');
+      setVal('parent_suggestions', d.parent_feedback.parent_suggestions ?? d.parent_feedback.remarks ?? '');
       setVal('parent_signature', d.parent_feedback.parent_signature);
       setVal('parent_date', d.parent_feedback.parent_date);
     }
 
     if (d.self_reflection || d.reflection) {
       const sr = d.self_reflection || d.reflection || {};
-      setVal('reflect_enjoyed', sr.enjoyed ?? sr.learned ?? '');
-      setVal('reflect_challenging', sr.challenging ?? sr.challenge ?? '');
-      setVal('reflect_differently', sr.differently ?? sr.next_year ?? '');
+      setVal('reflect_learned', sr.learned ?? '');
+      setVal('reflect_achievement', sr.achievement ?? '');
+      setVal('reflect_challenge', sr.challenge ?? sr.challenging ?? '');
+      setVal('reflect_overcome', sr.overcome ?? '');
+      setVal('reflect_next_year', sr.next_year ?? sr.differently ?? '');
+      // legacy 3-prompt ids (kept for old drafts)
+      setVal('reflect_enjoyed', sr.enjoyed ?? '');
+      setVal('reflect_challenging', sr.challenging ?? '');
+      setVal('reflect_differently', sr.differently ?? '');
     }
 
     if (Array.isArray(d.personal_improvement_plan)) {
@@ -744,7 +782,9 @@
 
     if (d.year_review || d.year_in_one_page) {
       const yr = d.year_review || d.year_in_one_page || {};
-      setVal('year_highlights', yr.highlights ?? yr.best_achievement ?? '');
+      setVal('year_best', yr.best_achievement ?? yr.highlights ?? '');
+      setVal('year_subject', yr.favourite_subject ?? '');
+      setVal('year_activity', yr.favourite_activity ?? '');
       setVal('year_award', yr.award_received);
       setVal('year_learned', yr.new_learned);
       setVal('year_proud', yr.proud_of);
@@ -833,8 +873,10 @@
         goals: payload.goals,
         co_curricular: payload.co_curricular,
         achievements: payload.achievements,
+        achievements_evidence: payload.achievements_evidence,
         projects: payload.projects,
         reading_log: payload.reading_log,
+        school_participation: payload.school_participation,
         best_work: payload.best_work,
         parent_feedback: payload.parent_feedback,
         self_reflection: payload.self_reflection,
@@ -1484,10 +1526,11 @@
         (s.achievements || []).some(r => r && (r.achievement || r.event)),
         (s.projects || []).some(r => r && (r.subject || r.title)),
         (s.reading_log || []).some(r => r && r.title),
+        (((s.school_participation || {}).activities || []).length || (s.school_participation || {}).memorable_activity),
         ((s.best_work || {}).why || (s.best_work || {}).learned),
-        ((s.parent_feedback || {}).remarks || (s.parent_feedback || {}).parent_signature),
-        ((s.self_reflection || s.data?.self_reflection || {}).enjoyed || (s.self_reflection || {}).challenging),
-        ((s.year_review || s.data?.year_review || {}).highlights || (s.year_review || {}).goal_next_year),
+        ((s.parent_feedback || {}).child_strengths || (s.parent_feedback || {}).parent_signature),
+        ((s.self_reflection || s.data?.self_reflection || {}).learned || (s.self_reflection || {}).achievement),
+        ((s.year_review || s.data?.year_review || {}).best_achievement || (s.year_review || {}).goal_next_year),
         ((s.student_declaration || {}).student_name || (s.student_declaration || {}).signature)
       ];
       const done = sections.filter(Boolean).length;
@@ -1517,11 +1560,13 @@
       const readRows = s.reading_log || s.data?.reading_log || [];
       const topBook = (readRows.find(r => r && r.title) || {});
       const bw = s.best_work || s.data?.best_work || {};
+      const sp = s.school_participation || s.data?.school_participation || {};
       const bits = [];
       if (topProj.title || topProj.subject) bits.push(`Project: ${topProj.title || topProj.subject}`);
       if (topBook.title) bits.push(`Reading: ${topBook.title}`);
       if (bw.why) bits.push(`Best work: ${String(bw.why).slice(0, 60)}`);
       else if (bw.learned) bits.push(`Best work: ${String(bw.learned).slice(0, 60)}`);
+      if (sp.memorable_activity) bits.push(`Memorable: ${String(sp.memorable_activity).slice(0, 60)}`);
       setElText('print_highlights_snippet', bits.join(' • ') || '—');
     } catch (e) {}
 

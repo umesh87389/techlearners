@@ -358,7 +358,7 @@
           </thead>
           <tbody>
             {% set ach_rows = student.data.achievements if student.data.achievements else [] %}
-            {% for i in range(1, 4) %}
+            {% for i in range(1, 5) %}
             {% set r = ach_rows[i-1] if i-1 < ach_rows|length else {} %}
             <tr>
               <td>{{ r.achievement or '—' }}</td>
@@ -371,7 +371,7 @@
         </table>
         <div class="form-field-group">
           <label class="form-field-label">Certificates / Awards Evidence</label>
-          <div class="student-view-field">{{ student.data.certificates_evidence if student.data.certificates_evidence else '—' }}</div>
+          <div class="student-view-field">{{ student.data.achievements_evidence if student.data.achievements_evidence else '—' }}</div>
         </div>
       </section>
 
@@ -379,45 +379,31 @@
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Projects &amp; Creative Work</span></h2>
         
+        {% set proj_rows = student.data.projects if student.data.projects is sequence and student.data.projects is not string else [] %}
+        {% for r in proj_rows[:4] %}
         <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
-          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 1</h3>
+          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project {{ loop.index }}</h3>
           <div class="form-field-group">
-            <label class="form-field-label">Title</label>
-            <div class="student-view-field">{{ student.data.projects.proj1_title if student.data.projects and student.data.projects.proj1_title else '—' }}</div>
+            <label class="form-field-label">Subject</label>
+            <div class="student-view-field">{{ r.subject or '—' }}</div>
           </div>
           <div class="form-field-group">
-            <label class="form-field-label">What I did</label>
-            <div class="student-view-field">{{ student.data.projects.proj1_did if student.data.projects and student.data.projects.proj1_did else '—' }}</div>
+            <label class="form-field-label">Title</label>
+            <div class="student-view-field">{{ r.title or '—' }}</div>
           </div>
           <div class="form-field-group">
             <label class="form-field-label">What I learned</label>
-            <div class="student-view-field">{{ student.data.projects.proj1_learned if student.data.projects and student.data.projects.proj1_learned else '—' }}</div>
+            <div class="student-view-field">{{ r.learning or '—' }}</div>
           </div>
         </div>
-
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem;">
-          <h3 style="font-size: 1rem; color: #1e3a8a; margin-bottom: 0.75rem;">Project 2</h3>
-          <div class="form-field-group">
-            <label class="form-field-label">Title</label>
-            <div class="student-view-field">{{ student.data.projects.proj2_title if student.data.projects and student.data.projects.proj2_title else '—' }}</div>
-          </div>
-          <div class="form-field-group">
-            <label class="form-field-label">What I learned</label>
-            <div class="student-view-field">{{ student.data.projects.proj2_learned if student.data.projects and student.data.projects.proj2_learned else '—' }}</div>
-          </div>
-        </div>
-
-        <div class="form-field-group">
-          <label class="form-field-label">Photographs / Drawings / Project Evidence</label>
-          <div class="student-view-field">{{ student.data.projects.evidence if student.data.projects and student.data.projects.evidence else '—' }}</div>
-        </div>
+        {% endfor %}
       </section>
 
       <!-- 8. MY SCHOOL PARTICIPATION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My School Participation</span></h2>
         <div class="checkbox-grid">
-          {% set part_checked = student.data.participation.activities if student.data.participation and student.data.participation.activities else [] %}
+          {% set part_checked = student.data.school_participation.activities if student.data.school_participation and student.data.school_participation.activities else [] %}
           {% for p in ['Sports', 'Cultural Activities', 'Art & Craft', 'Debate / Speech', 'Quiz', 'Science / Maths Activities', 'Literary Activities', 'School Assembly', 'Community Service'] %}
           <label class="checkbox-item" style="cursor: default;">
             <input type="checkbox" disabled {% if p in part_checked %}checked{% endif %}>
@@ -427,28 +413,30 @@
         </div>
         <div class="form-field-group" style="margin-top: 1rem;">
           <label class="form-field-label">Other: ______________________</label>
-          <div class="student-view-field">{{ student.data.participation.other if student.data.participation and student.data.participation.other else '—' }}</div>
+          <div class="student-view-field">{{ student.data.school_participation.other if student.data.school_participation and student.data.school_participation.other else '—' }}</div>
         </div>
         <div class="form-field-group" style="margin-top: 1rem;">
           <label class="form-field-label">My most memorable school activity:</label>
-          <div class="student-view-field">{{ student.data.participation.memorable_activity if student.data.participation and student.data.participation.memorable_activity else '—' }}</div>
+          <div class="student-view-field">{{ student.data.school_participation.memorable_activity if student.data.school_participation and student.data.school_participation.memorable_activity else '—' }}</div>
         </div>
       </section>
 
       <!-- 9. MY REFLECTION -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Reflection</span></h2>
-        <div class="form-field-group"><label class="form-field-label">What did I learn this year?</label><div class="student-view-field">{{ student.data.reflection.learned if student.data.reflection and student.data.reflection.learned else '—' }}</div></div>
-        <div class="form-field-group"><label class="form-field-label">What was my biggest achievement?</label><div class="student-view-field">{{ student.data.reflection.achievement if student.data.reflection and student.data.reflection.achievement else '—' }}</div></div>
-        <div class="form-field-group"><label class="form-field-label">What challenge did I face?</label><div class="student-view-field">{{ student.data.reflection.challenge if student.data.reflection and student.data.reflection.challenge else '—' }}</div></div>
-        <div class="form-field-group"><label class="form-field-label">How did I overcome it?</label><div class="student-view-field">{{ student.data.reflection.overcome if student.data.reflection and student.data.reflection.overcome else '—' }}</div></div>
-        <div class="form-field-group"><label class="form-field-label">What will I do better next year?</label><div class="student-view-field">{{ student.data.reflection.next_year if student.data.reflection and student.data.reflection.next_year else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What did I learn this year?</label><div class="student-view-field">{{ student.data.self_reflection.learned if student.data.self_reflection and student.data.self_reflection.learned else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What was my biggest achievement?</label><div class="student-view-field">{{ student.data.self_reflection.achievement if student.data.self_reflection and student.data.self_reflection.achievement else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What challenge did I face?</label><div class="student-view-field">{{ student.data.self_reflection.challenge if student.data.self_reflection and student.data.self_reflection.challenge else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">How did I overcome it?</label><div class="student-view-field">{{ student.data.self_reflection.overcome if student.data.self_reflection and student.data.self_reflection.overcome else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What will I do better next year?</label><div class="student-view-field">{{ student.data.self_reflection.next_year if student.data.self_reflection and student.data.self_reflection.next_year else '—' }}</div></div>
       </section>
 
       <!-- 10. MY BEST WORK -->
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Best Work</span></h2>
-        <div class="student-view-field" style="min-height: 70px;">{{ student.data.best_work.description if student.data.best_work and student.data.best_work.description else '—' }}</div>
+        <div class="form-field-group"><label class="form-field-label">Why I chose this piece</label><div class="student-view-field" style="min-height: 50px;">{{ student.data.best_work.why if student.data.best_work and student.data.best_work.why else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">What I learned from it</label><div class="student-view-field" style="min-height: 50px;">{{ student.data.best_work.learned if student.data.best_work and student.data.best_work.learned else '—' }}</div></div>
+        <div class="form-field-group"><label class="form-field-label">Best work evidence</label><div class="student-view-field" style="min-height: 50px;">{{ student.data.best_work.evidence if student.data.best_work and student.data.best_work.evidence else '—' }}</div></div>
       </section>
 
       <!-- 11. TEACHER’S ASSESSMENT (UNLOCKED & EDITABLE FOR TEACHER) -->
@@ -527,7 +515,7 @@
           </thead>
           <tbody>
             {% set pip_rows = student.data.personal_improvement_plan if student.data.personal_improvement_plan else [] %}
-            {% for i in range(1, 4) %}
+            {% for i in range(1, 5) %}
             {% set r = pip_rows[i-1] if i-1 < pip_rows|length else {} %}
             <tr>
               <td>{{ r.area or '—' }}</td>
@@ -544,14 +532,14 @@
       <section class="doc-section">
         <h2 class="doc-section-title"><span>My Year in One Page</span></h2>
         <div class="year-one-page-grid">
-          <div class="year-card"><div class="year-card-title">⭐ My Best Achievement</div><div class="student-view-field">{{ student.data.year_in_one_page.best_achievement if student.data.year_in_one_page and student.data.year_in_one_page.best_achievement else '—' }}</div></div>
-          <div class="year-card"><div class="year-card-title">📚 My Favourite Subject</div><div class="student-view-field">{{ student.data.year_in_one_page.favourite_subject if student.data.year_in_one_page and student.data.year_in_one_page.favourite_subject else '—' }}</div></div>
-          <div class="year-card"><div class="year-card-title">🎨 My Favourite Activity</div><div class="student-view-field">{{ student.data.year_in_one_page.favourite_activity if student.data.year_in_one_page and student.data.year_in_one_page.favourite_activity else '—' }}</div></div>
-          <div class="year-card"><div class="year-card-title">🏆 An Award I Received</div><div class="student-view-field">{{ student.data.year_in_one_page.award_received if student.data.year_in_one_page and student.data.year_in_one_page.award_received else '—' }}</div></div>
-          <div class="year-card"><div class="year-card-title">💡 Something New I Learned</div><div class="student-view-field">{{ student.data.year_in_one_page.new_learned if student.data.year_in_one_page and student.data.year_in_one_page.new_learned else '—' }}</div></div>
-          <div class="year-card"><div class="year-card-title">❤️ Something I Am Proud Of</div><div class="student-view-field">{{ student.data.year_in_one_page.proud_of if student.data.year_in_one_page and student.data.year_in_one_page.proud_of else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">⭐ My Best Achievement</div><div class="student-view-field">{{ student.data.year_review.best_achievement if student.data.year_review and student.data.year_review.best_achievement else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">📚 My Favourite Subject</div><div class="student-view-field">{{ student.data.year_review.favourite_subject if student.data.year_review and student.data.year_review.favourite_subject else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">🎨 My Favourite Activity</div><div class="student-view-field">{{ student.data.year_review.favourite_activity if student.data.year_review and student.data.year_review.favourite_activity else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">🏆 An Award I Received</div><div class="student-view-field">{{ student.data.year_review.award_received if student.data.year_review and student.data.year_review.award_received else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">💡 Something New I Learned</div><div class="student-view-field">{{ student.data.year_review.new_learned if student.data.year_review and student.data.year_review.new_learned else '—' }}</div></div>
+          <div class="year-card"><div class="year-card-title">❤️ Something I Am Proud Of</div><div class="student-view-field">{{ student.data.year_review.proud_of if student.data.year_review and student.data.year_review.proud_of else '—' }}</div></div>
         </div>
-        <div class="year-card" style="margin-top: 1rem;"><div class="year-card-title">🚀 My Goal for Next Year</div><div class="student-view-field">{{ student.data.year_in_one_page.goal_next_year if student.data.year_in_one_page and student.data.year_in_one_page.goal_next_year else '—' }}</div></div>
+        <div class="year-card" style="margin-top: 1rem;"><div class="year-card-title">🚀 My Goal for Next Year</div><div class="student-view-field">{{ student.data.year_review.goal_next_year if student.data.year_review and student.data.year_review.goal_next_year else '—' }}</div></div>
       </section>
 
       <!-- 15. STUDENT’S DECLARATION -->
