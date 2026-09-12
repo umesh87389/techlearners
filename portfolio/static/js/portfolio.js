@@ -545,11 +545,14 @@
         : (released
           ? `<span class="release-badge">⬇️ Released${relAt ? ' • ' + escapeHtml(relAt) : ''}</span>`
           : `<span style="font-size:0.8rem;color:#b45309;font-weight:700;">Awaiting release</span>`);
-      const action = !evaluated
+      const viewEditBtns = `<button type="button" class="btn-action btn-print-sm" onclick="viewStudentDetails('${escapeHtml(id)}')" title="View full student details"><span>👁</span> View</button>
+        <button type="button" class="btn-action btn-eval" onclick="editStudentAsAdmin('${escapeHtml(id)}')" title="Load into portfolio form to edit"><span>✏️</span> Edit</button>`;
+      const releaseAction = !evaluated
         ? `<span style="font-size:0.78rem;color:#94a3b8;">Teacher must evaluate first</span>`
         : (released
           ? `<button type="button" class="btn-action btn-recall" onclick="recallFromDownload('${escapeHtml(id)}')"><span>↩</span> Recall</button>`
           : `<button type="button" class="btn-action btn-release" onclick="pushToDownload('${escapeHtml(id)}')"><span>⬆️</span> Push to Download</button>`);
+      const action = `<div class="action-btn-group" style="justify-content:flex-end;flex-wrap:wrap;">${viewEditBtns}${releaseAction}</div>`;
       return `<tr><td>${photoHtml}</td><td><strong style="color:#0f172a;font-size:0.95rem;">${name}</strong></td><td><span style="font-weight:600;color:#1e3a8a;">${cls}</span></td><td><span style="font-weight:600;">${roll}</span></td><td>${statusBadge}</td><td>${releaseCell}</td><td style="text-align:right;">${action}</td></tr>`;
     }).join('');
   }
@@ -602,6 +605,204 @@
     alert('Portfolio recalled from Download.');
     loadAdminRoster();
     loadDownloadList();
+  };
+
+  // =========================================================
+  // 1D. ADMIN — VIEW + EDIT FULL STUDENT DETAILS
+  // =========================================================
+  function adminRecordData(s) {
+    return (s && s.data) || s || {};
+  }
+
+  function advRow(label, val) {
+    const v = (val !== undefined && val !== null && String(val).trim() !== '') ? escapeHtml(String(val)) : '—';
+    return `<tr><td style="width:34%;font-weight:700;background:#f8fafc;">${label}</td><td>${v}</td></tr>`;
+  }
+
+  function advList(title, items) {
+    const rows = (items || []).filter(r => r && Object.values(r).some(v => v !== undefined && v !== null && String(v).trim() !== ''));
+    const body = rows.length
+      ? rows.map(r => `<tr>${Object.values(r).map(v => `<td>${escapeHtml(String(v ?? '') || '—')}</td>`).join('')}</tr>`).join('')
+      : `<tr><td style="color:#94a3b8;">No entries</td></tr>`;
+    return `<h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">${title}</h4><table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>${body}</tbody></table>`;
+  }
+
+  function renderAdminDetailHtml(s) {
+    const d = adminRecordData(s);
+    const p = d.profile || {};
+    const about = d.about_me || {};
+    const goals = d.goals || {};
+    const subj = d.subject_evaluations || {};
+    const skills = d.skills || {};
+    const ta = d.teacher_assessment || {};
+    const tfr = d.teacher_final_remark || {};
+    const pf = d.parent_feedback || {};
+    const sr = d.self_reflection || {};
+    const yr = d.year_review || {};
+    const bw = d.best_work || {};
+    const decl = d.student_declaration || {};
+    const sp = d.school_participation || {};
+    const status = s.status || 'pending_evaluation';
+    const released = isReleased(s);
+    const skillNames = { communication: 'Communication', reading: 'Reading', writing: 'Writing', creativity: 'Creativity', problem_solving: 'Problem Solving', teamwork: 'Teamwork', leadership: 'Leadership', time_management: 'Time Management', digital_skills: 'Digital Skills' };
+
+    return `
+      <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;">
+        ${(s.photo_url || p.photo_data) ? `<img src="${s.photo_url || p.photo_data}" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #e2e8f0;" alt="Photo">` : `<div style="width:56px;height:56px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">👤</div>`}
+        <div>
+          <div style="font-size:1.15rem;font-weight:900;color:#0f172a;">${escapeHtml(s.student_name || p.student_name || 'Unnamed Student')}</div>
+          <div style="font-size:0.82rem;color:#64748b;font-weight:600;">${escapeHtml(s.class_section || p.class_section || '')} ${s.roll_no || p.roll_no ? '• Roll ' + escapeHtml(s.roll_no || p.roll_no) : ''} • ${escapeHtml(status)}${released ? ' • ⬇️ Released' + (((s.released_at || (s.data && s.data.released_at)) ? ' (' + escapeHtml(s.released_at || s.data.released_at) + ')' : '')) : ''}</div>
+        </div>
+      </div>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:0 0 0.4rem;">1. Student Profile</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Admission No', p.admission_no || s.admission_no)}
+        ${advRow('Date of Birth', p.dob)}
+        ${advRow('Father’s Name', p.father_name)}
+        ${advRow('Mother’s Name', p.mother_name)}
+        ${advRow('Contact Number', p.contact_no)}
+        ${advRow('House', p.house)}
+        ${advRow('Class Teacher', p.class_teacher)}
+        ${advRow('Academic Session', (d.header && d.header.academic_session) || '')}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">2. About Me</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Student Type', about.student_type)}
+        ${advRow('Favourite Subjects', about.favourite_subjects)}
+        ${advRow('Interests', about.interests)}
+        ${advRow('Hobbies', about.hobbies)}
+        ${advRow('Strengths', (about.strengths || []).filter(Boolean).join(', '))}
+        ${advRow('Wants to Improve', about.one_improvement)}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">3. Goals</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Short-Term Goal', goals.short_term_goal)}
+        ${advRow('Long-Term Goal', goals.long_term_goal)}
+        ${advRow('This Year Goals', (goals.this_year_goals || []).join(', '))}
+      </tbody></table>
+      ${advList('4. Subject Evaluations (Teacher)', EVAL_SUBJECTS.map(c => {
+        const ev = subj[c.id] || {};
+        return ev.grade || ev.remarks || ev.teacher ? { Subject: c.name, Grade: ev.grade || '—', Remarks: ev.remarks || '—', Teacher: ev.teacher || '—' } : null;
+      }))}
+      ${advList('5. Skills (Teacher, /5)', Object.keys(skillNames).map(k => (skills[k] ? { Skill: skillNames[k], Rating: skills[k] + ' / 5' } : null)))}
+      ${advList('6. Co-Curricular', (d.co_curricular || []).map(r => ({ Activity: r.activity, Date: r.date, Participation: r.participation, 'Teacher Remark': r.teacher_remark })))}
+      ${advList('7. Achievements', (d.achievements || []).map(r => ({ Achievement: r.achievement, Event: r.event, Date: r.date, Award: r.award })))}
+      ${d.achievements_evidence ? `<p style="font-size:0.85rem;"><strong>Certificates Evidence:</strong> ${escapeHtml(d.achievements_evidence)}</p>` : ''}
+      ${advList('8. Projects', (d.projects || []).map(r => ({ Subject: r.subject, Title: r.title, Learning: r.learning })))}
+      ${advList('9. Reading Log', (d.reading_log || []).map(r => ({ Title: r.title, Author: r.author, Date: r.date, Takeaway: r.takeaway })))}
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">10. School Participation</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Activities', (sp.activities || []).join(', '))}
+        ${advRow('Other', sp.other)}
+        ${advRow('Memorable Activity', sp.memorable_activity)}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">11. Best Work</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Why Chosen', bw.why)}
+        ${advRow('Learned', bw.learned)}
+        ${advRow('Evidence', bw.evidence)}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">12. Parent Feedback</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Strengths', pf.child_strengths)}
+        ${advRow('To Improve', pf.child_improve)}
+        ${advRow('Suggestions', pf.parent_suggestions)}
+        ${advRow('Signature', pf.parent_signature)}
+        ${advRow('Date', pf.parent_date)}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">13. Self-Reflection</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Learned', sr.learned)}
+        ${advRow('Achievement', sr.achievement)}
+        ${advRow('Challenge', sr.challenge)}
+        ${advRow('Overcame', sr.overcome)}
+        ${advRow('Next Year', sr.next_year)}
+      </tbody></table>
+      ${advList('14. Personal Improvement Plan', (d.personal_improvement_plan || []).map(r => ({ Area: r.area, Plan: r.action_plan, Target: r.target_date, Progress: r.progress })))}
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">15. Year Review</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Best Achievement', yr.best_achievement)}
+        ${advRow('Favourite Subject', yr.favourite_subject)}
+        ${advRow('Favourite Activity', yr.favourite_activity)}
+        ${advRow('Award', yr.award_received)}
+        ${advRow('New Learned', yr.new_learned)}
+        ${advRow('Proud Of', yr.proud_of)}
+        ${advRow('Goal Next Year', yr.goal_next_year)}
+      </tbody></table>
+      <h4 style="font-size:0.95rem;font-weight:800;color:#1e3a8a;margin:1rem 0 0.4rem;">16. Declaration & Assessment</h4>
+      <table class="doc-table" style="width:100%;border-collapse:collapse;font-size:0.85rem;"><tbody>
+        ${advRow('Declaration Name', decl.student_name)}
+        ${advRow('Declaration Signature', decl.signature)}
+        ${advRow('Declaration Date', decl.date)}
+        ${advRow('Teacher Remarks', ta.teacher_remarks)}
+        ${advRow('Teacher Signature', ta.teacher_signature)}
+        ${advRow('Final Remark (Class Teacher)', tfr.class_teacher)}
+        ${advRow('Final Remark (Principal)', tfr.principal)}
+      </tbody></table>`;
+  }
+
+  function ensureAdminViewModal() {
+    let modal = document.getElementById('adminViewModal');
+    if (modal) return modal;
+    modal = document.createElement('div');
+    modal.id = 'adminViewModal';
+    modal.className = 'modal-overlay no-print';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width: 880px; text-align: left;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+          <h3 class="modal-title" style="margin:0;" id="adminViewTitle">Student Details</h3>
+          <button type="button" onclick="closeAdminViewModal()" style="background:none;border:none;font-size:1.6rem;cursor:pointer;color:#64748b;line-height:1;">✕</button>
+        </div>
+        <div id="adminViewBody" style="max-height: 70vh; overflow-y: auto; padding-right: 0.25rem;"></div>
+        <div style="display:flex;gap:0.6rem;margin-top:1rem;flex-wrap:wrap;">
+          <button type="button" class="btn-vibrant btn-outline" style="flex:1;justify-content:center;" onclick="closeAdminViewModal()">Close</button>
+          <button type="button" class="btn-vibrant btn-print-gradient" style="flex:1;justify-content:center;" id="adminViewEditBtn"><span>✏️</span> Edit Details</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeAdminViewModal(); });
+    return modal;
+  }
+
+  window.closeAdminViewModal = function () {
+    const modal = document.getElementById('adminViewModal');
+    if (modal) {
+      modal.classList.remove('active');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+  };
+
+  window.viewStudentDetails = function (id) {
+    const s = getLocalStudentList().find(x => x.id === id);
+    if (!s) { alert('Student record not found.'); return; }
+    const modal = ensureAdminViewModal();
+    const title = document.getElementById('adminViewTitle');
+    const body = document.getElementById('adminViewBody');
+    const editBtn = document.getElementById('adminViewEditBtn');
+    if (title) title.textContent = 'Student Details — ' + (s.student_name || (s.profile && s.profile.student_name) || 'Unnamed');
+    if (body) body.innerHTML = renderAdminDetailHtml(s);
+    if (editBtn) editBtn.onclick = function () { closeAdminViewModal(); editStudentAsAdmin(id); };
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('active'));
+  };
+
+  window.editStudentAsAdmin = function (id) {
+    const list = getLocalStudentList();
+    const s = list.find(x => x.id === id);
+    if (!s) { alert('Student record not found.'); return; }
+    const nm = s.student_name || (s.profile && s.profile.student_name) || 'this student';
+    if (!confirm(`Load "${nm}" portfolio into the Student form for editing?\n\nYour current unsent draft in the form will be replaced. After editing, press Send Portfolio to save.`)) return;
+    try { localStorage.setItem(STUDENT_ID_KEY, s.id); } catch (e) {}
+    try {
+      const d = adminRecordData(s);
+      populateForm(JSON.parse(JSON.stringify(d)));
+    } catch (e) {
+      alert('Could not load details into the form: ' + e.message);
+      return;
+    }
+    switchMainTab('student');
+    alert('✓ Portfolio loaded into the Student form. Edit, then press Send Portfolio to save changes.');
   };
 
   function initAdminFilters() {
