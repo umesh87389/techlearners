@@ -249,8 +249,7 @@
           <thead>
             <tr>
               <th style="background: #dbeafe;">Subject / Teacher</th>
-              <th class="center" style="width: 110px; background: #dbeafe;">Marks (/100)</th>
-              <th class="center" style="width: 110px; background: #dbeafe;">Grade</th>
+              <th class="center" style="width: 130px; background: #dbeafe;">Grade (A–E)</th>
               <th style="background: #dbeafe;">Remarks</th>
             </tr>
           </thead>
@@ -259,7 +258,6 @@
             {% set ev = existing_subj[sub[1]] if existing_subj[sub[1]] is defined else {} %}
             <tr>
               <td><strong>{{ sub[0] }}</strong><div style="margin-top: 4px;"><input type="text" id="eval_subj_{{ sub[1] }}_teacher" value="{{ ev.teacher if ev.teacher is defined else '' }}" placeholder="Subject teacher name"></div></td>
-              <td class="center"><input type="text" id="eval_subj_{{ sub[1] }}_marks" value="{{ ev.marks if ev.marks is defined else '' }}" placeholder="e.g. 92" style="text-align: center;"></td>
               <td class="center">
                 <select id="eval_subj_{{ sub[1] }}_grade">
                   <option value="">Select</option>
@@ -591,22 +589,13 @@
       // 1. Subject-wise evaluation (6 subjects, evaluated separately)
       const SUBJ_IDS = ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'];
       const subjectEvals = {};
-      const SUBJ_NAMES = { english: 'English', hindi: 'Hindi', mathematics: 'Mathematics', science: 'Science', social_science: 'Social Science', computer_it: 'Computer' };
       SUBJ_IDS.forEach((sid) => {
         subjectEvals[sid] = {
           teacher: document.getElementById('eval_subj_' + sid + '_teacher')?.value || '',
-          marks: document.getElementById('eval_subj_' + sid + '_marks')?.value || '',
           grade: document.getElementById('eval_subj_' + sid + '_grade')?.value || '',
           remarks: document.getElementById('eval_subj_' + sid + '_remarks')?.value || ''
         };
       });
-      for (const sid of SUBJ_IDS) {
-        if (subjectEvals[sid].marks && !subjectEvals[sid].grade) {
-          alert('Please select a grade (A to E) for ' + (SUBJ_NAMES[sid] || sid) + ' — marks were entered without a grade.');
-          document.getElementById('eval_subj_' + sid + '_grade')?.focus();
-          return;
-        }
-      }
       // 2. Gather Skills
       const skillsData = {
         communication: document.getElementById('skill_communication')?.value || '',

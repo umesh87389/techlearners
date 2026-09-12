@@ -194,16 +194,14 @@
       <section class="doc-section">
         <h2 class="doc-section-title"><span>Subject Evaluation{% if selected_subject != 'all' %} — {{ selected_subject_name }}{% endif %}</span></h2>
         {% if selected_subject != 'all' %}
-        <p><strong>{{ selected_subject_name }}</strong> ({{ selected_subject_teacher }}) —
-          Marks: <strong>{{ selected_subject_marks or 'Pending' }}</strong> •
-          Grade: <strong>{{ selected_subject_grade or '—' }}</strong></p>
+        <p><strong>{{ selected_subject_name }}</strong>{% if selected_subject_teacher %} ({{ selected_subject_teacher }}){% endif %} —
+          Grade: <strong>{{ selected_subject_grade or 'Pending' }}</strong></p>
         <p style="margin-top: 0.35rem;"><strong>Remarks:</strong> {{ selected_subject_remarks or '—' }}</p>
         {% endif %}
         <table class="doc-table" style="margin-top: 0.5rem;">
           <thead>
             <tr>
               <th style="width: 34%;">Subject</th>
-              <th class="center" style="width: 22%;">Marks</th>
               <th class="center" style="width: 16%;">Grade</th>
               <th>Remarks</th>
             </tr>
@@ -211,8 +209,7 @@
           <tbody>
             {% for row in subject_rows %}
             <tr {% if row.id == selected_subject %}style="background: #eff6ff; font-weight: 700;"{% endif %}>
-              <td><strong>{{ row.name }}</strong><div style="font-size: 0.75rem; color: #64748b;">{{ row.teacher }}</div></td>
-              <td class="center">{{ row.marks or '—' }}</td>
+              <td><strong>{{ row.name }}</strong>{% if row.teacher %}<div style="font-size: 0.75rem; color: #64748b;">{{ row.teacher }}</div>{% endif %}</td>
               <td class="center"><strong>{{ row.grade or '—' }}</strong></td>
               <td>{{ row.remarks or '—' }}</td>
             </tr>

@@ -161,7 +161,8 @@ def teacher_print(student_id):
         ('social_science', 'Social Science'),
         ('computer_it', 'Computer'),
     ]
-    GRADE_MID = {'A+': 95, 'A': 85, 'B+': 75, 'B': 65, 'C': 55, 'D': 45, 'E': 30}
+    # Grades A–E drive the average (legacy numeric marks still honoured for old records)
+    GRADE_MID = {'A': 90, 'B': 75, 'C': 60, 'D': 45, 'E': 30, 'A+': 95, 'B+': 82}
 
     def _score(marks, grade):
         if marks:
@@ -178,16 +179,12 @@ def teacher_print(student_id):
         if score is None:
             return '—'
         if score >= 90:
-            return 'A+'
-        if score >= 80:
             return 'A'
-        if score >= 70:
-            return 'B+'
-        if score >= 60:
+        if score >= 75:
             return 'B'
-        if score >= 50:
+        if score >= 60:
             return 'C'
-        if score >= 33:
+        if score >= 45:
             return 'D'
         return 'E'
 
@@ -196,16 +193,13 @@ def teacher_print(student_id):
     subject_rows = []
     for sid, name in EVAL_SUBJECT_DEFS:
         ev = evals.get(sid) or {}
-        marks = (ev.get('marks') or '').strip()
-        grade = (ev.get('grade') or '').strip() or _grade_for(_score(marks, ''))
-        if grade == '—':
-            grade = ''
+        grade = (ev.get('grade') or '').strip()
         subject_rows.append({
             'id': sid, 'name': name, 'teacher': (ev.get('teacher') or '').strip(),
-            'marks': marks, 'grade': grade,
-            'remarks': (ev.get('remarks') or '').strip(),
+            'grade': grade, 'remarks': (ev.get('remarks') or '').strip(),
         })
-    scores = [_score(r['marks'], r['grade']) for r in subject_rows]
+    scores = [_score(ev.get('marks'), r['grade']) for r, ev in
+              ((r, (evals.get(r['id']) or {})) for r in subject_rows)]
     scores = [x for x in scores if x is not None]
     overall_avg = round(sum(scores) / len(scores), 1) if scores else None
     overall_grade = _grade_for(overall_avg) if overall_avg is not None else '—'
@@ -222,7 +216,6 @@ def teacher_print(student_id):
         selected_subject=selected_subject,
         selected_subject_name=sel_row['name'] if sel_row else '',
         selected_subject_teacher=sel_row['teacher'] if sel_row else '',
-        selected_subject_marks=sel_row['marks'] if sel_row else '',
         selected_subject_grade=sel_row['grade'] if sel_row else '',
         selected_subject_remarks=sel_row['remarks'] if sel_row else '',
     )

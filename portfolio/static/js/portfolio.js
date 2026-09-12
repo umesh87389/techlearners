@@ -34,6 +34,8 @@
   // Subjects evaluated separately by their subject teachers
   const EVAL_SUBJECTS = SUBJECTS_CONFIG.filter(c => c.id !== 'other');
 
+  // Scores come from grades A–E (legacy numeric marks still honoured for old records)
+  const GRADE_SCORES = { 'A': 90, 'B': 75, 'C': 60, 'D': 45, 'E': 30, 'A+': 95, 'B+': 82 };
   function parseMarksToScore(marks, grade) {
     if (marks !== undefined && marks !== null && String(marks).trim() !== '') {
       const m = String(marks).match(/(\d+(?:\.\d+)?)/);
@@ -43,18 +45,15 @@
       }
     }
     const g = String(grade || '').trim().toUpperCase();
-    const map = { 'A+': 95, 'A': 85, 'B+': 75, 'B': 65, 'C': 55, 'D': 45, 'E': 30 };
-    return map[g] !== undefined ? map[g] : null;
+    return GRADE_SCORES[g] !== undefined ? GRADE_SCORES[g] : null;
   }
 
   function gradeForScore(score) {
     if (score === null || score === undefined || !Number.isFinite(score)) return '—';
-    if (score >= 90) return 'A+';
-    if (score >= 80) return 'A';
-    if (score >= 70) return 'B+';
-    if (score >= 60) return 'B';
-    if (score >= 50) return 'C';
-    if (score >= 33) return 'D';
+    if (score >= 90) return 'A';
+    if (score >= 75) return 'B';
+    if (score >= 60) return 'C';
+    if (score >= 45) return 'D';
     return 'E';
   }
 
@@ -94,12 +93,12 @@
         problem_solving: '5', teamwork: '5', leadership: '4', time_management: '5', digital_skills: '5'
       },
       subject_evaluations: {
-        english: { marks: '92', grade: 'A+', remarks: 'Excellent comprehension', teacher: '' },
-        hindi: { marks: '88', grade: 'A', remarks: 'Good expression', teacher: '' },
-        mathematics: { marks: '96', grade: 'A+', remarks: 'Outstanding problem solving', teacher: '' },
-        science: { marks: '94', grade: 'A+', remarks: 'Strong concepts', teacher: '' },
-        social_science: { marks: '90', grade: 'A+', remarks: 'Well-structured answers', teacher: '' },
-        computer_it: { marks: '98', grade: 'A+', remarks: 'Excellent coding logic', teacher: '' }
+        english: { grade: 'A+', remarks: 'Excellent comprehension', teacher: '' },
+        hindi: { grade: 'A', remarks: 'Good expression', teacher: '' },
+        mathematics: { grade: 'A+', remarks: 'Outstanding problem solving', teacher: '' },
+        science: { grade: 'A+', remarks: 'Strong concepts', teacher: '' },
+        social_science: { grade: 'A+', remarks: 'Well-structured answers', teacher: '' },
+        computer_it: { grade: 'A+', remarks: 'Excellent coding logic', teacher: '' }
       },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
@@ -194,12 +193,12 @@
         problem_solving: '5', teamwork: '5', leadership: '5', time_management: '5', digital_skills: '5'
       },
       subject_evaluations: {
-        english: { marks: '94', grade: 'A+', remarks: 'Excellent communication', teacher: '' },
-        hindi: { marks: '90', grade: 'A+', remarks: 'Very good expression', teacher: '' },
-        mathematics: { marks: '98', grade: 'A+', remarks: 'Flawless problem solving', teacher: '' },
-        science: { marks: '96', grade: 'A+', remarks: 'Exceptional inquiry', teacher: '' },
-        social_science: { marks: '91', grade: 'A+', remarks: 'Thorough analysis', teacher: '' },
-        computer_it: { marks: '99', grade: 'A+', remarks: 'Outstanding coding', teacher: '' }
+        english: { grade: 'A+', remarks: 'Excellent communication', teacher: '' },
+        hindi: { grade: 'A+', remarks: 'Very good expression', teacher: '' },
+        mathematics: { grade: 'A+', remarks: 'Flawless problem solving', teacher: '' },
+        science: { grade: 'A+', remarks: 'Exceptional inquiry', teacher: '' },
+        social_science: { grade: 'A+', remarks: 'Thorough analysis', teacher: '' },
+        computer_it: { grade: 'A+', remarks: 'Outstanding coding', teacher: '' }
       },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
@@ -1124,7 +1123,6 @@
     EVAL_SUBJECTS.forEach((cfg) => {
       const ev = existingSubj[cfg.id] || {};
       setElVal(`modal_subj_${cfg.id}_teacher`, ev.teacher || '');
-      setElVal(`modal_subj_${cfg.id}_marks`, ev.marks || '');
       const gradeEl = document.getElementById(`modal_subj_${cfg.id}_grade`);
       if (gradeEl) gradeEl.value = ev.grade || '';
       setElVal(`modal_subj_${cfg.id}_remarks`, ev.remarks || '');
@@ -1181,21 +1179,10 @@
     EVAL_SUBJECTS.forEach((cfg) => {
       subjectEvals[cfg.id] = {
         teacher: getElVal(`modal_subj_${cfg.id}_teacher`),
-        marks: getElVal(`modal_subj_${cfg.id}_marks`),
         grade: getElVal(`modal_subj_${cfg.id}_grade`),
         remarks: getElVal(`modal_subj_${cfg.id}_remarks`)
       };
     });
-
-    // Grade is compulsory (A–E) wherever marks are entered
-    for (const cfg of EVAL_SUBJECTS) {
-      const ev = subjectEvals[cfg.id];
-      if (ev.marks && !ev.grade) {
-        alert(`Please select a grade (A to E) for ${cfg.name} — marks were entered without a grade.`);
-        document.getElementById(`modal_subj_${cfg.id}_grade`)?.focus();
-        return;
-      }
-    }
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -1334,7 +1321,7 @@
       const allBtn = `<button type="button" class="print-subject-btn print-subject-all" onclick="executeSubjectPrint('all')"><span>🌟</span><span>Overall Portfolio<small>All 6 subjects + graph</small></span></button>`;
       grid.innerHTML = allBtn + EVAL_SUBJECTS.map((cfg) => {
         const ev = evals[cfg.id] || {};
-        const done = ev.marks || ev.grade ? '✓ Evaluated' : 'Pending';
+        const done = ev.grade ? '✓ Evaluated' : 'Pending';
         return `<button type="button" class="print-subject-btn" onclick="executeSubjectPrint('${cfg.id}')"><span>${cfg.icon}</span><span>${escapeHtml(cfg.name)}<small>${done}</small></span></button>`;
       }).join('');
     }
@@ -1432,10 +1419,9 @@
       }
       const cfg = EVAL_SUBJECTS.find(c => c.id === sel) || { name: sel, teacher: '' };
       const ev = subjEvals[sel] || {};
-      const marks = ev.marks ? `${escapeHtml(ev.marks)}${hasNum(ev.marks) && !hasSlash(ev.marks) ? ' / 100' : ''}` : 'Pending';
-      const grade = ev.grade || gradeForScore(parseMarksToScore(ev.marks, ev.grade));
+      const grade = ev.grade || 'Pending';
       const teacherBit = ev.teacher ? ` • ${escapeHtml(ev.teacher)}` : '';
-      banner.innerHTML = `<span>${cfg.icon || '📘'} Subject: <strong>${escapeHtml(cfg.name)}</strong>${teacherBit}</span><span>Marks: <strong>${marks}</strong> • Grade: <strong>${escapeHtml(grade)}</strong></span>`;
+      banner.innerHTML = `<span>${cfg.icon || '📘'} Subject: <strong>${escapeHtml(cfg.name)}</strong>${teacherBit}</span><span>Grade: <strong>${escapeHtml(grade)}</strong></span>`;
     })();
 
     // Profile table
@@ -1596,14 +1582,13 @@
       });
       const scored = rows.filter(r => r.score !== null);
       const avg = scored.length ? Math.round((scored.reduce((a, r) => a + r.score, 0) / scored.length) * 10) / 10 : null;
-      if (avgEl) avgEl.textContent = avg !== null ? `${avg}% overall average (${gradeForScore(avg)})` : 'Awaiting subject evaluation';
+      if (avgEl) avgEl.textContent = avg !== null ? `Overall Grade: ${gradeForScore(avg)}` : 'Awaiting subject evaluation';
       if (focusBody) {
         if (sel === 'all') {
           if (focusTitle) focusTitle.textContent = '6. SUBJECT EVALUATION — ALL SUBJECTS';
           focusBody.innerHTML = rows.map((r) => `
             <tr>
               <td style="font-weight: 700;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}</td>
-              <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) : '—'}</td>
               <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
             </tr>`).join('');
         } else {
@@ -1612,10 +1597,9 @@
           focusBody.innerHTML = `
             <tr style="background: #eff6ff;">
               <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}${r.ev.teacher ? `<div style="font-size: 8pt; font-weight: 600; color: #475569;">${escapeHtml(r.ev.teacher)}</div>` : ''}</td>
-              <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) + ' / 100' : 'Pending'}</td>
-              <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
+              <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : 'Pending'}</td>
             </tr>
-            <tr><td colspan="3" style="font-size: 8.4pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
+            <tr><td colspan="2" style="font-size: 8.4pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
         }
       }
       if (graphBox) graphBox.innerHTML = buildPerfGraphSvg(rows, avg, sel);
@@ -1649,12 +1633,12 @@
       const isHi = r.cfg.id === highlightId;
       const fill = r.score === null ? '#cbd5e1' : (isHi ? '#1e3a8a' : '#3b82f6');
       svg += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${(y(v)).toFixed(1)}" width="${bw}" height="${Math.max(2, h).toFixed(1)}" rx="2.5" fill="${fill}" stroke="#1e3a8a" stroke-width="0.8"/>`;
-      svg += `<text x="${cx.toFixed(1)}" y="${(y(v) - 3).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="800" fill="#0f172a">${r.score !== null ? v : '—'}</text>`;
+      svg += `<text x="${cx.toFixed(1)}" y="${(y(v) - 3).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="800" fill="#0f172a">${r.score !== null ? escapeHtml(r.grade) : '—'}</text>`;
       svg += `<text x="${cx.toFixed(1)}" y="${H - 3}" text-anchor="middle" font-size="7.5" font-weight="700" fill="#334155">${escapeHtml(r.cfg.short)}</text>`;
     });
     if (avg !== null) {
       svg += `<line x1="${padL}" y1="${y(avg)}" x2="${W - 4}" y2="${y(avg)}" stroke="#10b981" stroke-width="1.6" stroke-dasharray="5,3"/>`;
-      svg += `<text x="${W - 6}" y="${(y(avg) - 4).toFixed(1)}" text-anchor="end" font-size="8" font-weight="800" fill="#065f46">Avg ${avg}%</text>`;
+      svg += `<text x="${W - 6}" y="${(y(avg) - 4).toFixed(1)}" text-anchor="end" font-size="8" font-weight="800" fill="#065f46">Overall ${escapeHtml(gradeForScore(avg))}</text>`;
     } else {
       svg += `<text x="${(W / 2 + 20).toFixed(1)}" y="${(H / 2).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Awaiting subject evaluation</text>`;
     }

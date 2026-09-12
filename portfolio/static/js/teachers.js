@@ -247,7 +247,6 @@
       ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
         const ev = __evals[sid] || {};
         setElVal(`modal_subj_${sid}_teacher`, ev.teacher || '');
-        setElVal(`modal_subj_${sid}_marks`, ev.marks || '');
         const __g = document.getElementById(`modal_subj_${sid}_grade`);
         if (__g) __g.value = ev.grade || '';
         setElVal(`modal_subj_${sid}_remarks`, ev.remarks || '');
@@ -304,19 +303,11 @@
     ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
       subjectEvals[sid] = {
         teacher: getElVal(`modal_subj_${sid}_teacher`),
-        marks: getElVal(`modal_subj_${sid}_marks`),
         grade: getElVal(`modal_subj_${sid}_grade`),
         remarks: getElVal(`modal_subj_${sid}_remarks`)
       };
     });
     const __SUBJ_NAMES = { english: 'English', hindi: 'Hindi', mathematics: 'Mathematics', science: 'Science', social_science: 'Social Science', computer_it: 'Computer' };
-    for (const sid of ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it']) {
-      if (subjectEvals[sid].marks && !subjectEvals[sid].grade) {
-        alert(`Please select a grade (A to E) for ${__SUBJ_NAMES[sid]} — marks were entered without a grade.`);
-        document.getElementById(`modal_subj_${sid}_grade`)?.focus();
-        return;
-      }
-    }
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -532,10 +523,10 @@
         <section class="doc-section">
           <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">SUBJECT EVALUATION (PER SUBJECT)</h3>
           <table class="doc-table">
-            <thead><tr><th>Subject</th><th style="text-align:center;">Marks</th><th style="text-align:center;">Grade</th><th>Remarks</th></tr></thead>
+            <thead><tr><th>Subject</th><th style="text-align:center;">Grade</th><th>Remarks</th></tr></thead>
             <tbody>${__SUBJ.map(([nm, sid]) => {
               const ev = __evals[sid] || {};
-              return `<tr><td><strong>${nm}</strong></td><td style="text-align:center;">${escapeHtml(ev.marks || '—')}</td><td style="text-align:center;"><strong>${escapeHtml(ev.grade || '—')}</strong></td><td>${escapeHtml(ev.remarks || '—')}</td></tr>`;
+              return `<tr><td><strong>${nm}</strong></td><td style="text-align:center;"><strong>${escapeHtml(ev.grade || '—')}</strong></td><td>${escapeHtml(ev.remarks || '—')}</td></tr>`;
             }).join('')}</tbody>
           </table>
         </section>
