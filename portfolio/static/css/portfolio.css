@@ -1194,18 +1194,19 @@ body.teacher-mode .student-floating-bar {
     display: none !important;
   }
 
-  /* Single Page Master Sheet Container */
+  /* Single Page Master Sheet Container — packed top, no gappy whitespace */
   .single-page-a4-sheet {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important;
+    gap: 1mm !important;
     box-sizing: border-box !important;
     width: 198mm !important;
     max-width: 198mm !important;
     height: 282mm !important;
     max-height: 282mm !important;
     margin: 0 auto !important;
-    padding: 3.5mm 4.5mm !important;
+    padding: 2.5mm 4mm !important;
     border: 1.5px solid #0f172a !important;
     border-radius: 4px !important;
     position: relative !important;
@@ -1241,8 +1242,8 @@ body.teacher-mode .student-floating-bar {
     align-items: center !important;
     justify-content: space-between !important;
     border-bottom: 2px double #0f172a !important;
-    padding-bottom: 1.5mm !important;
-    margin-bottom: 1.5mm !important;
+    padding-bottom: 1mm !important;
+    margin-bottom: 1mm !important;
   }
 
   .print-header-brand {
@@ -1265,7 +1266,7 @@ body.teacher-mode .student-floating-bar {
     font-weight: 900 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.03em !important;
-    margin-bottom: 1.2mm !important;
+    margin-bottom: 0.8mm !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -1279,7 +1280,7 @@ body.teacher-mode .student-floating-bar {
     width: 100% !important;
     table-layout: fixed !important;
     border-collapse: collapse !important;
-    margin-bottom: 1.5mm !important;
+    margin-bottom: 1mm !important;
     font-size: 7.2pt !important;
     line-height: 1.22 !important;
   }
@@ -1345,8 +1346,8 @@ body.teacher-mode .student-floating-bar {
   .print-row-2col {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 3mm !important;
-    margin-bottom: 1.5mm !important;
+    gap: 2mm !important;
+    margin-bottom: 1mm !important;
     min-width: 0 !important;
   }
 
@@ -1394,10 +1395,33 @@ body.teacher-mode .student-floating-bar {
     justify-content: space-between !important;
     align-items: flex-end !important;
     border-top: 1px dashed #334155 !important;
-    padding-top: 1.5mm !important;
-    margin-top: 1mm !important;
+    padding-top: 1.2mm !important;
+    margin-top: 0 !important;
     font-size: 7pt !important;
     font-weight: 700 !important;
+  }
+
+  /* Subject banner + graph (one-page print, no gaps) */
+  .print-subject-banner {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: linear-gradient(90deg, #eff6ff 0%, #f0fdf4 100%) !important;
+    border: 0.8px solid #93c5fd !important;
+    border-radius: 3px !important;
+    padding: 1.2mm 2mm !important;
+    margin-bottom: 1mm !important;
+    font-size: 6.8pt !important;
+    font-weight: 700 !important;
+    color: #1e3a8a !important;
+  }
+
+  .print-graph-box {
+    border: 0.8px solid #cbd5e1 !important;
+    border-radius: 3px !important;
+    padding: 1mm 1.5mm !important;
+    background: #fbfcfe !important;
   }
 
   /* Skills progress bars (print, one-page attractive) */
@@ -1443,4 +1467,62 @@ body.teacher-mode .student-floating-bar {
   .doc-card-body {
     padding: 1rem 0.85rem;
   }
+}
+
+/* Print subject picker (screen modal, hidden in print via .no-print) */
+.print-subject-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 480px) {
+  .print-subject-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.print-subject-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1.5px solid #bfdbfe;
+  background: #eff6ff;
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.print-subject-btn:hover {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.print-subject-btn > span:first-child {
+  font-size: 1.3rem;
+}
+
+.print-subject-btn small {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.print-subject-all {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #1e3a8a 0%, #059669 100%);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.print-subject-all small {
+  color: #e0f2fe;
 }

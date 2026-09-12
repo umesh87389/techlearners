@@ -238,6 +238,46 @@
 <!-- 4. MY SKILLS (UNLOCKED & EDITABLE FOR TEACHER) -->
       <section class="doc-section teacher-active-section" style="margin-top: 1.5rem;">
         <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
+          <span style="color: #1e3a8a;">3. Subject-wise Evaluation</span>
+          <span class="teacher-active-badge">✏️ Subject Teachers — Separate</span>
+        </h2>
+        <p style="font-size: 0.85rem; color: #1e3a8a; margin-bottom: 0.75rem; font-weight: 600;">
+          Hindi, English, Mathematics, Science, Social Science and Computer teachers evaluate their own subject separately:
+        </p>
+        {% set existing_subj = student.data.subject_evaluations if student.data.subject_evaluations else {} %}
+        <table class="doc-table" id="subjectEvalTable" style="border-color: #93c5fd;">
+          <thead>
+            <tr>
+              <th style="background: #dbeafe;">Subject / Teacher</th>
+              <th class="center" style="width: 110px; background: #dbeafe;">Marks (/100)</th>
+              <th class="center" style="width: 110px; background: #dbeafe;">Grade</th>
+              <th style="background: #dbeafe;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sub in [('English', 'english', 'Mrs. Ritu Verma'), ('Hindi', 'hindi', 'Mrs. Shashi Prabha'), ('Mathematics', 'mathematics', 'Mrs. Sunita Roy'), ('Science', 'science', 'Dr. Amit Saxena'), ('Social Science', 'social_science', 'Mr. Rajeshwar Pandey'), ('Computer', 'computer_it', 'Mr. Umesh Tripathi')] %}
+            {% set ev = existing_subj[sub[1]] if existing_subj[sub[1]] is defined else {} %}
+            <tr>
+              <td><strong>{{ sub[0] }}</strong><div style="font-size: 0.75rem; color: #64748b;">{{ sub[2] }}</div></td>
+              <td class="center"><input type="text" id="eval_subj_{{ sub[1] }}_marks" value="{{ ev.marks if ev.marks is defined else '' }}" placeholder="e.g. 92" style="text-align: center;"></td>
+              <td class="center">
+                <select id="eval_subj_{{ sub[1] }}_grade">
+                  <option value="">Auto</option>
+                  {% for g in ['A+', 'A', 'B+', 'B', 'C', 'D', 'E'] %}
+                  <option value="{{ g }}" {% if ev.grade is defined and ev.grade == g %}selected{% endif %}>{{ g }}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td><input type="text" id="eval_subj_{{ sub[1] }}_remarks" value="{{ ev.remarks if ev.remarks is defined else '' }}" placeholder="Remarks"></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+<!-- 4. MY SKILLS (UNLOCKED & EDITABLE FOR TEACHER) -->
+      <section class="doc-section teacher-active-section" style="margin-top: 1.5rem;">
+        <h2 class="doc-section-title" style="background: transparent; border: none; padding: 0;">
           <span style="color: #1e3a8a;">4. My Skills Evaluation</span>
           <span class="teacher-active-badge">✏️ Faculty Skill Assessment (1–5)</span>
         </h2>
@@ -560,7 +600,18 @@
 
   <script>
     async function saveTeacherEvaluationForm() {
-      // 1. Academic Progress removed
+      // 1. Subject-wise evaluation (6 subjects, evaluated separately)
+      const SUBJ_IDS = ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'];
+      const SUBJ_TEACHERS = { english: 'Mrs. Ritu Verma', hindi: 'Mrs. Shashi Prabha', mathematics: 'Mrs. Sunita Roy', science: 'Dr. Amit Saxena', social_science: 'Mr. Rajeshwar Pandey', computer_it: 'Mr. Umesh Tripathi' };
+      const subjectEvals = {};
+      SUBJ_IDS.forEach((sid) => {
+        subjectEvals[sid] = {
+          marks: document.getElementById('eval_subj_' + sid + '_marks')?.value || '',
+          grade: document.getElementById('eval_subj_' + sid + '_grade')?.value || '',
+          remarks: document.getElementById('eval_subj_' + sid + '_remarks')?.value || '',
+          teacher: SUBJ_TEACHERS[sid] || ''
+        };
+      });
       // 2. Gather Skills
       const skillsData = {
         communication: document.getElementById('skill_communication')?.value || '',
@@ -609,6 +660,7 @@
       };
 
       const payload = {
+        subject_evaluations: subjectEvals,
         skills: skillsData,
         co_curricular_remarks: coRemarks,
         teacher_assessment: assessmentData,

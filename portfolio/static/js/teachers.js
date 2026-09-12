@@ -241,7 +241,17 @@
 
     document.getElementById('modalStudentTitle').textContent = `Faculty Evaluation: ${student.student_name || student.profile?.student_name}`;
     document.getElementById('modalStudentSubtitle').textContent = `${student.class_section || student.profile?.class_section} • Roll No: ${student.roll_no || student.profile?.roll_no}`;
-    // Academic Progress removed
+    // Subject-wise evaluation (6 subjects, evaluated separately)
+    try {
+      const __evals = (student.subject_evaluations || (student.data && student.data.subject_evaluations)) || {};
+      ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
+        const ev = __evals[sid] || {};
+        setElVal(`modal_subj_${sid}_marks`, ev.marks || '');
+        const __g = document.getElementById(`modal_subj_${sid}_grade`);
+        if (__g) __g.value = ev.grade || '';
+        setElVal(`modal_subj_${sid}_remarks`, ev.remarks || '');
+      });
+    } catch (e) {}
 // Populate Skills
     const existingSkills = student.skills || student.data?.skills || {};
     const skillKeys = ['communication', 'reading', 'writing', 'creativity', 'problem_solving', 'teamwork', 'leadership', 'time_management', 'digital_skills'];
@@ -288,7 +298,17 @@
 
   window.saveModalEvaluation = async function () {
     if (!currentEvaluatingStudent) return;
-    // Academic Progress removed — no subjects collection
+    // Subject-wise evaluation (6 subjects, evaluated separately)
+    const __SUBJ_TEACHERS = { english: 'Mrs. Ritu Verma', hindi: 'Mrs. Shashi Prabha', mathematics: 'Mrs. Sunita Roy', science: 'Dr. Amit Saxena', social_science: 'Mr. Rajeshwar Pandey', computer_it: 'Mr. Umesh Tripathi' };
+    const subjectEvals = {};
+    ['english', 'hindi', 'mathematics', 'science', 'social_science', 'computer_it'].forEach((sid) => {
+      subjectEvals[sid] = {
+        marks: getElVal(`modal_subj_${sid}_marks`),
+        grade: getElVal(`modal_subj_${sid}_grade`),
+        remarks: getElVal(`modal_subj_${sid}_remarks`),
+        teacher: __SUBJ_TEACHERS[sid] || ''
+      };
+    });
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -334,6 +354,7 @@
     };
 
     const evalPayload = {
+      subject_evaluations: subjectEvals,
       skills: skillsData,
       co_curricular_remarks: coRemarks,
       teacher_assessment: assessmentData,
@@ -346,6 +367,7 @@
     if (idx !== -1) {
       list[idx].status = 'evaluated';
       list[idx].updated_at = new Date().toLocaleString();
+      list[idx].subject_evaluations = evalPayload.subject_evaluations;
       list[idx].skills = evalPayload.skills;
       list[idx].teacher_assessment = evalPayload.teacher_assessment;
       list[idx].teacher_final_remark = evalPayload.teacher_final_remark;
@@ -445,7 +467,8 @@
 
   function generatePrintHtml(s) {
     const p = s.profile || s;
-    // Academic Progress removed
+    const __evals = s.subject_evaluations || (s.data && s.data.subject_evaluations) || {};
+    const __SUBJ = [['English','english'],['Hindi','hindi'],['Mathematics','mathematics'],['Science','science'],['Social Science','social_science'],['Computer','computer_it']];
     const skills = s.skills || s.data?.skills || {};
     const ta = s.teacher_assessment || s.data?.teacher_assessment || {};
     const tfr = s.teacher_final_remark || s.data?.teacher_final_remark || {};
@@ -498,7 +521,16 @@
             <tr><td>Class Teacher</td><td>${escapeHtml(p.class_teacher || '—')}</td></tr>
           </table>
         </section>
-        <!-- Academic Progress section removed -->
+        <section class="doc-section">
+          <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">SUBJECT EVALUATION (PER SUBJECT)</h3>
+          <table class="doc-table">
+            <thead><tr><th>Subject</th><th style="text-align:center;">Marks</th><th style="text-align:center;">Grade</th><th>Remarks</th></tr></thead>
+            <tbody>${__SUBJ.map(([nm, sid]) => {
+              const ev = __evals[sid] || {};
+              return `<tr><td><strong>${nm}</strong></td><td style="text-align:center;">${escapeHtml(ev.marks || '—')}</td><td style="text-align:center;"><strong>${escapeHtml(ev.grade || '—')}</strong></td><td>${escapeHtml(ev.remarks || '—')}</td></tr>`;
+            }).join('')}</tbody>
+          </table>
+        </section>
 
         <section class="doc-section">
           <h3 style="background:#f8fafc; padding:4px 8px; border-left:4px solid #1e3a8a; margin-bottom:0.5rem;">4. MY SKILLS</h3>

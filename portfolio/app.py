@@ -151,8 +151,81 @@ def teacher_print(student_id):
     student = database.get_student_by_id(student_id)
     if not student:
         return "Student submission not found", 404
-        
-    return render_template('teacher_print.html', student=student)
+
+    import re as _re
+    EVAL_SUBJECT_DEFS = [
+        ('english', 'English', 'Mrs. Ritu Verma'),
+        ('hindi', 'Hindi', 'Mrs. Shashi Prabha'),
+        ('mathematics', 'Mathematics', 'Mrs. Sunita Roy'),
+        ('science', 'Science', 'Dr. Amit Saxena'),
+        ('social_science', 'Social Science', 'Mr. Rajeshwar Pandey'),
+        ('computer_it', 'Computer', 'Mr. Umesh Tripathi'),
+    ]
+    GRADE_MID = {'A+': 95, 'A': 85, 'B+': 75, 'B': 65, 'C': 55, 'D': 45, 'E': 30}
+
+    def _score(marks, grade):
+        if marks:
+            m = _re.search(r'(\d+(?:\.\d+)?)', str(marks))
+            if m:
+                try:
+                    return max(0.0, min(100.0, float(m.group(1))))
+                except ValueError:
+                    pass
+        g = str(grade or '').strip().upper()
+        return GRADE_MID.get(g)
+
+    def _grade_for(score):
+        if score is None:
+            return '—'
+        if score >= 90:
+            return 'A+'
+        if score >= 80:
+            return 'A'
+        if score >= 70:
+            return 'B+'
+        if score >= 60:
+            return 'B'
+        if score >= 50:
+            return 'C'
+        if score >= 33:
+            return 'D'
+        return 'E'
+
+    data = student.get('data') or {}
+    evals = data.get('subject_evaluations') or {}
+    subject_rows = []
+    for sid, name, teacher in EVAL_SUBJECT_DEFS:
+        ev = evals.get(sid) or {}
+        marks = (ev.get('marks') or '').strip()
+        grade = (ev.get('grade') or '').strip() or _grade_for(_score(marks, ''))
+        if grade == '—':
+            grade = ''
+        subject_rows.append({
+            'id': sid, 'name': name, 'teacher': teacher,
+            'marks': marks, 'grade': grade,
+            'remarks': (ev.get('remarks') or '').strip(),
+        })
+    scores = [_score(r['marks'], r['grade']) for r in subject_rows]
+    scores = [x for x in scores if x is not None]
+    overall_avg = round(sum(scores) / len(scores), 1) if scores else None
+    overall_grade = _grade_for(overall_avg) if overall_avg is not None else '—'
+
+    selected_subject = (request.args.get('subject') or 'all').strip().lower()
+    if selected_subject not in ([s[0] for s in EVAL_SUBJECT_DEFS] + ['all']):
+        selected_subject = 'all'
+    sel_row = next((r for r in subject_rows if r['id'] == selected_subject), None)
+
+    return render_template(
+        'teacher_print.html', student=student,
+        subject_rows=subject_rows,
+        overall_avg=overall_avg, overall_grade=overall_grade,
+        selected_subject=selected_subject,
+        selected_subject_name=sel_row['name'] if sel_row else '',
+        selected_subject_teacher=sel_row['teacher'] if sel_row else '',
+        selected_subject_marks=sel_row['marks'] if sel_row else '',
+        selected_subject_grade=sel_row['grade'] if sel_row else '',
+        selected_subject_remarks=sel_row['remarks'] if sel_row else '',
+    )
 
 @app.route('/api/teacher/evaluate/<student_id>', methods=['POST'])
 def api_teacher_evaluate(student_id):

@@ -31,6 +31,40 @@
     { id: 'other', name: 'Other', short: 'Oth', icon: '🎨', teacher: 'Faculty Head', maxMarks: 100 }
   ];
 
+  // Subjects evaluated separately by their subject teachers
+  const EVAL_SUBJECTS = SUBJECTS_CONFIG.filter(c => c.id !== 'other');
+
+  function parseMarksToScore(marks, grade) {
+    if (marks !== undefined && marks !== null && String(marks).trim() !== '') {
+      const m = String(marks).match(/(\d+(?:\.\d+)?)/);
+      if (m) {
+        const v = parseFloat(m[1]);
+        if (Number.isFinite(v)) return Math.max(0, Math.min(100, v));
+      }
+    }
+    const g = String(grade || '').trim().toUpperCase();
+    const map = { 'A+': 95, 'A': 85, 'B+': 75, 'B': 65, 'C': 55, 'D': 45, 'E': 30 };
+    return map[g] !== undefined ? map[g] : null;
+  }
+
+  function gradeForScore(score) {
+    if (score === null || score === undefined || !Number.isFinite(score)) return '—';
+    if (score >= 90) return 'A+';
+    if (score >= 80) return 'A';
+    if (score >= 70) return 'B+';
+    if (score >= 60) return 'B';
+    if (score >= 50) return 'C';
+    if (score >= 33) return 'D';
+    return 'E';
+  }
+
+  function getSubjectEvaluations(s) {
+    return (s && (s.subject_evaluations || (s.data && s.data.subject_evaluations))) || {};
+  }
+
+  function hasNum(v) { return /\d/.test(String(v || '')); }
+  function hasSlash(v) { return /\//.test(String(v || '')); }
+
   const DEFAULT_DEMO_STUDENTS = [
     {
       id: 'demo_aarav_001',
@@ -58,6 +92,14 @@
       skills: {
         communication: '5', reading: '5', writing: '4', creativity: '5',
         problem_solving: '5', teamwork: '5', leadership: '4', time_management: '5', digital_skills: '5'
+      },
+      subject_evaluations: {
+        english: { marks: '92', grade: 'A+', remarks: 'Excellent comprehension', teacher: 'Mrs. Ritu Verma' },
+        hindi: { marks: '88', grade: 'A', remarks: 'Good expression', teacher: 'Mrs. Shashi Prabha' },
+        mathematics: { marks: '96', grade: 'A+', remarks: 'Outstanding problem solving', teacher: 'Mrs. Sunita Roy' },
+        science: { marks: '94', grade: 'A+', remarks: 'Strong concepts', teacher: 'Dr. Amit Saxena' },
+        social_science: { marks: '90', grade: 'A+', remarks: 'Well-structured answers', teacher: 'Mr. Rajeshwar Pandey' },
+        computer_it: { marks: '98', grade: 'A+', remarks: 'Excellent coding logic', teacher: 'Mr. Umesh Tripathi' }
       },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
@@ -151,6 +193,14 @@
         communication: '5', reading: '5', writing: '5', creativity: '5',
         problem_solving: '5', teamwork: '5', leadership: '5', time_management: '5', digital_skills: '5'
       },
+      subject_evaluations: {
+        english: { marks: '94', grade: 'A+', remarks: 'Excellent communication', teacher: 'Mrs. Ritu Verma' },
+        hindi: { marks: '90', grade: 'A+', remarks: 'Very good expression', teacher: 'Mrs. Shashi Prabha' },
+        mathematics: { marks: '98', grade: 'A+', remarks: 'Flawless problem solving', teacher: 'Mrs. Sunita Roy' },
+        science: { marks: '96', grade: 'A+', remarks: 'Exceptional inquiry', teacher: 'Dr. Amit Saxena' },
+        social_science: { marks: '91', grade: 'A+', remarks: 'Thorough analysis', teacher: 'Mr. Rajeshwar Pandey' },
+        computer_it: { marks: '99', grade: 'A+', remarks: 'Outstanding coding', teacher: 'Mr. Umesh Tripathi' }
+      },
       teacher_assessment: {
         academic_performance: 'Excellent', discipline: 'Excellent', regularity: 'Excellent',
         communication: 'Excellent', participation: 'Excellent', teamwork: 'Excellent', leadership: 'Excellent', creativity: 'Excellent',
@@ -182,9 +232,8 @@
     populateSinglePagePrintSheet();
 
     window.addEventListener('beforeprint', () => {
-      const selectedSubject = 'all';
-      const studentData = pendingPrintPayload ? pendingPrintPayload.data : null;
-      populateSinglePagePrintSheet(studentData, selectedSubject);
+      const studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
+      populateSinglePagePrintSheet(studentData, pendingPrintSubject || 'all');
     });
   });
 
@@ -796,6 +845,7 @@
       };
 
       if (existingIdx !== -1) {
+        if (roster[existingIdx].subject_evaluations) studentRecord.subject_evaluations = roster[existingIdx].subject_evaluations;
         if (roster[existingIdx].skills) studentRecord.skills = roster[existingIdx].skills;
         if (roster[existingIdx].teacher_assessment) studentRecord.teacher_assessment = roster[existingIdx].teacher_assessment;
         if (roster[existingIdx].teacher_final_remark) studentRecord.teacher_final_remark = roster[existingIdx].teacher_final_remark;
@@ -1027,7 +1077,15 @@
 
     document.getElementById('modalStudentTitle').textContent = `Faculty Evaluation: ${student.student_name || student.profile?.student_name}`;
     document.getElementById('modalStudentSubtitle').textContent = `${student.class_section || student.profile?.class_section} • Roll No: ${student.roll_no || student.profile?.roll_no}`;
-    // Academic Progress removed — no academic inputs to populate
+    // Subject-wise evaluation — each subject teacher evaluates their own subject
+    const existingSubj = getSubjectEvaluations(student);
+    EVAL_SUBJECTS.forEach((cfg) => {
+      const ev = existingSubj[cfg.id] || {};
+      setElVal(`modal_subj_${cfg.id}_marks`, ev.marks || '');
+      const gradeEl = document.getElementById(`modal_subj_${cfg.id}_grade`);
+      if (gradeEl) gradeEl.value = ev.grade || '';
+      setElVal(`modal_subj_${cfg.id}_remarks`, ev.remarks || '');
+    });
 // Populate Skills
     const existingSkills = student.skills || student.data?.skills || {};
     const skillKeys = ['communication', 'reading', 'writing', 'creativity', 'problem_solving', 'teamwork', 'leadership', 'time_management', 'digital_skills'];
@@ -1075,7 +1133,16 @@
   window.saveModalEvaluation = async function () {
     if (!currentEvaluatingStudent) return;
 
-    // Academic Progress removed — no subjects data collected
+    // Subject-wise evaluation — each subject teacher evaluates their own subject
+    const subjectEvals = {};
+    EVAL_SUBJECTS.forEach((cfg) => {
+      subjectEvals[cfg.id] = {
+        marks: getElVal(`modal_subj_${cfg.id}_marks`),
+        grade: getElVal(`modal_subj_${cfg.id}_grade`),
+        remarks: getElVal(`modal_subj_${cfg.id}_remarks`),
+        teacher: cfg.teacher
+      };
+    });
 
     const skillsData = {
       communication: getElVal('modal_skill_communication'),
@@ -1121,6 +1188,7 @@
     };
 
     const evalPayload = {
+      subject_evaluations: subjectEvals,
       skills: skillsData,
       co_curricular_remarks: coRemarks,
       teacher_assessment: assessmentData,
@@ -1133,6 +1201,7 @@
     if (idx !== -1) {
       list[idx].status = 'evaluated';
       list[idx].updated_at = new Date().toLocaleString();
+      list[idx].subject_evaluations = evalPayload.subject_evaluations;
       list[idx].skills = evalPayload.skills;
       list[idx].teacher_assessment = evalPayload.teacher_assessment;
       list[idx].teacher_final_remark = evalPayload.teacher_final_remark;
@@ -1163,7 +1232,9 @@
     /* Academic graph removed */
   };
 
-  // 8. Print Complete Student Portfolio with Performance Graph & All Subjects Together
+  // 8. Per-subject print: student picks Overall or one of 6 subjects
+  let pendingPrintSubject = 'all';
+
   window.printStudentFromTeacherRoster = function (studentId) {
     const list = getLocalStudentList();
     const student = list.find(s => s.id === studentId);
@@ -1176,12 +1247,47 @@
     openPrintSubjectModal(student);
   };
 
+  // Subject picker modal (built on demand so all pages get it)
+  function ensurePrintSubjectModal() {
+    let modal = document.getElementById('printSubjectModal');
+    if (modal) return modal;
+    modal = document.createElement('div');
+    modal.id = 'printSubjectModal';
+    modal.className = 'modal-overlay no-print';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-card print-modal-box">
+        <div class="modal-icon">🖨️</div>
+        <h3 class="modal-title">Print Portfolio</h3>
+        <p class="modal-message" id="printSubjectModalName">Choose what to print</p>
+        <div id="printSubjectBtnGrid" class="print-subject-grid"></div>
+        <button type="button" class="btn-vibrant btn-outline" style="margin-top: 1rem; width: 100%; justify-content: center;" onclick="closePrintSubjectModal()">Cancel</button>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closePrintSubjectModal(); });
+    return modal;
+  }
+
   // Modal handlers for subject-specific print selection
   window.openPrintSubjectModal = function (studentData) {
-    // Academic subject-scope modal removed — print directly
     const s = studentData || (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload ? pendingPrintPayload.data : null);
-    populateSinglePagePrintSheet(s, 'all');
-    setTimeout(() => window.print(), 300);
+    const evals = getSubjectEvaluations(s);
+    const modal = ensurePrintSubjectModal();
+    const nameEl = document.getElementById('printSubjectModalName');
+    const p = (s && (s.profile || (s.data && s.data.profile))) || {};
+    if (nameEl) nameEl.textContent = `Print portfolio for ${p.student_name || s?.student_name || 'student'} — overall or a single subject`;
+    const grid = document.getElementById('printSubjectBtnGrid');
+    if (grid) {
+      const allBtn = `<button type="button" class="print-subject-btn print-subject-all" onclick="executeSubjectPrint('all')"><span>🌟</span><span>Overall Portfolio<small>All 6 subjects + graph</small></span></button>`;
+      grid.innerHTML = allBtn + EVAL_SUBJECTS.map((cfg) => {
+        const ev = evals[cfg.id] || {};
+        const done = ev.marks || ev.grade ? '✓ Evaluated' : 'Pending';
+        return `<button type="button" class="print-subject-btn" onclick="executeSubjectPrint('${cfg.id}')"><span>${cfg.icon}</span><span>${escapeHtml(cfg.name)}<small>${escapeHtml(cfg.teacher)} • ${done}</small></span></button>`;
+      }).join('');
+    }
+    pendingPrintSubject = 'all';
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('active'));
   };
 
   window.closePrintSubjectModal = function () {
@@ -1194,10 +1300,11 @@
 
   window.updatePrintSubjectModalPreview = function () { return; };
 
-  window.executeSubjectPrint = function () {
+  window.executeSubjectPrint = function (subjectId) {
     try { closePrintSubjectModal(); } catch (e) {}
+    pendingPrintSubject = subjectId || 'all';
     const studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
-    populateSinglePagePrintSheet(studentData, 'all');
+    populateSinglePagePrintSheet(studentData, pendingPrintSubject);
     setTimeout(() => { window.print(); }, 300);
   };
 
@@ -1239,26 +1346,43 @@
         const list = getLocalStudentList();
         const saved = list.find(item => item.id === s.id || (item.profile?.student_name && item.profile?.student_name === s.profile?.student_name));
         if (saved) {
-          // Academic Progress removed
+          s.subject_evaluations = s.subject_evaluations || saved.subject_evaluations || saved.data?.subject_evaluations;
           s.skills = s.skills || saved.skills || saved.data?.skills;
           s.teacher_assessment = s.teacher_assessment || saved.teacher_assessment || saved.data?.teacher_assessment;
           s.teacher_final_remark = s.teacher_final_remark || saved.teacher_final_remark || saved.data?.teacher_final_remark;
         }
       } catch (e) {}
     }
+    if (selectedSubject && selectedSubject !== 'all') pendingPrintSubject = selectedSubject;
 
     const p = s.profile || (s.data && s.data.profile) || s;
     const about = s.about_me || (s.data && s.data.about_me) || {};
     const goals = s.goals || (s.data && s.data.goals) || {};
-    // Academic Progress removed — no acad/subs
+    const subjEvals = getSubjectEvaluations(s);
     const skills = s.skills || (s.data && s.data.skills) || {};
     const ta = s.teacher_assessment || (s.data && s.data.teacher_assessment) || {};
     const tfr = s.teacher_final_remark || (s.data && s.data.teacher_final_remark) || {};
 
-    // Header Info
-    setElText('print_session_text', s.header?.academic_session || '2026–2027');
-    setElText('print_record_id', `Record ID: ${s.id || 'SHM-2026'}`);
-    setElText('print_class_pill', `${p.class_section || 'Class 6 - Section A'}`);
+    // Header Info (no fake defaults — show real data or dash)
+    setElText('print_session_text', (s.header && s.header.academic_session) || s.data?.header?.academic_session || '2026–2027');
+    setElText('print_record_id', s.id ? `Record ID: ${s.id}` : 'Verified Record');
+    setElText('print_class_pill', p.class_section || '');
+
+    // Subject context banner: overall vs single subject
+    (function renderSubjectBanner() {
+      const banner = document.getElementById('print_subject_banner');
+      if (!banner) return;
+      const sel = pendingPrintSubject && pendingPrintSubject !== 'all' ? pendingPrintSubject : (selectedSubject || 'all');
+      if (!sel || sel === 'all') {
+        banner.innerHTML = `<span>📚 Overall Portfolio — all 6 subjects</span>`;
+        return;
+      }
+      const cfg = EVAL_SUBJECTS.find(c => c.id === sel) || { name: sel, teacher: '' };
+      const ev = subjEvals[sel] || {};
+      const marks = ev.marks ? `${escapeHtml(ev.marks)}${hasNum(ev.marks) && !hasSlash(ev.marks) ? ' / 100' : ''}` : 'Pending';
+      const grade = ev.grade || gradeForScore(parseMarksToScore(ev.marks, ev.grade));
+      banner.innerHTML = `<span>${cfg.icon || '📘'} Subject: <strong>${escapeHtml(cfg.name)}</strong> • ${escapeHtml(cfg.teacher || '')}</span><span>Marks: <strong>${marks}</strong> • Grade: <strong>${escapeHtml(grade)}</strong></span>`;
+    })();
 
     // Profile table
     setElText('print_name', p.student_name || '—');
@@ -1293,21 +1417,21 @@
     if (about.student_type) aboutSnippetParts.push(`Learner Type: ${about.student_type}`);
     if (about.favourite_subjects) aboutSnippetParts.push(`Fav Subjects: ${about.favourite_subjects}`);
     if (about.one_improvement) aboutSnippetParts.push(`Target: ${about.one_improvement}`);
-    setElText('print_about_snippet', aboutSnippetParts.join(' • ') || 'Dedicated, curious student committed to academic excellence.');
+    setElText('print_about_snippet', aboutSnippetParts.join(' • ') || '—');
 
     const intParts = [];
     if (about.interests) intParts.push(about.interests);
     if (about.hobbies) intParts.push(about.hobbies);
-    setElText('print_interests_hobbies', intParts.join(' • ') || 'Science Exploration, Reading, Coding & Athletics');
+    setElText('print_interests_hobbies', intParts.join(' • ') || '—');
 
     const strengthsList = Array.isArray(about.strengths) ? about.strengths.filter(Boolean) : (about.strengths ? [about.strengths] : []);
-    setElText('print_strengths', strengthsList.join(', ') || 'Analytical Reasoning, Quick Comprehension, Team Collaboration');
+    setElText('print_strengths', strengthsList.join(', ') || '—');
 
-    // Goals & Priorities
-    setElText('print_short_goal', goals.short_term_goal || goals.short_term || 'Achieve 90%+ aggregate in all subjects in Term 2');
-    setElText('print_long_goal', goals.long_term_goal || goals.long_term || 'Pursue STEM stream and lead innovative technology solutions');
+    // Goals & Priorities (real data only — no invented defaults)
+    setElText('print_short_goal', goals.short_term_goal || goals.short_term || '—');
+    setElText('print_long_goal', goals.long_term_goal || goals.long_term || '—');
     const goalsList = Array.isArray(goals.this_year_goals) ? goals.this_year_goals : [];
-    setElText('print_goals_checklist', goalsList.join(', ') || 'Regular Attendance, Daily Review, Active Discussion');    // Academic Progress & Performance Graph removed — skills only
+    setElText('print_goals_checklist', goalsList.join(', ') || '—');
 
     // Skills with attractive progress bars (rating /5 -> % width)
     const skillList = [
@@ -1401,11 +1525,84 @@
       setElText('print_highlights_snippet', bits.join(' • ') || '—');
     } catch (e) {}
 
-    // Teacher remarks & Signatures
-    setElText('print_teacher_remarks', ta.teacher_remarks || 'Shows consistent academic commitment, regular submissions, and positive conceptual understanding.');
+    // Subject evaluation focus + overall performance graph
+    (function renderSubjectAndGraph() {
+      const sel = pendingPrintSubject && pendingPrintSubject !== 'all' ? pendingPrintSubject : 'all';
+      const focusBody = document.getElementById('printSubjectFocusBody');
+      const focusTitle = document.getElementById('printSubjectFocusTitle');
+      const graphBox = document.getElementById('printPerfGraph');
+      const avgEl = document.getElementById('print_overall_avg');
+      const rows = EVAL_SUBJECTS.map((cfg) => {
+        const ev = subjEvals[cfg.id] || {};
+        const score = parseMarksToScore(ev.marks, ev.grade);
+        return { cfg, ev, score, grade: ev.grade || gradeForScore(score) };
+      });
+      const scored = rows.filter(r => r.score !== null);
+      const avg = scored.length ? Math.round((scored.reduce((a, r) => a + r.score, 0) / scored.length) * 10) / 10 : null;
+      if (avgEl) avgEl.textContent = avg !== null ? `${avg}% overall average (${gradeForScore(avg)})` : 'Awaiting subject evaluation';
+      if (focusBody) {
+        if (sel === 'all') {
+          if (focusTitle) focusTitle.textContent = '6. SUBJECT EVALUATION — ALL SUBJECTS';
+          focusBody.innerHTML = rows.map((r) => `
+            <tr>
+              <td style="font-weight: 700;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}</td>
+              <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) : '—'}</td>
+              <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
+            </tr>`).join('');
+        } else {
+          const r = rows.find(x => x.cfg.id === sel) || rows[0];
+          if (focusTitle) focusTitle.textContent = `6. SUBJECT EVALUATION — ${r.cfg.name.toUpperCase()}`;
+          focusBody.innerHTML = `
+            <tr style="background: #eff6ff;">
+              <td style="font-weight: 800; color: #1e3a8a;">${r.cfg.icon} ${escapeHtml(r.cfg.name)}<div style="font-size: 6pt; font-weight: 600; color: #475569;">${escapeHtml(r.cfg.teacher)}</div></td>
+              <td style="text-align: center; font-weight: 800; color: #1e3a8a;">${r.ev.marks ? escapeHtml(r.ev.marks) + ' / 100' : 'Pending'}</td>
+              <td style="text-align: center; font-weight: 800;">${r.score !== null ? escapeHtml(r.grade) : '—'}</td>
+            </tr>
+            <tr><td colspan="3" style="font-size: 6.6pt; color: #334155;"><strong>Remarks:</strong> ${r.ev.remarks ? escapeHtml(r.ev.remarks) : '—'}</td></tr>`;
+        }
+      }
+      if (graphBox) graphBox.innerHTML = buildPerfGraphSvg(rows, avg, sel);
+    })();
+
+    // Teacher remarks & Signatures (real data only)
+    setElText('print_teacher_remarks', ta.teacher_remarks || '—');
     setElText('print_sig_student_name', p.student_name || 'Student Sign');
     setElText('print_sig_teacher_name', ta.teacher_signature || p.class_teacher || 'Class Teacher');
     setElText('print_sig_principal', tfr.principal || 'SHM Academy Office');
+  }
+
+  // Overall performance graph: one bar per evaluated subject (SVG, print-safe)
+  function buildPerfGraphSvg(rows, avg, highlightId) {
+    const W = 460, H = 96, padL = 30, padB = 16, padT = 8;
+    const n = rows.length || 1;
+    const slot = (W - padL - 8) / n;
+    const bw = Math.min(34, slot * 0.55);
+    const y = (v) => {
+      const c = Math.max(0, Math.min(100, v));
+      return padT + (100 - c) * ((H - padT - padB) / 100);
+    };
+    let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;" role="img" aria-label="Overall performance graph">`;
+    [0, 25, 50, 75, 100].forEach((g) => {
+      svg += `<line x1="${padL}" y1="${y(g)}" x2="${W - 4}" y2="${y(g)}" stroke="#e2e8f0" stroke-width="1"/>`;
+    });
+    rows.forEach((r, i) => {
+      const cx = padL + slot * i + slot / 2;
+      const v = r.score !== null ? r.score : 0;
+      const h = (H - padT - padB) * (v / 100);
+      const isHi = r.cfg.id === highlightId;
+      const fill = r.score === null ? '#cbd5e1' : (isHi ? '#1e3a8a' : '#3b82f6');
+      svg += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${(y(v)).toFixed(1)}" width="${bw}" height="${Math.max(2, h).toFixed(1)}" rx="2.5" fill="${fill}" stroke="#1e3a8a" stroke-width="0.8"/>`;
+      svg += `<text x="${cx.toFixed(1)}" y="${(y(v) - 3).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="800" fill="#0f172a">${r.score !== null ? v : '—'}</text>`;
+      svg += `<text x="${cx.toFixed(1)}" y="${H - 3}" text-anchor="middle" font-size="7.5" font-weight="700" fill="#334155">${escapeHtml(r.cfg.short)}</text>`;
+    });
+    if (avg !== null) {
+      svg += `<line x1="${padL}" y1="${y(avg)}" x2="${W - 4}" y2="${y(avg)}" stroke="#10b981" stroke-width="1.6" stroke-dasharray="5,3"/>`;
+      svg += `<text x="${W - 6}" y="${(y(avg) - 4).toFixed(1)}" text-anchor="end" font-size="8" font-weight="800" fill="#065f46">Avg ${avg}%</text>`;
+    } else {
+      svg += `<text x="${(W / 2 + 20).toFixed(1)}" y="${(H / 2).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Awaiting subject evaluation</text>`;
+    }
+    svg += `</svg>`;
+    return svg;
   }
 
   function renderPrintGraph() { return; }

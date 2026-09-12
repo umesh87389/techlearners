@@ -25,10 +25,20 @@
       <a href="/teacher/evaluate/{{ student.id }}" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
         ← Back to Evaluation
       </a>
+      <a href="/teacher/print/{{ student.id }}?subject=all" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+        🌟 Overall
+      </a>
       <button onclick="window.print()" class="btn btn-send" style="padding: 0.4rem 1rem; font-size: 0.85rem; background: #2563eb;">
         🖨️ Print / Save PDF
       </button>
     </div>
+  </div>
+
+  <div class="print-controls no-print" style="background: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 0.5rem 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+    <span style="font-size: 0.82rem; font-weight: 700; color: #475569;">Print per subject:</span>
+    {% for row in subject_rows %}
+    <a href="/teacher/print/{{ student.id }}?subject={{ row.id }}" style="font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 9999px; text-decoration: none; {% if row.id == selected_subject %}background: #1e3a8a; color: #fff;{% else %}background: #fff; color: #1e3a8a; border: 1px solid #bfdbfe;{% endif %}">{{ row.name }}</a>
+    {% endfor %}
   </div>
 
   <div class="page-wrapper" style="padding: 1rem 0;">
@@ -178,6 +188,40 @@
             {% endfor %}
           </tbody>
         </table>
+      </section>
+
+      <!-- SUBJECT EVALUATION & OVERALL PERFORMANCE -->
+      <section class="doc-section">
+        <h2 class="doc-section-title"><span>Subject Evaluation{% if selected_subject != 'all' %} — {{ selected_subject_name }}{% endif %}</span></h2>
+        {% if selected_subject != 'all' %}
+        <p><strong>{{ selected_subject_name }}</strong> ({{ selected_subject_teacher }}) —
+          Marks: <strong>{{ selected_subject_marks or 'Pending' }}</strong> •
+          Grade: <strong>{{ selected_subject_grade or '—' }}</strong></p>
+        <p style="margin-top: 0.35rem;"><strong>Remarks:</strong> {{ selected_subject_remarks or '—' }}</p>
+        {% endif %}
+        <table class="doc-table" style="margin-top: 0.5rem;">
+          <thead>
+            <tr>
+              <th style="width: 34%;">Subject</th>
+              <th class="center" style="width: 22%;">Marks</th>
+              <th class="center" style="width: 16%;">Grade</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in subject_rows %}
+            <tr {% if row.id == selected_subject %}style="background: #eff6ff; font-weight: 700;"{% endif %}>
+              <td><strong>{{ row.name }}</strong><div style="font-size: 0.75rem; color: #64748b;">{{ row.teacher }}</div></td>
+              <td class="center">{{ row.marks or '—' }}</td>
+              <td class="center"><strong>{{ row.grade or '—' }}</strong></td>
+              <td>{{ row.remarks or '—' }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p style="margin-top: 0.5rem;"><strong>Overall Average:</strong>
+          {% if overall_avg is not none %}{{ overall_avg }}% (Grade {{ overall_grade }}){% else %}Awaiting subject evaluation{% endif %}
+        </p>
       </section>
 
       <!-- 5. CO-CURRICULAR ACTIVITIES -->

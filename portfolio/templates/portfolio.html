@@ -938,7 +938,36 @@
       </div>
 
       <div class="eval-modal-body">
-        
+
+        <!-- 3. Subject-wise Evaluation (each subject teacher evaluates separately) -->
+        <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin: 0;">3. Subject-wise Evaluation</h3>
+            <span style="font-size: 0.78rem; font-weight: 700; color: #1e3a8a; background: #dbeafe; padding: 2px 8px; border-radius: 4px;">Subject Teachers Only</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #475569; margin: 0 0 0.75rem;">Hindi, English, Mathematics, Science, Social Science and Computer teachers evaluate their own subject separately — marks, grade and remarks.</p>
+          <div style="overflow-x: auto;">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>Subject / Teacher</th>
+                <th style="width: 110px; text-align: center;">Marks (/100)</th>
+                <th style="width: 110px; text-align: center;">Grade</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>📖 English</strong><div style="font-size: 0.72rem; color: #64748b;">Mrs. Ritu Verma</div></td><td style="text-align: center;"><input type="text" id="modal_subj_english_marks" class="form-control" style="text-align: center;" placeholder="e.g. 92"></td><td style="text-align: center;"><select id="modal_subj_english_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_english_remarks" class="form-control" placeholder="Remarks"></td></tr>
+              <tr><td><strong>🇮🇳 Hindi</strong><div style="font-size: 0.72rem; color: #64748b;">Mrs. Shashi Prabha</div></td><td style="text-align: center;"><input type="text" id="modal_subj_hindi_marks" class="form-control" style="text-align: center;" placeholder="e.g. 88"></td><td style="text-align: center;"><select id="modal_subj_hindi_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_hindi_remarks" class="form-control" placeholder="Remarks"></td></tr>
+              <tr><td><strong>📐 Mathematics</strong><div style="font-size: 0.72rem; color: #64748b;">Mrs. Sunita Roy</div></td><td style="text-align: center;"><input type="text" id="modal_subj_mathematics_marks" class="form-control" style="text-align: center;" placeholder="e.g. 96"></td><td style="text-align: center;"><select id="modal_subj_mathematics_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_mathematics_remarks" class="form-control" placeholder="Remarks"></td></tr>
+              <tr><td><strong>🔬 Science</strong><div style="font-size: 0.72rem; color: #64748b;">Dr. Amit Saxena</div></td><td style="text-align: center;"><input type="text" id="modal_subj_science_marks" class="form-control" style="text-align: center;" placeholder="e.g. 94"></td><td style="text-align: center;"><select id="modal_subj_science_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_science_remarks" class="form-control" placeholder="Remarks"></td></tr>
+              <tr><td><strong>🌍 Social Science</strong><div style="font-size: 0.72rem; color: #64748b;">Mr. Rajeshwar Pandey</div></td><td style="text-align: center;"><input type="text" id="modal_subj_social_science_marks" class="form-control" style="text-align: center;" placeholder="e.g. 90"></td><td style="text-align: center;"><select id="modal_subj_social_science_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_social_science_remarks" class="form-control" placeholder="Remarks"></td></tr>
+              <tr><td><strong>💻 Computer</strong><div style="font-size: 0.72rem; color: #64748b;">Mr. Umesh Tripathi</div></td><td style="text-align: center;"><input type="text" id="modal_subj_computer_it_marks" class="form-control" style="text-align: center;" placeholder="e.g. 98"></td><td style="text-align: center;"><select id="modal_subj_computer_it_grade" class="form-control" style="text-align: center;"><option value="">Auto</option><option>A+</option><option>A</option><option>B+</option><option>B</option><option>C</option><option>D</option><option>E</option></select></td><td><input type="text" id="modal_subj_computer_it_remarks" class="form-control" placeholder="Remarks"></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+
 <!-- 4. Skills Evaluation -->
         <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
           <h3 style="font-size: 1.1rem; font-weight: 800; color: #1e3a8a; margin-bottom: 0.75rem;">4. My Skills (Rating 1–5)</h3>
@@ -1068,14 +1097,17 @@
     </div>
 
     <!-- B. Row 1: Profile & Photo -->
-    <div style="display: grid; grid-template-columns: 1fr 28mm; gap: 3mm; margin-bottom: 1.5mm;">
+    <div style="display: grid; grid-template-columns: 1fr 28mm; gap: 2mm; margin-bottom: 1mm;">
       <div>
         <div class="print-section-header">
           <span>1. STUDENT PROFILE</span>
           <span id="print_class_pill" style="font-weight: 800; color: #1e3a8a;"></span>
         </div>
+        <div id="print_subject_banner" class="print-subject-banner">
+          <span>📚 Overall Portfolio — all 6 subjects</span>
+        </div>
         <!-- Portfolio completion progress (attractive one-page indicator) -->
-        <div style="display: flex; align-items: center; gap: 2mm; margin-bottom: 1.5mm; font-size: 6.6pt; font-weight: 800; color: #1e3a8a;">
+        <div style="display: flex; align-items: center; gap: 2mm; margin-bottom: 1mm; font-size: 6.6pt; font-weight: 800; color: #1e3a8a;">
           <span style="white-space: nowrap;">Portfolio Completion</span>
           <div class="print-overall-bar" style="flex: 1;">
             <div id="print_overall_fill" class="print-overall-fill" style="width: 0%;"></div>
@@ -1127,7 +1159,7 @@
     </div>
 
     <!-- C. Row 2: About Me & Goals -->
-    <div class="print-row-2col" style="margin-bottom: 1.5mm;">
+    <div class="print-row-2col" style="margin-bottom: 1mm;">
       <div>
         <div class="print-section-header">2. ABOUT ME &amp; STRENGTHS</div>
         <div style="font-size: 6.7pt; line-height: 1.25; border: 0.8px solid #cbd5e1; border-radius: 3px; padding: 1.5mm 2mm; background: #fbfcfe;">
@@ -1147,7 +1179,7 @@
     </div>
 
     <!-- D. Row 3: Skills Evaluation & Co-Curricular Summary -->
-    <div class="print-row-2col" style="margin-bottom: 1.5mm;">
+    <div class="print-row-2col" style="margin-bottom: 1mm;">
       <div>
         <div class="print-section-header">4. SKILLS EVALUATION (RATED 1–5)</div>
         <table class="print-table print-skills-table" style="margin-bottom: 0;">
@@ -1167,9 +1199,35 @@
       </div>
     </div>
 
+    <!-- E. Row 4: Subject Evaluation & Overall Performance Graph -->
+    <div style="margin-bottom: 1mm;">
+      <div class="print-section-header">
+        <span id="printSubjectFocusTitle">6. SUBJECT EVALUATION — ALL SUBJECTS</span>
+        <span id="print_overall_avg" style="font-size: 6.5pt; color: #065f46; font-weight: 800;">Awaiting subject evaluation</span>
+      </div>
+      <div class="print-row-2col" style="margin-bottom: 1mm;">
+        <div>
+          <table class="print-table" style="margin-bottom: 0;">
+            <thead>
+              <tr>
+                <th style="width: 40%; text-align: left;">Subject</th>
+                <th style="width: 30%; text-align: center;">Marks</th>
+                <th style="width: 30%; text-align: center;">Grade</th>
+              </tr>
+            </thead>
+            <tbody id="printSubjectFocusBody"></tbody>
+          </table>
+        </div>
+        <div>
+          <div style="font-size: 6.7pt; font-weight: 800; color: #1e3a8a; margin-bottom: 1mm;">📊 OVERALL PERFORMANCE GRAPH</div>
+          <div id="printPerfGraph" class="print-graph-box"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- G. Row 6: Assessment, Declaration & Official Signatures -->
     <div style="border-top: 1px solid #0f172a; padding-top: 1mm;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin-bottom: 1mm; font-size: 6.6pt;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-bottom: 1mm; font-size: 6.6pt;">
         <div style="min-width: 0; word-break: break-word;">
           <strong>Teacher’s Assessment:</strong> <span id="print_teacher_remarks">Conscientious, courteous, and positive attitude towards learning.</span>
         </div>
