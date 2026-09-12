@@ -241,8 +241,15 @@
     populateSinglePagePrintSheet();
 
     window.addEventListener('beforeprint', () => {
-      const studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
-      populateSinglePagePrintSheet(studentData, pendingPrintSubject || 'all');
+      let studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
+      if (!studentData && lastDownloadId) {
+        try { studentData = getLocalStudentList().find(x => x.id === lastDownloadId) || null; } catch (e) {}
+      }
+      try {
+        populateSinglePagePrintSheet(studentData, pendingPrintSubject || 'all');
+      } catch (err) {
+        console.warn('Print populate failed:', err);
+      }
     });
   });
 
@@ -1230,6 +1237,7 @@
   }
 
   let pendingPrintPayload = null;
+  let lastDownloadId = null;
 
   async function handleStudentPrint() {
     // Automatically save & record before printing (if name/class present)
@@ -1613,6 +1621,7 @@
   // Modal handlers for subject-specific print selection
   window.openPrintSubjectModal = function (studentData) {
     const s = studentData || (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload ? pendingPrintPayload.data : null);
+    if (s && s.id) lastDownloadId = s.id;
     const evals = getSubjectEvaluations(s);
     const modal = ensurePrintSubjectModal();
     const nameEl = document.getElementById('printSubjectModalName');
@@ -1646,7 +1655,17 @@
     try { closePrintSubjectModal(); } catch (e) {}
     pendingPrintSubject = subjectId || 'all';
     const studentData = (typeof pendingPrintPayload !== 'undefined' && pendingPrintPayload) ? pendingPrintPayload.data : null;
-    populateSinglePagePrintSheet(studentData, pendingPrintSubject);
+    let ok = false;
+    try {
+      ok = populateSinglePagePrintSheet(studentData, pendingPrintSubject);
+    } catch (err) {
+      console.warn('Print populate failed:', err);
+      ok = false;
+    }
+    if (!ok) {
+      alert('Could not load this portfolio for printing. Please reopen it from the Download list and try again.');
+      return;
+    }
     setTimeout(() => { window.print(); }, 300);
   };
 
@@ -1678,7 +1697,7 @@
   // =========================================================
   function populateSinglePagePrintSheet(studentData, selectedSubject = 'all') {
     const sheet = document.getElementById('singlePageSheet');
-    if (!sheet) return;
+    if (!sheet) return false;
 
     let s = studentData;
     if (!s) {
@@ -1698,6 +1717,8 @@
     if (selectedSubject && selectedSubject !== 'all') pendingPrintSubject = selectedSubject;
 
     const p = s.profile || (s.data && s.data.profile) || s;
+    if (!p.student_name && !s.student_name && !p.class_section && !p.roll_no) return false;
+    if (s && s.id) lastDownloadId = s.id;
     const about = s.about_me || (s.data && s.data.about_me) || {};
     const goals = s.goals || (s.data && s.data.goals) || {};
     const subjEvals = getSubjectEvaluations(s);
@@ -1741,7 +1762,7 @@
     // Photo
     const photoImg = document.getElementById('printPhotoImg');
     const photoPlaceholder = document.getElementById('printPhotoPlaceholder');
-    const photoSrc = p.photo_data || currentPhotoBase64;
+    const photoSrc = p.photo_data || '';
     if (photoImg && photoPlaceholder) {
       if (photoSrc) {
         photoImg.src = photoSrc;
@@ -1912,6 +1933,7 @@
     setElText('print_sig_student_name', p.student_name || 'Student Sign');
     setElText('print_sig_teacher_name', ta.teacher_signature || p.class_teacher || 'Class Teacher');
     setElText('print_sig_principal', tfr.principal || 'SHM Academy Office');
+    return true;
   }
 
   // Overall performance graph: one bar per evaluated subject (SVG, print-safe)

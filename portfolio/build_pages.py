@@ -39,7 +39,7 @@ def generate_html(is_jinja=False):
   <meta http-equiv="Expires" content="0">
   <title>Student Portfolio &amp; Teacher Portal | SHM Academy</title>
   <link rel="icon" type="image/jpeg" href="assets/school-logo.jpg">
-  <link rel="stylesheet" href="static/css/portfolio.css?v=20260910-1135">
+  <link rel="stylesheet" href="static/css/portfolio.css?v=20260912-02">
 </head>
 <body>
 
@@ -1508,7 +1508,7 @@ def generate_html(is_jinja=False):
 
   </div>
 
-  <script src="static/js/portfolio.js?v=20260910-1135"></script>
+  <script src="static/js/portfolio.js?v=20260912-02"></script>
 </body>
 </html>'''
 
