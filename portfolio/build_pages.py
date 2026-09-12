@@ -1182,6 +1182,38 @@ def generate_html(is_jinja=False):
   </div>
 
   <!-- ========================================================= -->
+  <!-- STUDENT IDENTITY VERIFICATION (BEFORE DOWNLOAD)         -->
+  <!-- Student must re-enter profile details to unlock download -->
+  <!-- ========================================================= -->
+  <div id="verifyStudentModal" class="modal-overlay no-print" style="display: none;">
+    <div class="modal-card print-modal-box">
+      <div class="modal-icon">🔐</div>
+      <h3 class="modal-title">Verify It&apos;s You</h3>
+      <p class="modal-message" id="verifyStudentModalSub">Enter the same Name, Roll Number and Date of Birth filled in the Student Profile to unlock this download.</p>
+      <input type="hidden" id="verifyRecordId" value="">
+      <div style="text-align: left; display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+        <div>
+          <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">Student&apos;s Name (as in profile)</label>
+          <input type="text" id="verifyStudentName" class="form-control" placeholder="Full name" autocomplete="off">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">Roll Number</label>
+          <input type="text" id="verifyRollNo" class="form-control" placeholder="Roll number" autocomplete="off">
+        </div>
+        <div>
+          <label style="display: block; font-weight: 700; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">Date of Birth</label>
+          <input type="date" id="verifyDob" class="form-control" autocomplete="off">
+        </div>
+      </div>
+      <div id="verifyErrorFeedback" style="color: #be123c; font-size: 0.85rem; font-weight: 700; margin-top: 0.75rem; min-height: 1.2em;"></div>
+      <div style="display: flex; gap: 0.6rem; margin-top: 0.75rem;">
+        <button type="button" class="btn-vibrant btn-outline" style="flex: 1; justify-content: center;" onclick="closeVerifyModal()">Cancel</button>
+        <button type="button" class="btn-vibrant btn-print-gradient" style="flex: 2; justify-content: center;" onclick="verifyStudentAndContinue()">Verify &amp; Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
   <!-- TEACHER EVALUATION MODAL (STICKY HEADER & STICKY FOOTER)   -->
   <!-- ========================================================= -->
   <div id="evalModal" class="eval-modal-backdrop">

@@ -651,13 +651,13 @@
         <div><span class="status-badge status-evaluated"><span>✓</span> Evaluated</span>
         <span class="release-badge">⬇️ Released${relAt ? ' • ' + relAt : ''}</span></div>
         <div class="dl-card-actions">
-          <button type="button" class="btn-action btn-print-sm" onclick="downloadReleasedPortfolio('${escapeHtml(id)}')"><span>⬇️</span> Download Portfolio</button>
+          <button type="button" class="btn-action btn-print-sm" onclick="requestDownload('${escapeHtml(id)}')"><span>⬇️</span> Download Portfolio</button>
         </div>
       </div>`;
     }).join('');
   }
 
-  window.downloadReleasedPortfolio = function (id) {
+  window.requestDownload = function (id) {
     const s = getLocalStudentList().find(x => x.id === id);
     if (!s) { alert('Portfolio not found.'); return; }
     if (!isReleased(s) || (s.status || 'pending_evaluation') !== 'evaluated') {
@@ -665,8 +665,76 @@
       loadDownloadList();
       return;
     }
+    const idEl = document.getElementById('verifyRecordId');
+    const nameEl = document.getElementById('verifyStudentName');
+    const rollEl = document.getElementById('verifyRollNo');
+    const dobEl = document.getElementById('verifyDob');
+    const errEl = document.getElementById('verifyErrorFeedback');
+    if (idEl) idEl.value = id;
+    if (nameEl) nameEl.value = '';
+    if (rollEl) rollEl.value = '';
+    if (dobEl) dobEl.value = '';
+    if (errEl) errEl.textContent = '';
+    const modal = document.getElementById('verifyStudentModal');
+    if (!modal) { pendingPrintPayload = { type: 'download', data: s }; openPrintSubjectModal(s); return; }
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => modal.classList.add('active'));
+    setTimeout(() => { const f = document.getElementById('verifyStudentName'); if (f) f.focus(); }, 60);
+  };
+
+  window.closeVerifyModal = function () {
+    const modal = document.getElementById('verifyStudentModal');
+    if (modal) {
+      modal.classList.remove('active');
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+  };
+
+  function normText(v) {
+    return String(v || '').trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  window.verifyStudentAndContinue = function () {
+    const idEl = document.getElementById('verifyRecordId');
+    const id = idEl ? idEl.value : '';
+    const s = getLocalStudentList().find(x => x.id === id);
+    const errEl = document.getElementById('verifyErrorFeedback');
+    const fail = (msg) => { if (errEl) errEl.textContent = msg; };
+    if (!s) { fail('Portfolio not found. Please reopen the Download list.'); return; }
+    if (!isReleased(s) || (s.status || 'pending_evaluation') !== 'evaluated') {
+      fail('This portfolio has not been released by the Admin yet.');
+      return;
+    }
+    const p = s.profile || (s.data && s.data.profile) || s;
+    const enteredName = normText((document.getElementById('verifyStudentName') || {}).value);
+    const enteredRoll = normText((document.getElementById('verifyRollNo') || {}).value);
+    const enteredDob = String((document.getElementById('verifyDob') || {}).value || '').trim();
+    const actualName = normText(p.student_name || s.student_name);
+    const actualRoll = normText(p.roll_no || s.roll_no);
+    const actualDob = String(p.dob || '').trim();
+    if (!enteredName || !enteredRoll) {
+      fail('Please enter your name and roll number.');
+      return;
+    }
+    if (actualDob && !enteredDob) {
+      fail('Please enter your date of birth.');
+      return;
+    }
+    const okName = enteredName && actualName && enteredName === actualName;
+    const okRoll = enteredRoll && actualRoll && enteredRoll === actualRoll;
+    const okDob = !actualDob || (enteredDob && enteredDob === actualDob);
+    if (!okName || !okRoll || !okDob) {
+      fail('Details do not match this portfolio. You can only download your own portfolio.');
+      return;
+    }
+    closeVerifyModal();
     pendingPrintPayload = { type: 'download', data: s };
-    openPrintSubjectModal(s);
+    setTimeout(() => openPrintSubjectModal(s), 220);
+  };
+
+  // Legacy entry point — always routed through identity verification.
+  window.downloadReleasedPortfolio = function (id) {
+    window.requestDownload(id);
   };
 
   // =========================================================
