@@ -886,6 +886,16 @@
           </button>
         </form>
 
+        <div style="margin-top: 1rem; background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 0.85rem 1rem; text-align: left;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem;">☁️ Shared cloud roster (all devices)</div>
+          <div id="facultyAuthLabelTeacher" style="font-size: 0.8rem; color: #475569; margin-bottom: 0.6rem;">☁️ Not signed in</div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" data-faculty-signin onclick="facultySignIn()" class="btn-vibrant btn-outline" style="font-size: 0.82rem;">Sign in with Google</button>
+            <button type="button" data-faculty-signout onclick="facultySignOut()" class="btn-vibrant btn-outline" style="font-size: 0.82rem; display: none;">Sign out</button>
+          </div>
+          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Passcode unlocks this device. Google sign-in loads student submissions from every device.</div>
+        </div>
+
         <div style="margin-top: 1.25rem;">
           <button type="button" onclick="switchMainTab('student')" class="btn-vibrant btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
             ← Return to Student Portfolio Tab
@@ -910,11 +920,21 @@
           <span style="font-size: 0.85rem; background: #eff6ff; color: #1e3a8a; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; border: 1px solid #bfdbfe;">
             👨‍🏫 Authorized Faculty Active
           </span>
+          <span id="cloudSyncBadgeTeacher" style="font-size: 0.78rem; background: #f0fdf4; color: #166534; padding: 0.4rem 0.75rem; border-radius: 8px; font-weight: 700; border: 1px solid #86efac;">☁️ Cloud</span>
+          <button type="button" onclick="refreshRosterFromCloud()" class="btn-vibrant btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+            ☁️ Refresh
+          </button>
           <button type="button" onclick="lockTeacherTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.85rem;">
             🔒 Lock View
           </button>
         </div>
       </header>
+
+      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; background: #ffffff; padding: 0.75rem 1.25rem; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+        <span id="facultyAuthLabel" style="font-size: 0.82rem; color: #475569; font-weight: 600;">☁️ Not signed in</span>
+        <button type="button" data-faculty-signin onclick="facultySignIn()" class="btn-vibrant btn-outline" style="font-size: 0.8rem; padding: 0.35rem 0.8rem;">Sign in with Google</button>
+        <button type="button" data-faculty-signout onclick="facultySignOut()" class="btn-vibrant btn-outline" style="font-size: 0.8rem; padding: 0.35rem 0.8rem; display: none;">Sign out</button>
+      </div>
 
       <!-- KPI Stats Row -->
       <section class="kpi-stat-grid">
@@ -1055,6 +1075,16 @@
           </button>
         </form>
 
+        <div style="margin-top: 1rem; background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 0.85rem 1rem; text-align: left;">
+          <div style="font-size: 0.82rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem;">☁️ Shared cloud roster (all devices)</div>
+          <div id="facultyAuthLabelAdmin" style="font-size: 0.8rem; color: #475569; margin-bottom: 0.6rem;">☁️ Not signed in</div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" data-faculty-signin onclick="facultySignIn()" class="btn-vibrant btn-outline" style="font-size: 0.82rem;">Sign in with Google</button>
+            <button type="button" data-faculty-signout onclick="facultySignOut()" class="btn-vibrant btn-outline" style="font-size: 0.82rem; display: none;">Sign out</button>
+          </div>
+          <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Passkey unlocks this device. Google sign-in loads student submissions from every device.</div>
+        </div>
+
         <div style="margin-top: 1.25rem;">
           <button type="button" onclick="switchMainTab('student')" class="btn-vibrant btn-outline" style="font-size: 0.85rem; width: 100%; justify-content: center;">
             ← Return to Student Portfolio Tab
@@ -1078,6 +1108,11 @@
           <span style="font-size: 0.85rem; background: #fff7ed; color: #9a3412; padding: 0.4rem 0.85rem; border-radius: 8px; font-weight: 800; border: 1px solid #fed7aa;">
             🛡️ Admin Active
           </span>
+          <span id="cloudSyncBadgeAdmin" style="font-size: 0.78rem; background: #f0fdf4; color: #166534; padding: 0.4rem 0.75rem; border-radius: 8px; font-weight: 700; border: 1px solid #86efac;">☁️ Cloud</span>
+          <span id="cloudSyncBadge" style="display: none;"></span>
+          <button type="button" onclick="refreshRosterFromCloud()" class="btn-vibrant btn-outline" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+            ☁️ Refresh
+          </button>
           <button type="button" onclick="lockAdminTab()" class="btn-vibrant btn-outline" style="color: #be123c; border-color: #fecdd3; padding: 0.4rem 0.85rem; font-size: 0.85rem;">
             🔒 Lock View
           </button>
@@ -1509,6 +1544,8 @@
 
   </div>
 
-  <script src="static/js/portfolio.js?v=20260912-02"></script>
+  <script src="../assets/js/firebase-config.js?v=portfolio-cloud-1"></script>
+  <script src="static/js/portfolio-cloud.js?v=portfolio-cloud-1"></script>
+  <script src="static/js/portfolio.js?v=portfolio-cloud-1"></script>
 </body>
 </html>

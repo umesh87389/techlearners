@@ -30,6 +30,66 @@
     '174538aa65362cf76560eed992dc5850546d638c3c3b594396ca3503420fa867'
   ];
 
+  // =========================================================
+  // CLOUD SYNC (Firestore) — shared roster across all devices.
+  // localStorage (SUBMISSIONS_KEY) remains as instant offline cache;
+  // window.PortfolioCloud (static/js/portfolio-cloud.js) syncs the same
+  // records to Firestore collection `portfolioSubmissions`.
+  // Student create is public per rules; roster reads/updates/deletes
+  // require faculty Firebase sign-in (Google) — see faculty auth UI.
+  // Every cloud call is best-effort and never breaks the local flow.
+  // =========================================================
+  function cloud() { return (typeof window !== 'undefined' && window.PortfolioCloud) || null; }
+
+  function cloudStatus(msg) {
+    var els = ['cloudSyncBadge', 'cloudSyncBadgeAdmin', 'cloudSyncBadgeTeacher'];
+    els.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = msg;
+    });
+  }
+
+  async function cloudSaveRecord(record) {
+    var c = cloud();
+    if (!c || !c.isConfigured || !c.isConfigured()) return { ok: false, error: 'cloud-off' };
+    try {
+      var res = await c.saveRecord(record);
+      if (res && res.ok) cloudStatus('☁️ Cloud synced');
+      return res || { ok: false };
+    } catch (e) { return { ok: false, error: String((e && e.message) || e) }; }
+  }
+
+  async function cloudFetchRecords() {
+    var c = cloud();
+    if (!c || !c.isConfigured || !c.isConfigured()) return { ok: false, error: 'cloud-off' };
+    try {
+      return await c.fetchAll();
+    } catch (e) { return { ok: false, error: String((e && e.message) || e) }; }
+  }
+
+  function mergeRosterLists(primary, secondary) {
+    var map = new Map();
+    (primary || []).forEach(function (s) { if (s && s.id && !map.has(s.id)) map.set(s.id, s); });
+    (secondary || []).forEach(function (s) { if (s && s.id && !map.has(s.id)) map.set(s.id, s); });
+    return Array.from(map.values());
+  }
+
+  function cacheMergedRoster(list) {
+    try {
+      var clean = (list || []).filter(function (s) {
+        return s && s.id && String(s.id).indexOf('demo_') !== 0;
+      });
+      var local = getLocalStudentList().filter(function (s) {
+        return s && s.id && String(s.id).indexOf('demo_') === 0;
+      });
+      localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(clean.concat(local)));
+    } catch (e) {}
+  }
+
+  function facultyAuthHint() {
+    return 'Faculty cloud sync needs Google sign-in (one tap in Teacher/Admin tab). Saved on this device only for now.';
+  }
+
   const SUBJECTS_CONFIG = [
     { id: 'english', name: 'English', short: 'Eng', icon: '📖', teacher: '', maxMarks: 100 },
     { id: 'hindi', name: 'Hindi', short: 'Hin', icon: '🇮🇳', teacher: '', maxMarks: 100 },
@@ -404,6 +464,82 @@
   };
 
   // =========================================================
+  // 1A-CLOUD. FACULTY GOOGLE SIGN-IN (Firestore roster access)
+  // Passcode unlocks the tab on this device; Google sign-in loads the
+  // SHARED cloud roster on every device. Both are kept: passcode first,
+  // then one-tap Google sign-in.
+  // =========================================================
+  function paintFacultyAuth(user) {
+    var label = user ? ('☁️ ' + (user.email || user.uid)) : '☁️ Not signed in';
+    ['facultyAuthLabel', 'facultyAuthLabelAdmin', 'facultyAuthLabelTeacher'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = label;
+    });
+    var inBtns = document.querySelectorAll('[data-faculty-signin]');
+    var outBtns = document.querySelectorAll('[data-faculty-signout]');
+    inBtns.forEach(function (b) { b.style.display = user ? 'none' : ''; });
+    outBtns.forEach(function (b) { b.style.display = user ? '' : 'none'; });
+    if (!user) cloudStatus('🔐 Sign in (Google) to load cloud roster');
+  }
+
+  window.facultySignIn = async function () {
+    var c = cloud();
+    if (!c || !c.signInWithGoogle) { alert('Cloud sync is not configured yet.'); return; }
+    cloudStatus('☁️ Signing in…');
+    try {
+      await c.signInWithGoogle();
+    } catch (e) {
+      alert('Google sign-in failed: ' + ((e && e.message) || e));
+      cloudStatus('☁️ Sign-in failed');
+    }
+  };
+
+  window.facultySignOut = async function () {
+    try {
+      var c = cloud();
+      if (c && c.signOut) await c.signOut();
+    } catch (e) {}
+  };
+
+  window.refreshRosterFromCloud = async function () {
+    cloudStatus('☁️ Loading cloud roster…');
+    try {
+      if (document.getElementById('teacherDashboardContent') &&
+          document.getElementById('teacherDashboardContent').style.display !== 'none') {
+        await loadStudentRoster();
+      }
+      if (document.getElementById('adminDashboardContent') &&
+          document.getElementById('adminDashboardContent').style.display !== 'none') {
+        await loadAdminRoster();
+      }
+      await loadDownloadList();
+    } catch (e) {}
+  };
+
+  try {
+    var _c0 = cloud();
+    if (_c0 && _c0.onAuthStateChanged) {
+      _c0.onAuthStateChanged(function (user) {
+        paintFacultyAuth(user || null);
+        if (user) {
+          cloudStatus('☁️ Cloud connected');
+          // Auto-refresh visible rosters once faculty signs in.
+          try {
+            if (document.getElementById('teacherDashboardContent') &&
+                document.getElementById('teacherDashboardContent').style.display !== 'none') {
+              loadStudentRoster();
+            }
+            if (document.getElementById('adminDashboardContent') &&
+                document.getElementById('adminDashboardContent').style.display !== 'none') {
+              loadAdminRoster();
+            }
+          } catch (e) {}
+        }
+      });
+    }
+  } catch (e) {}
+
+  // =========================================================
   // 1B. ADMIN SECTION — PASSKEY GATE + RELEASE DASHBOARD
   // Only Admin can push evaluated portfolios to Download.
   // =========================================================
@@ -484,6 +620,18 @@
       if (resp.ok) {
         const data = await resp.json();
         if (Array.isArray(data) && data.length) list = data;
+      }
+    } catch (e) {}
+    // Merge with Firestore cloud (shared roster — requires faculty sign-in).
+    try {
+      const cres = await cloudFetchRecords();
+      if (cres && cres.ok && Array.isArray(cres.list) && cres.list.length) {
+        list = mergeRosterLists(cres.list, list);
+        cacheMergedRoster(list);
+        cloudStatus('☁️ Cloud synced');
+      } else if (cres && !cres.ok && cres.error &&
+          String(cres.error).indexOf('permission-denied') !== -1) {
+        cloudStatus('🔐 Sign in (Google) to load cloud roster');
       }
     } catch (e) {}
     const total = list.length;
@@ -570,6 +718,21 @@
       delete list[idx].released_at;
     }
     try { localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(list)); } catch (e) {}
+    // Sync release flag to cloud (requires faculty sign-in; best-effort).
+    try {
+      var c = cloud();
+      if (c && c.updateRecord) {
+        c.updateRecord(id, {
+          id: id,
+          status: list[idx].status,
+          updated_at: list[idx].updated_at,
+          released_for_download: list[idx].released_for_download,
+          released_at: list[idx].released_at || ''
+        }).then(function (res) {
+          if (res && res.ok) cloudStatus('☁️ Cloud synced');
+        });
+      }
+    } catch (e) {}
     return list[idx];
   }
 
@@ -817,10 +980,17 @@
   // =========================================================
   // 1C. STUDENT DOWNLOAD TAB — released portfolios only
   // =========================================================
-  function loadDownloadList() {
+  async function loadDownloadList() {
     const grid = document.getElementById('downloadListBody');
     const emptyState = document.getElementById('emptyDownloadState');
     if (!grid) return;
+    // Refresh shared cache from cloud first (released portfolios live there).
+    try {
+      const cres = await cloudFetchRecords();
+      if (cres && cres.ok && Array.isArray(cres.list) && cres.list.length) {
+        cacheMergedRoster(mergeRosterLists(cres.list, getLocalStudentList()));
+      }
+    } catch (e) {}
     const searchVal = ((document.getElementById('downloadSearchInput') || {}).value || '').trim().toLowerCase();
     const released = getLocalStudentList().filter(s => {
       if (!isReleased(s) || (s.status || 'pending_evaluation') !== 'evaluated') return false;
@@ -1467,6 +1637,16 @@
         if (roster[existingIdx].skills) studentRecord.skills = roster[existingIdx].skills;
         if (roster[existingIdx].teacher_assessment) studentRecord.teacher_assessment = roster[existingIdx].teacher_assessment;
         if (roster[existingIdx].teacher_final_remark) studentRecord.teacher_final_remark = roster[existingIdx].teacher_final_remark;
+        // Preserve per-row teacher remarks on re-submission (mirrors Flask
+        // database.py) so student edits never wipe faculty remarks.
+        try {
+          var _oldCo = roster[existingIdx].co_curricular || [];
+          (studentRecord.co_curricular || []).forEach(function (row, i) {
+            if (_oldCo[i] && _oldCo[i].teacher_remark && !row.teacher_remark) {
+              row.teacher_remark = _oldCo[i].teacher_remark;
+            }
+          });
+        } catch (e) {}
         roster[existingIdx] = studentRecord;
       } else {
         roster.unshift(studentRecord);
@@ -1477,7 +1657,8 @@
       console.warn('Local master roster sync:', e);
     }
 
-    // 2. Also POST to backend API if active
+    // 2. Also POST to backend API if active (Flask, local dev only —
+    //    GitHub Pages cannot run it, so failures are ignored)
     try {
       await fetch('/api/submit', {
         method: 'POST',
@@ -1486,8 +1667,15 @@
       });
     } catch (err) {}
 
-    updateStatusBadge(`Recorded in Teacher Dashboard (${new Date().toLocaleTimeString()})`);
-    return { success: true, student_id: payload.id };
+    // 3. Sync to Firestore cloud (shared across all devices).
+    //    Public create per rules — students need no sign-in.
+    var cloudRes = await cloudSaveRecord(studentRecord);
+    if (cloudRes && cloudRes.ok) {
+      updateStatusBadge(`Synced to cloud ☁️ (${new Date().toLocaleTimeString()})`);
+    } else {
+      updateStatusBadge(`Recorded on this device (${new Date().toLocaleTimeString()}) — cloud sync pending`);
+    }
+    return { success: true, student_id: payload.id, cloud: cloudRes && cloudRes.ok };
   }
 
   async function handleStudentSend() {
@@ -1500,7 +1688,9 @@
     if (result && result.success) {
       showSuccessModal(
         'Portfolio Sent to Teacher!',
-        'Your portfolio has been recorded and transmitted to the Teacher’s Dashboard. The teacher will now review your submission and complete the Skills Evaluation.'
+        result.cloud
+          ? 'Your portfolio has been synced to the cloud ☁️ and will appear on the Teacher’s Dashboard on every device.'
+          : 'Your portfolio has been recorded on this device. Cloud sync is pending (offline?) — please stay online and press Send again so teachers on other devices can see it.'
       );
     }
   }
@@ -1549,7 +1739,7 @@
   async function loadStudentRoster() {
     let list = [];
 
-    // Try reading from server API
+    // Try reading from server API (Flask local dev only)
     try {
       const resp = await fetch('/api/students');
       if (resp.ok) {
@@ -1558,7 +1748,7 @@
       }
     } catch (e) {}
 
-    // Merge with localStorage
+    // Merge with localStorage cache
     try {
       const localRaw = localStorage.getItem(SUBMISSIONS_KEY);
       if (localRaw) {
@@ -1570,6 +1760,19 @@
             }
           });
         }
+      }
+    } catch (e) {}
+
+    // Merge with Firestore cloud (shared roster — requires faculty sign-in).
+    try {
+      const cres = await cloudFetchRecords();
+      if (cres && cres.ok && Array.isArray(cres.list) && cres.list.length) {
+        list = mergeRosterLists(cres.list, list);
+        cacheMergedRoster(list);
+        cloudStatus('☁️ Cloud synced');
+      } else if (cres && !cres.ok && cres.error &&
+          String(cres.error).indexOf('permission-denied') !== -1) {
+        cloudStatus('🔐 Sign in (Google) to load cloud roster');
       }
     } catch (e) {}
 
@@ -1836,7 +2039,7 @@
       localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(list));
     }
 
-    // Try posting to Flask server API if active
+    // Try posting to Flask server API if active (local dev only)
     try {
       await fetch(`/api/teacher/evaluate/${currentEvaluatingStudent.id}`, {
         method: 'POST',
@@ -1845,7 +2048,31 @@
       });
     } catch (e) {}
 
-    alert('✓ Teacher Evaluation saved successfully! Status updated to Evaluated.');
+    // Sync evaluation to Firestore cloud (requires faculty sign-in).
+    var cloudOk = false;
+    try {
+      var c = cloud();
+      if (c && c.updateRecord) {
+        var upd = await c.updateRecord(currentEvaluatingStudent.id, {
+          id: currentEvaluatingStudent.id,
+          status: 'evaluated',
+          updated_at: new Date().toLocaleString(),
+          subject_evaluations: evalPayload.subject_evaluations,
+          skills: evalPayload.skills,
+          teacher_assessment: evalPayload.teacher_assessment,
+          teacher_final_remark: evalPayload.teacher_final_remark,
+          co_curricular: (idx !== -1 && list[idx].co_curricular) || []
+        });
+        cloudOk = Boolean(upd && upd.ok);
+        if (!cloudOk && upd && String(upd.error || '').indexOf('permission-denied') !== -1) {
+          alert('⚠️ ' + facultyAuthHint());
+        }
+      }
+    } catch (e) {}
+
+    alert(cloudOk
+      ? '✓ Teacher Evaluation saved & synced to cloud ☁️! Status updated to Evaluated.'
+      : '✓ Teacher Evaluation saved on this device. Cloud sync pending — sign in (Google) to sync to all devices.');
     closeEvaluationModal();
     loadStudentRoster();
     /* Academic graph removed */
@@ -1947,6 +2174,11 @@
 
     try {
       await fetch(`/api/teacher/delete/${id}`, { method: 'POST' });
+    } catch (e) {}
+
+    try {
+      var c = cloud();
+      if (c && c.deleteRecord) await c.deleteRecord(id);
     } catch (e) {}
 
     loadStudentRoster();

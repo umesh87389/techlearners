@@ -38,5 +38,61 @@ service cloud.firestore {
         && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
       allow update: if false;
     }
+
+    // Student portfolios (SHM Academy, GitHub Pages compatible).
+    // Students submit/edit without signing in; faculty reads, evaluates and
+    // releases after Google sign-in. Teacher-only sections (evaluations,
+    // release flags, status) can only be changed by signed-in faculty —
+    // public student edits must leave them untouched.
+    //
+    // PRODUCTION HARDENING (recommended): restrict faculty writes/reads to
+    // known UIDs by replacing `request.auth != null` below with:
+    //   request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3' ||
+    //   request.auth.uid in ['TEACHER_UID_1', 'TEACHER_UID_2']
+    // Steps: Firebase Console > Authentication > Users > create teacher users
+    // (Email/Password or Google), copy each UID into the list, publish rules.
+    match /portfolioSubmissions/{submissionId} {
+      function portfolioBaseValid() {
+        return request.resource.data.student_name is string
+          && request.resource.data.student_name.size() > 0
+          && request.resource.data.student_name.size() <= 100
+          && request.resource.data.class_section is string
+          && request.resource.data.class_section.size() > 0
+          && request.resource.data.class_section.size() <= 60
+          && request.resource.data.status in ['pending_evaluation', 'evaluated']
+          && (!('photo_url' in request.resource.data)
+            || !(request.resource.data.photo_url is string)
+            || request.resource.data.photo_url.size() <= 400000);
+      }
+      function portfolioTeacherSectionsEmpty() {
+        return ((!('subject_evaluations' in request.resource.data))
+            || request.resource.data.subject_evaluations == {})
+          && ((!('skills' in request.resource.data))
+            || request.resource.data.skills == {})
+          && ((!('teacher_assessment' in request.resource.data))
+            || request.resource.data.teacher_assessment == {})
+          && ((!('teacher_final_remark' in request.resource.data))
+            || request.resource.data.teacher_final_remark == {})
+          && ((!('released_for_download' in request.resource.data))
+            || request.resource.data.released_for_download == false);
+      }
+      function portfolioTeacherSectionsUnchanged() {
+        return request.resource.data.subject_evaluations == resource.data.subject_evaluations
+          && request.resource.data.skills == resource.data.skills
+          && request.resource.data.teacher_assessment == resource.data.teacher_assessment
+          && request.resource.data.teacher_final_remark == resource.data.teacher_final_remark
+          && request.resource.data.released_for_download == resource.data.released_for_download
+          && request.resource.data.status == resource.data.status;
+      }
+      // Fresh student submission: pending, no teacher sections yet.
+      allow create: if portfolioBaseValid()
+        && request.resource.data.status == 'pending_evaluation'
+        && portfolioTeacherSectionsEmpty();
+      // Student re-submits keep evaluations/status/flags intact (public);
+      // faculty (signed in) may evaluate, release and edit anything valid.
+      allow update: if (portfolioBaseValid() && portfolioTeacherSectionsUnchanged())
+        || (request.auth != null && portfolioBaseValid());
+      allow read, delete: if request.auth != null;
+    }
   }
 }
