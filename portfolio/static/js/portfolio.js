@@ -1687,7 +1687,7 @@
 
     if (result && result.success) {
       showSuccessModal(
-        'Portfolio Sent to Teacher!',
+        'Portfolio Submitted Successfully!',
         result.cloud
           ? 'Your portfolio has been synced to the cloud ☁️ and will appear on the Teacher’s Dashboard on every device.'
           : 'Your portfolio has been recorded on this device. Cloud sync is pending (offline?) — please stay online and press Send again so teachers on other devices can see it.'
