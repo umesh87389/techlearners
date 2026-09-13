@@ -121,6 +121,18 @@
     return additions.length ? [...(baseItems || []), ...additions] : (baseItems || []);
   }
 
+  const retiredNoteTitles = new Set([
+    'unit 3: basic ict skills - i complete master revision notes',
+    'unit 3: computer system architecture, memory & software notes',
+    'unit 3: operating system, gui operations & file management notes',
+    'unit 3: internet, web browsing, email & cyber safety notes',
+    'unit 3: basic ict skills - i high-yield questions & answers bank'
+  ]);
+
+  function dropRetiredNotes(items) {
+    return (items || []).filter(item => !retiredNoteTitles.has(String(item && item.title || '').trim().toLowerCase()));
+  }
+
   async function getNotes(dataRoot) {
     let defaults = [];
     try {
@@ -129,12 +141,12 @@
       console.warn('Unable to load bundled notes.', error);
     }
     const stored = getStored('notes');
-    const localMerged = appendNoteItems(defaults, stored);
+    const localMerged = dropRetiredNotes(appendNoteItems(defaults, stored));
 
     if (isAdminPage && firebase.configured) {
       try {
         const cloudItems = await getCloudContent('notes');
-        const merged = appendNoteItems(defaults, cloudItems);
+        const merged = dropRetiredNotes(appendNoteItems(defaults, cloudItems));
         safeStorage.setItem(storagePrefix + 'notes', JSON.stringify(merged));
         return merged;
       } catch (error) {
@@ -146,7 +158,7 @@
       setTimeout(async () => {
         try {
           const cloudItems = await getCloudContent('notes');
-          const merged = appendNoteItems(defaults, cloudItems);
+          const merged = dropRetiredNotes(appendNoteItems(defaults, cloudItems));
           safeStorage.setItem(storagePrefix + 'notes', JSON.stringify(merged));
           document.dispatchEvent(new CustomEvent('tl_content_updated', { detail: { type: 'notes' } }));
         } catch (e) {
