@@ -53,7 +53,7 @@
     const versions = {
       chapters: 'detailed-chapters-1',
       quizQuestions: 'practice-questions-2',
-      notes: 'class9-it-content-2'
+      notes: 'class9-it-content-3'
     };
     const version = versions[type] ? `?v=${versions[type]}` : '';
     const promise = fetch(`${dataRoot || 'data'}/${type}.json${version}`).then(response => {

@@ -275,9 +275,11 @@ function renderPlainNote(value) {
   };
   const looksLikeHeading = line => {
     if (/[:：]$/.test(line)) return true;
-    if (/^(chapter|section|topic|unit|module|key points?|summary|definition|example|activity|steps?|important|remember)\b/i.test(line)) return true;
+    if (/^(chapter|section|session|part|topic|unit|module|key points?|summary|definition|example|activity|steps?|important|remember|how to use)\b/i.test(line)) return true;
     return line.length <= 56 && !/[.!?]$/.test(line);
   };
+  const isQuestionLine = line => /^(Q\s*\d+[\.:\)]|Question\s*\d*[\s\.:\)]|Ans\s*:|Answer\s*:|Explanation\s*:)/i.test(line) || /^\d+[.)]\s+.*\?\s*$/.test(line);
+  const boldListItem = text => /[:：]\s*$/.test(text) || /\?\s*$/.test(text) || (text.length <= 60 && !/[.!?]$/.test(text));
 
   lines.forEach(rawLine => {
     const line = rawLine.trim();
@@ -287,18 +289,35 @@ function renderPlainNote(value) {
       return;
     }
 
+    if (isQuestionLine(line) && !/^[-*•]\s+/.test(line) && !/^\d+[.)]\s+/.test(line)) {
+      flushList();
+      flushParagraph();
+      if (/^(Ans\s*:|Answer\s*:|Explanation\s*:)/i.test(line)) {
+        const m = line.match(/^((?:Ans|Answer|Explanation)\s*:)(.*)$/i);
+        html.push(`<p><strong>${escapeHtml(m[1])}</strong>${escapeHtml(m[2])}</p>`);
+      } else {
+        html.push(`<p><strong>${escapeHtml(line)}</strong></p>`);
+      }
+      return;
+    }
+
     const bullet = line.match(/^[-*•]\s+(.+)/);
     const numbered = line.match(/^\d+[.)]\s+(.+)/);
     if (bullet || numbered) {
+      const text = (bullet || numbered)[1];
       openList(bullet ? 'ul' : 'ol');
-      html.push(`<li>${escapeHtml((bullet || numbered)[1])}</li>`);
+      if (boldListItem(text) || isQuestionLine(line)) {
+        html.push(`<li><strong>${escapeHtml(text)}</strong></li>`);
+      } else {
+        html.push(`<li>${escapeHtml(text)}</li>`);
+      }
       return;
     }
 
     flushList();
     if (looksLikeHeading(line)) {
       flushParagraph();
-      html.push(`<h3>${escapeHtml(line.replace(/[:：]$/, ''))}</h3>`);
+      html.push(`<h3><strong>${escapeHtml(line.replace(/[:：]$/, ''))}</strong></h3>`);
       return;
     }
     paragraph.push(escapeHtml(line));
