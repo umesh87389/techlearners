@@ -456,12 +456,13 @@
   }
 
   function escapeHtml(str) {
-    if (!str) return '';
+    if (!str && str !== 0) return '';
     return String(str)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function generatePrintHtml(s) {

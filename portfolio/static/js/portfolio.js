@@ -67,23 +67,105 @@
     } catch (e) { return { ok: false, error: String((e && e.message) || e) }; }
   }
 
+  function rosterRecordPhoto(s) {
+    return (s && (s.photo_url || (s.profile && s.profile.photo_data))) || '';
+  }
+
+  function rosterRecordTime(s) {
+    var t = (s && (s.updated_at || s.created_at)) || '';
+    var ms = Date.parse(t);
+    return Number.isFinite(ms) ? ms : 0;
+  }
+
   function mergeRosterLists(primary, secondary) {
+    // Merge by id without losing data: prefer the copy with a photo and the
+    // newer updated_at when both copies exist (cloud photos are truncated).
     var map = new Map();
-    (primary || []).forEach(function (s) { if (s && s.id && !map.has(s.id)) map.set(s.id, s); });
+    function better(existing, incoming) {
+      if (!existing) return incoming;
+      if (!incoming) return existing;
+      var ePhoto = rosterRecordPhoto(existing);
+      var iPhoto = rosterRecordPhoto(incoming);
+      if (!ePhoto && iPhoto) return incoming;
+      if (ePhoto && !iPhoto) return existing;
+      return rosterRecordTime(incoming) >= rosterRecordTime(existing) ? incoming : existing;
+    }
     (secondary || []).forEach(function (s) { if (s && s.id && !map.has(s.id)) map.set(s.id, s); });
+    (primary || []).forEach(function (s) {
+      if (!s || !s.id) return;
+      map.set(s.id, better(map.get(s.id), s));
+    });
     return Array.from(map.values());
   }
 
   function cacheMergedRoster(list) {
     try {
-      var clean = (list || []).filter(function (s) {
+      var localRaw = getLocalStudentList();
+      var byId = {};
+      (localRaw || []).forEach(function (s) { if (s && s.id) byId[s.id] = s; });
+      (list || []).forEach(function (s) {
+        if (!s || !s.id || String(s.id).indexOf('demo_') === 0) return;
+        var prev = byId[s.id];
+        if (prev && rosterRecordPhoto(prev) && !rosterRecordPhoto(s)) {
+          // Keep the full local photo; cloud copy may be truncated/omitted.
+          s.photo_url = rosterRecordPhoto(prev);
+          if (s.profile) s.profile.photo_data = rosterRecordPhoto(prev);
+        }
+        byId[s.id] = s;
+      });
+      var clean = Object.keys(byId).map(function (k) { return byId[k]; }).filter(function (s) {
         return s && s.id && String(s.id).indexOf('demo_') !== 0;
       });
-      var local = getLocalStudentList().filter(function (s) {
+      var demos = (localRaw || []).filter(function (s) {
         return s && s.id && String(s.id).indexOf('demo_') === 0;
       });
-      localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(clean.concat(local)));
+      localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(clean.concat(demos)));
     } catch (e) {}
+  }
+
+  // ---- Per-student identity: NEVER overwrite another student's portfolio ----
+  // A shared device/browser serves many students. The old code reused a single
+  // stored id (shm_student_id), so Student B silently replaced Student A.
+  // Identity is now resolved from admission_no (preferred) or name+class+roll.
+  function normIdentity(v) {
+    return String(v || '').trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
+  function generateStudentId() {
+    try {
+      if (window.crypto && window.crypto.randomUUID) {
+        return 'stu_' + window.crypto.randomUUID().slice(0, 8);
+      }
+    } catch (e) {}
+    return 'stu_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function findRecordByIdentity(list, profile) {
+    var p = profile || {};
+    var adm = normIdentity(p.admission_no);
+    if (adm) {
+      var hit = (list || []).find(function (s) {
+        var a = normIdentity(s.admission_no || (s.profile && s.profile.admission_no));
+        return a && a === adm;
+      });
+      if (hit) return hit;
+    }
+    var nm = normIdentity(p.student_name);
+    var cls = normIdentity(p.class_section);
+    var roll = normIdentity(p.roll_no);
+    if (!nm || !cls) return null;
+    return (list || []).find(function (s) {
+      var sp = s.profile || {};
+      return normIdentity(s.student_name || sp.student_name) === nm &&
+        normIdentity(s.class_section || sp.class_section) === cls &&
+        normIdentity(s.roll_no || sp.roll_no) === roll;
+    }) || null;
+  }
+
+  function resolveStudentId(roster, profile) {
+    var match = findRecordByIdentity(roster, profile);
+    if (match && match.id) return { id: match.id, isNew: false, matched: match };
+    return { id: generateStudentId(), isNew: true, matched: null };
   }
 
   function facultyAuthHint() {
@@ -287,9 +369,6 @@
   let currentEvaluatingStudent = null;
 
   document.addEventListener('DOMContentLoaded', () => {
-    const legacyPrint = document.getElementById('btnPrintPortfolio');
-    if (legacyPrint) legacyPrint.remove();
-
     initTabs();
     initPhotoUpload();
     initClassSync();
@@ -297,6 +376,8 @@
     initActionHandlers();
     initTeacherFilters();
     initAdminFilters();
+    ensureNewStudentButton();
+    initCrossTabSync();
     /* Academic graph removed */
     populateSinglePagePrintSheet();
 
@@ -1192,7 +1273,10 @@
   // 4. FORM DATA GATHERING & LOCAL DRAFT
   // =========================================================
   function getFormData(source = 'send') {
-    const studentId = localStorage.getItem(STUDENT_ID_KEY) || ('stu_' + Date.now());
+    // NOTE: id is resolved at send-time by identity (admission_no or
+    // name+class+roll) so one browser can serve many students without
+    // overwriting. Drafts reuse the stored id only as a hint.
+    const studentId = localStorage.getItem(STUDENT_ID_KEY) || '';
 
     // Collect goals checklist
     const goalsChecked = [];
@@ -1370,6 +1454,13 @@
   function populateForm(d) {
     if (!d) return;
 
+    // Reset option grids first so loading another student's record never
+    // leaves the previous student's ticks behind (shared-device bug).
+    try {
+      document.querySelectorAll('input[name="goal_checkbox"]').forEach(function (cb) { cb.checked = false; });
+      document.querySelectorAll('input[name="part_checkbox"]').forEach(function (cb) { cb.checked = false; });
+    } catch (e) {}
+
     if (d.header && d.header.academic_session) setVal('academic_session_input', d.header.academic_session);
 
     if (d.profile) {
@@ -1385,21 +1476,30 @@
       setVal('profile_class_teacher', d.profile.class_teacher);
 
       const aboutClassSpan = document.getElementById('about_study_class');
-      if (aboutClassSpan && d.profile.class_section) {
-        aboutClassSpan.textContent = d.profile.class_section;
+      if (aboutClassSpan) {
+        aboutClassSpan.textContent = d.profile.class_section || 'Class __________';
       }
 
+      var _photoPreview = document.getElementById('photoPreviewImg');
+      var _photoPrompt = document.getElementById('photoPromptText');
+      var _photoRemove = document.getElementById('photoRemoveBtn');
+      var _photoInput = document.getElementById('photoFileInput');
       if (d.profile.photo_data) {
         currentPhotoBase64 = d.profile.photo_data;
-        const previewImg = document.getElementById('photoPreviewImg');
-        const promptText = document.getElementById('photoPromptText');
-        const removeBtn = document.getElementById('photoRemoveBtn');
-        if (previewImg && promptText && removeBtn) {
-          previewImg.src = currentPhotoBase64;
-          previewImg.style.display = 'block';
-          promptText.style.display = 'none';
-          removeBtn.style.display = 'block';
+        if (_photoPreview && _photoPrompt && _photoRemove) {
+          _photoPreview.src = currentPhotoBase64;
+          _photoPreview.style.display = 'block';
+          _photoPrompt.style.display = 'none';
+          _photoRemove.style.display = 'block';
         }
+      } else {
+        // Clear stale photo: loading another student's record must not keep
+        // the previous photo (shared-device overwrite look-alike).
+        currentPhotoBase64 = '';
+        if (_photoPreview) { _photoPreview.src = ''; _photoPreview.style.display = 'none'; }
+        if (_photoPrompt) _photoPrompt.style.display = 'block';
+        if (_photoRemove) _photoRemove.style.display = 'none';
+        if (_photoInput) _photoInput.value = '';
       }
     }
 
@@ -1569,6 +1669,122 @@
     if (printBtn) printBtn.addEventListener('click', () => handleStudentPrint());
   }
 
+  function refreshRostersAfterSend() {
+    // Teacher + Admin lists must show the new submission immediately
+    // (same device). Cloud covers other devices; local covers this one.
+    try {
+      if (isTeacherAuthenticated() &&
+          document.getElementById('teacherDashboardContent') &&
+          document.getElementById('teacherDashboardContent').style.display !== 'none') {
+        loadStudentRoster();
+      }
+    } catch (e) {}
+    try {
+      if (typeof isAdminAuthenticated === 'function' && isAdminAuthenticated() &&
+          document.getElementById('adminDashboardContent') &&
+          document.getElementById('adminDashboardContent').style.display !== 'none') {
+        loadAdminRoster();
+      }
+    } catch (e) {}
+    try { loadDownloadList(); } catch (e) {}
+  }
+
+  // Next student on a shared device must NEVER inherit the previous record.
+  function clearStudentForm() {
+    try {
+      var form = document.getElementById('portfolioForm');
+      if (form) form.reset();
+    } catch (e) {}
+    try {
+      document.querySelectorAll('input[name="goal_checkbox"]').forEach(function (cb) { cb.checked = false; });
+      document.querySelectorAll('input[name="part_checkbox"]').forEach(function (cb) { cb.checked = false; });
+    } catch (e) {}
+    try {
+      currentPhotoBase64 = '';
+      var previewImg = document.getElementById('photoPreviewImg');
+      var promptText = document.getElementById('photoPromptText');
+      var removeBtn = document.getElementById('photoRemoveBtn');
+      var fileInput = document.getElementById('photoFileInput');
+      if (previewImg) { previewImg.src = ''; previewImg.style.display = 'none'; }
+      if (promptText) promptText.style.display = 'block';
+      if (removeBtn) removeBtn.style.display = 'none';
+      if (fileInput) fileInput.value = '';
+      var aboutClassSpan = document.getElementById('about_study_class');
+      if (aboutClassSpan) aboutClassSpan.textContent = 'Class __________';
+    } catch (e) {}
+  }
+
+  window.startNewPortfolio = function () {
+    if (!confirm('Start a new portfolio?\n\nThis clears the form for the next student. Already-sent portfolios stay safe in Teacher/Admin lists.')) return;
+    try { localStorage.removeItem(STUDENT_ID_KEY); } catch (e) {}
+    try { localStorage.removeItem('shm_portfolio_draft'); } catch (e) {}
+    clearStudentForm();
+    try { switchMainTab('student'); } catch (e) {}
+    try { updateStatusBadge('Ready • New portfolio started'); } catch (e) {}
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {}
+  };
+
+  function ensureNewStudentButton() {
+    try {
+      if (document.getElementById('btnNewPortfolio')) return;
+      var sendBtn = document.getElementById('btnSendPortfolio');
+      if (!sendBtn || !sendBtn.parentElement) return;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.id = 'btnNewPortfolio';
+      btn.className = 'btn-vibrant btn-outline';
+      btn.title = 'Clear the form for the next student (sent portfolios are kept)';
+      btn.innerHTML = '<span>🆕</span> New Student';
+      btn.addEventListener('click', function () { window.startNewPortfolio(); });
+      sendBtn.parentElement.insertBefore(btn, sendBtn.nextSibling);
+    } catch (e) {}
+  }
+
+  function initCrossTabSync() {
+    // If the student form and teacher dashboard are open in two tabs on the
+    // same device, the teacher tab refreshes itself as soon as a send lands.
+    try {
+      window.addEventListener('storage', function (ev) {
+        if (!ev || ev.key !== SUBMISSIONS_KEY) return;
+        try {
+          if (document.getElementById('teacherDashboardContent') &&
+              document.getElementById('teacherDashboardContent').style.display !== 'none') {
+            loadStudentRoster();
+          }
+        } catch (e) {}
+        try {
+          if (document.getElementById('adminDashboardContent') &&
+              document.getElementById('adminDashboardContent').style.display !== 'none') {
+            loadAdminRoster();
+          }
+        } catch (e) {}
+        try {
+          if (document.getElementById('downloadViewContainer') &&
+              document.getElementById('downloadViewContainer').style.display !== 'none') {
+            loadDownloadList();
+          }
+        } catch (e) {}
+      });
+    } catch (e) {}
+    // Other-device submissions arrive via Firestore: poll while a roster tab
+    // is visible so Teacher/Admin lists update automatically (no manual
+    // Refresh needed). Interval is cleared when tabs are hidden.
+    try {
+      setInterval(function () {
+        try {
+          var teacherVisible = document.getElementById('teacherDashboardContent') &&
+            document.getElementById('teacherDashboardContent').style.display !== 'none' &&
+            isTeacherAuthenticated();
+          var adminVisible = document.getElementById('adminDashboardContent') &&
+            document.getElementById('adminDashboardContent').style.display !== 'none' &&
+            typeof isAdminAuthenticated === 'function' && isAdminAuthenticated();
+          if (teacherVisible) loadStudentRoster();
+          else if (adminVisible) loadAdminRoster();
+        } catch (e) {}
+      }, 30000);
+    } catch (e) {}
+  }
+
   async function submitAndSyncRecord(source = 'send') {
     const payload = getFormData(source);
     const studentName = (payload.profile.student_name || '').trim();
@@ -1592,15 +1808,22 @@
 
     updateStatusBadge('Saving and transmitting to Teacher Dashboard...');
 
-    // 1. Sync to localStorage master roster (ensures static & instant availability)
+    // Resolve identity FIRST: same student -> update own record;
+    // different student on shared device -> always create a NEW record.
+    var studentRecord = null;
+    var resolvedId = '';
     try {
       const rosterRaw = localStorage.getItem(SUBMISSIONS_KEY);
       let roster = rosterRaw ? JSON.parse(rosterRaw) : [];
       if (!Array.isArray(roster)) roster = [];
 
-      const existingIdx = roster.findIndex(item => item.id === payload.id);
-      const studentRecord = {
-        id: payload.id,
+      var resolved = resolveStudentId(roster, payload.profile);
+      resolvedId = resolved.id;
+      payload.id = resolvedId;
+      var existingIdx = roster.findIndex(function (item) { return item && item.id === resolvedId; });
+
+      studentRecord = {
+        id: resolvedId,
         student_name: studentName,
         class_section: classSection,
         roll_no: payload.profile.roll_no,
@@ -1652,10 +1875,16 @@
         roster.unshift(studentRecord);
       }
       localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(roster));
-      localStorage.setItem(STUDENT_ID_KEY, payload.id);
+      try { localStorage.setItem(STUDENT_ID_KEY, resolvedId); } catch (e) {}
+      // Draft now belongs to this resolved student; keep it in sync.
+      try { localStorage.setItem('shm_portfolio_draft', JSON.stringify(payload)); } catch (e) {}
+      // Same-device teacher/admin views update instantly.
+      refreshRostersAfterSend();
     } catch (e) {
       console.warn('Local master roster sync:', e);
     }
+
+    if (!studentRecord) return null;
 
     // 2. Also POST to backend API if active (Flask, local dev only —
     //    GitHub Pages cannot run it, so failures are ignored)
@@ -1669,13 +1898,47 @@
 
     // 3. Sync to Firestore cloud (shared across all devices).
     //    Public create per rules — students need no sign-in.
+    //    If the cloud copy already has faculty evaluations, keep them:
+    //    a plain student re-submit must never wipe teacher sections.
+    try {
+      var cPre = cloud();
+      if (cPre && cPre.fetchOne && !studentRecord.subject_evaluations) {
+        var existing = await cPre.fetchOne(studentRecord.id);
+        if (existing && existing.ok && existing.record) {
+          ['subject_evaluations', 'skills', 'teacher_assessment', 'teacher_final_remark'].forEach(function (k) {
+            if (existing.record[k] && !studentRecord[k]) studentRecord[k] = existing.record[k];
+          });
+          if (existing.record.status === 'evaluated') studentRecord.status = 'evaluated';
+          if (existing.record.released_for_download) {
+            studentRecord.released_for_download = true;
+            studentRecord.released_at = existing.record.released_at || studentRecord.released_at;
+          }
+          try {
+            var _oldCo2 = existing.record.co_curricular || [];
+            (studentRecord.co_curricular || []).forEach(function (row, i) {
+              if (_oldCo2[i] && _oldCo2[i].teacher_remark && !row.teacher_remark) {
+                row.teacher_remark = _oldCo2[i].teacher_remark;
+              }
+            });
+          } catch (e) {}
+        }
+      }
+    } catch (e) {}
     var cloudRes = await cloudSaveRecord(studentRecord);
     if (cloudRes && cloudRes.ok) {
       updateStatusBadge(`Synced to cloud ☁️ (${new Date().toLocaleTimeString()})`);
+    } else if (cloudRes && String((cloudRes.error || '')).indexOf('permission-denied') !== -1) {
+      // Evaluated record edited by student without sign-in: local save stands,
+      // cloud keeps faculty sections. Not a data loss.
+      try {
+        var c2 = cloud();
+        if (c2 && c2.saveStudentFields) await c2.saveStudentFields(studentRecord);
+      } catch (e) {}
+      updateStatusBadge(`Recorded on this device (${new Date().toLocaleTimeString()}) — cloud sync pending`);
     } else {
       updateStatusBadge(`Recorded on this device (${new Date().toLocaleTimeString()}) — cloud sync pending`);
     }
-    return { success: true, student_id: payload.id, cloud: cloudRes && cloudRes.ok };
+    return { success: true, student_id: resolvedId, cloud: cloudRes && cloudRes.ok };
   }
 
   async function handleStudentSend() {
@@ -2587,8 +2850,8 @@
   }
 
   function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    if (!str && str !== 0) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   function debounce(fn, delay) {

@@ -47,6 +47,35 @@ def save_student_submission(student_id, data, source='send'):
     
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
+    def _norm(v):
+        return ' '.join(str(v or '').strip().split()).lower()
+
+    # Identity guard: one record per student. If the client generated a fresh
+    # id for a student that already exists (shared device, re-typed form),
+    # update the existing row instead of creating a duplicate. A different
+    # student (different identity) always gets their own row — never replaces.
+    try:
+        if admission_no:
+            cursor.execute('SELECT id FROM students WHERE lower(trim(admission_no)) = ? LIMIT 1', (admission_no.strip().lower(),))
+            row = cursor.fetchone()
+            if row and row['id'] != student_id:
+                student_id = row['id']
+        if not admission_no or True:
+            # Fall back to name+class+roll match when admission is blank or
+            # when the id above did not resolve.
+            cursor.execute('SELECT id, student_name, class_section, roll_no, admission_no FROM students', ())
+            for r in cursor.fetchall():
+                if r['id'] == student_id:
+                    continue
+                same_adm = admission_no and (r['admission_no'] or '').strip().lower() == admission_no.strip().lower()
+                same_ncr = (_norm(r['student_name']) == _norm(student_name) and _norm(r['class_section']) == _norm(class_section)
+                            and _norm(r['roll_no']) == _norm(roll_no) and _norm(student_name) and _norm(class_section))
+                if same_adm or same_ncr:
+                    student_id = r['id']
+                    break
+    except Exception:
+        pass
+
     # Check if student exists
     cursor.execute('SELECT id, status, data_json FROM students WHERE id = ?', (student_id,))
     existing = cursor.fetchone()

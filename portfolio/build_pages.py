@@ -1540,7 +1540,7 @@ def generate_html(is_jinja=False):
 
   </div>
 
-  <script src="static/js/portfolio.js?v=20260912-02"></script>
+  <script src="static/js/portfolio.js?v=20260913-fix2"></script>
 </body>
 </html>'''
 
