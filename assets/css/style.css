@@ -1155,3 +1155,50 @@ body, header, main, footer, .card, .exam-card, .btn, input, select, textarea, .s
   color: var(--accent);
   transform: translateY(-1px);
 }
+
+/* Paytm-inspired look and feel (light-first, navy + sky blue) */
+:root{
+  --bg:#f5f7fa; --card:#ffffff; --text:#002e6e; --muted:#5b6b8c;
+  --accent:#002e6e; --accent2:#00b9f1; --accent3:#00b9f1;
+  --accent-soft:rgba(0,185,241,.1); --border:#e2e8f5;
+  --glass:#ffffff;
+  --body-bg:#f5f7fa;
+  --header-bg:#ffffff; --input-bg:#ffffff; --nav-bg:#ffffff;
+  --shadow:0 4px 16px rgba(0,46,110,.08);
+  --logo-bg:linear-gradient(135deg,#002e6e,#00b9f1); --logo-text:#ffffff; --logo-halo:rgba(0,185,241,.4);
+}
+body{background:var(--body-bg)}
+body::before{display:none}
+.site-header{background:#fff;border-bottom:3px solid #00b9f1;box-shadow:0 2px 10px rgba(0,46,110,.08)}
+.brand-accent{color:#00b9f1}
+.nav a{color:#002e6e}
+.nav a:hover{color:#00b9f1;background:rgba(0,185,241,.08)}
+.nav a.active:not(.btn){color:#002e6e!important;border-bottom-color:#00b9f1!important;background:rgba(0,185,241,.08)}
+.nav a.btn,.btn{background:linear-gradient(135deg,#002e6e,#00b9f1);box-shadow:0 4px 14px rgba(0,46,110,.25)}
+.nav a.btn:hover,.btn:hover{background:linear-gradient(135deg,#001f4d,#0099cc);box-shadow:0 6px 18px rgba(0,46,110,.32);transform:translateY(-1px)}
+.btn.secondary{background:#fff;border:1.5px solid #00b9f1;color:#002e6e;box-shadow:none}
+.tag{color:#00b9f1!important}
+.learning-portal{background:linear-gradient(180deg,#002e6e 0%,#003d8f 60%,#f5f7fa 100%)!important;border-bottom:none}
+.learning-portal .hero-study-title,.learning-portal .hero-content>p{color:#fff}
+.learning-portal .hero-content>p{opacity:.9}
+.hero-platform-tag{background:#fff!important;color:#002e6e!important;border:none!important}
+.learning-search{border-radius:14px;border:1px solid #e2e8f5;box-shadow:0 8px 24px rgba(0,46,110,.18)}
+.topic-pills a{color:#002e6e;border:1px solid #e2e8f5}
+.topic-pills a:hover{background:#00b9f1;color:#fff}
+.portal-stats span{background:#fff;border:1px solid #e2e8f5;box-shadow:var(--shadow)}
+.hero-card,.card,.form-card,.login-card,.quiz-box,.exam-card{background:#fff!important;border:1px solid #e2e8f5!important;border-radius:16px!important;box-shadow:0 4px 16px rgba(0,46,110,.08)!important;backdrop-filter:none!important}
+.hero-card:hover,.card:hover,.exam-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,46,110,.14)!important}
+.exam-card::before{background:linear-gradient(90deg,#002e6e,#00b9f1)!important;display:block!important;height:4px}
+.exam-card.subject-it::before{background:linear-gradient(90deg,#002e6e,#00b9f1)!important}
+.exam-badge{background:#eef6ff;color:#002e6e;border:1px solid #cfe6fb}
+.subject-ai-badge{background:#002e6e!important;color:#fff!important}
+.subject-it-badge{background:#00b9f1!important;color:#fff!important}
+.footer{background:#002e6e!important;color:#cfe0ff}
+.footer a{color:#fff}
+.footer p{color:#cfe0ff}
+[data-theme="dark"]{
+  --bg:#0a1a33; --card:#10254a; --text:#eaf3ff; --muted:#9db4d8;
+  --accent:#00b9f1; --accent-soft:rgba(0,185,241,.15); --border:#1e3a63;
+  --header-bg:#0a1a33; --input-bg:#10254a; --nav-bg:#0a1a33;
+  --body-bg:#0a1a33;
+}
