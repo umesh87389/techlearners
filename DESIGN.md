@@ -1,72 +1,91 @@
 ---
 name: TechLearners Design System
-version: 2.1.0
+version: 1.0.0
 colors:
   light:
     bg:
-      value: "#f3fbf5" # very light green page background
+      value: "#f9f9f9"
       type: color
     card:
-      value: "#ffffff" # white cards for contrast
+      value: "rgba(255, 255, 255, 0.75)"
       type: color
     text:
-      value: "#14532d" # dark green
+      value: "#3d494b"
       type: color
     muted:
-      value: "#4f7a61"
+      value: "#515d5f"
       type: color
     accent:
-      value: "#16a34a" # green — single primary
+      value: "#014751" # Deep Teal
       type: color
-    accent-hover:
-      value: "#15803d"
+    accent2:
+      value: "#afe137" # Lime Green
       type: color
-    soft:
-      value: "#e9f7ef" # pale green fill for pills/badges
+    accent3:
+      value: "#368995" # Soft Teal
       type: color
     border:
-      value: "#c9e9d4" # light green border
+      value: "rgba(1, 71, 81, 0.16)"
       type: color
     header-bg:
-      value: "#ffffff"
+      value: "rgba(242, 251, 253, 0.95)"
       type: color
     nav-bg:
-      value: "#ffffff"
+      value: "rgba(242, 251, 253, 0.98)"
       type: color
-    success:
-      value: "#15803d" # quiz correct only
+  dark:
+    bg:
+      value: "#091a1c"
       type: color
-    error:
-      value: "#b91c1c" # quiz wrong only
+    card:
+      value: "rgba(13, 35, 38, 0.85)"
+      type: color
+    text:
+      value: "#e2f0f2"
+      type: color
+    muted:
+      value: "#8ca3a6"
+      type: color
+    accent:
+      value: "#afe137" # Lime Green (Accent shifts to lime in dark mode for contrast)
+      type: color
+    accent2:
+      value: "#70c0cc"
+      type: color
+    accent3:
+      value: "#14a0b2"
+      type: color
+    border:
+      value: "rgba(175, 225, 55, 0.25)"
+      type: color
+    header-bg:
+      value: "rgba(9, 26, 28, 0.95)"
+      type: color
+    nav-bg:
+      value: "rgba(9, 26, 28, 0.98)"
       type: color
 typography:
   fontFamily: "Inter, Segoe UI, Arial, sans-serif"
   headings:
     h1:
       fontSize: "clamp(2rem, 4vw, 3.2rem)"
-      fontWeight: "800"
+      fontWeight: "900"
 ---
 
 # Design System Guidelines
 
 This document serves as the single source of truth for the **TechLearners** visual design system. All AI coding assistants and developers must adhere to these tokens and rules when generating or modifying pages, components, and layouts.
 
-## Visual Philosophy (v2.1 — Very Light Green)
-TechLearners uses a calm, fast, academic look: **very light green page (#f3fbf5)** with **white cards** and a single **green primary (#16a34a)**. Dark-green text (#14532d) keeps readability.
+## Visual Philosophy
+TechLearners uses a modern, high-contrast, academic tech aesthetic centered around **Deep Teal** and **Lime Green**. 
 
-### Rules
-* **One primary only:** `#16a34a` for buttons, links, icons, badges, bars. Hover: `#15803d`. No navy, lime, teal, violet, pink, amber, sky gradients.
-* **Backgrounds:** page `#f3fbf5`; cards/header/nav `#fff`; soft fills `#e9f7ef`. No `linear-gradient` / `radial-gradient`.
-* **No glassmorphism:** no `backdrop-filter`, no translucent layers. Solid colours only.
-* **No 3D:** no `preserve-3d`, `rotateX/Y`, `translateZ`. Hovers use `transform: none`.
-* **Shadows:** max `0 1px 3px rgba(0,0,0,.08)`; hover `0 2px 8px rgba(0,0,0,.1)`. No coloured glows.
-* **Decor layers removed:** no `.light-beam`, `.light-blobs`, `.light-dots`, no fixed full-screen layers.
-* **Animations:** only one short `fadeUp` (.5s). No `float`, `pulse`, `shimmer`, or infinite loops.
-* **Functional colours only:** red reserved strictly for quiz wrong feedback.
-* **Borders:** `1px solid #c9e9d4`, radius `8–12px`.
-* **Dark mode:** not used. `color-scheme: light` only.
+### Glassmorphism & Translucency
+To ensure a premium feel, the interface uses light layers with subtle backgrounds. However, **readability is paramount**:
+* **Headers & Menus:** The main header and mobile navigation menu must maintain high opacity (`0.95` and `0.98`) to prevent page content from bleeding through and clashing with navigation text on scroll.
+* **Backdrop Filters:** `backdrop-filter` is disabled on screens `<= 1024px` for performance optimizations. Solid/high-opacity fallback backgrounds (`header-bg`, `nav-bg`) must be used for mobile compatibility.
 
-### Performance
-* No `backdrop-filter` anywhere (was the main scroll-jank cause).
-* No fixed `body::before` background layer.
-* `3d-effects.css` and `animations.css` are intentionally minimal no-ops.
+### Dark Mode Transitions
+* Theme switching is managed by toggling a `data-theme="dark"` attribute on the `<html>` or `<body>` element.
+* When transitioning to dark mode:
+  * The primary accent color shifts from **Deep Teal** to **Lime Green** to maintain excellent readability against dark backgrounds.
+  * Border colors shift to a subtle lime overlay.
