@@ -70,7 +70,7 @@
   }
   .nav a.btn {
     justify-content: center;
-    background: #0f3d91 !important;
+    background: #16a34a !important;
     color: #ffffff !important;
     border: none !important;
     font-weight: 800 !important;
@@ -81,7 +81,7 @@
     display: none !important;
   }
   .nav a.btn:hover, .nav a.btn:active {
-    background: #0b2f6f !important;
+    background: #15803d !important;
     transform: none !important;
     box-shadow: none !important;
   }

@@ -1,31 +1,31 @@
 ---
 name: TechLearners Design System
-version: 2.0.0
+version: 2.1.0
 colors:
   light:
     bg:
-      value: "#ffffff"
-      type: color
-    surface:
-      value: "#f8fafc"
+      value: "#f3fbf5" # very light green page background
       type: color
     card:
-      value: "#ffffff"
+      value: "#ffffff" # white cards for contrast
       type: color
     text:
-      value: "#0f172a"
+      value: "#14532d" # dark green
       type: color
     muted:
-      value: "#475569"
+      value: "#4f7a61"
       type: color
     accent:
-      value: "#0f3d91" # Deep Navy — single primary
+      value: "#16a34a" # green — single primary
       type: color
     accent-hover:
-      value: "#0b2f6f"
+      value: "#15803d"
+      type: color
+    soft:
+      value: "#e9f7ef" # pale green fill for pills/badges
       type: color
     border:
-      value: "#e2e8f0"
+      value: "#c9e9d4" # light green border
       type: color
     header-bg:
       value: "#ffffff"
@@ -51,19 +51,19 @@ typography:
 
 This document serves as the single source of truth for the **TechLearners** visual design system. All AI coding assistants and developers must adhere to these tokens and rules when generating or modifying pages, components, and layouts.
 
-## Visual Philosophy (v2 — Simplified)
-TechLearners uses a minimal, fast, academic look: **white + deep navy (#0f3d91)** with slate neutrals. No rainbow colours.
+## Visual Philosophy (v2.1 — Very Light Green)
+TechLearners uses a calm, fast, academic look: **very light green page (#f3fbf5)** with **white cards** and a single **green primary (#16a34a)**. Dark-green text (#14532d) keeps readability.
 
 ### Rules
-* **One primary only:** `#0f3d91` for buttons, links, icons, badges, bars. Hover: `#0b2f6f`. No lime, teal, violet, pink, amber, sky gradients.
-* **No gradients:** all backgrounds are flat `#fff`, `#f8fafc`, or `#f1f5f9`. No `linear-gradient` / `radial-gradient`.
-* **No glassmorphism:** no `backdrop-filter`, no translucent `rgba()` layers. Solid `#fff` header/nav/cards.
-* **No 3D:** no `preserve-3d`, `rotateX/Y`, `translateZ`, `will-change`. Hovers use `transform: none`.
+* **One primary only:** `#16a34a` for buttons, links, icons, badges, bars. Hover: `#15803d`. No navy, lime, teal, violet, pink, amber, sky gradients.
+* **Backgrounds:** page `#f3fbf5`; cards/header/nav `#fff`; soft fills `#e9f7ef`. No `linear-gradient` / `radial-gradient`.
+* **No glassmorphism:** no `backdrop-filter`, no translucent layers. Solid colours only.
+* **No 3D:** no `preserve-3d`, `rotateX/Y`, `translateZ`. Hovers use `transform: none`.
 * **Shadows:** max `0 1px 3px rgba(0,0,0,.08)`; hover `0 2px 8px rgba(0,0,0,.1)`. No coloured glows.
 * **Decor layers removed:** no `.light-beam`, `.light-blobs`, `.light-dots`, no fixed full-screen layers.
-* **Animations:** only one short `fadeUp` (.5s). No `float`, `pulse`, `shimmer`, `kenBurns`, or infinite loops.
-* **Functional colours only:** green/red reserved strictly for quiz correct/wrong feedback.
-* **Borders:** `1px solid #e2e8f0`, radius `8–12px`.
+* **Animations:** only one short `fadeUp` (.5s). No `float`, `pulse`, `shimmer`, or infinite loops.
+* **Functional colours only:** red reserved strictly for quiz wrong feedback.
+* **Borders:** `1px solid #c9e9d4`, radius `8–12px`.
 * **Dark mode:** not used. `color-scheme: light` only.
 
 ### Performance
