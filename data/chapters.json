@@ -264,7 +264,7 @@
   {
     "id": "class-11-cs-computer-systems-and-organisation",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Computer Systems and Organisation - Master Overview",
     "description": "Comprehensive TechLearners master guide for CBSE Class 11 Computer Science (Subject Code 083) Unit 1: Computer Systems and Organisation. Covers computer architecture, hardware, software, operating system, Boolean logic, number systems, and encoding schemes.",
@@ -273,7 +273,7 @@
   {
     "id": "class-11-cs-basic-computer-organisation",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Basic Computer Organisation & Memory Hierarchy",
     "description": "Original study module on Basic Computer Organisation for Class 11 CS. Covers CPU internal architecture (ALU, CU, Registers), Input/Output devices, Primary/Secondary memory, Cache memory, and Memory Units.",
@@ -282,7 +282,7 @@
   {
     "id": "class-11-cs-types-of-software",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Types of Software, Utilities & Translators",
     "description": "Original study guide on Types of Software for Class 11 CS. Features system software, system utilities, device drivers, application software, and language translators (Assembler, Compiler, Interpreter comparison).",
@@ -291,7 +291,7 @@
   {
     "id": "class-11-cs-operating-system",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Operating System Functions & Interfaces",
     "description": "Original study guide on Operating Systems for Class 11 CS. Explains OS definition, 5 primary functions (Process, Memory, File, Device, Security management), and User Interfaces (CLI vs GUI vs Touch).",
@@ -300,7 +300,7 @@
   {
     "id": "class-11-cs-boolean-logic",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Boolean Logic, Truth Tables & De Morgan's Laws",
     "description": "Original Class 11 CS study module on Boolean Logic. Covers Boolean variables, fundamental logic gates (NOT, AND, OR), derived gates (NAND, NOR, XOR, XNOR), truth tables, logic circuits, and step-by-step De Morgan's Laws truth table proofs.",
@@ -309,7 +309,7 @@
   {
     "id": "class-11-cs-number-system",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Number Systems & Conversion Techniques",
     "description": "Original Class 11 CS study module on Number Systems. Features Binary, Octal, Decimal, and Hexadecimal base explanations and step-by-step worked conversion algorithms.",
@@ -318,7 +318,7 @@
   {
     "id": "class-11-cs-encoding-schemes",
     "class": "Class 11",
-    "subject": "CS",
+    "subject": "Python 083",
     "unit": "Unit 1: Computer Systems and Organisation",
     "title": "Character Encoding Schemes: ASCII, ISCII & Unicode",
     "description": "Original Class 11 CS study module on Encoding Schemes. Explains why encoding is needed, ASCII 7-bit/8-bit ranges, ISCII Indian language script standards, and Unicode (UTF-8, UTF-32).",
