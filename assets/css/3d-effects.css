@@ -1,0 +1,99 @@
+/* 3D effects for light homepage — tactile, layered, playful. Light colours only. */
+body.light-home main{perspective:1400px;}
+body.light-home .hero-light-frame,
+body.light-home .quick-services,
+body.light-home .portal-stats,
+body.light-home .learning-hierarchy,
+body.light-home .exam-grid{transform-style:preserve-3d;}
+
+/* generic 3D lift */
+body.light-home .card,
+body.light-home .hero-card,
+body.light-home .exam-card,
+body.light-home .qs-tile,
+body.light-home .portal-stats span,
+body.light-home .topic-pills a,
+body.light-home .subject-link{
+  transform-style:preserve-3d;
+  transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s,border-color .25s;
+  will-change:transform;
+}
+body.light-home .card,
+body.light-home .hero-card,
+body.light-home .exam-card{
+  box-shadow:0 1px 0 #fff inset,0 12px 24px rgba(37,99,235,.08),0 3px 8px rgba(15,35,64,.06) !important;
+}
+body.light-home .card:hover,
+body.light-home .hero-card:hover{
+  transform:translateY(-7px) rotateX(4deg) rotateY(-3deg) translateZ(8px) !important;
+  box-shadow:0 1px 0 #fff inset,0 28px 60px rgba(37,99,235,.18),0 8px 18px rgba(15,35,64,.10) !important;
+}
+body.light-home .exam-card:hover{
+  transform:translateY(-8px) rotateX(5deg) translateZ(10px) !important;
+  box-shadow:0 1px 0 #fff inset,0 30px 60px rgba(37,99,235,.20),0 10px 20px rgba(15,35,64,.10) !important;
+}
+body.light-home .qs-tile:hover{transform:translateY(-5px) rotateX(6deg) scale(1.03) !important;}
+body.light-home .portal-stats span:hover{transform:translateY(-5px) rotateX(5deg) translateZ(6px) !important;}
+body.light-home .topic-pills a:hover{transform:translateY(-3px) translateZ(4px) scale(1.03);}
+
+/* 3D buttons */
+body.light-home .btn{
+  transform-style:preserve-3d;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 10px 22px rgba(37,99,235,.30),0 3px 0 rgba(15,35,64,.18) !important;
+  transition:transform .18s,box-shadow .18s,filter .18s;
+}
+body.light-home .btn:hover{transform:translateY(-3px) translateZ(4px) !important;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 18px 34px rgba(37,99,235,.38),0 6px 0 rgba(15,35,64,.16) !important;}
+body.light-home .btn:active{transform:translateY(1px) translateZ(0) !important;box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 6px 14px rgba(37,99,235,.28),0 1px 0 rgba(15,35,64,.2) !important;}
+
+/* 3D brand + header depth */
+body.light-home .brand-mark{box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 8px 18px rgba(37,99,235,.4),0 3px 0 rgba(15,35,64,.2) !important;}
+body.light-home .hero-eyebrow,.hero-mini span,.light-badge{box-shadow:0 1px 0 #fff inset,0 8px 20px rgba(37,99,235,.10) !important;}
+body.light-home .learning-search{box-shadow:0 1px 0 #fff inset,0 18px 44px rgba(37,99,235,.14),0 4px 10px rgba(15,35,64,.06) !important;}
+
+/* ===== Compact attractive learning modules ===== */
+body.light-home .learning-hierarchy{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:26px;}
+.mod-mini{
+  position:relative;display:flex;flex-direction:column;gap:10px;overflow:hidden;
+  padding:18px 16px 16px !important;border-radius:18px !important;text-align:left;
+  background:#fff;border:1px solid var(--l-line);
+}
+.mod-mini::before{content:"";position:absolute;inset:0 0 auto;height:5px;z-index:1;}
+.mod-mini.mod-9::before{background:linear-gradient(90deg,#0EA5E9,#38BDF8);}
+.mod-mini.mod-10::before{background:linear-gradient(90deg,#2563EB,#60A5FA);}
+.mod-mini.mod-11::before{background:linear-gradient(90deg,#7C3AED,#A78BFA);}
+.mod-mini.mod-12::before{background:linear-gradient(90deg,#10B981,#34D399);}
+.mod-mini:hover{transform:translateY(-8px) rotateX(5deg) rotateY(-3deg) translateZ(10px) !important;border-color:#BFDBFE !important;
+  box-shadow:0 1px 0 #fff inset,0 30px 60px rgba(37,99,235,.20),0 10px 20px rgba(15,35,64,.10) !important;}
+.mod-top{display:flex;align-items:center;gap:11px;}
+.mod-cube{
+  width:46px;height:46px;flex:0 0 46px;display:grid;place-items:center;border-radius:13px;color:#fff;font-weight:900;font-size:1.02rem;
+  box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 10px 20px rgba(15,35,64,.22),0 4px 0 rgba(15,35,64,.18);
+  transform:translateZ(18px);
+}
+.mod-9 .mod-cube{background:linear-gradient(145deg,#38BDF8,#0369A1);}
+.mod-10 .mod-cube{background:linear-gradient(145deg,#60A5FA,#1E3A8A);}
+.mod-11 .mod-cube{background:linear-gradient(145deg,#A78BFA,#4C1D95);}
+.mod-12 .mod-cube{background:linear-gradient(145deg,#34D399,#065F46);}
+.mod-top small{display:block;color:var(--l-faint);font-weight:800;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;}
+.mod-top b{display:block;color:var(--l-text);font-size:1.12rem;letter-spacing:-.01em;}
+.mod-mini>p{margin:0 !important;color:var(--l-muted) !important;font-size:.88rem !important;line-height:1.5 !important;min-height:0 !important;}
+.mod-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.mod-tags i{font-style:normal;font-size:.7rem;font-weight:800;padding:5px 9px;border-radius:999px;background:#F1F6FF;border:1px solid var(--l-line);color:#33486E;}
+.mod-go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border-radius:12px;font-weight:900;font-size:.86rem;color:#fff !important;transform:translateZ(12px);box-shadow:0 8px 18px rgba(15,35,64,.18),0 3px 0 rgba(15,35,64,.2);}
+.mod-9 .mod-go{background:linear-gradient(135deg,#0284C7,#0EA5E9);}
+.mod-10 .mod-go{background:linear-gradient(135deg,#1D4ED8,#2563EB);}
+.mod-11 .mod-go{background:linear-gradient(135deg,#6D28D9,#7C3AED);}
+.mod-12 .mod-go{background:linear-gradient(135deg,#059669,#10B981);}
+.mod-go:hover{filter:brightness(1.08);}
+.mod-go span:last-child{transition:transform .25s;}
+.mod-mini:hover .mod-go span:last-child{transform:translateX(4px);}
+
+/* keep depth on small screens but calmer */
+@media(max-width:900px){body.light-home .learning-hierarchy{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:560px){body.light-home .learning-hierarchy{grid-template-columns:1fr;}}
+@media(max-width:700px){
+  body.light-home .card:hover,body.light-home .hero-card:hover,body.light-home .exam-card:hover,body.light-home .mod-mini:hover{transform:translateY(-4px) !important;}
+}
+@media(prefers-reduced-motion:reduce){
+  body.light-home .card,body.light-home .hero-card,body.light-home .exam-card,body.light-home .btn,body.light-home .mod-mini{transition:none !important;transform:none !important;}
+}
