@@ -1,0 +1,196 @@
+/* Tiranga homepage theme — Indian flag colours for TechLearners homepage only.
+   Palette: Saffron #FF9933, White #FFFFFF, India Green #138808, Navy Chakra #06038D */
+:root{
+  --tiranga-saffron:#FF9933;
+  --tiranga-saffron-deep:#E06E00;
+  --tiranga-saffron-soft:#FFF4E6;
+  --tiranga-green:#138808;
+  --tiranga-green-deep:#0C5A05;
+  --tiranga-green-soft:#EDF7ED;
+  --tiranga-navy:#06038D;
+  --tiranga-navy-soft:#ECECFF;
+}
+
+/* Top tricolour ribbon */
+.tiranga-strip{
+  height:6px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,#ffffff 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  position:sticky;top:0;z-index:30;
+}
+.tiranga-strip::after{
+  content:"";display:block;height:1px;background:var(--tiranga-navy);opacity:.25;
+}
+
+/* Header gets a thin tricolour underline */
+body.tiranga-home .site-header{
+  border-bottom:1px solid #e6edf7;
+  position:relative;
+}
+body.tiranga-home .site-header::after{
+  content:"";position:absolute;left:0;right:0;bottom:-3px;height:3px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,#e8e8f5 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  opacity:.9;
+}
+
+/* HERO — saffron / white / green wash with chakra watermark */
+body.tiranga-home .learning-portal{
+  background:
+    radial-gradient(700px 320px at 12% 8%, rgba(255,153,51,.20), transparent 60%),
+    radial-gradient(700px 340px at 88% 18%, rgba(19,136,8,.14), transparent 60%),
+    radial-gradient(560px 300px at 50% 110%, rgba(6,3,141,.07), transparent 60%),
+    linear-gradient(180deg,#FFFBF2 0%,#FFFFFF 42%,#F3F8FF 72%,#EEF7EE 100%) !important;
+  border-bottom:1px solid #e6edf7;
+  overflow:hidden;
+  position:relative;
+}
+body.tiranga-home .learning-portal::before{
+  content:"";
+  position:absolute;right:-90px;top:-90px;width:360px;height:360px;opacity:.10;pointer-events:none;
+  background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%2306038D' stroke-width='3'%3E%3Ccircle cx='50' cy='50' r='44'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%2306038D' stroke='none'/%3E%3C/g%3E%3Cg stroke='%2306038D' stroke-width='2'%3E%3Cpath d='M50 6v88M6 50h88M19 19l62 62M81 19L19 81M28 10l44 80M72 10L28 90M10 28l80 44M10 72l80-44'/%3E%3C/g%3E%3C/svg%3E");
+  animation:chakraSpin 60s linear infinite;
+}
+body.tiranga-home .learning-portal::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:5px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,#ffffff 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  border-top:1px solid rgba(6,3,141,.15);
+}
+@keyframes chakraSpin{to{transform:rotate(360deg)}}
+
+/* India badge */
+.tiranga-badge{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:8px 14px 8px 10px;border-radius:999px;
+  background:#fff;border:1px solid #e0e6f5;color:#1a2456;
+  font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:0 8px 22px rgba(6,3,141,.10);
+}
+.mini-flag{
+  display:inline-block;width:30px;height:20px;border-radius:4px;overflow:hidden;flex:0 0 30px;
+  background:linear-gradient(180deg,var(--tiranga-saffron) 0 33.3%,#fff 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  border:1px solid rgba(6,3,141,.35);position:relative;
+}
+.mini-flag::after{
+  content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;transform:translate(-50%,-50%);
+  border:1.2px solid var(--tiranga-navy);border-radius:50%;
+}
+body.tiranga-home .hero-platform-tag{
+  background:#fff !important;color:#1a2456 !important;border:1px solid #dbe2f7 !important;
+  box-shadow:0 10px 26px rgba(6,3,141,.10) !important;
+}
+
+/* Hero title with tricolour accents */
+body.tiranga-home .hero-study-title{color:#0f1f4d !important;line-height:1.06 !important;}
+.hl-saffron{
+  background:linear-gradient(180deg,transparent 62%,rgba(255,153,51,.55) 62%);
+  color:#B45300;padding:0 2px;white-space:nowrap;
+}
+.hl-green{
+  background:linear-gradient(180deg,transparent 62%,rgba(19,136,8,.28) 62%);
+  color:var(--tiranga-green-deep);padding:0 2px;white-space:nowrap;
+}
+.hl-navy{color:var(--tiranga-navy);}
+.tiranga-underline{
+  width:170px;height:7px;margin:14px auto 0;border-radius:99px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,var(--tiranga-navy) 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  box-shadow:0 6px 16px rgba(6,3,141,.18);
+}
+.hero-sub{
+  max-width:660px;margin:14px auto 0 !important;font-size:1.06rem !important;line-height:1.65 !important;color:#405180 !important;
+}
+.hero-trust{
+  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px;
+}
+.hero-trust span{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #e6edf7;
+  font-size:.82rem;font-weight:800;color:#33415e;
+}
+.hero-trust i{font-style:normal;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;color:#fff;font-size:.72rem;}
+.trust-saffron i{background:var(--tiranga-saffron-deep);}
+.trust-navy i{background:var(--tiranga-navy);}
+.trust-green i{background:var(--tiranga-green);}
+
+/* Search + pills */
+body.tiranga-home .learning-search{border:1.5px solid #dbe2f7 !important;}
+body.tiranga-home .learning-search:focus-within{border-color:var(--tiranga-saffron) !important;box-shadow:0 10px 30px rgba(255,153,51,.20) !important;}
+body.tiranga-home .topic-pills a{border:1px solid #e2e7f5 !important;background:#fff !important;color:#24325e !important;}
+body.tiranga-home .topic-pills a:hover{transform:translateY(-2px);color:#fff !important;}
+body.tiranga-home .topic-pills a[href*="class9"],body.tiranga-home .topic-pills a[href*="class10"]{border-top:3px solid var(--tiranga-saffron) !important;}
+body.tiranga-home .topic-pills a[href*="class11"],body.tiranga-home .topic-pills a[href*="class12"]{border-top:3px solid var(--tiranga-green) !important;}
+body.tiranga-home .topic-pills a[href*="quiz"],body.tiranga-home .topic-pills a[href*="papers"]{border-top:3px solid var(--tiranga-navy) !important;}
+body.tiranga-home .topic-pills a.pill-highlight{
+  background:linear-gradient(135deg,#FFF4E6,#fff 55%,#EDF7ED) !important;
+  border:1.5px solid var(--tiranga-saffron) !important;color:#7a3c00 !important;
+}
+
+/* Hero CTA buttons — tricolour */
+body.tiranga-home .home-start-actions .btn{border-radius:12px !important;padding:13px 20px !important;font-size:.95rem !important;}
+.btn-saffron{background:linear-gradient(135deg,#FF9933,#E06E00) !important;box-shadow:0 8px 22px rgba(224,110,0,.32) !important;}
+.btn-saffron:hover{background:linear-gradient(135deg,#E06E00,#C25E00) !important;}
+.btn-navy{background:linear-gradient(135deg,#1a1a9e,#06038D) !important;box-shadow:0 8px 22px rgba(6,3,141,.30) !important;}
+.btn-green{background:linear-gradient(135deg,#1a9e1a,#138808) !important;box-shadow:0 8px 22px rgba(19,136,8,.30) !important;}
+.btn-white-tiranga{background:#fff !important;color:#0f1f4d !important;border:1.5px solid var(--tiranga-navy) !important;box-shadow:none !important;}
+
+/* Portal stats with flag dots */
+body.tiranga-home .portal-stats span{position:relative;overflow:hidden;background:#fff !important;}
+body.tiranga-home .portal-stats span::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;}
+body.tiranga-home .portal-stats span:nth-child(1)::before{background:var(--tiranga-saffron);}
+body.tiranga-home .portal-stats span:nth-child(2)::before{background:var(--tiranga-navy);}
+body.tiranga-home .portal-stats span:nth-child(3)::before{background:var(--tiranga-green);}
+body.tiranga-home .portal-stats span:nth-child(4)::before{background:linear-gradient(90deg,var(--tiranga-saffron),var(--tiranga-navy),var(--tiranga-green));}
+body.tiranga-home .portal-stats b{color:#0f1f4d !important;}
+
+/* Quick services — tricolour top edge + icons */
+body.tiranga-home .quick-services{overflow:hidden;}
+body.tiranga-home .quick-services::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,#dfe3f5 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+}
+body.tiranga-home .qs-tile:nth-child(6n+1) .qs-icon{background:linear-gradient(135deg,#FF9933,#E06E00) !important;}
+body.tiranga-home .qs-tile:nth-child(6n+2) .qs-icon{background:linear-gradient(135deg,#2b2bd4,#06038D) !important;}
+body.tiranga-home .qs-tile:nth-child(6n+3) .qs-icon{background:linear-gradient(135deg,#22a722,#0C5A05) !important;}
+body.tiranga-home .qs-tile:nth-child(6n+4) .qs-icon{background:linear-gradient(135deg,#FF9933,#E06E00) !important;}
+body.tiranga-home .qs-tile:nth-child(6n+5) .qs-icon{background:linear-gradient(135deg,#2b2bd4,#06038D) !important;}
+body.tiranga-home .qs-tile:nth-child(6n+6) .qs-icon{background:linear-gradient(135deg,#22a722,#0C5A05) !important;}
+
+/* Learning modules — assign flag colours per class */
+body.tiranga-home .class-module-9::before{background:linear-gradient(90deg,#FF9933,#FFB866) !important;}
+body.tiranga-home .class-module-10::before{background:linear-gradient(90deg,#06038D,#4d4de0) !important;}
+body.tiranga-home .class-module-11::before{background:linear-gradient(90deg,#138808,#4caf50) !important;}
+body.tiranga-home .class-module-12::before{background:linear-gradient(90deg,#FF9933,#06038D,#138808) !important;}
+body.tiranga-home .class-module-9 .class-highlight{color:#B45300 !important;}
+body.tiranga-home .class-module-10 .class-highlight{color:var(--tiranga-navy) !important;}
+body.tiranga-home .class-module-11 .class-highlight{color:var(--tiranga-green-deep) !important;}
+body.tiranga-home .class-module-12 .class-highlight{color:#0f1f4d !important;}
+
+/* Shared resource cards — tricolour top bars cycling */
+body.tiranga-home .exam-grid .exam-card:nth-child(3n+1)::before{background:linear-gradient(90deg,#FF9933,#FFB866) !important;}
+body.tiranga-home .exam-grid .exam-card:nth-child(3n+2)::before{background:linear-gradient(90deg,#06038D,#5b5bf0) !important;}
+body.tiranga-home .exam-grid .exam-card:nth-child(3n)::before{background:linear-gradient(90deg,#138808,#5cb85c) !important;}
+
+/* Section tags */
+body.tiranga-home .tag{color:var(--tiranga-navy) !important;}
+body.tiranga-home .announcement-logo{background:linear-gradient(135deg,#FF9933,#E06E00) !important;}
+body.tiranga-home .focus-logo{background:linear-gradient(135deg,#138808,#0C5A05) !important;}
+
+/* Footer tricolour */
+body.tiranga-home .footer{position:relative;border-top:1px solid #e6edf7 !important;}
+body.tiranga-home .footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--tiranga-saffron) 0 33.3%,#ffffff 33.3% 66.6%,var(--tiranga-green) 66.6% 100%);
+  border-bottom:1px solid rgba(6,3,141,.18);
+}
+.made-in-india{
+  display:inline-flex;align-items:center;gap:8px;margin-top:10px;
+  padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #e2e7f5;
+  font-size:.82rem;font-weight:800;color:#24325e;
+}
+
+@media(max-width:700px){
+  body.tiranga-home .learning-portal::before{width:220px;height:220px;right:-60px;top:-60px;}
+  .tiranga-underline{width:130px;}
+  body.tiranga-home .home-start-actions .btn{width:100%;text-align:center;}
+}
+@media(prefers-reduced-motion:reduce){
+  body.tiranga-home .learning-portal::before{animation:none;}
+}
