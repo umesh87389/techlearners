@@ -1,14 +1,15 @@
 :root{
   scroll-behavior:smooth;
   color-scheme:light;
-  --bg:#f9f9f9; --card:rgba(255,255,255,.75); --text:#3d494b; --muted:#515d5f;
-  --accent:#014751; --accent2:#afe137; --accent3:#368995; --accent-soft:rgba(1,71,81,.08); --border:rgba(1,71,81,.16);
-  --glass:rgba(255,255,255,.7);
-  --body-bg:linear-gradient(180deg,#f2fbfd 0%,#f9f9f9 100%);
-  --header-bg:rgba(242,251,253,.95); --input-bg:rgba(255,255,255,.86); --nav-bg:rgba(242,251,253,.98);
-  --shadow:0 20px 55px rgba(1,71,81,.08);
-  --logo-bg:linear-gradient(135deg,#014751,#368995); --logo-text:#ffffff; --logo-halo:rgba(175,225,55,.5);
-  --icon-color:#000000;
+  /* Simplified 2-colour system: white + navy. Neutrals only. */
+  --bg:#ffffff; --card:#ffffff; --text:#0f172a; --muted:#475569;
+  --accent:#0f3d91; --accent-dark:#0b2f6f; --accent2:#0f3d91; --accent3:#0f3d91; --accent-soft:rgba(15,61,145,.07); --border:#e2e8f0;
+  --glass:#ffffff;
+  --body-bg:#ffffff;
+  --header-bg:#ffffff; --input-bg:#ffffff; --nav-bg:#ffffff;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+  --logo-bg:#0f3d91; --logo-text:#ffffff; --logo-halo:transparent;
+  --icon-color:#0f3d91;
 }
 
 *{box-sizing:border-box}
@@ -944,3 +945,81 @@ body::before{display:none}
 .quick-services .qs-icon svg{width:20px;height:20px}
 .exam-icon{width:32px;height:32px;flex-basis:32px}
 .announcement-logo,.focus-logo{width:38px;height:38px;flex-basis:38px;border-radius:12px}}
+
+/* ============================================================
+   SIMPLIFIED THEME — single palette + performance (2026)
+   One primary: #0f3d91 navy. Neutrals: #fff, #f8fafc, #0f172a,
+   #475569, #e2e8f0. Functional red/green kept ONLY for quiz
+   right/wrong feedback. Everything else flattened for speed.
+   ============================================================ */
+body{background:#fff !important;color:#0f172a !important}
+body::before{display:none !important}
+.site-header,.nav,.nav-dropdown,.nav-dd-menu,.card,.hero-card,.form-card,
+.login-card,.quiz-box,.exam-card,.learning-search,.topic-pills a,
+.portal-stats span,.highlight,.help-section,.footer,.consent-banner,
+.stat,.quick-links a,.login-loading-overlay,.advertisement-modal{
+  backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+}
+.hero-card,.card,.form-card,.login-card,.quiz-box,.exam-card,
+.qotd-card,.leaderboard-card,.teacher-section{
+  background:#fff !important;border:1px solid #e2e8f0 !important;
+  border-radius:12px !important;box-shadow:0 1px 3px rgba(0,0,0,.08) !important;
+}
+.card::before,.exam-card::before,.class-module::before,
+.learning-portal::before,.login-page::before{content:none !important;display:none !important}
+.card:hover,.exam-card:hover{transform:none !important;box-shadow:0 2px 8px rgba(0,0,0,.1) !important;border-color:#cbd5e1 !important}
+/* kill all gradients → flat navy / flat white */
+.btn,.nav a.btn,.login-submit-button,.go-to-top,.exam-badge,
+.brand-mark,.qs-icon,.qs-navy,.qs-sky,.mod-cube,.mod-go,
+.rank-1,.rank-2,.rank-3,.student-avatar,.nav-profile-initial,
+.learning-portal,.login-page,.colourful-login-card{
+  background:#0f3d91 !important;background-image:none !important;color:#fff !important;
+  border-color:#0f3d91 !important;box-shadow:none !important;
+}
+.btn.secondary,.topic-pills a,.portal-stats span,.contact-link{
+  background:#fff !important;background-image:none !important;color:#0f3d91 !important;
+  border:1px solid #e2e8f0 !important;box-shadow:none !important;
+}
+.btn:hover,.nav a.btn:hover{filter:brightness(1.1) !important;transform:none !important;box-shadow:none !important}
+/* one flat icon colour */
+.exam-icon,.module-icon,.contact-card-icon{color:#0f3d91 !important}
+.exam-card.subject-ai .exam-icon,.exam-card.subject-it .exam-icon{color:#0f3d91 !important}
+.exam-card.subject-ai::before,.exam-card.subject-it::before{background:#0f3d91 !important}
+.exam-badge.subject-ai-badge,.exam-badge.subject-it-badge{background:#0f3d91 !important;color:#fff !important}
+.subject-ai .tag,.subject-it .tag{color:#0f3d91 !important}
+.paper-subject-tag{background:#f1f5f9 !important;color:#0f3d91 !important}
+.paper-year-badge{background:#f1f5f9 !important;color:#475569 !important}
+/* single-colour quick-service icons */
+.qs-icon{background:#0f3d91 !important}
+.qs-tile{color:#0f172a !important}
+/* flat module cubes + buttons (was 4 different gradients) */
+.mod-9 .mod-cube,.mod-10 .mod-cube,.mod-11 .mod-cube,.mod-12 .mod-cube{background:#0f3d91 !important}
+.mod-9 .mod-go,.mod-10 .mod-go,.mod-11 .mod-go,.mod-12 .mod-go{background:#0f3d91 !important}
+.mod-mini::before{background:#0f3d91 !important}
+/* flat leaderboard ranks */
+.rank-1,.rank-2,.rank-3{background:#f1f5f9 !important;color:#0f172a !important;box-shadow:none !important}
+.leaderboard-badge{background:#0f3d91 !important}
+.leaderboard-row.current-user{background:#f1f5f9 !important}
+/* flat progress bar (was animated 3-colour shimmer) */
+.progress{background:#f1f5f9 !important;box-shadow:none !important}
+.progress span{background:#0f3d91 !important;background-image:none !important;box-shadow:none !important;animation:none !important}
+.progress span::before,.progress span::after{display:none !important}
+.milestone-dot{background:#cbd5e1 !important;border-color:#cbd5e1 !important;box-shadow:none !important}
+/* brand logo: flat, no orbit/3d anim */
+.brand-mark{transform:none !important;animation:none !important;box-shadow:none !important}
+.brand-mark::after{display:none !important}
+.brand-accent{color:#0f3d91 !important;background:none !important;-webkit-text-fill-color:#0f3d91 !important}
+/* kill glow/shine keyframes usage */
+.float,.pill-highlight,.topic-pills a.pill-highlight{animation:none !important}
+.class-highlight{background:none !important;-webkit-text-fill-color:#0f172a !important;color:#0f172a !important}
+.class-module,.class-module-10,.class-module-11,.class-module-12{background:#fff !important}
+.class-module-10::before,.class-module-11::before,.class-module-12::before{background:#0f3d91 !important}
+/* login + misc flat */
+.login-page{background:#f8fafc !important}
+.colourful-login-card,.admin-colourful-login-card{background:#fff !important}
+.login-light-card{box-shadow:0 1px 3px rgba(0,0,0,.08) !important}
+.site-header{background:#fff !important;border-bottom:1px solid #e2e8f0 !important;box-shadow:none !important}
+.footer{background:#f8fafc !important;border-top:1px solid #e2e8f0 !important;color:#475569 !important}
+.footer a,.footer-links a,.text-link,.card a{color:#0f3d91 !important}
+.tag{color:#0f3d91 !important}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #0f3d91 !important;outline-offset:2px}
