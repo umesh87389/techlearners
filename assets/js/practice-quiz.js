@@ -42,8 +42,6 @@
   let quizData = [];
   let currentQuestionIndex = 0;
   let isSubmitted = false;
-  let leaderboardData = [];
-
   const escapeHtml = value => String(value || '').replace(/[&<>"']/g, character => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
   })[character]);
@@ -203,9 +201,6 @@
     updateQuizVisibility();
     if (isSubmitted) {
       applySubmittedResults();
-    }
-    if (typeof renderLeaderboard === 'function') {
-      renderLeaderboard();
     }
   }
 
@@ -451,159 +446,15 @@
         result.studentEmail = user.email || '';
         result.userId = user.uid;
         await TechLearnersFirebase.submitQuizResult(result);
-
-        const leaderboardEntry = {
-          class: result.class,
-          subject: result.subject,
-          school: result.school,
-          score: result.score,
-          total: result.total,
-          percentage: result.percentage,
-          studentName: result.studentName,
-          userId: user.uid,
-          photoURL: user.photoURL || ''
-        };
-        await TechLearnersFirebase.submitLeaderboardEntry(leaderboardEntry);
       }
     } catch {}
   });
-
-  const getInitials = name => {
-    const cleanName = String(name || '').trim();
-    const parts = cleanName.split(/\s+/);
-    if (parts.length >= 2 && parts[0] && parts[parts.length - 1]) {
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
-    return cleanName[0] ? cleanName[0].toUpperCase() : '?';
-  };
-
-  function renderLeaderboard() {
-    const table = document.getElementById('leaderboardTable');
-    const body = document.getElementById('leaderboardBody');
-    const loader = document.getElementById('leaderboardLoader');
-    const empty = document.getElementById('leaderboardEmpty');
-
-    if (!table || !body || !loader || !empty) return;
-
-    const filtered = leaderboardData;
-
-    if (!filtered.length) {
-      table.style.display = 'none';
-      loader.style.display = 'none';
-      empty.style.display = 'block';
-      return;
-    }
-
-    const bestScores = {};
-    filtered.forEach(entry => {
-      const key = entry.userId || entry.studentName;
-      if (!bestScores[key] || (entry.percentage ?? 0) > (bestScores[key].percentage ?? 0)) {
-        bestScores[key] = entry;
-      } else if ((entry.percentage ?? 0) === (bestScores[key].percentage ?? 0)) {
-        if ((entry.score ?? 0) > (bestScores[key].score ?? 0)) {
-          bestScores[key] = entry;
-        }
-      }
-    });
-
-    const sorted = Object.values(bestScores).sort((a, b) => {
-      const aPct = a.percentage ?? 0;
-      const bPct = b.percentage ?? 0;
-      if (bPct !== aPct) return bPct - aPct;
-
-      const aScore = a.score ?? 0;
-      const bScore = b.score ?? 0;
-      if (bScore !== aScore) return bScore - aScore;
-
-      const getMs = item => {
-        if (!item || !item.createdAt) return 0;
-        if (typeof item.createdAt.toMillis === 'function') return item.createdAt.toMillis();
-        if (typeof item.createdAt.toDate === 'function') return item.createdAt.toDate().getTime();
-        if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
-        const parsed = Date.parse(item.createdAt);
-        return isNaN(parsed) ? 0 : parsed;
-      };
-
-      return getMs(a) - getMs(b);
-    });
-
-    loader.style.display = 'none';
-    empty.style.display = 'none';
-    table.style.display = 'table';
-
-    let currentRank = 0;
-    let prevPercentage = -1;
-
-    body.innerHTML = sorted.slice(0, 5).map((entry, idx) => {
-      const pct = entry.percentage ?? 0;
-      if (pct !== prevPercentage) {
-        currentRank++;
-        prevPercentage = pct;
-      }
-      const rank = currentRank;
-
-      let rankHtml = `<span class="rank-badge">${rank}</span>`;
-      if (rank === 1) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥇 <span class="rank-badge rank-1">1</span></span>`;
-      else if (rank === 2) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥈 <span class="rank-badge rank-2">2</span></span>`;
-      else if (rank === 3) rankHtml = `<span style="display: inline-flex; align-items: center; gap: 4px;">🥉 <span class="rank-badge rank-3">3</span></span>`;
-
-      const isCurrentUser = currentUser && (entry.userId === currentUser.uid);
-      const rowClass = isCurrentUser ? 'leaderboard-row current-user' : 'leaderboard-row';
-      const initials = getInitials(entry.studentName || 'Student');
-
-      const photoURL = entry.photoURL || (isCurrentUser && currentUser?.photoURL) || '';
-      let avatarHtml = `<div class="student-avatar">${initials}</div>`;
-      if (photoURL) {
-        avatarHtml = `<div class="student-avatar" style="overflow: hidden; padding: 0; background: none;"><img src="${photoURL}" alt="${initials}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>`;
-      }
-
-      return `
-        <tr class="${rowClass}">
-          <td class="rank-col">${rankHtml}</td>
-          <td>
-            <div class="student-col">
-              ${avatarHtml}
-              <div class="student-info">
-                <span class="student-name">${escapeHtml(entry.studentName || 'Student')}</span>
-                <span class="student-school">${escapeHtml(entry.class || 'Class 9')} &middot; ${escapeHtml(entry.school || 'TechLearners School')}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            <span class="score-badge ${(entry.percentage ?? 0) >= 80 ? 'score-excellent' : (entry.percentage ?? 0) >= 50 ? 'score-pass' : 'score-fail'}">
-              ${entry.score ?? 0}/${entry.total ?? 0} (${entry.percentage ?? 0}%)
-            </span>
-          </td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  TechLearnersFirebase.subscribeLeaderboard(
-    data => {
-      leaderboardData = data;
-      renderLeaderboard();
-    },
-    error => {
-      console.error('Leaderboard error:', error);
-      const loader = document.getElementById('leaderboardLoader');
-      if (loader) {
-        if (error.code === 'permission-denied') {
-          loader.innerHTML = '<span style="color: var(--muted); font-size: 0.95rem; display: block; line-height: 1.5;">Leaderboard is locked. Please ensure you copy, paste, and publish the updated <b>firestore.rules</b> in your <b>Firebase Console</b>.</span>';
-        } else {
-          loader.textContent = 'Unable to load leaderboard. Check your connection.';
-        }
-      }
-    }
-  );
 
   TechLearnersContent.get('quizQuestions', '../../data')
     .then(data => {
       allQuestions = data;
       if (quizLoaded) {
         render();
-      } else {
-        renderLeaderboard();
       }
     })
     .catch(error => {

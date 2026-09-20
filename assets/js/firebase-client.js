@@ -394,83 +394,17 @@
     );
   }
 
-  async function submitLeaderboardEntry(entry) {
-    const services = await getServices();
-    if (!services) {
-      const fallback = JSON.parse(localStorage.getItem('tl_local_leaderboard') || '[]');
-      fallback.push({
-        id: 'local_' + Date.now(),
-        ...entry,
-        createdAt: new Date().toISOString()
-      });
-      localStorage.setItem('tl_local_leaderboard', JSON.stringify(fallback));
-      return;
-    }
-    await services.firestoreApi.addDoc(
-      services.firestoreApi.collection(services.db, 'leaderboard'),
-      {
-        ...entry,
-        createdAt: services.firestoreApi.serverTimestamp()
-      }
-    );
-  }
-
-  async function subscribeLeaderboard(onResults, onError) {
-    const services = await getServices();
-    if (!services) {
-      const loadLocal = () => {
-        const fallback = JSON.parse(localStorage.getItem('tl_local_leaderboard') || '[]');
-        onResults(fallback);
-      };
-      loadLocal();
-      const handler = (e) => {
-        if (e.key === 'tl_local_leaderboard') loadLocal();
-      };
-      window.addEventListener('storage', handler);
-      return () => window.removeEventListener('storage', handler);
-    }
-    const reference = services.firestoreApi.collection(services.db, 'leaderboard');
-    return services.firestoreApi.onSnapshot(reference, snapshot => {
-      onResults(snapshot.docs.map(document => ({ id: document.id, ...document.data() })));
-    }, onError);
-  }
-
-  async function getLeaderboard() {
-    const services = await getServices();
-    if (!services) {
-      return JSON.parse(localStorage.getItem('tl_local_leaderboard') || '[]');
-    }
-    const reference = services.firestoreApi.collection(services.db, 'leaderboard');
-    const snapshot = await services.firestoreApi.getDocs(reference);
-    return snapshot.docs.map(document => ({ id: document.id, ...document.data() }));
-  }
-
-  async function deleteLeaderboardEntry(id) {
-    const services = await getServices();
-    if (!services) {
-      let fallback = JSON.parse(localStorage.getItem('tl_local_leaderboard') || '[]');
-      fallback = fallback.filter(item => item.id !== id);
-      localStorage.setItem('tl_local_leaderboard', JSON.stringify(fallback));
-      return;
-    }
-    await services.firestoreApi.deleteDoc(
-      services.firestoreApi.doc(services.db, 'leaderboard', id)
-    );
-  }
-
   window.TechLearnersFirebase = {
     adminSignIn,
     adminGoogleSignIn,
     configured,
     deleteContactMessage,
     deleteQuizResult,
-    deleteLeaderboardEntry,
     getContactMessages,
     getContent,
     getCurrentUser,
     getGoogleRedirectResult,
     getQuizResults,
-    getLeaderboard,
     onAuthStateChanged: callback => {
       if (authResolved) {
         try { callback(currentUser); } catch {}
@@ -486,13 +420,11 @@
     signOut,
     subscribeContactMessages,
     subscribeQuizResults,
-    subscribeLeaderboard,
     studentSignUp,
     studentGoogleSignIn,
     peekCurrentUser: () => currentUser,
     submitContact,
     submitQuizResult,
-    submitLeaderboardEntry,
     uploadAnnouncement,
     uploadAdvertisement,
     uploadNote,

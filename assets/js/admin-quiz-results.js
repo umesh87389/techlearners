@@ -95,91 +95,6 @@
     XLSX.writeFile(wb, `quiz-results-${new Date().toISOString().slice(0, 10)}.xlsx`);
   });
 
-  let isSyncing = false;
-  async function syncLeaderboard(quizResultsList, showAlert = false) {
-    if (isSyncing || !quizResultsList.length) return;
-    isSyncing = true;
-
-    const syncBtn = document.getElementById('syncLeaderboardBtn');
-    if (syncBtn) {
-      syncBtn.disabled = true;
-      syncBtn.textContent = 'Syncing... ⏳';
-    }
-
-    try {
-      const leaderboardEntries = await TechLearnersFirebase.getLeaderboard();
-      const existingKeys = new Set(leaderboardEntries.map(e => 
-        `${e.userId || e.studentName}_${e.class}_${e.subject}_${e.score}_${e.total}`
-      ));
-      let addedCount = 0;
-      for (const res of quizResultsList) {
-        const userId = res.userId || res.studentEmail || res.studentName;
-        const key = `${userId}_${res.class}_${res.subject}_${res.score}_${res.total}`;
-        if (!existingKeys.has(key)) {
-          const leaderboardEntry = {
-            class: res.class,
-            subject: res.subject,
-            school: res.school || 'TechLearners School',
-            score: res.score,
-            total: res.total,
-            percentage: res.percentage,
-            studentName: res.studentName || 'Student',
-            userId: res.userId || ''
-          };
-          await TechLearnersFirebase.submitLeaderboardEntry(leaderboardEntry);
-          addedCount++;
-        }
-      }
-      // Clean up orphaned entries from leaderboard
-      let deletedCount = 0;
-      const orphans = leaderboardEntries.filter(e => {
-        const hasMatch = quizResultsList.some(res => {
-          if (res.class !== e.class || res.subject !== e.subject) {
-            return false;
-          }
-          if (Number(res.score) !== Number(e.score) || Number(res.total) !== Number(e.total)) {
-            return false;
-          }
-          const isUserMatch = (res.userId && e.userId && res.userId === e.userId) ||
-                              (res.studentEmail && e.userId && res.studentEmail === e.userId) ||
-                              (res.studentName && e.studentName && res.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
-          return isUserMatch;
-        });
-        return !hasMatch;
-      });
-
-      if (orphans.length > 0) {
-        await Promise.all(orphans.map(o => TechLearnersFirebase.deleteLeaderboardEntry(o.id)));
-        deletedCount = orphans.length;
-      }
-
-      if (showAlert) {
-        alert(`Leaderboard sync complete. Added ${addedCount} new entry/entries and cleaned up ${deletedCount} orphaned entry/entries.`);
-      }
-    } catch (e) {
-      console.error('Failed to sync leaderboard:', e);
-      if (showAlert) {
-        alert('Failed to sync leaderboard: ' + e.message);
-      }
-    } finally {
-      isSyncing = false;
-      if (syncBtn) {
-        syncBtn.disabled = false;
-        syncBtn.textContent = 'Synced! ✅';
-        setTimeout(() => {
-          syncBtn.textContent = 'Sync Leaderboard 🔄';
-        }, 3000);
-      }
-    }
-  }
-
-  const syncBtn = document.getElementById('syncLeaderboardBtn');
-  if (syncBtn) {
-    syncBtn.addEventListener('click', () => {
-      syncLeaderboard(results, true);
-    });
-  }
-
   list.addEventListener('click', async event => {
     const button = event.target.closest('[data-result-id]');
     if (!button) return;
@@ -191,45 +106,6 @@
     button.textContent = 'Deleting...';
 
     const resultId = button.dataset.resultId;
-    const resultToDelete = results.find(r => r.id === resultId);
-    if (resultToDelete) {
-      try {
-        const leaderboardEntries = await TechLearnersFirebase.getLeaderboard();
-        
-        // Find exact matches first (class, subject, user identity, score, total)
-        let matches = leaderboardEntries.filter(e => {
-          if (e.class !== resultToDelete.class || e.subject !== resultToDelete.subject) {
-            return false;
-          }
-          if (Number(e.score) !== Number(resultToDelete.score) || Number(e.total) !== Number(resultToDelete.total)) {
-            return false;
-          }
-          const isUserMatch = (resultToDelete.userId && e.userId && resultToDelete.userId === e.userId) ||
-                              (resultToDelete.studentEmail && e.userId && resultToDelete.studentEmail === e.userId) ||
-                              (resultToDelete.studentName && e.studentName && resultToDelete.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
-          return isUserMatch;
-        });
-
-        // Fallback to student identity + class + subject if exact score match isn't found
-        if (matches.length === 0) {
-          matches = leaderboardEntries.filter(e => {
-            if (e.class !== resultToDelete.class || e.subject !== resultToDelete.subject) {
-              return false;
-            }
-            const isUserMatch = (resultToDelete.userId && e.userId && resultToDelete.userId === e.userId) ||
-                                (resultToDelete.studentEmail && e.userId && resultToDelete.studentEmail === e.userId) ||
-                                (resultToDelete.studentName && e.studentName && resultToDelete.studentName.toLowerCase().trim() === e.studentName.toLowerCase().trim());
-            return isUserMatch;
-          });
-        }
-
-        if (matches.length > 0) {
-          await Promise.all(matches.map(m => TechLearnersFirebase.deleteLeaderboardEntry(m.id)));
-        }
-      } catch (e) {
-        console.error('Failed to delete leaderboard entry:', e);
-      }
-    }
     try {
       await TechLearnersFirebase.deleteQuizResult(resultId);
     } catch (e) {
@@ -242,7 +118,6 @@
 
   await TechLearnersFirebase.subscribeQuizResults(nextResults => {
     render(nextResults);
-    syncLeaderboard(nextResults);
   }, error => {
     list.textContent = error.message || 'Unable to load quiz results.';
   });
