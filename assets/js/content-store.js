@@ -19,7 +19,7 @@
       } catch (e) {}
     }
   };
-  const contentTypes = ['notes', 'quizzes', 'quizQuestions', 'questionPapers', 'revisionPapers', 'chapters', 'announcements', 'focus', 'advertisements', 'guessPapers'];
+  const contentTypes = ['notes', 'quizzes', 'quizQuestions', 'questionPapers', 'revisionPapers', 'chapters', 'announcements', 'advertisements', 'guessPapers'];
   const firebase = window.TechLearnersFirebase;
   const defaultCache = new Map();
   const isAdminPage = location.pathname.includes('/pages/admin/');
@@ -75,7 +75,7 @@
     if (type === 'quizzes') return getQuizzes(dataRoot);
     if (type === 'notes') return getNotes(dataRoot);
 
-    const skipCloud = !isAdminPage && (type === 'announcements' || type === 'focus');
+    const skipCloud = !isAdminPage && type === 'announcements';
     if (isAdminPage && firebase.configured && !skipCloud) {
       try {
         const cloudItems = await getCloudContent(type);

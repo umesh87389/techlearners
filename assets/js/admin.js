@@ -94,12 +94,6 @@
       chaptersLink.textContent = 'Chapters';
       nav.appendChild(chaptersLink);
     }
-    if (!nav.querySelector('[href="focus.html"]')) {
-      const focusLink = document.createElement('a');
-      focusLink.href = 'focus.html';
-      focusLink.textContent = "Today's Focus";
-      nav.appendChild(focusLink);
-    }
     if (!nav.querySelector('[href="contact-messages.html"]')) {
       const contactLink = document.createElement('a');
       contactLink.href = 'contact-messages.html';
@@ -138,7 +132,7 @@
       const groups = [
         { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html', 'manage-guess-papers.html'] },
         { label: 'Quizzes', items: ['manage-quizzes.html', 'quiz-results.html'] },
-        { label: 'Site Management', items: ['announcements.html', 'focus.html', 'advertisements.html', 'contact-messages.html'] }
+        { label: 'Site Management', items: ['announcements.html', 'advertisements.html', 'contact-messages.html'] }
       ];
       const currentPage = location.pathname.split('/').pop();
       const ref = [...nav.children].find(child => child.matches('.admin-notification, .login-greeting, button'));
@@ -253,12 +247,6 @@
       title: 'Manage Announcements',
       intro: 'Publish a short homepage update. Add an optional image URL or upload an image to show it beside the description.',
       fields: '<input name="title" placeholder="Announcement title" required><textarea name="message" data-rich-text placeholder="Announcement message" required></textarea><input name="image" placeholder="Optional public image URL or path, for example https://..."><label>Optional announcement image upload<input name="upload" type="file" accept="image/*"></label>'
-    },
-    'focus.html': {
-      type: 'focus',
-      title: "Manage Today's Focus",
-      intro: 'Add, edit or remove the focus items shown on the homepage.',
-      fields: '<input name="title" placeholder="Focus item" required>'
     },
     'advertisements.html': {
       type: 'advertisements',
@@ -376,7 +364,6 @@
       guessPapers: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search guess papers" aria-label="Search guess papers">`,
       chapters: `${sharedClassSubject}<input data-filter-search type="search" placeholder="Search chapters" aria-label="Search chapters">`,
       announcements: '<input data-filter-search type="search" placeholder="Search announcements" aria-label="Search announcements">',
-      focus: '<input data-filter-search type="search" placeholder="Search focus items" aria-label="Search focus items">',
       advertisements: '<select data-filter-field="active" aria-label="Filter by advertisement status"><option value="">All advertisements</option><option value="true">Active advertisements</option><option value="false">Inactive advertisements</option></select><input data-filter-search type="search" placeholder="Search advertisements" aria-label="Search advertisements">'
     };
     if (!controls[type]) return '';

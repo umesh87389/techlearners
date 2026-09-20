@@ -127,7 +127,6 @@ window.TechLearnersAdminNav = {
       { href: 'manage-quizzes.html', label: 'Manage Quiz' },
       { href: 'quiz-results.html', label: 'Quiz Results' },
       { href: 'announcements.html', label: 'Announcements' },
-      { href: 'focus.html', label: "Today's Focus" },
       { href: 'advertisements.html', label: 'Advertisements' },
       { href: 'contact-messages.html', label: 'Contact Messages' }
     ];
@@ -145,7 +144,7 @@ window.TechLearnersAdminNav = {
     const groups = [
       { label: 'Resources', items: ['manage-chapters.html', 'upload-notes.html', 'manage-mcqs.html', 'manage-question-papers.html', 'manage-revision-papers.html', 'manage-guess-papers.html'] },
       { label: 'Quizzes', items: ['manage-quizzes.html', 'quiz-results.html'] },
-      { label: 'Site Management', items: ['announcements.html', 'focus.html', 'advertisements.html', 'contact-messages.html'] }
+      { label: 'Site Management', items: ['announcements.html', 'advertisements.html', 'contact-messages.html'] }
     ];
     const closeGroup = wrapper => {
       const trigger = wrapper.querySelector('.nav-dd-trigger');
@@ -715,6 +714,41 @@ function setupThemeToggle(nav) {
   }
 }
 
+function upgradeClassDropdown() {
+  const nav = document.getElementById('navMenu') || document.querySelector('.nav');
+  if (!nav || nav.dataset.classDropdownUpgraded) return;
+  const wrapper = [...nav.querySelectorAll('.nav-dd-wrapper')].find(w => {
+    const trigger = w.querySelector('.nav-dd-trigger');
+    return trigger && /class/i.test(trigger.textContent || '');
+  });
+  if (!wrapper) return;
+  const menu = wrapper.querySelector('.nav-dd-menu');
+  if (!menu || menu.dataset.upgraded) return;
+  const root = (typeof getSiteRoot === 'function') ? getSiteRoot() : '';
+  const links = [
+    ['pages/class9/ai.html', 'Class 9 AI'],
+    ['pages/class9/it.html', 'Class 9 IT'],
+    ['pages/class10/ai.html', 'Class 10 AI'],
+    ['pages/class10/it.html', 'Class 10 IT'],
+    ['pages/class11/python.html', 'Class 11 CS'],
+    ['pages/class12/python.html', 'Class 12 CS']
+  ];
+  const overview = [
+    ['pages/class9/index.html', 'All Class 9'],
+    ['pages/class10/index.html', 'All Class 10'],
+    ['pages/class11/index.html', 'All Class 11'],
+    ['pages/class12/index.html', 'All Class 12']
+  ];
+  const hasSubjects = links.every(([href]) => menu.querySelector(`a[href$="${href}"]`));
+  if (!hasSubjects) {
+    menu.innerHTML = links.map(([href, label]) => `<a href="${root}${href}">${label}</a>`).join('')
+      + '<div class="nav-dd-divider" aria-hidden="true"></div>'
+      + overview.map(([href, label]) => `<a href="${root}${href}">${label}</a>`).join('');
+  }
+  menu.dataset.upgraded = 'true';
+  nav.dataset.classDropdownUpgraded = 'true';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   normaliseHomepageUrl();
   document.querySelectorAll('a.brand[href="/"]').forEach(link => {
@@ -745,6 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  try { upgradeClassDropdown(); } catch {}
   setupButtonClickFeedback();
   setupMobileCardScrollEffects();
   setupCookieNotice();
@@ -904,17 +939,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const focusList = document.getElementById('focusList');
-  if(focusList){
-    const defaultFocus = [
-      'Read one chapter module and write five key points',
-      'Attempt one class-wise MCQ practice set',
-      'Solve one sample-paper question'
-    ];
-    TechLearnersContent.get('focus', 'data').then(data=>{
-      focusList.innerHTML = data.length ? data.map(item=>`<li>${escapeHtml(item.title)}</li>`).join('') : defaultFocus.map(item=>`<li>${escapeHtml(item)}</li>`).join('');
-    }).catch(()=> focusList.innerHTML=defaultFocus.map(item=>`<li>${escapeHtml(item)}</li>`).join(''));
-  }
 
   const formatLastUpdatedDate = value => {
     const date = new Date(value);
