@@ -1,12 +1,32 @@
 (function initTheme() {
+  const VALID_THEMES = ['light', 'dark', 'skeuo'];
   let savedTheme = null;
   try {
     savedTheme = localStorage.getItem('tl_theme');
   } catch (e) {}
+  if (savedTheme && !VALID_THEMES.includes(savedTheme)) savedTheme = null;
   const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const activeTheme = savedTheme || (systemDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', activeTheme);
 })();
+
+// Public theme API: TechLearnersTheme.set('skeuo'|'dark'|'light'), .cycle(), .get()
+window.TechLearnersTheme = {
+  valid: ['light', 'dark', 'skeuo'],
+  get() { return document.documentElement.getAttribute('data-theme') || 'light'; },
+  set(theme) {
+    if (!this.valid.includes(theme)) return;
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('tl_theme', theme); } catch (e) {}
+    document.dispatchEvent(new CustomEvent('tl:themechange', { detail: { theme } }));
+  },
+  cycle() {
+    const order = this.valid;
+    const next = order[(order.indexOf(this.get()) + 1) % order.length];
+    this.set(next);
+    return next;
+  }
+};
 
 const safeStorage = {
   getItem(key) {
@@ -681,31 +701,44 @@ function setupThemeToggle(nav) {
   toggleBtn.className = 'theme-toggle-btn';
   toggleBtn.type = 'button';
   toggleBtn.setAttribute('aria-label', 'Toggle theme');
+  toggleBtn.title = 'Switch theme: Light → Dark → Skeuo';
   toggleBtn.innerHTML = `
     <span class="theme-toggle-label-text">Dark Mode</span>
-    <svg class="theme-toggle-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg class="theme-toggle-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path class="sun-path" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.32 11.32l.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
       <path class="moon-path" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+      <path class="skeuo-path" d="M12 2 2 7l10 5 10-5-10-5zM2 12l10 5 10-5M2 17l10 5 10-5" style="display:none" />
     </svg>
   `;
 
   const updateLabel = () => {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
     const textNode = toggleBtn.querySelector('.theme-toggle-label-text');
+    const icon = toggleBtn.querySelector('.theme-toggle-icon');
     if (textNode) {
-      textNode.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      textNode.textContent = current === 'light' ? 'Dark Mode' : current === 'dark' ? 'Skeuo Mode' : 'Light Mode';
     }
+    toggleBtn.setAttribute('aria-label', current === 'skeuo' ? 'Switch to light theme (current: skeuomorphism)' : current === 'dark' ? 'Switch to skeuomorphism theme (current: dark)' : 'Switch to dark theme (current: light)');
+    toggleBtn.classList.toggle('skeuo-active', current === 'skeuo');
+    const skeuoPath = toggleBtn.querySelector('.skeuo-path');
+    if (skeuoPath) skeuoPath.style.display = current === 'skeuo' ? 'block' : 'none';
+    if (icon) icon.style.transform = current === 'skeuo' ? 'rotate(-8deg) scale(1.1)' : '';
   };
 
   updateLabel();
 
   toggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', nextTheme);
-    safeStorage.setItem('tl_theme', nextTheme);
+    if (window.TechLearnersTheme) window.TechLearnersTheme.cycle();
+    else {
+      const order = ['light', 'dark', 'skeuo'];
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const nextTheme = order[(order.indexOf(currentTheme) + 1) % order.length] || 'light';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      safeStorage.setItem('tl_theme', nextTheme);
+    }
     updateLabel();
   });
+  document.addEventListener('tl:themechange', updateLabel);
   const loginLink = nav.querySelector('a[href*="login.html"], .nav-user-widget, .btn');
   if (loginLink) {
     nav.insertBefore(toggleBtn, loginLink);
