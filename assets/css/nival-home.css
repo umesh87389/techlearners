@@ -90,8 +90,32 @@ body.nival-home .footer{background:rgba(246,250,255,.7);backdrop-filter:blur(16p
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 @media(max-width:1100px){.nival-grid{grid-template-columns:340px 1fr}.nival-side{grid-column:1/-1;grid-template-columns:1fr 1fr;align-items:start}.nival-line{white-space:normal}}
 @media(max-width:760px){
-.nival-top{grid-template-columns:1fr}.nival-features{flex-direction:row;display:flex;gap:14px;text-align:left;font-size:14px}.nival-feature{gap:8px}
-.nival-grid{grid-template-columns:1fr}.nival-side{grid-template-columns:1fr}
-.nival-gallery{grid-template-columns:repeat(5,1fr);gap:8px}.nival-avatar{border-width:3px}
+.nival-hero{padding:22px 5% 6px}
+.nival-headline{font-size:clamp(30px,9.5vw,44px);line-height:1.04}
+.nival-line2{flex-wrap:wrap;gap:.4em}
+.nival-chain{width:84px;height:28px;flex-basis:84px}
+.nival-top{grid-template-columns:1fr}.nival-features{flex-direction:row;display:flex;gap:14px;text-align:left;font-size:13px}.nival-feature{gap:8px}
+.nival-creator-copy{font-size:14px}
+.nival-grid{grid-template-columns:1fr;gap:16px}.nival-side{grid-template-columns:1fr}
+.nival-glass{padding:14px 16px 16px;border-radius:20px}
+.nival-count{margin-left:-10px}
+.nival-card-copy{font-size:16px}
+.nival-art{padding:6px 0 2px}
+.nival-ghost{font-size:clamp(58px,19vw,96px);text-align:center}
+.nival-ghost-two{text-align:center}
+.nival-search{grid-template-columns:1fr;padding:8px}
+.nival-search input{min-height:48px;font-size:16px}
+.nival-search button{min-height:48px;width:100%}
+.nival-pills{gap:8px}.nival-pills a{min-height:44px;display:inline-flex;align-items:center;font-size:.82rem}
+.nival-gallery{grid-template-columns:repeat(5,1fr);gap:8px}.nival-avatar{border-width:3px;min-height:56px}
+.nival-avatar b{font-size:17px}
+.nival-shuffle{width:44px;height:44px}
+.nival-quick{gap:8px}.nival-q{min-height:48px;display:flex;align-items:center;justify-content:center}
+.nival-pill{min-height:72px}
+}
+@media(max-width:380px){
+.nival-gallery{grid-template-columns:repeat(5,1fr);gap:6px}
+.nival-avatar b{font-size:15px}
+.nival-features{font-size:12px;gap:10px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
