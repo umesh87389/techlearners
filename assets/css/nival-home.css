@@ -7,15 +7,15 @@ body.nival-home{
   font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 body.nival-home::before{display:none}
-/* header -> glass pill bar */
+/* header -> solid ice bar (see nival-theme.css for shared rules) */
 body.nival-home .site-header{
-  background:rgba(246,250,255,.6); backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.6);
-  box-shadow:0 0 18px rgba(255,255,255,.5),0 10px 30px rgba(65,94,123,.08);
+  background:rgba(240,246,252,.94); backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(6,25,47,.12);
+  box-shadow:0 4px 24px rgba(65,94,123,.14);
 }
 body.nival-home .site-header .nav a{border-radius:18px}
-body.nival-home .site-header .nav a.btn{border-radius:25px;background:rgba(246,250,255,.7);color:#5e7082!important;box-shadow:0 0 18px rgba(255,255,255,.46),inset 0 0 10px rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.5)}
-body.nival-home .site-header .nav a.btn:hover{background:#fff;color:var(--nival-ink)!important}
+body.nival-home .site-header .nav a.btn{border-radius:999px;background:linear-gradient(135deg,#0b2b50,#06192f);color:#fff!important;border:0;box-shadow:0 6px 18px rgba(6,25,47,.28)}
+body.nival-home .site-header .nav a.btn:hover{filter:brightness(1.15);color:#fff!important}
 /* hero shell */
 .nival-hero{position:relative;overflow:clip;isolation:isolate;padding:34px clamp(16px,5vw,54px) 10px;max-width:1440px;margin:0 auto}
 .nival-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}
