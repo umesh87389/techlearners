@@ -20,6 +20,8 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg?v=t-logo-1">
 <link rel="apple-touch-icon" href="favicon.svg?v=t-logo-1">
 <meta name="theme-color" content="#5b3df5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
@@ -131,6 +133,8 @@ footer{margin-top:100px;padding:36px 0;border-top:1px solid var(--line);color:va
 @media(max-width:900px){.grid4{grid-template-columns:repeat(2,1fr)}.bento{grid-template-columns:repeat(2,1fr)}.card,.card.big{grid-column:span 1}.board{padding:44px 30px}}
 @media(max-width:560px){.grid4,.bento,.stats{grid-template-columns:1fr}.n{font-size:90px}.cls{min-height:240px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv,h1 .w{opacity:1;transform:none;filter:none}.ln i{width:var(--w)}.sc .v{stroke-dashoffset:36}}
+/* perf boost (non-visual): skip offscreen rendering work, same pixels */
+.board,.bento,.stats{content-visibility:auto;contain-intrinsic-size:auto 500px}
 </style>
 </head>
 <body>
@@ -217,21 +221,25 @@ footer{margin-top:100px;padding:36px 0;border-top:1px solid var(--line);color:va
 document.getElementById('q').addEventListener('input',function(e){var v=e.target.value.toLowerCase().trim();
 document.querySelectorAll('#chips .chip').forEach(function(c){c.hidden=v&&c.textContent.toLowerCase().indexOf(v)<0})});
 var bar=document.getElementById('bar');
-addEventListener('scroll',function(){var h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
+var ticking=false;
+addEventListener('scroll',function(){if(ticking)return;ticking=true;requestAnimationFrame(function(){var h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';ticking=false})},{passive:true});
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
 var b=e.target.querySelector('b[data-n]');if(b){var t=+b.dataset.n,s=b.dataset.s||'',i=0,id=setInterval(function(){i++;b.textContent=Math.round(t*i/30)+(i>=30?s:'');if(i>=30)clearInterval(id)},35)}})},{threshold:.15});
 document.querySelectorAll('.rv').forEach(function(el,i){el.style.transitionDelay=(i%4)*90+'ms';io.observe(el)});
 document.querySelectorAll('.cls').forEach(function(c){
-c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+var raf=null;
+c.addEventListener('mousemove',function(e){if(raf)return;var ev=e;raf=requestAnimationFrame(function(){raf=null;var r=c.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width,y=(ev.clientY-r.top)/r.height;
 c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%');
-c.style.transform='perspective(900px) rotateX('+(.5-y)*7+'deg) rotateY('+(x-.5)*7+'deg) translateY(-5px)'});
-c.addEventListener('mouseleave',function(){c.style.transform=''})});
+c.style.transform='perspective(900px) rotateX('+(.5-y)*7+'deg) rotateY('+(x-.5)*7+'deg) translateY(-5px)'});});
+c.addEventListener('mouseleave',function(){if(raf){cancelAnimationFrame(raf);raf=null}c.style.transform=''})});
 var st=document.getElementById('stage'),pl=document.getElementById('pl');
-st.addEventListener('mousemove',function(e){var r=st.getBoundingClientRect();pl.style.transform='rotateY('+((e.clientX-r.left)/r.width-.5)*16+'deg) rotateX('+(.5-(e.clientY-r.top)/r.height)*12+'deg)'});
-st.addEventListener('mouseleave',function(){pl.style.transform=''});
+var sraf=null;
+st.addEventListener('mousemove',function(e){if(sraf)return;var ev=e;sraf=requestAnimationFrame(function(){sraf=null;var r=st.getBoundingClientRect();pl.style.transform='rotateY('+((ev.clientX-r.left)/r.width-.5)*16+'deg) rotateX('+(.5-(ev.clientY-r.top)/r.height)*12+'deg)'});});
+st.addEventListener('mouseleave',function(){if(sraf){cancelAnimationFrame(sraf);sraf=null}pl.style.transform=''});
 document.querySelectorAll('.mg').forEach(function(b){
-b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+(e.clientX-r.left-r.width/2)*.18+'px,'+(e.clientY-r.top-r.height/2)*.25+'px)'});
-b.addEventListener('mouseleave',function(){b.style.transform=''})});
+var mraf=null;
+b.addEventListener('mousemove',function(e){if(mraf)return;var ev=e;mraf=requestAnimationFrame(function(){mraf=null;var r=b.getBoundingClientRect();b.style.transform='translate('+(ev.clientX-r.left-r.width/2)*.18+'px,'+(ev.clientY-r.top-r.height/2)*.25+'px)'});});
+b.addEventListener('mouseleave',function(){if(mraf){cancelAnimationFrame(mraf);mraf=null}b.style.transform=''})});
 </script>
 </body>
 </html>

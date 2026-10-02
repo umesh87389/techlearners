@@ -114,7 +114,7 @@
       <!-- HEADER -->
       <header class="doc-header">
         <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
-          <img src="/assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
+          <img loading="eager" decoding="async" fetchpriority="high" src="/assets/school-logo.jpg" alt="SHM Academy" class="school-logo-img">
         </div>
         <div class="doc-title-main">STUDENT PORTFOLIO</div>
         <div class="doc-school-name">SHM ACADEMY</div>
@@ -155,7 +155,7 @@
           <div style="text-align: center;">
             <div class="photo-upload-box" style="cursor: default;">
               {% if student.data.profile and student.data.profile.photo_data %}
-              <img src="{{ student.data.profile.photo_data }}" class="photo-preview-img" style="display: block;" alt="Student Photo">
+              <img loading="lazy" decoding="async" src="{{ student.data.profile.photo_data }}" class="photo-preview-img" style="display: block;" alt="Student Photo">
               {% else %}
               <div class="photo-prompt-text">
                 <div style="font-size: 2.2rem; margin-bottom: 0.25rem;">📷</div>

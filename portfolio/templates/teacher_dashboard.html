@@ -234,7 +234,7 @@
     <!-- Navbar -->
     <header class="dash-nav">
       <div class="dash-brand">
-        <img src="/assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
+        <img loading="eager" decoding="async" fetchpriority="high" src="/assets/school-logo.jpg" alt="Logo" style="height: 44px; border-radius: 6px;">
         <div>
           <h1 style="font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0;">Teacher Evaluation Dashboard</h1>
           <p style="font-size: 0.8rem; color: #64748b; margin: 0;">SHM Academy • Official Portfolio Evaluation &amp; Marks Entry</p>
@@ -331,7 +331,7 @@
           <tr>
             <td>
               {% if s.photo_url %}
-              <img src="{{ s.photo_url }}" class="student-thumb" alt="Photo">
+              <img loading="lazy" decoding="async" src="{{ s.photo_url }}" class="student-thumb" alt="Photo">
               {% else %}
               <div class="student-thumb" style="display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #94a3b8;">
                 👤
