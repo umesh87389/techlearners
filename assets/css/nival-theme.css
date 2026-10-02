@@ -83,8 +83,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 /* ---- Nival auth: login / admin-login ---- */
 .login-card,.admin-login-light-card{background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(239,247,253,.55))!important;border:1px solid var(--border)!important;border-radius:24px!important;box-shadow:inset 0 0 22px rgba(255,255,255,.35),var(--shadow)!important;backdrop-filter:blur(20px)}
 [data-theme="dark"] .login-card,[data-theme="dark"] .admin-login-light-card{background:linear-gradient(135deg,rgba(20,55,100,.6),rgba(10,33,64,.55))!important}
-.login-light-brand-icon,.login-light-brand-icon.admin{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0b2b50,#06192f);color:#fff;font-weight:900;box-shadow:0 10px 24px rgba(6,25,47,.25)}
-[data-theme="dark"] .login-light-brand-icon{background:linear-gradient(135deg,#d6e6f5,#7fb8f0);color:#06192f}
+.login-light-brand-icon,.login-light-brand-icon.admin{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#5b3df5,#2a62ff);color:#fff;font-family:Fraunces,Georgia,serif;font-size:26px;font-weight:600;box-shadow:0 10px 24px rgba(91,61,245,.4)}
+[data-theme="dark"] .login-light-brand-icon{background:linear-gradient(135deg,#5b3df5,#2a62ff);color:#fff}
 .login-submit-button{background:linear-gradient(135deg,#0b2b50,#06192f)!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 8px 22px rgba(6,25,47,.25)}
 .login-submit-button:hover{filter:brightness(1.12)}
 [data-theme="dark"] .login-submit-button{background:linear-gradient(135deg,#7fb8f0,#1169dc)!important}
