@@ -1,0 +1,23 @@
+CBSE Class 10 IT Practical Skills Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Objective Questions
+1. What is a template?
+2. What is data validation?
+3. Define query.
+4. What is a digital portfolio?
+5. Write one phishing warning sign.
+
+Section B: Short Answer Questions
+1. Explain two uses of mail merge.
+2. Why should spreadsheet formulas be reviewed before copying?
+3. Differentiate between a form and a report in DBMS.
+4. Write two safe browsing habits.
+5. Why are reflection notes useful in a portfolio?
+
+Section C: Practical Situations
+1. Design a database table for a library. Write five fields and choose a primary key.
+2. Explain how to prepare personalised certificates using mail merge.
+3. Create a portfolio checklist for a spreadsheet project.

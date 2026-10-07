@@ -1,0 +1,23 @@
+CBSE Class 9 IT Practice Sample Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Very Short Answer Questions
+1. Name one input device.
+2. What is a cell in a spreadsheet?
+3. What is a word processor used for?
+4. Write one example of secondary storage.
+5. What is cyber safety?
+
+Section B: Short Answer Questions
+1. Differentiate between hardware and software.
+2. Write two formatting features used in digital documentation.
+3. Explain the use of a formula in a spreadsheet.
+4. Why should a document be previewed before printing?
+5. Write two strong password rules.
+
+Section C: Application Questions
+1. Create a plan for formatting a one-page school notice.
+2. A marksheet has columns for Name, English, IT, Total, and Average. Explain which formulas may be used.
+3. A user receives an unknown link promising a prize. What should the user do and why?

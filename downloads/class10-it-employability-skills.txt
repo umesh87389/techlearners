@@ -1,0 +1,46 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+PART A: EMPLOYABILITY SKILLS (ALL 5 UNITS) - COMPLETE REVISION NOTES
+================================================================================
+
+UNIT 1: COMMUNICATION SKILLS - II
+1. Methods of Communication:
+   - Verbal: Oral (face-to-face, phone) and Written (letters, emails, reports).
+   - Non-Verbal: Body language, facial expressions, gestures, postures, eye contact, paralanguage (tone, pitch).
+   - Visual: Graphs, signs, maps, charts, diagrams.
+2. Communication Cycle: Sender -> Message -> Encoding -> Channel -> Receiver -> Decoding -> Feedback.
+3. Feedback: Essential to complete cycle. Types: Descriptive (detailed advice), Specific (pinpoints exact point), Non-specific (general praise/critique).
+4. Barriers to Communication: Physical (noise, distance), Linguistic (jargon, language), Cultural, Emotional (fear, anger), Interpersonal (prejudice, ego).
+5. The 7 Cs of Effective Communication: Clear, Concise, Concrete, Correct, Coherent, Complete, Courteous.
+
+UNIT 2: SELF-MANAGEMENT SKILLS - II
+1. Stress: A state of mental or emotional strain resulting from adverse or demanding circumstances.
+2. Stressors: Factors causing stress (exams, deadlines, family issues, illness).
+3. ABC of Stress Management: A - Adversity (the stressful event), B - Beliefs (the way you perceive it), C - Consequences (actions and emotional outcome).
+4. Stress Management Techniques: Physical exercise, Yoga, Meditation, Spending time in nature, Listening to music, Engaging in hobbies.
+5. Ability to Work Independently: Requires Self-awareness (knowing strengths and weaknesses), Self-motivation (inner drive without external push), and Self-regulation (disciplined habit control).
+
+UNIT 3: ICT SKILLS - II
+1. Operating System (OS): System software managing computer hardware, files, memory, and software execution.
+   - Types: Interactive (GUI), Real-Time (RTOS), Distributed, Single-User, Multi-User.
+2. File Management: Directory paths, file naming conventions, file extensions (.txt, .docx, .ods, .jpg, .pdf), copying, moving, renaming, deleting, and restoring from Recycle Bin / Trash.
+3. Computer Care & Maintenance:
+   - Hardware: Cleaning keyboard/screen with microfiber cloth, avoiding food/liquids near PC, proper ventilation.
+   - Software: Disk Cleanup (removing temporary files), Disk Defragmentation, updating software, running regular antivirus scans, safe data backup on cloud or external drive.
+
+UNIT 4: ENTREPRENEURIAL SKILLS - II
+1. Entrepreneur: A person who identifies a problem or need, develops an innovative solution, organizes resources, takes calculated financial risks, and establishes a commercial enterprise.
+2. Characteristics: Passionate, self-confident, hard-working, creative, risk-taker, adaptable, continuous learner.
+3. Role in Society: Generates employment, drives economic growth, fosters innovation, utilizes local resources, improves living standards.
+4. Myths about Entrepreneurship:
+   - Myth: Entrepreneurs are born, not made. (Reality: Entrepreneurial skills can be learned and nurtured).
+   - Myth: You need a huge amount of capital to start. (Reality: Many successful startups begin with minimal funds).
+   - Myth: Every startup must have a completely brand-new invention. (Reality: Innovating existing processes or services is highly effective).
+
+UNIT 5: GREEN SKILLS - II
+1. Sustainable Development: Development that meets the needs of the present generation without compromising the ability of future generations to meet their own needs.
+2. 17 Sustainable Development Goals (SDGs): Formulated by the United Nations in 2015 to end poverty, protect the planet, and ensure peace and prosperity by 2030 (e.g., No Poverty, Quality Education, Clean Water, Climate Action).
+3. Green Economy: An economic system that results in improved human well-being and social equity while significantly reducing environmental risks and ecological scarcities.
+4. Green Jobs: Decent jobs that contribute to preserving or restoring the environment (solar panel installation, e-waste recycling, sustainable farming, organic materials production).
+5. Individual Actions: Conserving electricity and water, waste segregation, adopting 4Rs (Reduce, Reuse, Recycle, Recover), minimizing single-use plastics, planting trees.
+================================================================================

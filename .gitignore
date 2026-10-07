@@ -1,0 +1,5 @@
+
+portfolio/portfolio.db
+portfolio/server.log
+portfolio/__pycache__/
+*.pyc

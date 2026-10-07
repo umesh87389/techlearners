@@ -1,0 +1,384 @@
+[
+  {
+    "id": "class10-ai-guess-2026",
+    "class": "Class 10",
+    "subject": "AI",
+    "title": "CBSE Class 10 Artificial Intelligence Guess Paper 2026",
+    "time": "2 Hours",
+    "maxMarks": 50,
+    "instructions": [
+      "This question paper contains two parts: Part A (Employability Skills) and Part B (Subject Specific Skills).",
+      "Part A carries 10 marks and Part B carries 40 marks.",
+      "All questions are compulsory. Internal choices are provided in subjective sections where applicable."
+    ],
+    "sections": [
+      {
+        "name": "Part A: Employability Skills (10 Marks)",
+        "questions": [
+          {
+            "id": "ai-q1",
+            "type": "objective",
+            "text": "Which of the following is NOT a barrier to effective communication?",
+            "options": [
+              "Physical barrier",
+              "Linguistic barrier",
+              "Active listening",
+              "Interpersonal barrier"
+            ],
+            "marks": 1,
+            "answer": "Active listening",
+            "explanation": "Active listening is a communication skill that enhances understanding, whereas physical, linguistic, and interpersonal factors can act as barriers."
+          },
+          {
+            "id": "ai-q2",
+            "type": "objective",
+            "text": "What does a SMART goal stand for?",
+            "options": [
+              "Simple, Manageable, Achievable, Realistic, Time-bound",
+              "Specific, Measurable, Achievable, Realistic, Time-bound",
+              "Specific, Measurable, Actionable, Relevant, Truthful",
+              "Simple, Measurable, Achievable, Relevant, Time-bound"
+            ],
+            "marks": 1,
+            "answer": "Specific, Measurable, Achievable, Realistic, Time-bound",
+            "explanation": "SMART is an acronym for Specific, Measurable, Achievable, Realistic, and Time-bound goals."
+          },
+          {
+            "id": "ai-q3",
+            "type": "subjective",
+            "text": "Define 'sustainable development'. List any two Sustainable Development Goals (SDGs) prescribed by the UN.",
+            "marks": 2,
+            "answer": "Sustainable development is the organizing principle for meeting human development goals while simultaneously sustaining the ability of natural systems to provide the natural resources and ecosystem services upon which the economy and society depend. It means development that meets the needs of the present without compromising the ability of future generations to meet their own needs.<br><br><b>Two SDGs:</b><br>1. Goal 4: Quality Education (Ensure inclusive and equitable quality education).<br>2. Goal 13: Climate Action (Take urgent action to combat climate change and its impacts)."
+          },
+          {
+            "id": "ai-q4",
+            "type": "subjective",
+            "text": "Who is an entrepreneur? State two key qualities of a successful entrepreneur.",
+            "marks": 2,
+            "answer": "An entrepreneur is an individual who creates, organizes, and operates a new business venture, taking on most of the financial risks in the hope of making a profit.<br><br><b>Two qualities of a successful entrepreneur:</b><br>1. <b>Risk-taking ability:</b> They are willing to take calculated risks to innovate and achieve success.<br>2. <b>Perseverance and determination:</b> They do not give up easily in the face of obstacles and continuously work toward their business goals."
+          },
+          {
+            "id": "ai-q5",
+            "type": "subjective",
+            "text": "What is self-regulation? Explain its importance in a student's life.",
+            "marks": 2,
+            "answer": "Self-regulation refers to the ability to monitor, manage, and adapt our behaviors, emotions, and thoughts in a productive manner to achieve positive outcomes.<br><br><b>Importance for students:</b> Self-regulation helps students set academic goals, manage stress, control impulses, avoid distractions, and manage study schedules effectively, which leads to better performance and well-being."
+          }
+        ]
+      },
+      {
+        "name": "Part B: Subject Specific Skills - Objective Type (20 Marks)",
+        "questions": [
+          {
+            "id": "ai-q6",
+            "type": "objective",
+            "text": "Which AI domain works on inputs in the form of visual data, such as images and videos?",
+            "options": [
+              "Natural Language Processing (NLP)",
+              "Computer Vision (CV)",
+              "Data Sciences",
+              "System Diagnostics"
+            ],
+            "marks": 1,
+            "answer": "Computer Vision (CV)",
+            "explanation": "Computer Vision is the domain of AI that enables computers to see, process, and interpret digital visual datasets."
+          },
+          {
+            "id": "ai-q7",
+            "type": "objective",
+            "text": "In the NLP domain, reducing words to their base or dictionary form is known as:",
+            "options": [
+              "Tokenization",
+              "Stopwords removal",
+              "Lemmatization",
+              "Bag of Words"
+            ],
+            "marks": 1,
+            "answer": "Lemmatization",
+            "explanation": "Lemmatization is the process of reducing a word to its base or dictionary form (lemma) considering grammatical context. (Stemming, by contrast, just chops off characters to find a base)."
+          },
+          {
+            "id": "ai-q8",
+            "type": "objective",
+            "text": "Which of the following is a model-hidden variable that represents the actual output being positive and predicted output being positive?",
+            "options": [
+              "True Negative (TN)",
+              "False Positive (FP)",
+              "True Positive (TP)",
+              "False Negative (FN)"
+            ],
+            "marks": 1,
+            "answer": "True Positive (TP)",
+            "explanation": "True Positive (TP) is when the actual output is positive (Yes) and the predicted output is also positive (Yes)."
+          },
+          {
+            "id": "ai-q9",
+            "type": "objective",
+            "text": "Identify the stage of the AI Project Cycle where we gather datasets from reliable sources for our AI model.",
+            "options": [
+              "Problem Scoping",
+              "Data Acquisition",
+              "Data Exploration",
+              "Modelling"
+            ],
+            "marks": 1,
+            "answer": "Data Acquisition",
+            "explanation": "Data Acquisition involves gathering historical data, API logs, sensor data, or online surveys needed to train the AI model."
+          },
+          {
+            "id": "ai-q10",
+            "type": "objective",
+            "text": "A chatbot that uses strict rule-based trees and cannot handle queries outside its script is called a:",
+            "options": [
+              "Smart-bot",
+              "Script-bot",
+              "Virtual Assistant",
+              "Conversational Agent"
+            ],
+            "marks": 1,
+            "answer": "Script-bot",
+            "explanation": "Script-bots are basic, rule-based chatbots that follow a predefined flow or script. Smart-bots use advanced machine learning and NLP to handle natural speech queries."
+          },
+          {
+            "id": "ai-q11",
+            "type": "subjective",
+            "text": "Distinguish between Data Science and Artificial Intelligence.",
+            "marks": 2,
+            "answer": "<b>Artificial Intelligence (AI):</b> A broad domain of computer science that aims to build intelligent systems capable of performing tasks that normally require human intelligence (e.g. reasoning, learning, and self-correction).<br><br><b>Data Science:</b> A multidisciplinary field that uses scientific methods, processes, algorithms, and systems to extract knowledge and actionable insights from structured and unstructured data. It includes data cleaning, visualization, and statistical modeling."
+          },
+          {
+            "id": "ai-q12",
+            "type": "subjective",
+            "text": "What is the difference between supervised and unsupervised learning models?",
+            "marks": 2,
+            "answer": "<b>Supervised Learning:</b> The model is trained on labeled training data (inputs paired with the correct outputs). The goal is to learn a mapping function from input variables to output variables (e.g., Classification, Regression).<br><br><b>Unsupervised Learning:</b> The model is trained on unlabeled data. It must discover hidden patterns, groupings, or structures in the data on its own without external guidance (e.g., Clustering)."
+          }
+        ]
+      },
+      {
+        "name": "Part B: Subject Specific Skills - Subjective Type (20 Marks)",
+        "questions": [
+          {
+            "id": "ai-q13",
+            "type": "subjective",
+            "text": "What is the significance of the Evaluation stage in the AI Project Cycle? Name three metrics used for evaluation.",
+            "marks": 4,
+            "answer": "Evaluation is the final stage of the AI Project Cycle where the trained model is tested with a separate, unseen test dataset to check its accuracy, reliability, and performance before deploying it in the real world. It helps developers ensure the model meets the scoped objectives and does not fail on edge cases.<br><br><b>Three evaluation metrics:</b><br>1. <b>Accuracy:</b> The ratio of correct predictions to total predictions.<br>2. <b>Precision:</b> Out of all positive predictions, how many were actually positive.<br>3. <b>Recall:</b> Out of all actual positive cases, how many did the model predict correctly.<br>4. <b>F1-Score:</b> The harmonic mean of Precision and Recall, which balances both metrics."
+          },
+          {
+            "id": "ai-q14",
+            "type": "subjective",
+            "text": "Briefly explain the NLP pipeline steps. What happens in the 'Tokenization' and 'Stopwords Removal' stages?",
+            "marks": 4,
+            "answer": "The NLP pipeline is a series of steps used to clean, parse, and convert unstructured text data into a structured format that a machine learning model can understand.<br><br><b>Key pipeline steps:</b> Sentence Segmentation, Tokenization, Stopwords Removal, Stemming/Lemmatization, and Vectorization.<br><br><b>1. Tokenization:</b> The process of breaking down a large text corpus, paragraphs, or sentences into smaller units called 'tokens' (individual words, characters, or subwords). This helps in analyzing word occurrences.<br><br><b>2. Stopwords Removal:</b> Stopwords are extremely common words (such as 'is', 'the', 'and', 'in', 'of') that carry little unique semantic meaning. Removing them filters out noise, allowing the model to focus on critical terms that define the context."
+          },
+          {
+            "id": "ai-q15",
+            "type": "subjective",
+            "text": "Given the following scenario, calculate Precision, Recall, and F1-Score:<br>An AI model is developed to detect whether a patient has a specific disease. The model's testing results are:<br>• True Positives (TP) = 90<br>• False Positives (FP) = 10<br>• False Negatives (FN) = 15<br>• True Negatives (TN) = 85<br>Show step-by-step calculations.",
+            "marks": 4,
+            "answer": "<b>Given parameters:</b><br>• TP = 90<br>• FP = 10<br>• FN = 15<br>• TN = 85<br><br><b>Step 1: Calculate Precision</b><br>Precision = TP / (TP + FP)<br>Precision = 90 / (90 + 10) = 90 / 100 = 0.9 (or 90%)<br><i>Interpretation: Out of all patients predicted to have the disease, 90% actually have it.</i><br><br><b>Step 2: Calculate Recall</b><br>Recall = TP / (TP + FN)<br>Recall = 90 / (90 + 15) = 90 / 105 = 0.857 (or 85.7%)<br><i>Interpretation: Out of all actual sick patients, the model correctly identified 85.7% of them.</i><br><br><b>Step 3: Calculate F1-Score</b><br>F1-Score = 2 * (Precision * Recall) / (Precision + Recall)<br>F1-Score = 2 * (0.9 * 0.857) / (0.9 + 0.857)<br>F1-Score = 2 * 0.7713 / 1.757<br>F1-Score = 1.5426 / 1.757 = 0.878 (or 87.8%)<br><i>Interpretation: The F1-Score of 87.8% indicates a highly balanced and reliable performance.</i>"
+          },
+          {
+            "id": "ai-q16",
+            "type": "subjective",
+            "text": "What is Computer Vision? Explain how image classification differs from object detection in Computer Vision tasks.",
+            "marks": 4,
+            "answer": "Computer Vision (CV) is a subfield of artificial intelligence that focuses on enabling computers and software systems to extract meaningful information from digital images, videos, and other visual inputs, and to take actions or make recommendations based on that information.<br><br><b>Differences:</b><br>• <b>Image Classification:</b> The process of predicting a single class label for an entire input image. It answers the question 'What is in this image?' (e.g., identifying that an image contains a 'cat'). It does not identify the location of the object.<br>• <b>Object Detection:</b> An advanced CV task that goes beyond classification. It identifies multiple objects in an image, classifies each object, and locates its exact position using rectangular boundary boxes (bounding boxes). It answers 'What is in this image, and where is it located?' (e.g., detecting three cars and two pedestrians in a traffic video stream)."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "class10-it-guess-2026",
+    "class": "Class 10",
+    "subject": "IT",
+    "title": "CBSE Class 10 Information Technology (Code 402) Guess Paper 2026",
+    "time": "2 Hours",
+    "maxMarks": 50,
+    "instructions": [
+      "This question paper contains two parts: Part A (Employability Skills) and Part B (Subject Specific Skills).",
+      "Part A carries 10 marks and Part B carries 40 marks.",
+      "All questions are compulsory. Internal choices are provided in subjective sections where applicable."
+    ],
+    "sections": [
+      {
+        "name": "Part A: Employability Skills (10 Marks)",
+        "questions": [
+          {
+            "id": "it-q1",
+            "type": "objective",
+            "text": "Which shortcut key is typically used to copy selected content in Windows operating systems?",
+            "options": [
+              "Ctrl + X",
+              "Ctrl + V",
+              "Ctrl + C",
+              "Ctrl + Z"
+            ],
+            "marks": 1,
+            "answer": "Ctrl + C",
+            "explanation": "Ctrl+C copies content, Ctrl+X cuts it, Ctrl+V pastes it, and Ctrl+Z undoes the last action."
+          },
+          {
+            "id": "it-q2",
+            "type": "objective",
+            "text": "Which of the following describes an entrepreneur's quality of being able to continue trying despite facing failures?",
+            "options": [
+              "Creativity",
+              "Perseverance",
+              "Risk aversion",
+              "Impulsiveness"
+            ],
+            "marks": 1,
+            "answer": "Perseverance",
+            "explanation": "Perseverance is the quality of sticking to a plan and continuing effort despite difficulties or failure."
+          },
+          {
+            "id": "it-q3",
+            "type": "subjective",
+            "text": "List four common barriers to communication.",
+            "marks": 2,
+            "answer": "1. <b>Physical Barriers:</b> Environmental issues like noise, physical distance, or poor equipment.<br>2. <b>Linguistic/Language Barriers:</b> Differences in language, dialect, jargon, or vocabulary.<br>3. <b>Organizational Barriers:</b> Strict rules, hierarchies, or structures that block smooth communication.<br>4. <b>Psychological/Emotional Barriers:</b> Anger, prejudice, trust issues, or anxiety that affect how messages are received."
+          },
+          {
+            "id": "it-q4",
+            "type": "subjective",
+            "text": "State any two ways to protect a computer system from virus attacks.",
+            "marks": 2,
+            "answer": "1. <b>Install and update Antivirus Software:</b> Regularly scan your system with a reputable antivirus program and keep its virus signatures updated.<br>2. <b>Avoid suspicious downloads:</b> Never download email attachments or click links from unknown or unverified senders, and avoid browsing untrusted websites."
+          },
+          {
+            "id": "it-q5",
+            "type": "subjective",
+            "text": "What are green skills? Why are they essential in today's workforce?",
+            "marks": 2,
+            "answer": "Green skills are the technical skills, knowledge, values, and attitudes needed in the workforce to develop and support sustainable practices, reduce environmental impact, and combat climate change.<br><br><b>Importance:</b> They are essential because modern industries are shifting towards eco-friendly practices, resource optimization, and green energy. Workforce training in green skills ensures that jobs align with carbon reduction and resource preservation goals."
+          }
+        ]
+      },
+      {
+        "name": "Part B: Subject Specific Skills - Objective Type (20 Marks)",
+        "questions": [
+          {
+            "id": "it-q6",
+            "type": "objective",
+            "text": "Which feature in a word processor is used to send the same letter to multiple recipients with personalized details?",
+            "options": [
+              "Style Manager",
+              "Mail Merge",
+              "Template Gallery",
+              "Macro Recorder"
+            ],
+            "marks": 1,
+            "answer": "Mail Merge",
+            "explanation": "Mail Merge combines a main template document with a data source (e.g. name list) to generate personalized documents for many recipients."
+          },
+          {
+            "id": "it-q7",
+            "type": "objective",
+            "text": "In a spreadsheet, which tool allows you to find the required input value to achieve a specific target result for a single formula?",
+            "options": [
+              "Solver",
+              "Scenarios",
+              "Goal Seek",
+              "Subtotals"
+            ],
+            "marks": 1,
+            "answer": "Goal Seek",
+            "explanation": "Goal Seek is a built-in spreadsheet analysis tool that calculates the input value required to achieve a specified goal or target output."
+          },
+          {
+            "id": "it-q8",
+            "type": "objective",
+            "text": "A field in a table that uniquely identifies each record in that table is called:",
+            "options": [
+              "Alternate Key",
+              "Foreign Key",
+              "Candidate Key",
+              "Primary Key"
+            ],
+            "marks": 1,
+            "answer": "Primary Key",
+            "explanation": "A Primary Key is a database column (or set of columns) that uniquely identifies every row in a table. It cannot contain NULL values."
+          },
+          {
+            "id": "it-q9",
+            "type": "objective",
+            "text": "Which SQL statement is used to fetch data from a database table?",
+            "options": [
+              "FETCH",
+              "SELECT",
+              "GET",
+              "RETRIEVE"
+            ],
+            "marks": 1,
+            "answer": "SELECT",
+            "explanation": "The SELECT statement in SQL is used to query and retrieve records from one or more database tables."
+          },
+          {
+            "id": "it-q10",
+            "type": "objective",
+            "text": "Which network architecture features a central server managing resources for multiple client computers?",
+            "options": [
+              "Peer-to-Peer (P2P)",
+              "Client-Server",
+              "Ring Topology",
+              "Mesh Network"
+            ],
+            "marks": 1,
+            "answer": "Client-Server",
+            "explanation": "In a Client-Server network architecture, a centralized server computer processes files, manages security policies, and answers requests from connected client computers."
+          },
+          {
+            "id": "it-q11",
+            "type": "subjective",
+            "text": "Explain the difference between relative and absolute hyperlinks in word processing.",
+            "marks": 2,
+            "answer": "• <b>Relative Hyperlink:</b> Stores a path pointing to a destination file relative to the current file's directory. If both files are moved together to another folder, the link remains valid (e.g. <code>../images/logo.png</code>).<br>• <b>Absolute Hyperlink:</b> Stores the full URL or path starting from the root directory or web domain. It remains fixed, but if the target file is relocated, the link breaks (e.g. <code>C:\\Users\\Tripathi\\Documents\\GitHub\\techlearners\\logo.png</code>)."
+          },
+          {
+            "id": "it-q12",
+            "type": "subjective",
+            "text": "Define 'Referential Integrity'. How does it help in a relational database?",
+            "marks": 2,
+            "answer": "Referential Integrity is a database concept that ensures relationships between tables remain consistent. It dictates that a foreign key value in a table must always point to a valid, existing primary key value in the referenced parent table.<br><br><b>Benefits:</b> It prevents users from adding orphaned child records, deleting parent records that are still linked to other tables, or updating primary keys in a way that breaks existing links, thereby maintaining data accuracy and avoiding database corruption."
+          }
+        ]
+      },
+      {
+        "name": "Part B: Subject Specific Skills - Subjective Type (20 Marks)",
+        "questions": [
+          {
+            "id": "it-q13",
+            "type": "subjective",
+            "text": "What is Mail Merge? Describe the three main components of the Mail Merge process.",
+            "marks": 4,
+            "answer": "Mail Merge is a powerful feature in word processing that allows users to create personalized documents (such as circular letters, certificates, labels, or envelopes) for a large group of recipients by combining a static document layout with a dynamic list of recipient data.<br><br><b>The three main components are:</b><br>1. <b>Main Document:</b> The core text document containing the static content, layout, formatting, and special placeholders called 'merge fields' (e.g., <code>&lt;&lt;Name&gt;&gt;</code>) where the personal data will be inserted.<br>2. <b>Data Source:</b> A database, spreadsheet, text file, or contact list that stores the structured records of the recipients (columns representing fields like Name, Email, Address, and rows representing individual records).<br>3. <b>Merged Document:</b> The final output generated by running the merge process, which combines the main document templates with the data source rows to create a set of personalized pages or emails."
+          },
+          {
+            "id": "it-q14",
+            "type": "subjective",
+            "text": "Explain the following spreadsheet functions/features:<br>1. Consolidating Data<br>2. Subtotals<br>3. Solver<br>4. Macros",
+            "marks": 4,
+            "answer": "<b>1. Consolidating Data:</b> A tool that allows you to combine and summarize data from multiple separate worksheets (or workbooks) into a single master worksheet. It gathers data points from various ranges and computes aggregates like sum, average, or count.<br><br><b>2. Subtotals:</b> A feature that automatically creates grouped category totals and grand totals in a spreadsheet table. It inserts summary formulas (like SUM or AVERAGE) for rows of sorted data, creating collapsable group outlines.<br><br><b>3. Solver:</b> An advanced optimization tool that is a step beyond Goal Seek. It calculates the best value for a target cell by adjusting multiple input variable cells while satisfying set limitations or constraints (e.g. maximizing profit without exceeding budget).<br><br><b>4. Macros:</b> A recorded sequence of keystrokes, clicks, and actions that can be saved and replayed later to automate repetitive formatting or data entry tasks. It runs using scripts (usually VBA or Basic)."
+          },
+          {
+            "id": "it-q15",
+            "type": "subjective",
+            "text": "Consider a database table named 'LIBRARY' with columns (BookId, Title, Author, Category, Price, Quantity). Write SQL queries to perform the following operations:<br>1. Display the titles and authors of all books in the 'Computer Science' category.<br>2. List all books whose Price is between 300 and 800.<br>3. Display the count of books written by 'J.K. Rowling'.<br>4. Decrease the Price of all books in the 'Fiction' category by 10%.",
+            "marks": 4,
+            "answer": "<b>1. Display titles and authors in 'Computer Science':</b><br><code>SELECT Title, Author FROM LIBRARY WHERE Category = 'Computer Science';</code><br><br><b>2. List books with Price between 300 and 800 (inclusive):</b><br><code>SELECT * FROM LIBRARY WHERE Price >= 300 AND Price <= 800;</code><br><i>(OR: <code>SELECT * FROM LIBRARY WHERE Price BETWEEN 300 AND 800;</code>)</i><br><br><b>3. Display count of books by 'J.K. Rowling':</b><br><code>SELECT COUNT(*) FROM LIBRARY WHERE Author = 'J.K. Rowling';</code><br><br><b>4. Decrease price of 'Fiction' books by 10%:</b><br><code>UPDATE LIBRARY SET Price = Price * 0.9 WHERE Category = 'Fiction';</code>"
+          },
+          {
+            "id": "it-q16",
+            "type": "subjective",
+            "text": "What is Web Security? Explain the significance of HTTPS, Firewalls, and secure passwords in protecting networks.",
+            "marks": 4,
+            "answer": "Web Security refers to the security measures, rules, policies, and tools designed to protect web servers, websites, online applications, and users from cyber threats, hacking, data breaches, and malicious activities over the internet.<br><br><b>1. HTTPS (Hypertext Travel Protocol Secure):</b> Ensures that all communications between a user's web browser and the website server are encrypted. It prevents eavesdropping, man-in-the-middle attacks, and data tampering, protecting sensitive info like credit card details or passwords.<br><br><b>2. Firewalls:</b> A network security device or software that monitors incoming and outgoing network traffic. It acts as a barrier between a trusted internal network and an untrusted external network (the internet), blocking unauthorized access and filtering out malicious packets based on set rules.<br><br><b>3. Secure Passwords:</b> Form the primary layer of defense for user accounts. A secure password (complex, with numbers, capital letters, and symbols) is difficult to crack via brute-force or dictionary attacks, preventing unauthorized access to personal or organizational data databases."
+          }
+        ]
+      }
+    ]
+  }
+]

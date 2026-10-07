@@ -1,0 +1,86 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+UNIT 1: DIGITAL DOCUMENTATION (ADVANCED) - COMPLETE REVISION NOTES
+================================================================================
+
+1. MEANING AND IMPORTANCE OF STYLES
+- A style is a set of formats that you can apply to selected pages, text, frames, and other elements in your document to quickly change their appearance.
+- Applying a style means applying a whole group of formats at the same time.
+- Advantages of using styles:
+  * Ensures formatting consistency throughout the document.
+  * Saves significant time and manual formatting effort.
+  * Makes updating designs across large multi-page documents effortless.
+  * Essential for generating an automatic Table of Contents (TOC).
+
+2. CATEGORIES OF STYLES IN LIBREOFFICE WRITER
+- Paragraph Styles: Controls all aspects of a paragraph's appearance (text alignment, tab stops, line spacing, borders, indentation).
+- Character Styles: Affects selected text inside a paragraph (font family, font size, bold, italics, font color).
+- Page Styles: Defines page layout, page size, margins, headers, footers, borders, page numbering, and background color.
+- Frame Styles: Formats graphic and text frames (wrapping, borders, margins).
+- List Styles: Defines numbering format, bullet styles, and indentation levels for ordered and unordered lists.
+
+3. APPLYING AND CREATING STYLES
+- Applying Styles: Open Styles and Formatting window (F11) -> Select style category -> Double-click style name.
+- Fill Format Mode: Used to apply a style to multiple scattered areas quickly without going back to the Styles panel. Click Fill Format icon -> Click text areas -> Press Esc to exit.
+- Creating New Style from Selection: Format text manually -> Open Styles window -> Click 'New Style from Selection' -> Name style.
+- Drag-and-Drop Style: Drag selected formatted text directly into the Styles window to create a new style.
+- Updating a Style from Selection: Modify text formatted with a style -> Click 'Update Style' icon (Ctrl+Shift+F11).
+- Loading Styles from Template or Document: Click 'Load Styles' in Styles menu -> Choose template/file -> Check categories (Text, Page, Frame) -> Click OK.
+
+4. INSERTING AND MODIFYING IMAGES
+- Ways to insert an image:
+  1. Insert > Image... from menu bar.
+  2. Drag and drop from file manager directly into document.
+  3. Copy and paste from system clipboard.
+  4. Directly from a connected scanner (Insert > Media > Scan > Select Source).
+- Picture Toolbar Tools: Graphic Filter, Color adjustment (RGB, Gamma), Transparency, Crop, Rotate, Flip Vertically/Horizontally.
+- Resizing Images: Drag corner handles to resize proportionally without distorting aspect ratio.
+- Cropping: Removes unwanted outer margins. Two modes in Writer:
+  * Keep scale: Keeps image dimensions, cuts outer area.
+  * Keep image size: Cuts outer area and scales remainder to original dimensions.
+- Deleting an Image: Click image to show selection handles -> Press Delete or Backspace.
+
+5. POSITIONING AND WRAPPING IMAGES
+- Arrangement: Determines overlapping order (Bring to Front, Send to Back, Forward One, Back One).
+- Alignment: Horizontal (Left, Centered, Right) and Vertical (Top, Center, Bottom).
+- Anchoring: Determines reference point for the image:
+  * To Page: Remains at a fixed position on the page regardless of text movement.
+  * To Paragraph: Moves along with the associated paragraph.
+  * To Character: Associated with a specific character position.
+  * As Character: Behaves like a regular text character within the text line.
+- Text Wrapping: Controls how text flows around the image:
+  * None: Image placed on its own line; text appears above and below.
+  * Parallel (Wrap Around): Text flows around all four sides of the image.
+  * Optimal: Application automatically determines the best flow based on margins.
+  * Through: Text superimposes over the image (semi-transparent watermark style).
+  * Before / After: Text flows only to the left or only to the right of the image.
+
+6. DRAWING OBJECTS AND GROUPING
+- Drawing Toolbar: View > Toolbars > Drawing (Shapes, lines, arrows, callouts).
+- Grouping Objects: Select multiple shapes while holding Shift -> Right-click -> Group -> Group.
+- Benefits: Allows moving, scaling, and formatting multiple shapes as a single combined unit.
+- Ungrouping: Right-click group -> Group -> Ungroup.
+
+7. TEMPLATES
+- A template is a pre-designed sample document that serves as the foundation for creating new documents with pre-defined styles, page settings, logos, and layouts.
+- Creating a Template: Design document -> File > Templates > Save As Template -> Choose category -> Enter name -> Click Save.
+- Setting Default Template: File > Templates > Manage Templates -> Right-click template -> Set as Default.
+- Resetting Default Template: File > Templates > Manage Templates -> Action menu -> Reset Default Template.
+
+8. TABLE OF CONTENTS (TOC)
+- A Table of Contents is an automated list of heading topics and their page numbers.
+- Prerequisite: Headings in the document must use standard heading paragraph styles (Heading 1, Heading 2, Heading 3).
+- Inserting TOC: Place cursor at desired position -> Insert > Table of Contents and Index > Table of Contents, Index or Bibliography.
+- Protecting TOC: Ensure 'Protected against manual changes' is checked so that manual typing does not corrupt the automatic index.
+- Updating TOC: Right-click TOC -> Update Index. (Must be updated whenever headings or page numbers shift).
+- Deleting TOC: Right-click TOC -> Delete Index.
+
+9. MAIL MERGE
+- Mail Merge is a tool used to generate multiple personalized documents (letters, certificates, envelopes, mailing labels) from a single master document and a structured data source.
+- Key Components:
+  1. Main Document: The master text that remains common across all copies.
+  2. Data Source: A spreadsheet, database, or text table containing changing records (Names, Addresses, Marks).
+  3. Merge Fields: Placeholders (e.g., <Name>, <Address>) inserted in the main document.
+  4. Merged Output: The collection of individualized generated documents.
+- Steps to Perform Mail Merge: Tools > Mail Merge Wizard -> Select document type (Letter/Email) -> Insert address list -> Adjust layout -> Preview records -> Save or print merged output.
+================================================================================

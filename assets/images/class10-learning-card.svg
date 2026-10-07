@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Class 10 AI and IT learning illustration</title>
+  <desc id="desc">A modern laptop dashboard with charts, presentation panels, cyber safety, and AI network motifs.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef7ff"/>
+      <stop offset=".5" stop-color="#f4efff"/>
+      <stop offset="1" stop-color="#e9fff6"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0054b4"/>
+      <stop offset=".58" stop-color="#6d28d9"/>
+      <stop offset="1" stop-color="#006874"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#35246b" flood-opacity=".17"/>
+    </filter>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <path d="M0 374c104-30 166-8 260 12 164 35 236-65 377-82 130-16 208 40 323 2v234H0Z" fill="#ffffff" opacity=".65"/>
+  <g filter="url(#shadow)">
+    <rect x="206" y="126" width="498" height="292" rx="30" fill="#ffffff"/>
+    <rect x="248" y="164" width="414" height="210" rx="22" fill="url(#panel)"/>
+    <rect x="310" y="404" width="290" height="20" rx="10" fill="#d9defa"/>
+    <rect x="278" y="438" width="356" height="24" rx="12" fill="#ffffff"/>
+  </g>
+  <g fill="#ffffff">
+    <rect x="290" y="204" width="116" height="22" rx="11" opacity=".96"/>
+    <rect x="290" y="246" width="56" height="86" rx="12" opacity=".32"/>
+    <rect x="364" y="222" width="56" height="110" rx="12" opacity=".52"/>
+    <rect x="438" y="270" width="56" height="62" rx="12" opacity=".75"/>
+    <rect x="516" y="210" width="88" height="64" rx="16" opacity=".22"/>
+  </g>
+  <path d="M298 348c58-44 94-42 132-22 35 18 62 12 104-32 24-25 45-37 78-38" fill="none" stroke="#facc15" stroke-width="10" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <rect x="106" y="286" width="166" height="122" rx="26" fill="#ecfdf5"/>
+    <path d="M190 326c32 11 52 6 76-16 0 60-22 92-76 112-54-20-76-52-76-112 24 22 44 27 76 16Z" fill="#006874"/>
+    <path d="m164 360 19 19 38-42" fill="none" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="710" y="248" width="160" height="138" rx="26" fill="#fff9db"/>
+    <rect x="740" y="280" width="100" height="18" rx="9" fill="#6d28d9" opacity=".86"/>
+    <rect x="740" y="318" width="74" height="14" rx="7" fill="#0054b4" opacity=".68"/>
+    <rect x="740" y="348" width="92" height="14" rx="7" fill="#006874" opacity=".68"/>
+  </g>
+  <g stroke="#6d28d9" stroke-width="5" fill="#ffffff">
+    <circle cx="734" cy="106" r="15"/>
+    <circle cx="810" cy="142" r="15"/>
+    <circle cx="776" cy="202" r="15"/>
+    <circle cx="686" cy="176" r="15"/>
+    <path d="M748 113l48 23M802 156l-18 33M761 198l-60-18"/>
+  </g>
+</svg>

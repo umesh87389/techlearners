@@ -1,0 +1,15 @@
+CBSE Class 11 Computer Science Practice Paper
+Max Marks: 70 | Duration: 3 Hours
+TechLearners.in Practice Series
+
+Section A (Theory & Organisation)
+Q1. State the purpose of the control unit in CPU. (1 mark)
+Q2. Convert binary 1101011 to hexadecimal and octal representation. (2 marks)
+Q3. Draw the logic gate diagram for the boolean expression: F = A'B + AB'. (2 marks)
+
+Section B (Python Programming)
+Q4. Explain mutable and immutable data types in Python with examples. (3 marks)
+Q5. Find the output of the following code snippet:
+x = "TechLearners"
+print(x[2:8:2]) (2 marks)
+Q6. Write a program to find the second largest element in a user-input list. (5 marks)

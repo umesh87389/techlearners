@@ -1,0 +1,123 @@
+/* TechLearners Nival homepage — cyberspace glass system, scoped to body.nival-home */
+body.nival-home{
+  --nival-ink:#06192f; --nival-muted:#5e7082; --nival-faint:#77899c;
+  --nival-ice:#d6e6f5; --nival-blue:#1169dc;
+  background:radial-gradient(circle at 44% 18%,#eaf4fc 0 8%,#d9e9f6 34%,#d6e6f5 68%,#d2e3f3 100%) fixed;
+  color:var(--nival-ink);
+  font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+body.nival-home::before{display:none}
+/* header -> solid ice bar (see nival-theme.css for shared rules) */
+body.nival-home .site-header{
+  background:rgba(240,246,252,.94); backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(6,25,47,.12);
+  box-shadow:0 4px 24px rgba(65,94,123,.14);
+}
+body.nival-home .site-header .nav a{border-radius:18px}
+body.nival-home .site-header .nav a.btn{border-radius:999px;background:linear-gradient(135deg,#0b2b50,#06192f);color:#fff!important;border:0;box-shadow:0 6px 18px rgba(6,25,47,.28)}
+body.nival-home .site-header .nav a.btn:hover{filter:brightness(1.15);color:#fff!important}
+/* hero shell */
+.nival-hero{position:relative;overflow:clip;isolation:isolate;padding:22px clamp(16px,5vw,54px) 4px;max-width:1440px;margin:0 auto}
+.nival-hero::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.13;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}
+.nival-top{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.nival-headline{margin:4px 0 0;font-size:clamp(28px,4.4vw,56px);line-height:1.03;letter-spacing:-.02em;font-weight:400;overflow-wrap:break-word}
+.nival-line{display:block;white-space:nowrap}
+.nival-line2{display:flex;align-items:center;gap:.3em;margin-top:2px;flex-wrap:wrap}
+.nival-chain{width:1.9114em;height:.6076em;flex:0 0 1.9114em}
+.nival-chain path{fill:var(--nival-ink)}
+.nival-features{display:grid;gap:11px;font-size:20px;line-height:1.1;text-align:right;color:var(--nival-ink)}
+.nival-feature{display:flex;justify-content:flex-end;gap:18px;white-space:nowrap}.nival-feature b{font-weight:400}
+.nival-creator{display:flex;align-items:flex-start;color:var(--nival-faint);margin-top:10px}
+.nival-verified{width:19px;height:19px;flex:0 0 19px;border-radius:50%;background:var(--nival-ink);margin-right:10px;margin-top:1px;display:grid;place-items:center}
+.nival-verified svg{width:11px;height:11px}.nival-verified path{stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round}
+.nival-creator-copy{font-size:16px;line-height:1.25}.nival-series{margin-top:6px;color:#8496a8;font-size:14px}
+/* main grid: left card + center art + right column */
+.nival-grid{display:grid;grid-template-columns:365px 1fr 345px;gap:20px;align-items:start;margin-top:14px}
+.nival-glass{background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(239,247,253,.42));border:1px solid rgba(255,255,255,.45);border-radius:24px;box-shadow:inset 0 0 22px rgba(255,255,255,.32),0 7px 26px rgba(65,94,123,.08);backdrop-filter:blur(20px);padding:9px 25px 18px}
+.nival-count{margin-left:-20px;padding:8px 21px 7px;border-radius:26px;color:#fff;background:linear-gradient(135deg,#0b2b50,#06192f);min-width:124px;text-align:center}
+.nival-count strong{display:block;font-size:20px;line-height:19px;font-weight:500}.nival-count small{display:block;font-size:12px;margin-top:3px}
+.nival-card-top{height:60px;display:flex;justify-content:space-between;align-items:flex-start}
+.nival-eye{width:38px;height:38px;border-radius:50%;background:transparent;display:grid;place-items:center;cursor:pointer;border:0}
+.nival-eye:hover{background:rgba(255,255,255,.5)}.nival-eye svg{width:33px;height:23px}.nival-eye path,.nival-eye circle{stroke:var(--nival-ink);stroke-width:1.8;fill:none}
+.nival-card-copy{margin:12px 0 0;font-size:17px;line-height:1.32}
+.nival-card-bottom{display:flex;align-items:center;gap:12px;margin-top:12px}
+.nival-start{font-size:18px;line-height:1.2}.nival-start strong{font-size:21px}
+.nival-shuffle{width:42px;height:42px;border-radius:50%;margin-left:auto;margin-right:18px;background:transparent;display:grid;place-items:center;cursor:pointer;border:0}
+.nival-shuffle:hover{background:rgba(255,255,255,.58)}.nival-shuffle svg{width:27px;height:27px}.nival-shuffle path{stroke:var(--nival-ink);stroke-width:1.5;fill:none;stroke-linecap:round}
+.nival-play{width:58px;height:58px;border-radius:50%;background:var(--nival-ink);display:grid;place-items:center;cursor:pointer;border:0;transition:.25s}
+.nival-play:hover{transform:scale(1.05)}.nival-play.active{box-shadow:0 0 0 7px rgba(17,105,220,.12),0 0 32px rgba(17,105,220,.38)}
+.nival-play svg{width:24px;height:26px;margin-left:4px}.nival-play path{fill:#fff}
+/* search */
+.nival-search{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch;margin-top:12px;padding:6px;border-radius:18px;background:rgba(246,250,255,.55);border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 0 12px rgba(255,255,255,.4)}
+.nival-search input{border:0;background:transparent;padding:12px 14px;font:inherit;color:inherit;min-width:0;align-self:center}
+.nival-search input:focus{outline:none}
+.nival-search:focus-within{outline:2px solid var(--nival-blue);outline-offset:2px}
+.nival-search button{border:0;border-radius:14px;padding:0 22px;min-height:48px;background:var(--nival-ink);color:#fff;font-weight:700;cursor:pointer;align-self:stretch;display:flex;align-items:center}
+.nival-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.nival-pills a{padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.6);font-size:.86rem;font-weight:700;color:var(--nival-ink);box-shadow:0 8px 20px rgba(65,94,123,.08)}
+.nival-pills a:hover{background:#fff}
+.nival-pills a.hl{background:var(--nival-ink);color:#fff;border-color:var(--nival-ink)}
+/* art — pure CSS ghost type, no robot imagery */
+.nival-art{position:relative;min-height:0;display:flex;align-items:center;justify-content:center;padding:8px 0}
+.nival-ghost{color:rgba(255,255,255,.55);font-weight:700;letter-spacing:-.05em;line-height:.85;user-select:none;font-size:clamp(56px,7vw,104px);margin:0}
+.nival-ghost .o-gap{display:inline-block;width:.55em}
+.nival-ghost-two{text-align:center;font-size:.87em}
+.nival-robo,.nival-heroimg{display:none!important}
+/* right column */
+.nival-side{display:grid;gap:14px;align-content:start}
+.nival-side .hero-actions{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;margin-top:0!important}
+.nival-side .hero-actions .btn{margin:0!important;min-height:48px;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 10px}
+.nival-pill{border-radius:41px;background:var(--nival-ink);display:flex;align-items:center;min-height:76px;position:relative;overflow:visible;color:#fff;padding:6px}
+.nival-thumb{width:64px;height:64px;flex:0 0 64px;margin:0 0 0 6px;border-radius:50%;background:#f5f9fc;display:grid;place-items:center}.nival-thumb svg{width:32px;height:32px;fill:none;stroke:var(--nival-ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nival-pill-copy{font-size:16px;line-height:1.25;margin-left:8px}
+.nival-next{margin-left:auto;margin-right:6px;width:60px;height:60px;flex:0 0 60px;border-radius:50%;background:#f5f9fc;display:grid;place-items:center;cursor:pointer;border:0}
+.nival-next svg{width:28px;height:28px}.nival-next path{stroke:var(--nival-ink);stroke-width:2.4;fill:none}
+.nival-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nival-avatar{aspect-ratio:1;border-radius:50%;border:6px solid rgba(247,251,255,.75);overflow:hidden;background:rgba(240,247,252,.6);cursor:pointer;padding:0;transition:.22s;position:relative;display:grid;place-items:center;color:var(--nival-ink)}
+.nival-avatar b{font-size:clamp(22px,3vw,38px);font-weight:700;letter-spacing:-.02em}
+.nival-avatar.active{background:var(--nival-ink);color:#fff;border-color:var(--nival-ink)}
+.nival-avatar:hover,.nival-avatar.active{border-color:#fff;box-shadow:0 0 0 2px rgba(17,105,220,.2),0 8px 20px rgba(46,74,101,.14)}
+.nival-quick{display:flex;gap:12px}
+.nival-q{flex:1;text-align:center;padding:12px 8px;border-radius:18px;background:rgba(245,249,253,.6);border:1px solid rgba(255,255,255,.55);font-weight:800;font-size:.88rem}
+.nival-q:hover{background:#fff}
+.nival-stats{display:flex;gap:10px;flex-wrap:wrap}
+.nival-stats span{flex:1;min-width:100px;text-align:center;padding:12px;border-radius:18px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.6)}
+.nival-stats b{display:block;font-size:1.3rem}
+.nival-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,18px);padding:11px 18px;border-radius:22px;color:#fff;background:rgba(6,25,47,.92);font-size:14px;opacity:0;pointer-events:none;transition:.24s;z-index:99}
+.nival-toast.show{opacity:1;transform:translate(-50%,0)}
+/* lower sections keep TechLearners cards but on ice */
+body.nival-home .section{padding:34px clamp(16px,5vw,54px);max-width:1440px;margin:0 auto}
+body.nival-home .announcement-panel,body.nival-home .card,body.nival-home .exam-card{background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(239,247,253,.55));border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(18px)}
+body.nival-home .footer{background:rgba(246,250,255,.7);backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.6)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:1100px){.nival-grid{grid-template-columns:340px 1fr}.nival-side{grid-column:1/-1;grid-template-columns:1fr 1fr;align-items:start}.nival-line{white-space:normal}}
+@media(max-width:760px){
+.nival-hero{padding:16px 5% 4px}
+.nival-headline{font-size:clamp(26px,7.5vw,36px);line-height:1.06}
+.nival-line2{flex-wrap:wrap;gap:.4em}
+.nival-chain{width:84px;height:28px;flex-basis:84px}
+.nival-top{grid-template-columns:1fr}.nival-features{flex-direction:row;display:flex;gap:14px;text-align:left;font-size:13px}.nival-feature{gap:8px}
+.nival-creator-copy{font-size:14px}
+.nival-grid{grid-template-columns:1fr;gap:16px}.nival-side{grid-template-columns:1fr}
+.nival-glass{padding:14px 16px 16px;border-radius:20px}
+.nival-count{margin-left:-10px}
+.nival-card-copy{font-size:16px}
+.nival-art{padding:6px 0 2px}
+.nival-ghost{font-size:clamp(48px,15vw,72px);text-align:center}
+.nival-ghost-two{text-align:center}
+.nival-search{grid-template-columns:1fr;padding:8px}
+.nival-search input{min-height:48px;font-size:16px}
+.nival-search button{min-height:48px;width:100%}
+.nival-pills{gap:8px}.nival-pills a{min-height:44px;display:inline-flex;align-items:center;font-size:.82rem}
+.nival-gallery{grid-template-columns:repeat(5,1fr);gap:8px}.nival-avatar{border-width:3px;min-height:56px}
+.nival-avatar b{font-size:17px}
+.nival-shuffle{width:44px;height:44px}
+.nival-quick{gap:8px}.nival-q{min-height:48px;display:flex;align-items:center;justify-content:center}
+.nival-pill{min-height:72px}
+}
+@media(max-width:380px){
+.nival-gallery{grid-template-columns:repeat(5,1fr);gap:6px}
+.nival-avatar b{font-size:15px}
+.nival-features{font-size:12px;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

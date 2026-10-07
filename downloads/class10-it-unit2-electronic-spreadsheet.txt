@@ -1,0 +1,73 @@
+================================================================================
+CBSE CLASS 10 INFORMATION TECHNOLOGY (SUBJECT CODE 402)
+UNIT 2: ELECTRONIC SPREADSHEETS (ADVANCED) - COMPLETE REVISION NOTES
+================================================================================
+
+1. CONSOLIDATING DATA
+- Data Consolidation combines information from multiple data ranges or worksheets into one master summary sheet.
+- Tool Location: Data > Consolidate...
+- Functions available: SUM (default), AVERAGE, COUNT, MAX, MIN, PRODUCT, STDEV.
+- Consolidate by:
+  * Row labels: Matches rows based on row header text even if row order differs.
+  * Column labels: Matches columns based on column header text.
+- Link to source data: When checked, changes made in source worksheets automatically update the consolidated summary table.
+
+2. CREATING SUBTOTALS
+- Subtotals automatically groups related rows and calculates category-wise subtotals and grand totals.
+- Prerequisite: The data table MUST be sorted by the grouping column before applying Subtotals.
+- Tool Location: Data > Subtotals...
+- Group by: Select the categorical column (e.g., Department, Class).
+- Calculate subtotals for: Select numeric column(s) to aggregate.
+- Use function: SUM, AVERAGE, COUNT, MAX, MIN.
+
+3. 'WHAT-IF' SCENARIOS
+- Scenarios are saved sets of cell values used to test different hypothetical situations on the same worksheet.
+- Creating Scenarios: Select input cells -> Tools > Scenarios... -> Enter scenario name (e.g., Best-Case, Worst-Case) -> Set border color -> Click OK.
+- Switching Scenarios: Click the dropdown arrow on the scenario border header in the worksheet.
+
+4. GOAL SEEK & SOLVER
+- Goal Seek: A reverse-calculation tool that finds the input value required in a single cell to achieve a specific target formula result.
+  * Tool Location: Tools > Goal Seek...
+  * Formula cell: Cell containing the formula.
+  * Target value: Desired numeric outcome.
+  * Variable cell (Changing cell): Cell whose value will be adjusted.
+- Solver: An advanced optimization tool that handles multiple variable cells subjected to defined limiting constraints (e.g., budget limits, integer quantities).
+  * Tool Location: Tools > Solver...
+
+5. LINKING MULTIPLE SHEETS
+- Inserting Sheets: Sheet > Insert Sheet... (specify before/after, number, name) or click '+' icon.
+- Referencing Cells in Other Sheets:
+  * LibreOffice Calc syntax: =SheetName.CellAddress (e.g., =Term1.B4)
+  * Excel syntax: =SheetName!CellAddress (e.g., =Term1!B4)
+  * If sheet name contains spaces: ='Term 1'.B4
+- Referencing via Mouse: Type '=' in target cell -> click source sheet tab -> click source cell -> press Enter.
+- Referencing External Workbooks: ='file:///path/to/file.ods'#$Sheet1.A1
+
+6. HYPERLINKS
+- Insert Hyperlink: Insert > Hyperlink... (Ctrl + K).
+- Absolute Hyperlink: Stores full path (e.g., https://www.techlearners.in or C:\Docs\file.ods). Breaks only if target is moved.
+- Relative Hyperlink: Stores path relative to current workbook folder (e.g., data/term1.ods). Continues working if parent folder is moved to another computer.
+
+7. LINKING TO EXTERNAL DATA & REGISTERED SOURCES
+- Link to External Data: Sheet > Link to External Data... -> Enter URL/path -> Select HTML table -> Set refresh interval (e.g., 60s).
+- Registered Data Sources: Connect Calc to external databases (Base .odb, MySQL). Press F4 to open Data Source browser and drag tables into Calc.
+
+8. SHARING AND REVIEWING SPREADSHEETS
+- Sharing: Tools > Share Spreadsheet... -> Check 'Share this spreadsheet with other users'. Allows concurrent multi-user editing. Certain features (delete sheet, charts) are disabled in shared mode.
+- Record Changes: Edit > Track Changes > Record (Ctrl + Shift + C). Changes show colored border and author tooltip.
+- Review Changes: Edit > Track Changes > Manage... (Accept or Reject individual or all edits).
+- Comments: Right-click cell > Insert Comment (Ctrl + Alt + C). Shown with a red corner mark.
+- Compare Documents: Edit > Track Changes > Compare Document...
+- Merge Documents: Edit > Track Changes > Merge Document...
+
+9. MACROS IN SPREADSHEETS
+- A Macro is a recorded sequence of commands and keystrokes saved to automate repetitive tasks.
+- Enable Recording: Tools > Options > LibreOffice > Advanced > Check 'Enable macro recording'.
+- Record Macro: Tools > Macros > Record Macro -> Perform actions -> Click 'Stop Recording' -> Save under My Macros > Standard > Module1.
+- Running Macro: Tools > Macros > Run Macro...
+- Assign Macro to Shortcut / Button: Tools > Customize... > Keyboard tab or Toolbars tab.
+- Macro as Function (User Defined Function in Basic):
+  Function CalcTax(Income As Double) As Double
+      CalcTax = Income * 0.10
+  End Function
+================================================================================

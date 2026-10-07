@@ -1,0 +1,23 @@
+CBSE Class 10 AI Practice Sample Paper
+
+Time: 1 Hour
+Marks: 30
+
+Section A: Very Short Answer Questions
+1. What is feedback?
+2. Name one stress-management technique.
+3. What is a computer virus?
+4. Write one green skill habit.
+5. What is problem scoping in an AI project?
+
+Section B: Short Answer Questions
+1. Explain two barriers to communication.
+2. Why is goal setting useful?
+3. Write two file-management practices.
+4. How can entrepreneurs use customer feedback?
+5. Why should an AI solution be evaluated?
+
+Section C: Application Questions
+1. A student wants to prepare for exams without stress. Suggest a weekly self-management plan.
+2. Your school wants to reduce electricity waste. Write three green actions.
+3. Choose a simple AI problem from daily life and describe the problem, data needed, and success measure.

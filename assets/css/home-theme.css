@@ -1,0 +1,344 @@
+/* ==========================================================================
+   TechLearners — Unified Homepage Theme
+   Source of truth: /index.html (inline <style>)
+   Fonts are loaded via <link> in each HTML page (Fraunces + Inter).
+   Palette: bg #f5f6fb, ink #0d1030, muted #5a5f82, navy #0b0f3a,
+            gold #c9a15b / #f1d9a2, violet #5b3df5, blue #2a62ff
+   Fonts: Fraunces (headings) + Inter (body)
+   Load LAST, after style.css / responsive.css / nival-theme.css.
+   This file neutralises the old teal/lime + ice-blue themes.
+   ========================================================================== */
+
+:root{
+  color-scheme:light;
+  --bg:#f5f6fb; --ink:#0d1030; --text:#0d1030; --muted:#5a5f82;
+  --navy:#0b0f3a; --gold:#c9a15b; --gold2:#f1d9a2;
+  --v:#5b3df5; --b:#2a62ff;
+  --accent:#5b3df5; --accent2:#2a62ff; --accent3:#c9a15b;
+  --accent-soft:rgba(91,61,245,.08);
+  --line:rgba(13,16,48,.09); --border:rgba(13,16,48,.09);
+  --card:rgba(255,255,255,.85); --glass:rgba(255,255,255,.7);
+  --body-bg:#f5f6fb;
+  --header-bg:rgba(255,255,255,.75); --nav-bg:rgba(255,255,255,.96);
+  --input-bg:rgba(255,255,255,.9);
+  --shadow:0 8px 24px rgba(40,30,160,.07);
+  --logo-bg:linear-gradient(135deg,#5b3df5,#2a62ff); --logo-text:#fff;
+  --logo-halo:rgba(91,61,245,.4);
+  --icon-color:#0d1030;
+  --serif:Fraunces,Georgia,serif;
+}
+/* Force same light homepage look even if dark mode was toggled */
+[data-theme="dark"]{
+  color-scheme:light;
+  --bg:#f5f6fb; --ink:#0d1030; --text:#0d1030; --muted:#5a5f82;
+  --navy:#0b0f3a; --gold:#c9a15b; --gold2:#f1d9a2;
+  --v:#5b3df5; --b:#2a62ff;
+  --accent:#5b3df5; --accent2:#2a62ff; --accent3:#c9a15b;
+  --accent-soft:rgba(91,61,245,.08);
+  --line:rgba(13,16,48,.09); --border:rgba(13,16,48,.09);
+  --card:rgba(255,255,255,.85); --glass:rgba(255,255,255,.7);
+  --body-bg:#f5f6fb;
+  --header-bg:rgba(255,255,255,.75); --nav-bg:rgba(255,255,255,.96);
+  --input-bg:rgba(255,255,255,.9);
+  --shadow:0 8px 24px rgba(40,30,160,.07);
+  --logo-bg:linear-gradient(135deg,#5b3df5,#2a62ff); --logo-text:#fff;
+  --icon-color:#0d1030;
+}
+
+/* ---------- base ---------- */
+html{scroll-behavior:smooth}
+body{
+  margin:0 !important;
+  background:#f5f6fb !important;
+  background-image:none !important;
+  color:#0d1030 !important;
+  font:400 17px/1.65 Inter,system-ui,sans-serif !important;
+  overflow-x:hidden;
+}
+/* homepage ambient orbs (replaces ice-blue gradient + grain) */
+body::before{
+  content:"" !important;
+  display:block !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-1 !important;
+  pointer-events:none !important;
+  background:
+    radial-gradient(560px 560px at 8% 0%, rgba(201,188,255,.55), transparent 70%),
+    radial-gradient(520px 520px at 95% 32%, rgba(169,214,255,.5), transparent 70%),
+    radial-gradient(420px 420px at 30% 108%, rgba(246,226,184,.55), transparent 70%),
+    #f5f6fb !important;
+  opacity:1 !important;
+  transform:none !important;
+}
+body::after{display:none !important}
+
+h1,h2,h3{
+  font-family:Fraunces,Georgia,serif !important;
+  font-weight:500 !important;
+  letter-spacing:-.025em !important;
+  line-height:1.06 !important;
+  color:#0d1030 !important;
+}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{
+  outline:3px solid #c9a15b !important;outline-offset:3px !important;
+}
+main{position:relative;z-index:1}
+.section{padding:55px 7%}
+.section h1,.section h2{font-size:clamp(1.8rem,4vw,3rem)}
+
+/* ---------- header: floating glass pill like homepage ---------- */
+.site-header{
+  position:sticky !important;
+  top:14px !important;
+  z-index:50 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  width:calc(100% - 24px) !important;
+  max-width:1140px !important;
+  margin:14px auto 0 !important;
+  min-height:64px !important;
+  padding:0 12px 0 22px !important;
+  border-radius:20px !important;
+  background:rgba(255,255,255,.75) !important;
+  border:1px solid rgba(255,255,255,.95) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,1) inset,0 10px 30px rgba(40,30,140,.10) !important;
+  backdrop-filter:blur(12px) saturate(1.4) !important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.4) !important;
+}
+.site-header::before,.site-header::after{display:none !important}
+.brand{
+  display:flex !important;align-items:center !important;gap:10px !important;
+  font:600 22px Fraunces,Georgia,serif !important;letter-spacing:-.03em !important;
+  color:#0d1030 !important;transform:none !important;padding:0 !important;
+}
+.brand-mark{
+  width:30px !important;height:30px !important;border-radius:9px !important;
+  background:linear-gradient(135deg,#5b3df5,#2a62ff) !important;
+  display:grid !important;place-items:center !important;
+  color:#fff !important;font:600 16px Fraunces,Georgia,serif !important;
+  box-shadow:0 6px 16px rgba(91,61,245,.4) !important;
+  border:0 !important;transform:none !important;animation:none !important;
+}
+.brand-accent{color:#0d1030 !important;font-weight:600 !important}
+
+/* nav links like homepage */
+.site-header .nav{
+  position:static !important;display:flex !important;flex-direction:row !important;
+  align-items:center !important;gap:4px !important;flex-wrap:wrap !important;
+  padding:0 !important;margin:0 !important;background:transparent !important;
+  border:0 !important;border-radius:0 !important;box-shadow:none !important;
+  backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+  opacity:1 !important;visibility:visible !important;transform:none !important;
+  max-height:none !important;overflow:visible !important;
+}
+.site-header .nav a{
+  padding:8px 15px !important;border-radius:12px !important;
+  font-weight:500 !important;font-size:15.5px !important;
+  color:#5a5f82 !important;background:transparent !important;
+  border:0 !important;border-bottom:0 !important;
+  display:inline-flex !important;align-items:center !important;width:auto !important;
+}
+.site-header .nav a::after{display:none !important}
+.site-header .nav a:hover{background:rgba(91,61,245,.08) !important;color:#5b3df5 !important;transform:none !important}
+.site-header .nav a.active:not(.btn){color:#5b3df5 !important;font-weight:600 !important;background:rgba(91,61,245,.08) !important}
+.nav-dd-wrapper{position:relative !important;width:auto !important}
+.nav-dd-trigger{
+  padding:8px 12px !important;border:0 !important;border-radius:12px !important;
+  background:transparent !important;color:#5a5f82 !important;
+  font:500 15.5px Inter,sans-serif !important;min-height:0 !important;
+}
+.nav-dd-trigger:hover{color:#5b3df5 !important;background:rgba(91,61,245,.08) !important}
+.nav-dd-menu,.nav-dropdown{
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(13,16,48,.09) !important;border-radius:14px !important;
+  box-shadow:0 16px 44px rgba(40,30,160,.16) !important;
+  backdrop-filter:blur(12px) !important;-webkit-backdrop-filter:blur(12px) !important;
+}
+.nav-dd-menu a{color:#0d1030 !important}
+.nav-dd-menu a:hover{background:rgba(91,61,245,.08) !important;color:#5b3df5 !important}
+.menu-btn{background:rgba(255,255,255,.72) !important;border:1px solid rgba(13,16,48,.12) !important;border-radius:12px !important}
+.menu-btn span{background:#0d1030 !important}
+
+/* ---------- buttons: violet→blue gradient like homepage ---------- */
+.btn,.login-submit-button,button.btn,a.btn{
+  display:inline-block !important;
+  padding:13px 24px !important;border-radius:14px !important;
+  font:600 16px Inter,sans-serif !important;color:#fff !important;border:0 !important;
+  background:linear-gradient(120deg,#5b3df5,#2a62ff) !important;
+  box-shadow:0 8px 20px rgba(60,60,230,.32),inset 0 1px 0 rgba(255,255,255,.35) !important;
+  transition:transform .25s,box-shadow .25s !important;
+  min-height:0 !important;text-shadow:none !important;
+}
+.btn:hover,.login-submit-button:hover{box-shadow:0 14px 30px rgba(60,60,230,.42),inset 0 1px 0 rgba(255,255,255,.35) !important;filter:none !important;transform:none !important}
+.btn.secondary,.paper-filter.btn.secondary{
+  background:rgba(255,255,255,.85) !important;color:#0d1030 !important;
+  border:1px solid rgba(13,16,48,.09) !important;box-shadow:0 8px 24px rgba(40,30,160,.07) !important;
+}
+.btn.secondary:hover{border-color:rgba(91,61,245,.3) !important;color:#5b3df5 !important}
+.btn.small,.site-header .nav a.btn{
+  padding:10px 18px !important;font-size:15px !important;border-radius:14px !important;
+  background:linear-gradient(120deg,#5b3df5,#2a62ff) !important;color:#fff !important;border:0 !important;
+}
+.login-google-button{
+  background:rgba(255,255,255,.9) !important;color:#0d1030 !important;
+  border:1px solid rgba(13,16,48,.12) !important;border-radius:14px !important;box-shadow:none !important;
+}
+.btn.danger{background:#b91c1c !important}
+
+/* ---------- cards: clean white glass like homepage ---------- */
+.hero-card,.card,.form-card,.login-card,.quiz-box,.exam-card,.mcq-card,
+.announcement-panel,.class-module,.practice-question,.chapter-toc.card,
+.login-light-card,.colourful-login-card,.detail-card,.note-card,.paper-card{
+  background:rgba(255,255,255,.85) !important;
+  border:1px solid rgba(13,16,48,.09) !important;
+  border-radius:26px !important;
+  box-shadow:0 8px 24px rgba(40,30,160,.07) !important;
+  backdrop-filter:blur(10px) !important;-webkit-backdrop-filter:blur(10px) !important;
+  outline:none !important;
+}
+.card::before,.exam-card::before,.class-module::before,
+.colourful-login-card::before,.login-card::before{display:none !important}
+.card:hover,.exam-card:hover{border-color:rgba(91,61,245,.25) !important;box-shadow:0 20px 44px rgba(91,61,245,.16) !important;transform:translateY(-2px) !important}
+.card p,.muted{color:#5a5f82 !important}
+.card a{color:#5b3df5 !important;font-weight:600 !important}
+.card a.btn{color:#fff !important}
+.exam-card-top{padding:18px 20px 0 !important}
+.exam-badge{background:linear-gradient(135deg,#5b3df5,#2a62ff) !important;color:#fff !important;box-shadow:0 6px 16px rgba(91,61,245,.35) !important}
+.exam-class{color:#5a5f82 !important}
+.exam-card-body h2,.exam-card-body h3{color:#0d1030 !important}
+.exam-card-body p{color:#5a5f82 !important}
+.exam-icon{color:#5b3df5 !important}
+.resource-badge{background:rgba(91,61,245,.08) !important;color:#5b3df5 !important}
+
+/* ---------- pills / tags / chips like homepage ---------- */
+.tag,.pill,.login-eyebrow{
+  display:inline-flex !important;align-items:center !important;gap:9px !important;
+  padding:8px 16px !important;border-radius:99px !important;
+  background:rgba(255,255,255,.8) !important;
+  border:1px solid rgba(201,161,91,.45) !important;
+  font-size:14px !important;font-weight:500 !important;color:#0d1030 !important;
+  text-transform:none !important;letter-spacing:0 !important;
+  box-shadow:0 4px 14px rgba(201,161,91,.14) !important;
+}
+.topic-pills,.chips{display:flex !important;flex-wrap:wrap !important;gap:8px !important}
+.topic-pills a,.chip,.nival-pills a{
+  padding:7px 15px !important;border-radius:99px !important;
+  font-size:14.5px !important;font-weight:500 !important;
+  background:rgba(255,255,255,.65) !important;
+  border:1px solid rgba(13,16,48,.09) !important;
+  color:#0d1030 !important;box-shadow:none !important;min-height:0 !important;
+}
+.topic-pills a:hover,.chip:hover{background:#0b0f3a !important;color:#fff !important;transform:translateY(-2px) !important}
+
+/* ---------- search bars like homepage ---------- */
+.learning-search,.search{
+  display:flex !important;gap:8px !important;padding:8px !important;
+  border-radius:20px !important;background:rgba(255,255,255,.9) !important;
+  border:1px solid #fff !important;
+  box-shadow:0 14px 36px rgba(60,50,200,.14) !important;
+}
+.learning-search input,.search input{
+  flex:1 !important;min-width:0 !important;border:0 !important;background:none !important;
+  font:inherit !important;padding:10px 14px !important;color:#0d1030 !important;
+  border-radius:14px !important;box-shadow:none !important;min-height:0 !important;
+}
+
+/* ---------- notices / tables / code ---------- */
+.notice{
+  padding:16px !important;border:1px solid rgba(201,161,91,.45) !important;border-radius:16px !important;
+  background:rgba(255,255,255,.8) !important;color:#0d1030 !important;
+  border-left:4px solid #c9a15b !important;
+}
+table{width:100%;border-collapse:collapse;background:#fff}
+th{background:rgba(91,61,245,.08) !important;color:#0d1030 !important}
+th,td{padding:12px;border:1px solid rgba(13,16,48,.09) !important;text-align:left}
+code,.code-block{background:rgba(91,61,245,.06);border:1px solid rgba(13,16,48,.09);border-radius:12px}
+pre.code-block{padding:16px;overflow-x:auto;background:#0b0f3a !important;color:#f1d9a2 !important;border:0 !important}
+pre.code-block code{background:none !important;border:0 !important;color:inherit !important}
+input,textarea,select{
+  background:rgba(255,255,255,.9) !important;color:#0d1030 !important;
+  border:1px solid rgba(13,16,48,.12) !important;border-radius:14px !important;
+}
+input::placeholder,textarea::placeholder{color:#5a5f82 !important}
+label{color:#5a5f82 !important}
+
+/* login pages */
+.login-page,.login-light-page{background:transparent !important;border:0 !important}
+.login-page::before,.login-page::after,.login-light-page::before,.login-light-page::after{display:none !important}
+.login-light-card{padding:34px 30px !important}
+.login-light-brand-icon{background:linear-gradient(135deg,#5b3df5,#2a62ff) !important;color:#fff !important;box-shadow:0 6px 16px rgba(91,61,245,.4) !important}
+.login-light-title{color:#0d1030 !important}
+.login-light-subtitle{color:#5a5f82 !important}
+.login-light-field input{background:rgba(255,255,255,.9) !important;border:1px solid rgba(13,16,48,.12) !important}
+.login-mode-toggle{background:rgba(91,61,245,.08) !important}
+.login-mode-slider{background:linear-gradient(120deg,#5b3df5,#2a62ff) !important}
+
+/* dashboard */
+.dashboard .sidebar,.sidebar{
+  background:rgba(255,255,255,.75) !important;border:1px solid rgba(255,255,255,.95) !important;
+  border-radius:20px !important;backdrop-filter:blur(12px) !important;
+}
+.dashboard-hero,.stat,.progress-card,.quick-links,.portal-stats span{
+  background:rgba(255,255,255,.85) !important;border:1px solid rgba(13,16,48,.09) !important;
+  border-radius:26px !important;box-shadow:0 8px 24px rgba(40,30,160,.07) !important;
+}
+.stat b{background:linear-gradient(120deg,#5b3df5,#2a62ff 60%,#c9a15b) !important;-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important}
+.dashboard-avatar{background:linear-gradient(135deg,#5b3df5,#2a62ff) !important;box-shadow:0 6px 16px rgba(91,61,245,.4) !important}
+
+/* quiz / practice */
+.progress{background:rgba(13,16,48,.08) !important;border:0 !important}
+.progress span{background:linear-gradient(90deg,#5b3df5,#2a62ff) !important;box-shadow:none !important;animation:none !important}
+.progress span::after,.progress span::before{display:none !important}
+.quiz-result.score-excellent{background:#e9fbf2 !important;border:1px solid #3dd598 !important;color:#0a7a4c !important}
+.mcq-number{background:linear-gradient(135deg,rgba(91,61,245,.12),rgba(42,98,255,.1)) !important;color:#0d1030 !important}
+.practice-options label:hover{border-color:rgba(91,61,245,.4) !important}
+.practice-options label:has(input:checked){border-color:#5b3df5 !important;background:rgba(91,61,245,.08) !important;box-shadow:0 0 0 2px rgba(91,61,245,.2) !important}
+
+/* ---------- footer like homepage ---------- */
+.footer{
+  margin-top:100px !important;padding:36px 7% 30px !important;
+  border-top:1px solid rgba(13,16,48,.09) !important;
+  color:#5a5f82 !important;font-size:15px !important;
+  background:transparent !important;backdrop-filter:none !important;
+  box-shadow:none !important;
+}
+.footer-grid{border:0 !important;padding:0 !important;display:flex !important;justify-content:space-between !important;gap:16px !important;flex-wrap:wrap !important}
+.footer-links,.footer-col-links{display:flex !important;gap:22px !important;flex-wrap:wrap !important;flex-direction:row !important;margin:0 !important}
+.footer a,.footer-links a,.footer-col-links a{color:#5a5f82 !important;font-weight:500 !important}
+.footer a:hover{color:#5b3df5 !important}
+.footer-bottom{border:0 !important;margin:18px 0 0 !important;padding:0 !important;text-align:left !important}
+.content-trust{background:rgba(255,255,255,.65) !important;border:1px solid rgba(13,16,48,.09) !important}
+.go-to-top{background:linear-gradient(120deg,#5b3df5,#2a62ff) !important;border:0 !important;box-shadow:0 8px 20px rgba(60,60,230,.32) !important}
+
+/* consent / ads */
+.consent-banner,.advertisement-card{background:rgba(255,255,255,.96) !important;border:1px solid rgba(13,16,48,.09) !important;border-radius:22px !important}
+
+/* responsive: keep homepage breakpoints behavior */
+@media(max-width:900px){
+  .site-header{padding:0 8px 0 16px !important}
+  .section{padding:34px 5% !important}
+}
+@media(max-width:700px){
+  .site-header{top:10px !important}
+  .site-header .nav{
+    position:absolute !important;top:calc(100% + 8px) !important;left:0 !important;right:0 !important;
+    flex-direction:column !important;gap:10px !important;padding:16px !important;
+    background:rgba(255,255,255,.96) !important;border:1px solid rgba(13,16,48,.09) !important;
+    border-radius:18px !important;box-shadow:0 24px 60px rgba(40,30,160,.18) !important;
+    opacity:0 !important;visibility:hidden !important;transform:translateY(-10px) !important;
+  }
+  .site-header .nav.show{opacity:1 !important;visibility:visible !important;transform:none !important}
+  .site-header .nav a{width:100% !important;justify-content:flex-start !important;min-height:44px !important}
+  .site-header .nav a.btn{justify-content:center !important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+@media print{
+  body::before{display:none !important}
+  body{background:#fff !important}
+  .site-header,.menu-btn,.go-to-top,.consent-banner{display:none !important}
+}

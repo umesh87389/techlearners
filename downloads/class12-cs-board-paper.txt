@@ -1,0 +1,14 @@
+CBSE Class 12 Computer Science Board Practice Paper
+Max Marks: 70 | Duration: 3 Hours
+TechLearners.in Board Series
+
+Section A (Functions & Files)
+Q1. Distinguish between local scope and global scope of variables. (2 marks)
+Q2. Write a Python function count_words(filepath) to count and display the frequency of the word "the" (case-insensitive) in a text file. (3 marks)
+Q3. Write a function push_element(stack, item) and pop_element(stack) to implement a Stack in Python using lists. (4 marks)
+
+Section B (Networks & SQL)
+Q4. Explain Star and Bus topology with their advantages and disadvantages. (3 marks)
+Q5. Given a table STUDENT(RollNo, Name, Marks, Class):
+Write SQL query to display Name and Marks of students who scored more than 90. (1 mark)
+Write SQL query to count number of students in each Class. (2 marks)
