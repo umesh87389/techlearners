@@ -203,8 +203,8 @@
     'upload-notes.html': {
       type: 'notes',
       title: 'Manage Notes',
-      intro: 'Write the note content directly for students. Each saved note gets its own student page with navigation and sharing options. Adding a PDF or file link is optional.',
-      fields: `${classSelect}${subjectSelect}<input name="title" placeholder="Title" required><textarea name="description" data-rich-text placeholder="Short summary" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete note content here" required></textarea><input name="file" placeholder="Optional PDF or file URL"><label>Optional PDF or file upload<input name="upload" type="file"></label>`
+      intro: 'Write the note content directly for students. Each saved note gets its own student page with navigation and sharing options.',
+      fields: `${classSelect}${subjectSelect}<input name="title" placeholder="Title" required><textarea name="description" data-rich-text placeholder="Short summary" required></textarea><textarea name="content" data-rich-text placeholder="Write the complete note content here" required></textarea>`
     },
     'manage-mcqs.html': {
       type: 'quizzes',
@@ -951,10 +951,6 @@
           }
         }
 
-        if (type === 'notes' && upload?.files?.[0]) {
-          setMessage('Uploading note file...');
-          item.file = await store.uploadNote(upload.files[0]);
-        }
         if (type === 'questionPapers' && upload?.files?.[0]) {
           setMessage('Uploading sample paper...');
           item.file = await store.uploadQuestionPaper(upload.files[0]);
