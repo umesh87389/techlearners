@@ -182,6 +182,16 @@ main{position:relative;z-index:1}
   padding:10px 18px !important;font-size:15px !important;border-radius:14px !important;
   background:linear-gradient(120deg,#5b3df5,#2a62ff) !important;color:#fff !important;border:0 !important;
 }
+/* Small secondary buttons must stay white bg + dark label (not overridden by .btn.small above) */
+.btn.small.secondary,.paper-filter.btn.small.secondary,
+button.btn.small.secondary,a.btn.small.secondary{
+  background:rgba(255,255,255,.95) !important;color:#0d1030 !important;
+  border:1px solid rgba(13,16,48,.14) !important;
+  box-shadow:0 8px 24px rgba(40,30,160,.07) !important;
+}
+.btn.small.secondary:hover,a.btn.small.secondary:hover,button.btn.small.secondary:hover{
+  color:#5b3df5 !important;border-color:rgba(91,61,245,.4) !important;background:#fff !important;
+}
 .login-google-button{
   background:rgba(255,255,255,.9) !important;color:#0d1030 !important;
   border:1px solid rgba(13,16,48,.12) !important;border-radius:14px !important;box-shadow:none !important;
@@ -204,7 +214,28 @@ main{position:relative;z-index:1}
 .card:hover,.exam-card:hover{border-color:rgba(91,61,245,.25) !important;box-shadow:0 20px 44px rgba(91,61,245,.16) !important;transform:translateY(-2px) !important}
 .card p,.muted{color:#5a5f82 !important}
 .card a{color:#5b3df5 !important;font-weight:600 !important}
-.card a.btn{color:#fff !important}
+/* Primary buttons inside cards: white label on violet→blue gradient */
+.card a.btn:not(.secondary),.exam-card a.btn:not(.secondary),
+.note-card a.btn:not(.secondary),.paper-card a.btn:not(.secondary),
+.quiz-box a.btn:not(.secondary),.card button.btn:not(.secondary){
+  color:#fff !important;
+}
+/* Secondary buttons inside cards: dark label on white (fixes white-on-white invisible labels) */
+.card a.btn.secondary,.exam-card a.btn.secondary,
+.note-card a.btn.secondary,.paper-card a.btn.secondary,
+.quiz-box a.btn.secondary,.card button.btn.secondary,
+button.btn.secondary,a.btn.secondary{
+  color:#0d1030 !important;
+  background:rgba(255,255,255,.95) !important;
+  border:1px solid rgba(13,16,48,.14) !important;
+  text-shadow:none !important;
+}
+.card a.btn.secondary:hover,.card button.btn.secondary:hover,
+a.btn.secondary:hover,button.btn.secondary:hover{
+  color:#5b3df5 !important;
+  border-color:rgba(91,61,245,.4) !important;
+  background:#fff !important;
+}
 .exam-card-top{padding:18px 20px 0 !important}
 .exam-badge{background:linear-gradient(135deg,#5b3df5,#2a62ff) !important;color:#fff !important;box-shadow:0 6px 16px rgba(91,61,245,.35) !important}
 .exam-class{color:#5a5f82 !important}
