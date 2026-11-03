@@ -14,6 +14,21 @@
     return digits.length >= 7;
   }
 
+  const dateInput = form.elements.activityDate;
+  dateInput.addEventListener('change', async () => {
+    const selectedDate = dateInput.value;
+    if (!selectedDate) return;
+    try {
+      const taken = await TechLearnersFirebase.isActivityDateTaken(selectedDate);
+      if (taken) {
+        alert('This activity date has already been selected by another teacher. Please choose a different date.');
+        dateInput.value = '';
+      }
+    } catch (error) {
+      console.error('Unable to check activity date:', error);
+    }
+  });
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (submitBtn.disabled) return;

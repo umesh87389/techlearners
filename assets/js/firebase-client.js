@@ -406,7 +406,6 @@
         createdAt: services.firestoreApi.serverTimestamp()
       });
       transaction.set(dateRef, {
-        teacherContact: contactKey,
         createdAt: services.firestoreApi.serverTimestamp()
       });
     });
@@ -490,6 +489,17 @@
     );
   }
 
+  async function isActivityDateTaken(date) {
+    const services = await getServices();
+    if (!services) return false;
+    const dateKey = String(date || '').trim();
+    if (!dateKey) return false;
+    const snapshot = await services.firestoreApi.getDoc(
+      services.firestoreApi.doc(services.db, 'activityDates', dateKey)
+    );
+    return snapshot.exists();
+  }
+
   window.TechLearnersFirebase = {
     adminSignIn,
     adminGoogleSignIn,
@@ -523,6 +533,7 @@
     submitQuizResult,
     submitActivityRecord,
     getActivityRecords,
+    isActivityDateTaken,
     subscribeActivityRecords,
     deleteActivityRecord,
     uploadAnnouncement,
