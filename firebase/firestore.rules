@@ -32,5 +32,45 @@ service cloud.firestore {
       allow update: if false;
     }
 
+    match /activityRecords/{recordId} {
+      allow create: if resource == null
+        && request.resource.data.keys().hasOnly(['teacherName', 'className', 'section', 'activityName', 'activityDate', 'contact', 'contactKey', 'contactType', 'createdAt'])
+        && request.resource.data.teacherName is string
+        && request.resource.data.teacherName.size() > 0
+        && request.resource.data.teacherName.size() <= 100
+        && request.resource.data.className is string
+        && request.resource.data.className.size() > 0
+        && request.resource.data.className.size() <= 20
+        && request.resource.data.section is string
+        && request.resource.data.section in ['A', 'B', 'C', 'Science', 'Commerce', 'Humanities']
+        && request.resource.data.activityName is string
+        && request.resource.data.activityName.size() > 0
+        && request.resource.data.activityName.size() <= 200
+        && request.resource.data.activityDate is string
+        && request.resource.data.activityDate.size() == 10
+        && request.resource.data.contact is string
+        && request.resource.data.contact.size() > 0
+        && request.resource.data.contact.size() <= 200
+        && request.resource.data.contactKey is string
+        && request.resource.data.contactKey == recordId
+        && request.resource.data.contactType is string
+        && request.resource.data.contactType in ['email', 'phone']
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
+      allow update: if false;
+    }
+
+    match /activityDates/{dateId} {
+      allow create: if resource == null
+        && request.resource.data.keys().hasOnly(['teacherContact', 'createdAt'])
+        && request.resource.data.teacherContact is string
+        && request.resource.data.teacherContact.size() > 0
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if request.auth != null
+        && request.auth.uid == 'bQvKgi7p9XSjnotieGHd7UlwNjD3';
+      allow update: if false;
+    }
+
   }
 }

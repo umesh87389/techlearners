@@ -358,6 +358,102 @@
     );
   }
 
+  function normalizeActivityContact(value) {
+    const contact = String(value || '').trim();
+    if (contact.includes('@')) return contact.toLowerCase();
+    return contact.replace(/[^0-9]/g, '');
+  }
+
+  async function submitActivityRecord(record) {
+    const services = await getServices();
+    if (!services) throw new Error('Firebase is not configured.');
+
+    const teacherName = String(record.teacherName || '').trim();
+    const className = String(record.className || '').trim();
+    const section = String(record.section || '').trim();
+    const activityName = String(record.activityName || '').trim();
+    const activityDate = String(record.activityDate || '').trim();
+    const contact = String(record.contact || '').trim();
+
+    if (!teacherName || !className || !section || !activityName || !activityDate || !contact) {
+      throw new Error('Please fill in all required fields.');
+    }
+
+    const contactKey = normalizeActivityContact(contact);
+    if (!contactKey) throw new Error('A valid email or phone number is required.');
+
+    const recordRef = services.firestoreApi.doc(services.db, 'activityRecords', contactKey);
+    const dateRef = services.firestoreApi.doc(services.db, 'activityDates', activityDate);
+
+    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
+      const existingRecord = await transaction.get(recordRef);
+      if (existingRecord.exists()) {
+        throw new Error('This email/phone number has already submitted an activity record.');
+      }
+      const existingDate = await transaction.get(dateRef);
+      if (existingDate.exists()) {
+        throw new Error('This activity date has already been chosen by another teacher.');
+      }
+      transaction.set(recordRef, {
+        teacherName,
+        className,
+        section,
+        activityName,
+        activityDate,
+        contact,
+        contactKey,
+        contactType: contact.includes('@') ? 'email' : 'phone',
+        createdAt: services.firestoreApi.serverTimestamp()
+      });
+      transaction.set(dateRef, {
+        teacherContact: contactKey,
+        createdAt: services.firestoreApi.serverTimestamp()
+      });
+    });
+  }
+
+  async function getActivityRecords() {
+    const services = await getServices();
+    if (!services) return [];
+    const reference = services.firestoreApi.collection(services.db, 'activityRecords');
+    const snapshot = await services.firestoreApi.getDocs(reference);
+    return sortActivityRecords(snapshot.docs.map(document => ({ id: document.id, ...document.data() })));
+  }
+
+  function sortActivityRecords(records) {
+    return records.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis?.() || 0;
+      const bTime = b.createdAt?.toMillis?.() || 0;
+      return bTime - aTime;
+    });
+  }
+
+  async function subscribeActivityRecords(onRecords, onError) {
+    const services = await getServices();
+    if (!services) {
+      onRecords([]);
+      return () => {};
+    }
+    const reference = services.firestoreApi.collection(services.db, 'activityRecords');
+    return services.firestoreApi.onSnapshot(reference, snapshot => {
+      onRecords(sortActivityRecords(snapshot.docs.map(document => ({ id: document.id, ...document.data() }))));
+    }, onError);
+  }
+
+  async function deleteActivityRecord(id) {
+    const services = await getServices();
+    if (!services) return;
+    const recordRef = services.firestoreApi.doc(services.db, 'activityRecords', id);
+    const snapshot = await services.firestoreApi.getDoc(recordRef);
+    const activityDate = snapshot.exists() ? snapshot.data().activityDate : null;
+    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
+      transaction.delete(recordRef);
+      if (activityDate) {
+        transaction.delete(services.firestoreApi.doc(services.db, 'activityDates', activityDate));
+      }
+    });
+  }
+
   function sortQuizResults(results) {
     return results.sort((a, b) => {
       const aTime = a.createdAt?.toMillis?.() || 0;
@@ -425,6 +521,10 @@
     peekCurrentUser: () => currentUser,
     submitContact,
     submitQuizResult,
+    submitActivityRecord,
+    getActivityRecords,
+    subscribeActivityRecords,
+    deleteActivityRecord,
     uploadAnnouncement,
     uploadAdvertisement,
     uploadNote,
