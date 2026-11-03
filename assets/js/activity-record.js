@@ -48,7 +48,13 @@
       });
     } catch (error) {
       console.error('Failed to submit activity record:', error);
-      status.textContent = error.message || 'Unable to submit your activity record.';
+      const message = error.message || 'Unable to submit your activity record.';
+      if (message.toLowerCase().includes('activity date has already been chosen')) {
+        alert('This activity date has already been selected by another teacher. Please choose a different date.');
+      } else if (message.toLowerCase().includes('already submitted')) {
+        alert('This email/phone number has already submitted an activity record.');
+      }
+      status.textContent = message;
       submitBtn.disabled = false;
     }
   });
