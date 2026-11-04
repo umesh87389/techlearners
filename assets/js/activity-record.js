@@ -33,17 +33,19 @@
     event.preventDefault();
     if (submitBtn.disabled) return;
 
+    const sections = Array.from(form.querySelectorAll('input[name="sections"]:checked')).map((input) => input.value);
+
     const record = {
       teacherName: form.elements.teacherName.value.trim(),
       contact: form.elements.contact.value.trim(),
       className: form.elements.className.value,
-      section: form.elements.section.value,
+      sections,
       activityName: form.elements.activityName.value.trim(),
       activityDate: form.elements.activityDate.value
     };
 
-    if (!record.teacherName || !record.contact || !record.className || !record.section || !record.activityName || !record.activityDate) {
-      status.textContent = 'Please fill in all required fields.';
+    if (!record.teacherName || !record.contact || !record.className || !sections.length || !record.activityName || !record.activityDate) {
+      status.textContent = 'Please fill in all required fields and select at least one section.';
       return;
     }
     if (!validateContact(record.contact)) {

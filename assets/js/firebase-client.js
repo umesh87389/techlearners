@@ -370,13 +370,20 @@
 
     const teacherName = String(record.teacherName || '').trim();
     const className = String(record.className || '').trim();
-    const section = String(record.section || '').trim();
+    const sections = Array.isArray(record.sections)
+      ? record.sections.map((value) => String(value || '').trim()).filter(Boolean)
+      : (record.section ? [String(record.section).trim()] : []);
     const activityName = String(record.activityName || '').trim();
     const activityDate = String(record.activityDate || '').trim();
     const contact = String(record.contact || '').trim();
 
-    if (!teacherName || !className || !section || !activityName || !activityDate || !contact) {
+    if (!teacherName || !className || !sections.length || !activityName || !activityDate || !contact) {
       throw new Error('Please fill in all required fields.');
+    }
+
+    const allowedSections = ['A', 'B', 'C', 'Science', 'Commerce', 'Humanities'];
+    if (sections.some((value) => !allowedSections.includes(value))) {
+      throw new Error('One or more selected sections are invalid.');
     }
 
     const contactKey = normalizeActivityContact(contact);
@@ -397,7 +404,8 @@
       transaction.set(recordRef, {
         teacherName,
         className,
-        section,
+        sections,
+        section: sections.join(', '),
         activityName,
         activityDate,
         contact,

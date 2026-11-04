@@ -39,10 +39,11 @@
     const query = (search.value || '').trim().toLowerCase();
     const cls = classFilter.value;
     const sec = sectionFilter.value;
+    const sectionsOf = (r) => Array.isArray(r.sections) ? r.sections : (r.section ? [r.section] : []);
     const visible = records.filter((r) =>
       (!cls || String(r.className || '') === cls) &&
-      (!sec || r.section === sec) &&
-      (!query || `${r.teacherName || ''} ${r.contact || ''} ${r.activityName || ''}`.toLowerCase().includes(query))
+      (!sec || sectionsOf(r).includes(sec)) &&
+      (!query || `${r.teacherName || ''} ${r.contact || ''} ${r.activityName || ''} ${sectionsOf(r).join(' ')}`.toLowerCase().includes(query))
     );
 
     list.innerHTML = visible.length
@@ -51,7 +52,7 @@
           <div>
             <b>${escapeHtml(r.teacherName || 'Unknown')}</b>
             <p>${escapeHtml(r.contact || '')}</p>
-            <p>Class ${escapeHtml(r.className || '')} &middot; ${escapeHtml(r.section || '')}</p>
+            <p>Class ${escapeHtml(r.className || '')} &middot; ${escapeHtml((Array.isArray(r.sections) ? r.sections : (r.section ? [r.section] : [])).join(', '))}</p>
             <p>Activity: ${escapeHtml(r.activityName || '')}</p>
             <p>Date: ${escapeHtml(r.activityDate || '')}</p>
             <p class="muted">Submitted: ${formatDate(r.createdAt)}</p>
@@ -80,7 +81,7 @@
       'Teacher Name': r.teacherName || 'Unknown',
       'Contact': r.contact || '',
       'Class': r.className || '',
-      'Section': r.section || '',
+      'Section': (Array.isArray(r.sections) ? r.sections : (r.section ? [r.section] : [])).join(', '),
       'Activity Name': r.activityName || '',
       'Activity Date': r.activityDate || '',
       'Submitted': formatDate(r.createdAt)
