@@ -59,7 +59,7 @@
     try {
       await TechLearnersFirebase.submitActivityRecord(record);
       form.reset();
-      status.textContent = 'Your activity record has been submitted successfully. Each teacher can submit only once.';
+      status.textContent = 'Your activity record has been submitted successfully.';
       Array.from(form.elements).forEach((element) => {
         element.disabled = true;
       });

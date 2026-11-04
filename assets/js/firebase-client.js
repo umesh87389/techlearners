@@ -389,19 +389,18 @@
     const contactKey = normalizeActivityContact(contact);
     if (!contactKey) throw new Error('A valid email or phone number is required.');
 
-    const recordRef = services.firestoreApi.doc(services.db, 'activityRecords', contactKey);
     const dateRef = services.firestoreApi.doc(services.db, 'activityDates', activityDate);
 
     await services.firestoreApi.runTransaction(services.db, async (transaction) => {
-      const existingRecord = await transaction.get(recordRef);
-      if (existingRecord.exists()) {
-        throw new Error('This email/phone number has already submitted an activity record.');
-      }
       const existingDate = await transaction.get(dateRef);
       if (existingDate.exists()) {
         throw new Error('This activity date has already been chosen by another teacher.');
       }
-      transaction.set(recordRef, {
+      // Use a new document reference with an auto-generated id so the same
+      // contact (email/phone) can submit multiple records.
+      const recordsCollection = services.firestoreApi.collection(services.db, 'activityRecords');
+      const newRecordRef = services.firestoreApi.doc(recordsCollection);
+      transaction.set(newRecordRef, {
         teacherName,
         className,
         sections,
