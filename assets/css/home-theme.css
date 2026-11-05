@@ -392,6 +392,36 @@ label{color:#b9a8cc !important}
 
 /* consent / ads */
 .consent-banner,.advertisement-card{background:rgba(22,18,31,.96) !important;border:1px solid rgba(212,168,83,.22) !important;border-radius:22px !important}
+
+/* rich-text editor toolbar (admin content editing) */
+.rich-text-field{background:rgba(31,26,46,.85) !important;border:1px solid rgba(212,168,83,.22) !important}
+.rich-text-toolbar,.rich-text-toolbar-floating{
+  background:rgba(22,18,31,.96) !important;
+  border:1px solid rgba(212,168,83,.22) !important;
+  backdrop-filter:blur(12px) !important;
+}
+.rich-text-toolbar button,.rich-text-toolbar-floating button{
+  background:rgba(31,26,46,.85) !important;
+  border:1px solid rgba(212,168,83,.22) !important;
+  color:#f5efe4 !important;
+  font-weight:700 !important;
+}
+.rich-text-toolbar button:hover,.rich-text-toolbar-floating button:hover{
+  background:rgba(212,168,83,.18) !important;
+  color:#d4a853 !important;
+  border-color:rgba(212,168,83,.4) !important;
+}
+.rich-text-select,.rich-text-select:hover{
+  background:rgba(31,26,46,.85) !important;
+  border:1px solid rgba(212,168,83,.22) !important;
+  color:#f5efe4 !important;
+}
+.rich-text-editor{color:#f5efe4 !important;background:transparent !important}
+.rich-text-editor.is-empty::before{color:#b9a8cc !important}
+.rich-text-content{color:#b9a8cc !important}
+.rich-text-content h2,.rich-text-content h3{color:#f5efe4 !important}
+.rich-text-content a{color:#d4a853 !important}
+.rich-text-content blockquote{border-left-color:#d4a853 !important;background:rgba(212,168,83,.08) !important}
 .consent-panel,.consent-panel-inner,.consent-option,.consent-option-disabled,.consent-panel-actions{
   background:rgba(31,26,46,.85) !important;
   border:1px solid rgba(212,168,83,.22) !important;
