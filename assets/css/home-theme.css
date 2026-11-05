@@ -374,6 +374,36 @@ label{color:#b9a8cc !important}
 .practice-options label:hover{border-color:rgba(212,168,83,.5) !important}
 .practice-options label:has(input:checked){border-color:#d4a853 !important;background:rgba(212,168,83,.12) !important;box-shadow:0 0 0 2px rgba(212,168,83,.25) !important}
 
+/* ---------- follow us social icons ---------- */
+.social-links{display:flex !important;gap:10px !important;margin-top:12px !important;flex-wrap:wrap !important}
+.social-icon{
+  display:grid !important;place-items:center !important;
+  width:38px !important;height:38px !important;
+  border:1px solid rgba(212,168,83,.22) !important;border-radius:50% !important;
+  background:rgba(31,26,46,.85) !important;
+  color:#f5efe4 !important;transition:.2s !important;
+}
+.social-icon:hover{
+  transform:translateY(-3px) !important;
+  background:rgba(212,168,83,.18) !important;
+  color:#d4a853 !important;
+}
+.social-icon svg{width:19px !important;height:19px !important;fill:currentColor !important}
+
+/* ---------- theme toggle in navigation menu ---------- */
+.theme-toggle-btn{
+  border:1px solid rgba(212,168,83,.22) !important;
+  border-radius:50% !important;
+  background:rgba(31,26,46,.85) !important;
+  color:#f5efe4 !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.35) !important;
+}
+.theme-toggle-btn:hover{
+  border-color:rgba(212,168,83,.5) !important;
+  color:#d4a853 !important;
+}
+.theme-toggle-btn .theme-toggle-label-text{display:none !important}
+
 /* ---------- footer ---------- */
 .footer{
   margin-top:100px !important;padding:36px 7% 30px !important;
