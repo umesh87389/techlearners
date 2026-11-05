@@ -57,6 +57,7 @@
 /* Override style.css high-specificity .page/.dashboard white panels */
 .page .card, .page .exam-card, .page .form-card, .page .quiz-box,
 .page .detail-card, .page .question-card, .page .mcq-card,
+.page .list-item, .page .admin-list-item, .page .list-box, .page .admin-filter-card, .page .admin-list,
 .dashboard .card, .dashboard .stat, .dashboard-hero,
 .blueprint-card, .instructions-box,
 .page .announcement-panel, .page .class-module, .page .practice-question,
@@ -71,7 +72,9 @@
   animation:none !important;
 }
 .page .card p, .page .exam-card p, .page .mcq-card p,
-.page .note-card p, .page .paper-card p, .page .detail-card p { color:#b9a8cc !important; }
+.page .note-card p, .page .paper-card p, .page .detail-card p,
+.page .list-item p, .page .admin-list-item p { color:#b9a8cc !important; }
+.page .list-item b, .page .admin-list-item b { color:#f5efe4 !important; }
 .page .card h2, .page .card h3, .page .exam-card h2, .page .exam-card h3,
 .page .note-card h2, .page .note-card h3, .page .paper-card h2, .page .paper-card h3 { color:#f5efe4 !important; }
 
