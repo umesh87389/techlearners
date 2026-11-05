@@ -174,8 +174,8 @@ main{position:relative;z-index:1}
   display:inline-flex !important;align-items:center !important;width:auto !important;
 }
 .site-header .nav a::after{display:none !important}
-.site-header .nav a:hover{background:rgba(212,168,83,.12) !important;color:#d4a853 !important;transform:none !important}
-.site-header .nav a.active:not(.btn){color:#d4a853 !important;font-weight:600 !important;background:rgba(212,168,83,.12) !important}
+.site-header .nav a:hover{background:rgba(212,168,83,.18) !important;color:#f5efe4 !important;transform:none !important}
+.site-header .nav a.active:not(.btn){color:#f5efe4 !important;font-weight:600 !important;background:rgba(212,168,83,.22) !important}
 .nav-dd-wrapper{position:relative !important;width:auto !important}
 .nav-dd-trigger{
   padding:8px 12px !important;border:0 !important;border-radius:12px !important;
@@ -333,9 +333,14 @@ label{color:#b9a8cc !important}
 .login-light-brand-icon{background:linear-gradient(135deg,#d4a853,#eab84a) !important;color:#16121f !important;box-shadow:0 6px 16px rgba(212,168,83,.4) !important}
 .login-light-title{color:#f5efe4 !important}
 .login-light-subtitle{color:#b9a8cc !important}
+.login-light-brand-name{color:#f5efe4 !important}
+.login-light-brand-name span{color:#b9a8cc !important}
+.login-light-row a,.login-footer-link a{color:#d4a853 !important}
 .login-light-field input{background:rgba(31,26,46,.9) !important;border:1px solid rgba(212,168,83,.22) !important;color:#f5efe4 !important}
 .login-mode-toggle{background:rgba(212,168,83,.1) !important}
 .login-mode-slider{background:linear-gradient(120deg,#d4a853,#eab84a) !important}
+.login-mode-button{color:#b9a8cc !important}
+.login-mode-button.active{color:#f5efe4 !important}
 
 /* ---------- dashboard ---------- */
 .dashboard .sidebar,.sidebar{
@@ -348,6 +353,17 @@ label{color:#b9a8cc !important}
 }
 .stat b{background:linear-gradient(120deg,#d4a853,#eab84a 60%,#b9a8cc) !important;-webkit-background-clip:text !important;background-clip:text !important;color:transparent !important}
 .dashboard-avatar{background:linear-gradient(135deg,#d4a853,#eab84a) !important;box-shadow:0 6px 16px rgba(212,168,83,.4) !important}
+.quick-links a{
+  background:rgba(31,26,46,.7) !important;
+  border:1px solid rgba(212,168,83,.22) !important;
+  color:#f5efe4 !important;
+}
+.quick-links a:hover{background:rgba(31,26,46,.9) !important;color:#d4a853 !important;border-color:rgba(212,168,83,.4) !important}
+.dashboard-hero-time{background:rgba(212,168,83,.12) !important;color:#b9a8cc !important}
+.sidebar{background:rgba(22,18,31,.75) !important;border-right:1px solid rgba(212,168,83,.22) !important}
+.sidebar a{color:#b9a8cc !important}
+.sidebar a:hover{background:rgba(212,168,83,.12) !important;color:#f5efe4 !important}
+.stat-icon{background:rgba(212,168,83,.12) !important;color:#d4a853 !important}
 
 /* ---------- quiz / practice ---------- */
 .progress{background:rgba(212,168,83,.12) !important;border:0 !important}
