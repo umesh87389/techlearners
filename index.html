@@ -146,6 +146,10 @@ footer{margin-top:100px;padding:36px 0;border-top:1px solid var(--line);color:va
 @keyframes diya-flame{0%{transform:translateX(-50%) scaleY(1) scaleX(1);opacity:.9}50%{transform:translateX(-50%) scaleY(1.18) scaleX(.9);opacity:1}100%{transform:translateX(-50%) scaleY(.92) scaleX(1.08);opacity:.85}}
 @media(max-width:560px){.diyas{bottom:2px;opacity:.7}.diya{width:12px;height:20px;flex-basis:12px}.diya::before{width:12px;height:5px}.diya::after{width:5px;height:10px}}
 @media(prefers-reduced-motion:reduce){.diya::after{animation:none}}
+.logo-diya{display:inline-block;width:14px;height:22px;position:relative;margin-left:8px;vertical-align:middle;filter:drop-shadow(0 0 4px rgba(249,115,22,.5));flex:0 0 14px}
+.logo-diya::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:6px;border-radius:50%;background:linear-gradient(180deg,#b45309,#7c2d12);box-shadow:0 2px 4px rgba(0,0,0,.35)}
+.logo-diya::after{content:"";position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:6px;height:11px;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 50% 75%,#fff7ed 0,#fbbf24 38%,#f97316 72%,transparent 100%);animation:diya-flame 1.3s ease-in-out infinite alternate;transform-origin:50% 100%}
+@media(prefers-reduced-motion:reduce){.logo-diya::after{animation:none}}
 </style>
 <link rel="stylesheet" href="assets/css/home-theme.css?v=diwali-8">
 </head>
@@ -155,7 +159,7 @@ footer{margin-top:100px;padding:36px 0;border-top:1px solid var(--line);color:va
 </div>
 <div id="bar"></div><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
 <header><div class="nav">
-<a class="logo" href="/"><i>T</i>TechLearners</a>
+<a class="logo" href="/"><i>T</i>TechLearners<span class="logo-diya" aria-hidden="true"></span></a>
 <nav><a href="#classes">Classes</a><a href="https://www.techlearners.in/pages/notes/index.html">Notes</a><a href="https://www.techlearners.in/pages/quizzes/index.html">MCQs</a><a href="https://www.techlearners.in/pages/question-papers/index.html">Papers</a><a href="https://www.techlearners.in/pages/quiz/index.html">Practice</a><a href="https://www.techlearners.in/activity-record.html">Activity Record</a></nav>
 <a class="btn mg" href="https://www.techlearners.in/login.html">Log in</a>
 </div></header>
