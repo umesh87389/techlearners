@@ -371,6 +371,26 @@ label{color:#b9a8cc !important}
 .progress span::after,.progress span::before{display:none !important}
 .quiz-result.score-excellent{background:rgba(212,168,83,.12) !important;border:1px solid rgba(212,168,83,.4) !important;color:#f0d88a !important}
 .mcq-number{background:linear-gradient(135deg,rgba(212,168,83,.18),rgba(234,184,74,.12)) !important;color:#f5efe4 !important}
+.page .mcq-question{color:#f5efe4 !important}
+.page .mcq-options li{
+  background:rgba(31,26,46,.72) !important;
+  color:#f5efe4 !important;
+  border:1px solid rgba(212,168,83,.2) !important;
+  font-weight:500 !important;
+}
+.page .mcq-answer-key{
+  background:rgba(31,26,46,.8) !important;
+  border:1px solid rgba(212,168,83,.22) !important;
+  color:#f5efe4 !important;
+}
+.page .mcq-answer-key h2{color:#f5efe4 !important}
+.page .mcq-answer-key li{
+  background:rgba(31,26,46,.72) !important;
+  color:#f5efe4 !important;
+  border:1px solid rgba(212,168,83,.18) !important;
+}
+.page .mcq-answer-key span{color:#d4a853 !important;font-weight:800 !important}
+.page .mcq-answer-key b{color:#f5efe4 !important}
 .practice-options label:hover{border-color:rgba(212,168,83,.5) !important}
 .practice-options label:has(input:checked){border-color:#d4a853 !important;background:rgba(212,168,83,.12) !important;box-shadow:0 0 0 2px rgba(212,168,83,.25) !important}
 
