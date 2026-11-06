@@ -389,22 +389,52 @@
     const contactKey = normalizeActivityContact(contact);
     if (!contactKey) throw new Error('A valid email or phone number is required.');
 
-    // No date lock: any teacher can submit an activity record for any date.
-    // Use a new document reference with an auto-generated id so the same
-    // contact (email/phone) can submit multiple records.
+    const conducted = Boolean(record.conducted);
+
     const recordsCollection = services.firestoreApi.collection(services.db, 'activityRecords');
     const newRecordRef = services.firestoreApi.doc(recordsCollection);
-    await services.firestoreApi.setDoc(newRecordRef, {
-      teacherName,
-      className,
-      sections,
-      section: sections.join(', '),
-      activityName,
-      activityDate,
-      contact,
-      contactKey,
-      contactType: contact.includes('@') ? 'email' : 'phone',
-      createdAt: services.firestoreApi.serverTimestamp()
+
+    if (conducted) {
+      // Separate "already conducted activity" part: no date lock.
+      await services.firestoreApi.setDoc(newRecordRef, {
+        teacherName,
+        className,
+        sections,
+        section: sections.join(', '),
+        activityName,
+        activityDate,
+        contact,
+        contactKey,
+        contactType: contact.includes('@') ? 'email' : 'phone',
+        conducted: true,
+        createdAt: services.firestoreApi.serverTimestamp()
+      });
+      return;
+    }
+
+    // Existing activity record part keeps the date lock.
+    const dateRef = services.firestoreApi.doc(services.db, 'activityDates', activityDate);
+    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
+      const existingDate = await transaction.get(dateRef);
+      if (existingDate.exists()) {
+        throw new Error('This activity date has already been chosen by another teacher.');
+      }
+      transaction.set(newRecordRef, {
+        teacherName,
+        className,
+        sections,
+        section: sections.join(', '),
+        activityName,
+        activityDate,
+        contact,
+        contactKey,
+        contactType: contact.includes('@') ? 'email' : 'phone',
+        conducted: false,
+        createdAt: services.firestoreApi.serverTimestamp()
+      });
+      transaction.set(dateRef, {
+        createdAt: services.firestoreApi.serverTimestamp()
+      });
     });
   }
 
@@ -440,7 +470,18 @@
     const services = await getServices();
     if (!services) return;
     const recordRef = services.firestoreApi.doc(services.db, 'activityRecords', id);
-    await services.firestoreApi.deleteDoc(recordRef);
+    const snapshot = await services.firestoreApi.getDoc(recordRef);
+    const data = snapshot.exists() ? snapshot.data() : null;
+    const activityDate = data?.activityDate || null;
+    const conducted = Boolean(data?.conducted);
+    if (conducted || !activityDate) {
+      await services.firestoreApi.deleteDoc(recordRef);
+      return;
+    }
+    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
+      transaction.delete(recordRef);
+      transaction.delete(services.firestoreApi.doc(services.db, 'activityDates', activityDate));
+    });
   }
 
   function sortQuizResults(results) {
