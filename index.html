@@ -133,10 +133,26 @@ footer{margin-top:100px;padding:36px 0;border-top:1px solid var(--line);color:va
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.rv,h1 .w{opacity:1;transform:none}.ln i{transform:scaleX(var(--w,1))}.sc .v{stroke-dashoffset:36}.tr{animation:none}}
 /* perf boost (non-visual): skip offscreen rendering work, same pixels */
 .board,.bento,.stats{content-visibility:auto;contain-intrinsic-size:auto 500px}
+
+/* ---------- Diwali diyas (decorative oil lamps) ---------- */
+.diyas{position:fixed;left:0;right:0;bottom:6px;display:flex;justify-content:space-evenly;align-items:flex-end;pointer-events:none;z-index:0;opacity:.92;filter:drop-shadow(0 0 6px rgba(249,115,22,.45))}
+.diya{position:relative;width:16px;height:26px;flex:0 0 16px}
+.diya::before{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:16px;height:7px;border-radius:50%;background:linear-gradient(180deg,#b45309,#7c2d12);box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.diya::after{content:"";position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:7px;height:13px;border-radius:50% 50% 40% 40%;background:radial-gradient(circle at 50% 75%,#fff7ed 0,#fbbf24 38%,#f97316 72%,transparent 100%);animation:diya-flame 1.3s ease-in-out infinite alternate;transform-origin:50% 100%}
+.diya:nth-child(2n)::after{animation-delay:.25s}
+.diya:nth-child(3n)::after{animation-delay:.5s}
+.diya:nth-child(4n)::after{animation-delay:.75s}
+.diya:nth-child(5n)::after{animation-delay:.15s}
+@keyframes diya-flame{0%{transform:translateX(-50%) scaleY(1) scaleX(1);opacity:.9}50%{transform:translateX(-50%) scaleY(1.18) scaleX(.9);opacity:1}100%{transform:translateX(-50%) scaleY(.92) scaleX(1.08);opacity:.85}}
+@media(max-width:560px){.diyas{bottom:2px;opacity:.7}.diya{width:12px;height:20px;flex-basis:12px}.diya::before{width:12px;height:5px}.diya::after{width:5px;height:10px}}
+@media(prefers-reduced-motion:reduce){.diya::after{animation:none}}
 </style>
 <link rel="stylesheet" href="assets/css/home-theme.css?v=diwali-7">
 </head>
 <body>
+<div class="diyas" aria-hidden="true">
+<span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span><span class="diya"></span>
+</div>
 <div id="bar"></div><i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
 <header><div class="nav">
 <a class="logo" href="/"><i>T</i>TechLearners</a>
