@@ -389,32 +389,22 @@
     const contactKey = normalizeActivityContact(contact);
     if (!contactKey) throw new Error('A valid email or phone number is required.');
 
-    const dateRef = services.firestoreApi.doc(services.db, 'activityDates', activityDate);
-
-    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
-      const existingDate = await transaction.get(dateRef);
-      if (existingDate.exists()) {
-        throw new Error('This activity date has already been chosen by another teacher.');
-      }
-      // Use a new document reference with an auto-generated id so the same
-      // contact (email/phone) can submit multiple records.
-      const recordsCollection = services.firestoreApi.collection(services.db, 'activityRecords');
-      const newRecordRef = services.firestoreApi.doc(recordsCollection);
-      transaction.set(newRecordRef, {
-        teacherName,
-        className,
-        sections,
-        section: sections.join(', '),
-        activityName,
-        activityDate,
-        contact,
-        contactKey,
-        contactType: contact.includes('@') ? 'email' : 'phone',
-        createdAt: services.firestoreApi.serverTimestamp()
-      });
-      transaction.set(dateRef, {
-        createdAt: services.firestoreApi.serverTimestamp()
-      });
+    // No date lock: any teacher can submit an activity record for any date.
+    // Use a new document reference with an auto-generated id so the same
+    // contact (email/phone) can submit multiple records.
+    const recordsCollection = services.firestoreApi.collection(services.db, 'activityRecords');
+    const newRecordRef = services.firestoreApi.doc(recordsCollection);
+    await services.firestoreApi.setDoc(newRecordRef, {
+      teacherName,
+      className,
+      sections,
+      section: sections.join(', '),
+      activityName,
+      activityDate,
+      contact,
+      contactKey,
+      contactType: contact.includes('@') ? 'email' : 'phone',
+      createdAt: services.firestoreApi.serverTimestamp()
     });
   }
 
@@ -450,14 +440,7 @@
     const services = await getServices();
     if (!services) return;
     const recordRef = services.firestoreApi.doc(services.db, 'activityRecords', id);
-    const snapshot = await services.firestoreApi.getDoc(recordRef);
-    const activityDate = snapshot.exists() ? snapshot.data().activityDate : null;
-    await services.firestoreApi.runTransaction(services.db, async (transaction) => {
-      transaction.delete(recordRef);
-      if (activityDate) {
-        transaction.delete(services.firestoreApi.doc(services.db, 'activityDates', activityDate));
-      }
-    });
+    await services.firestoreApi.deleteDoc(recordRef);
   }
 
   function sortQuizResults(results) {
